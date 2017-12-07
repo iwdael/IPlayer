@@ -164,8 +164,12 @@ public class IMediaController extends BaseMediaController implements SeekBar.OnS
         Intent intent = new Intent(getContext(), IPlayerActivity.class);
         intent.putParcelableArrayListExtra("url", url);
         intent.putExtra("duration", mPlayer.getCurrentPosition());
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mPlayer.getActivity(), this, "iplayer");
-        getContext().startActivity(intent, options.toBundle());
+        if (mPlayer.getActivity()!=null){
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mPlayer.getActivity(), this, "iplayer");
+            getContext().startActivity(intent, options.toBundle());
+        }else {
+            getContext().startActivity(intent);
+        }
 //        PlayerDialog dialog = new PlayerDialog(getContext(), mPlayer.getUrl(), mPlayer.getCurrentPosition());
 //        dialog.show();
     }
