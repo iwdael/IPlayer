@@ -1,9 +1,13 @@
 package com.aliletter.iplayer.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.aliletter.iplayer.IPlayerActivity;
 import com.aliletter.iplayer.R;
 import com.aliletter.iplayer.util.MediaUtil;
 
@@ -26,11 +31,12 @@ import java.util.TimerTask;
  * Data: 2017/11/17.
  */
 
-public class IjkMediaController extends BaseMediaController implements SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+public class IMediaController extends BaseMediaController implements SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener {
     protected CheckBox cb_play;
     protected SeekBar seek_bar;
     protected TextView tv_current_time, tv_video_duration;
     protected ImageView iv_fullscreen, iv_cover;
+    @SuppressLint("HandlerLeak")
     protected Handler handle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -45,15 +51,15 @@ public class IjkMediaController extends BaseMediaController implements SeekBar.O
         }
     };
 
-    public IjkMediaController(Context context) {
+    public IMediaController(Context context) {
         this(context, null);
     }
 
-    public IjkMediaController(Context context, AttributeSet attrs) {
+    public IMediaController(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public IjkMediaController(Context context, AttributeSet attrs, int defStyleAttr) {
+    public IMediaController(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         _initController();
         _initTimer();
@@ -154,10 +160,14 @@ public class IjkMediaController extends BaseMediaController implements SeekBar.O
 
     @Override
     public void onClick(View view) {
-//        Intent intent = new Intent(getContext(), FullScreenVideoActivity.class);
-//        intent.putParcelableArrayListExtra("url", url);
-//        intent.putExtra("duration", mPlayer.getCurrentPosition());
-//        getContext().startActivity(intent);
+        onCheckedChanged(null, false);
+        Intent intent = new Intent(getContext(), IPlayerActivity.class);
+        intent.putParcelableArrayListExtra("url", url);
+        intent.putExtra("duration", mPlayer.getCurrentPosition());
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mPlayer.getActivity(), this, "iplayer");
+        getContext().startActivity(intent, options.toBundle());
+//        PlayerDialog dialog = new PlayerDialog(getContext(), mPlayer.getUrl(), mPlayer.getCurrentPosition());
+//        dialog.show();
     }
 
 

@@ -17,6 +17,7 @@ import com.aliletter.iplayer.R;
 import com.aliletter.iplayer.util.MediaQuality;
 import com.aliletter.iplayer.widget.media.IMediaController;
 import com.aliletter.iplayer.widget.media.IjkVideoView;
+import com.aliletter.iplayer.widget.media.MediaPlayerControl;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -33,7 +34,7 @@ public abstract class BaseMediaController extends FrameLayout implements IMediaC
     protected boolean currentIsSliding = false;
     protected boolean currentIsShowing = false;
     protected Timer timer;
-    protected MediaController.MediaPlayerControl mPlayer;
+    protected MediaPlayerControl mPlayer;
     protected LinearLayout ll_controller;
 
     private Handler handle = new Handler() {
@@ -100,7 +101,7 @@ public abstract class BaseMediaController extends FrameLayout implements IMediaC
 
     @Override
     public void setMediaPlayer(MediaController.MediaPlayerControl player) {
-        mPlayer = player;
+        mPlayer = (MediaPlayerControl) player;
     }
 
 

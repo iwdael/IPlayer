@@ -40,6 +40,9 @@
         <activity
             android:name="com.example.iplayer.FullScreenVideoActivity"
             android:screenOrientation="landscape"></activity>
+        <activity
+            android:name="com.aliletter.iplayer.IPlayerActivity"
+           />
     </application>
 
 </manifest>

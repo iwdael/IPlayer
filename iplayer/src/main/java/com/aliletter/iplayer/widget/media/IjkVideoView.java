@@ -35,7 +35,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.MediaController;
+
 import android.widget.TextView;
 
 import com.aliletter.iplayer.R;
@@ -57,7 +57,7 @@ import tv.danmaku.ijk.media.player.TextureMediaPlayer;
 import tv.danmaku.ijk.media.player.misc.IMediaDataSource;
 
 
-public class IjkVideoView extends FrameLayout implements MediaController.MediaPlayerControl {
+public abstract class IjkVideoView extends FrameLayout implements MediaPlayerControl {
     private String TAG = "IjkVideoView";
     // settable by the client
     private Uri mUri;
@@ -371,7 +371,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 
     private void attachMediaController() {
         if (mMediaPlayer != null && mMediaController != null) {
-            mMediaController.setMediaPlayer(this);
+             mMediaController.setMediaPlayer(this);
 //            View anchorView = this.getParent() instanceof View ?
 //                    (View) this.getParent() : this;
             mMediaController.setAnchorView(this);
@@ -998,4 +998,8 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     }
 
 
+    @Override
+    public List<MediaQuality> getUrl() {
+        return url;
+    }
 }

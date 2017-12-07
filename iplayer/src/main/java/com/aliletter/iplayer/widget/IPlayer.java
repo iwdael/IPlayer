@@ -1,9 +1,11 @@
 package com.aliletter.iplayer.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.aliletter.iplayer.R;
 import com.aliletter.iplayer.util.MediaQuality;
@@ -20,6 +22,7 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 public class IPlayer extends IjkVideoView {
     protected boolean initail = true;
     protected boolean fullScreenIconEnable = true;
+    private Activity activity;
 
     public IPlayer(Context context) {
         this(context, null);
@@ -37,13 +40,19 @@ public class IPlayer extends IjkVideoView {
         _init(context);
     }
 
+    public IPlayer bind(Activity activity) {
+        this.activity = activity;
+        return this;
+    }
+
     private void _init(Context context) {
         _initSo();
         _initController(context);
     }
 
     private void _initController(Context context) {
-        setMediaController(new IjkMediaController(context));
+
+        setMediaController(new IMediaController(context));
         if (!fullScreenIconEnable) mMediaController.hideFullScreenIcon();
     }
 
@@ -90,5 +99,10 @@ public class IPlayer extends IjkVideoView {
     public IPlayer setCover(Bitmap bitmap) {
         mMediaController.setCover(bitmap);
         return this;
+    }
+
+    @Override
+    public Activity getActivity() {
+        return activity;
     }
 }
