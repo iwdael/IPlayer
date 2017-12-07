@@ -31,4 +31,4 @@ android {
 
 ```
 ## Step 4. Copy dynamic library file
-Click here [dynamic library file](https://github.com/mr-absurd/gifengine/tree/master/app/libs) ,copy the files to your application.
+Click here [dynamic library file](https://github.com/aliletter/iplayer/raw/master/libs.7z) ,copy the files to your application.
