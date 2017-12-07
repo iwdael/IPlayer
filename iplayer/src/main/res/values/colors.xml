@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="layout_ijkplayer_mediacontroller_seekbar_background">#aaffffff</color>
+    <color name="layout_ijkplayer_mediacontroller_seekbar_background_seekbar_secondary_progress">#d0ffffff</color>
+    <color name="layout_ijkplayer_mediacontroller_seekbar_background_seekbar_progress">#fff</color>
+    <color name="layout_ijkplayer_mediacontroller_time">#fff</color>
+    <color name="seek_ball">#ffffffff</color>
+</resources>
