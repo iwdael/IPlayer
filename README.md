@@ -17,3 +17,18 @@ Add it in your root build.gradle at the end of repositories:
 	dependencies {
           compile 'com.github.aliletter:iplayer:v1.0.0'
 	}
+## Step 3. Set JniLibs directory
+
+```Java
+android {
+    ...
+    sourceSets {
+        main() {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+
+```
+## Step 4. Copy dynamic library file
+Click here [dynamic library file](https://github.com/mr-absurd/gifengine/tree/master/app/libs) ,copy the files to your application.
