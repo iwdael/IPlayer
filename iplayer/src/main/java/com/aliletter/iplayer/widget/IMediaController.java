@@ -164,10 +164,10 @@ public class IMediaController extends BaseMediaController implements SeekBar.OnS
         Intent intent = new Intent(getContext(), IPlayerActivity.class);
         intent.putParcelableArrayListExtra("url", url);
         intent.putExtra("duration", mPlayer.getCurrentPosition());
-        if (mPlayer.getActivity()!=null){
+        if (mPlayer.getActivity() != null) {
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mPlayer.getActivity(), this, "iplayer");
             getContext().startActivity(intent, options.toBundle());
-        }else {
+        } else {
             getContext().startActivity(intent);
         }
 //        PlayerDialog dialog = new PlayerDialog(getContext(), mPlayer.getUrl(), mPlayer.getCurrentPosition());
@@ -183,5 +183,9 @@ public class IMediaController extends BaseMediaController implements SeekBar.OnS
             currentTime = s;
             duration = s1;
         }
+    }
+
+    public ImageView getCover() {
+        return iv_cover;
     }
 }

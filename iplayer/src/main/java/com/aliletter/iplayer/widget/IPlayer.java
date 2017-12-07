@@ -105,4 +105,9 @@ public class IPlayer extends IjkVideoView {
     public Activity getActivity() {
         return activity;
     }
+
+    public IMediaController getMediaController() {
+        return (IMediaController) mMediaController;
+    }
+
 }
