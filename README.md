@@ -34,7 +34,8 @@ android {
 Click here [dynamic library file](https://github.com/aliletter/iplayer/raw/master/libs.7z) ,copy the files to your application.
 
 # Instructions
-## Step 1. Add Iplayer to the layout file, the fullScreenIconEnable property defaults to true. If true, it can play video full screen and you need to declare this activity(com.aliletter.iplayer.IPlayerActivity) in your AndroidManifest.xml .
+## Step 1. Add Iplayer to the layout file.
+The fullScreenIconEnable property defaults to true. If true, it can play video full screen and you need to declare this activity(com.aliletter.iplayer.IPlayerActivity) in your AndroidManifest.xml .
 ```Java
   <com.aliletter.iplayer.widget.IPlayer
         android:id="@+id/iPlayer"
