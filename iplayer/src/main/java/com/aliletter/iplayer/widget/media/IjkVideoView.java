@@ -454,7 +454,7 @@ public abstract class IjkVideoView extends FrameLayout implements MediaPlayerCon
                     mCurrentState = STATE_PLAYBACK_COMPLETED;
                     mTargetState = STATE_PLAYBACK_COMPLETED;
                     if (mMediaController != null) {
-                        mMediaController.restart();
+                        mMediaController.playerComplete();
                     }
                     if (mOnCompletionListener != null) {
                         mOnCompletionListener.onCompletion(mMediaPlayer);

@@ -224,4 +224,9 @@ public abstract class IMediaController extends BaseMediaController implements Se
     public void error(int framework_err, int impl_err) {
         onError(framework_err, impl_err);
     }
+
+    @Override
+    public void playerComplete() {
+        onPlayComplete();
+    }
 }

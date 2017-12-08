@@ -57,4 +57,6 @@ public interface IMediaController {
     void restart();
 
     void error(int framework_err, int impl_err);
+
+    void playerComplete();
 }

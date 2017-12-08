@@ -78,7 +78,9 @@ public class IPlayer extends IjkVideoView {
 
             @Override
             public void onError(int framework_err, int impl_err) {
-                onIPlayerStatusListener.onError(framework_err,impl_err);
+                if (onIPlayerStatusListener != null) {
+                    onIPlayerStatusListener.onError(framework_err, impl_err);
+                }
             }
         });
         if (!fullScreenIconEnable) mMediaController.hideFullScreenIcon();
