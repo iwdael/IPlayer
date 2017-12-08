@@ -227,6 +227,7 @@ public abstract class IMediaController extends BaseMediaController implements Se
 
     @Override
     public void playerComplete() {
+        cb_play.setChecked(false);
         onPlayComplete();
     }
 }
