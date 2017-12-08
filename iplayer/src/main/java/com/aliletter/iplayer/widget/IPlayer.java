@@ -68,6 +68,18 @@ public class IPlayer extends IjkVideoView {
                     onIPlayerStatusListener.onStart();
                 }
             }
+
+            @Override
+            public void onPlayComplete() {
+                if (onIPlayerStatusListener != null) {
+                    onIPlayerStatusListener.onPlayComplete();
+                }
+            }
+
+            @Override
+            public void onError(int framework_err, int impl_err) {
+                onIPlayerStatusListener.onError(framework_err,impl_err);
+            }
         });
         if (!fullScreenIconEnable) mMediaController.hideFullScreenIcon();
     }

@@ -10,8 +10,6 @@
         android:id="@+id/iPlayer"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-
-        app:fullScreenIconEnable="false"
-        android:background="#000000" />
+        app:fullScreenIconEnable="false"  />
 
 </LinearLayout>

@@ -454,7 +454,7 @@ public abstract class IjkVideoView extends FrameLayout implements MediaPlayerCon
                     mCurrentState = STATE_PLAYBACK_COMPLETED;
                     mTargetState = STATE_PLAYBACK_COMPLETED;
                     if (mMediaController != null) {
-                        mMediaController.hide();
+                        mMediaController.restart();
                     }
                     if (mOnCompletionListener != null) {
                         mOnCompletionListener.onCompletion(mMediaPlayer);
@@ -520,7 +520,8 @@ public abstract class IjkVideoView extends FrameLayout implements MediaPlayerCon
                     mCurrentState = STATE_ERROR;
                     mTargetState = STATE_ERROR;
                     if (mMediaController != null) {
-                        mMediaController.hide();
+                        //mMediaController.hide();
+                        mMediaController.error(  framework_err,   impl_err);
                     }
 
                     /* If an error handler has been supplied, use it and finish. */

@@ -53,4 +53,8 @@ public interface IMediaController {
     void hideFullScreenIcon();
 
     void setCover(Bitmap bitmap);
+
+    void restart();
+
+    void error(int framework_err, int impl_err);
 }

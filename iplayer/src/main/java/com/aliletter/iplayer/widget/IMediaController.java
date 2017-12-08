@@ -180,7 +180,6 @@ public abstract class IMediaController extends BaseMediaController implements Se
             }
         } else if (i == R.id.iv_iplayer_btn) {
             cb_play.setChecked(true);
-         //   onCheckedChanged(null, true);
         }
     }
 
@@ -208,4 +207,21 @@ public abstract class IMediaController extends BaseMediaController implements Se
      * 用户点击播放
      */
     public abstract void onStart();
+
+    public abstract void onPlayComplete();
+
+    public abstract void onError(int framework_err, int impl_err);
+
+    @Override
+    public void restart() {
+        onPlayComplete();
+        cb_play.setChecked(false);
+        hide();
+        mPlayer.seekTo(0);
+    }
+
+    @Override
+    public void error(int framework_err, int impl_err) {
+        onError(framework_err, impl_err);
+    }
 }
