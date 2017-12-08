@@ -7,9 +7,11 @@
     android:orientation="vertical">
 
     <com.aliletter.iplayer.widget.IPlayer
-        android:id="@+id/ijk_view"
+        android:id="@+id/iPlayer"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-         android:background="#dedede"></com.aliletter.iplayer.widget.IPlayer>
+
+        app:fullScreenIconEnable="false"
+        android:background="#dedede" />
 
 </LinearLayout>

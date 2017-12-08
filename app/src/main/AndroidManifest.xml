@@ -30,16 +30,7 @@
             </intent-filter>
         </activity>
 
-        <!--<service-->
-        <!--android:name="tv.danmaku.ijk.media.example.services.MediaPlayerService"-->
-        <!--android:enabled="false"-->
-        <!--android:exported="false"-->
-        <!--android:icon="@mipmap/ic_launcher"-->
-        <!--android:label="@string/app_name"></service>-->
 
-        <activity
-            android:name="com.example.iplayer.FullScreenVideoActivity"
-            android:screenOrientation="landscape"></activity>
         <activity
             android:name="com.aliletter.iplayer.IPlayerActivity"
            />
