@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -20,6 +21,7 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer;
  */
 
 public class IPlayer extends IjkVideoView {
+
     protected boolean initail = true;
     protected boolean fullScreenIconEnable = true;
     private Activity activity;
@@ -46,13 +48,27 @@ public class IPlayer extends IjkVideoView {
     }
 
     private void _init(Context context) {
+        setBackgroundColor(Color.argb(255, 0, 0, 0));
         _initSo();
         _initController(context);
     }
 
     private void _initController(Context context) {
+        setMediaController(new IMediaController(context) {
+            @Override
+            public void onPause() {
+                if (onIPlayerStatusListener != null) {
+                    onIPlayerStatusListener.onPause();
+                }
+            }
 
-        setMediaController(new IMediaController(context));
+            @Override
+            public void onStart() {
+                if (onIPlayerStatusListener != null) {
+                    onIPlayerStatusListener.onStart();
+                }
+            }
+        });
         if (!fullScreenIconEnable) mMediaController.hideFullScreenIcon();
     }
 
@@ -110,4 +126,7 @@ public class IPlayer extends IjkVideoView {
         return (IMediaController) mMediaController;
     }
 
+    public void setOnIPlayerStatusListener(OnIPlayerStatusListener onIPlayerStatusListener) {
+        this.onIPlayerStatusListener = onIPlayerStatusListener;
+    }
 }

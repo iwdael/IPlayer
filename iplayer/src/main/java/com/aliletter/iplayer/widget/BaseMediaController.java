@@ -65,7 +65,7 @@ public abstract class BaseMediaController extends FrameLayout implements IMediaC
 
     private void _initController(Context context) {
         timer = new Timer();
-        View.inflate(context, R.layout.layout_ijkplayer_mediacontroller, this);
+        View.inflate(context, R.layout.layout_iplayer_mediacontroller, this);
         ll_controller = findViewById(R.id.ll_controller);
     }
 

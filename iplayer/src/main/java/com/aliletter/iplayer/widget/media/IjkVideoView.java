@@ -41,6 +41,7 @@ import android.widget.TextView;
 import com.aliletter.iplayer.R;
 import com.aliletter.iplayer.util.MediaQuality;
 import com.aliletter.iplayer.util.Settings;
+import com.aliletter.iplayer.widget.OnIPlayerStatusListener;
 
 import java.io.File;
 import java.io.IOException;
@@ -95,6 +96,7 @@ public abstract class IjkVideoView extends FrameLayout implements MediaPlayerCon
     private int mCurrentBufferPercentage;
     private IMediaPlayer.OnErrorListener mOnErrorListener;
     private IMediaPlayer.OnInfoListener mOnInfoListener;
+    protected OnIPlayerStatusListener onIPlayerStatusListener;
     private int mSeekWhenPrepared;  // recording the seek position while preparing
     private boolean mCanPause = true;
     private boolean mCanSeekBack = true;
@@ -371,7 +373,7 @@ public abstract class IjkVideoView extends FrameLayout implements MediaPlayerCon
 
     private void attachMediaController() {
         if (mMediaPlayer != null && mMediaController != null) {
-             mMediaController.setMediaPlayer(this);
+            mMediaController.setMediaPlayer(this);
 //            View anchorView = this.getParent() instanceof View ?
 //                    (View) this.getParent() : this;
             mMediaController.setAnchorView(this);
@@ -405,6 +407,9 @@ public abstract class IjkVideoView extends FrameLayout implements MediaPlayerCon
 
             if (mOnPreparedListener != null) {
                 mOnPreparedListener.onPrepared(mMediaPlayer);
+            }
+            if (onIPlayerStatusListener != null) {
+                onIPlayerStatusListener.onPrepareComplete();
             }
             if (mMediaController != null) {
                 mMediaController.setEnabled(true);

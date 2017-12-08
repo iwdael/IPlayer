@@ -12,6 +12,6 @@
         android:layout_height="200dp"
 
         app:fullScreenIconEnable="false"
-        android:background="#dedede" />
+        android:background="#000000" />
 
 </LinearLayout>

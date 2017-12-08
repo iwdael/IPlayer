@@ -31,11 +31,11 @@ import java.util.TimerTask;
  * Data: 2017/11/17.
  */
 
-public class IMediaController extends BaseMediaController implements SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+public abstract class IMediaController extends BaseMediaController implements SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener {
     protected CheckBox cb_play;
     protected SeekBar seek_bar;
     protected TextView tv_current_time, tv_video_duration;
-    protected ImageView iv_fullscreen, iv_cover;
+    protected ImageView iv_fullscreen, iv_cover, iv_iplayer_btn;
     @SuppressLint("HandlerLeak")
     protected Handler handle = new Handler() {
         @Override
@@ -85,10 +85,12 @@ public class IMediaController extends BaseMediaController implements SeekBar.OnS
         tv_current_time = findViewById(R.id.tv_current_time);
         tv_video_duration = findViewById(R.id.tv_video_duration);
         iv_fullscreen = findViewById(R.id.iv_fullscreen);
+        iv_iplayer_btn = findViewById(R.id.iv_iplayer_btn);
         iv_cover = findViewById(R.id.iv_cover);
         cb_play.setOnCheckedChangeListener(this);
         seek_bar.setOnSeekBarChangeListener(this);
         iv_fullscreen.setOnClickListener(this);
+        iv_iplayer_btn.setOnClickListener(this);
     }
 
 
@@ -135,15 +137,19 @@ public class IMediaController extends BaseMediaController implements SeekBar.OnS
             cb_play.setChecked(true);
             return;
         }
-        if (b)
+        if (b) {
+            onStart();
+            iv_iplayer_btn.setVisibility(GONE);
             mPlayer.start();
-        else
+        } else {
+            onPause();
+            iv_iplayer_btn.setVisibility(VISIBLE);
             mPlayer.pause();
+        }
     }
 
     @Override
     public void checkPlayer(boolean b) {
-
         cb_play.setChecked(b);
     }
 
@@ -160,18 +166,22 @@ public class IMediaController extends BaseMediaController implements SeekBar.OnS
 
     @Override
     public void onClick(View view) {
-        onCheckedChanged(null, false);
-        Intent intent = new Intent(getContext(), IPlayerActivity.class);
-        intent.putParcelableArrayListExtra("url", url);
-        intent.putExtra("duration", mPlayer.getCurrentPosition());
-        if (mPlayer.getActivity() != null) {
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mPlayer.getActivity(), this, "iplayer");
-            getContext().startActivity(intent, options.toBundle());
-        } else {
-            getContext().startActivity(intent);
+        int i = view.getId();
+        if (i == R.id.iv_fullscreen) {
+            onCheckedChanged(null, false);
+            Intent intent = new Intent(getContext(), IPlayerActivity.class);
+            intent.putParcelableArrayListExtra("url", url);
+            intent.putExtra("duration", mPlayer.getCurrentPosition());
+            if (mPlayer.getActivity() != null) {
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mPlayer.getActivity(), this, "iplayer");
+                getContext().startActivity(intent, options.toBundle());
+            } else {
+                getContext().startActivity(intent);
+            }
+        } else if (i == R.id.iv_iplayer_btn) {
+            cb_play.setChecked(true);
+         //   onCheckedChanged(null, true);
         }
-//        PlayerDialog dialog = new PlayerDialog(getContext(), mPlayer.getUrl(), mPlayer.getCurrentPosition());
-//        dialog.show();
     }
 
 
@@ -188,4 +198,14 @@ public class IMediaController extends BaseMediaController implements SeekBar.OnS
     public ImageView getCover() {
         return iv_cover;
     }
+
+    /**
+     * 用户点击暂停
+     */
+    public abstract void onPause();
+
+    /**
+     * 用户点击播放
+     */
+    public abstract void onStart();
 }

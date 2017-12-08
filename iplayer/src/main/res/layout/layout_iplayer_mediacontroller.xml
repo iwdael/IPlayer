@@ -25,7 +25,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/layout_ijkplayer_mediacontroller_video_play"
+            android:background="@drawable/layout_iplayer_mediacontroller_video_play"
             android:button="@null" />
 
         <TextView
@@ -48,8 +48,8 @@
             android:paddingEnd="9dp"
             android:paddingStart="9dp"
             android:progress="0"
-            android:progressDrawable="@drawable/layout_ijkplayer_mediacontroller_seekbar_drawable"
-            android:thumb="@drawable/layout_ijkplayer_mediacontroller_seekbar_thumb" />
+            android:progressDrawable="@drawable/layout_iplayer_mediacontroller_seekbar_drawable"
+            android:thumb="@drawable/layout_iplayer_mediacontroller_seekbar_thumb" />
 
         <TextView
             android:id="@+id/tv_video_duration"
@@ -65,7 +65,13 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/layout_ijkplayer_mediacontroller_fullscreen" />
+            android:background="@drawable/layout_iplayer_mediacontroller_fullscreen" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/iv_iplayer_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_iplayer_circle" />
 </RelativeLayout>
