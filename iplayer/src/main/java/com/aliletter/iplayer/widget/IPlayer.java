@@ -48,7 +48,7 @@ public class IPlayer extends IjkVideoView {
     }
 
     private void _init(Context context) {
-        setBackgroundColor(Color.argb(255, 0, 0, 0));
+        setBackgroundColor(getResources().getColor(R.color.iplayer_background));
         _initSo();
         _initController(context);
     }

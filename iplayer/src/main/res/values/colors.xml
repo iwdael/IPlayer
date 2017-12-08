@@ -5,4 +5,5 @@
     <color name="layout_ijkplayer_mediacontroller_seekbar_background_seekbar_progress">#fff</color>
     <color name="layout_ijkplayer_mediacontroller_time">#fff</color>
     <color name="seek_ball">#ffffffff</color>
+    <color name="iplayer_background">#000</color>
 </resources>
