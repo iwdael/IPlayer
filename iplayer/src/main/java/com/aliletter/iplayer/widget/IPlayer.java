@@ -22,7 +22,7 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 public class IPlayer extends IjkVideoView {
 
-    protected boolean initail = true;
+
     protected boolean fullScreenIconEnable = true;
     private Activity activity;
 
@@ -112,8 +112,8 @@ public class IPlayer extends IjkVideoView {
 
     public void onResume() {
         resume();
-        if (!initail) start();
-        initail = false;
+
+
     }
 
     public void onPause() {

@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ijkplayer.iml" filepath="$PROJECT_DIR$/ijkplayer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iplayer/iplayer.iml" filepath="$PROJECT_DIR$/iplayer/iplayer.iml" />
+      <module fileurl="file://C:\Users\alile\Desktop\iplayer\app\app.iml" filepath="C:\Users\alile\Desktop\iplayer\app\app.iml" />
+      <module fileurl="file://C:\Users\alile\Desktop\iplayer\ijkplayer.iml" filepath="C:\Users\alile\Desktop\iplayer\ijkplayer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iplayer.iml" filepath="$PROJECT_DIR$/iplayer.iml" />
+      <module fileurl="file://C:\Users\alile\Desktop\iplayer\iplayer\iplayer.iml" filepath="C:\Users\alile\Desktop\iplayer\iplayer\iplayer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iplayer/iplayer-iplayer.iml" filepath="$PROJECT_DIR$/iplayer/iplayer-iplayer.iml" />
     </modules>
   </component>
 </project>
