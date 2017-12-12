@@ -15,7 +15,7 @@ Add it in your root build.gradle at the end of repositories:
 ## Step 2. Add the dependency
 
 	dependencies {
-          compile 'com.github.aliletter:iplayer:v1.0.9'
+          compile 'com.github.aliletter:iplayer:v1.1.0'
 	}
 ## Step 3. Set JniLibs directory
 

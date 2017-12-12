@@ -87,6 +87,7 @@ public abstract class BaseMediaController extends FrameLayout implements IMediaC
         if (!inited) {
             ((IjkVideoView) view).addView(this);
         }
+        inited=true;
         setVisibility(ll_controller, GONE);
     }
 
