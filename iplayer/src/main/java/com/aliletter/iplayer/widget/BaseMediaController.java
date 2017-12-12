@@ -36,7 +36,7 @@ public abstract class BaseMediaController extends FrameLayout implements IMediaC
     protected Timer timer;
     protected MediaPlayerControl mPlayer;
     protected LinearLayout ll_controller;
-
+    protected boolean inited = false;
     private Handler handle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -84,9 +84,10 @@ public abstract class BaseMediaController extends FrameLayout implements IMediaC
 
     @Override
     public void setAnchorView(View view) {
-        ((IjkVideoView) view).addView(this);
+        if (!inited) {
+            ((IjkVideoView) view).addView(this);
+        }
         setVisibility(ll_controller, GONE);
-
     }
 
     @Override
