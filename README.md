@@ -1,51 +1,8 @@
 # iplayer [![](https://jitpack.io/v/aliletter/iplayer.svg)](https://jitpack.io/#aliletter/iplayer)
-iplayer is a player based on ijkplayer, eliminating the need to compile the source code, it can play mp4, avi, rmvb, flv and other formats of video.(iplayer是一款基于ijkplayer的播放器，免去了编译源码的过程，它可以播放mp4、avi、rmvb、flv等格式的视频。)
-# How to
-To get a Git project into your build. Change the version number that jitpack given.
-## Step 1. Add the JitPack repository to your build file
-Add it in your root build.gradle at the end of repositories:
-
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-  
-## Step 2. Add the dependency
-
-	dependencies {
-          compile 'com.github.aliletter:iplayer:v1.1.0'
-	}
-## Step 3. Set JniLibs directory
-
-```Java
-android {
-    ...
-    sourceSets {
-        main() {
-            jniLibs.srcDirs = ['libs']
-        }
-    }
-}
-
-```
-## Step 4. Copy dynamic library file
-Click here [dynamic library file](https://github.com/aliletter/iplayer/raw/master/libs.7z) ,copy the files to your application.
-
-# Instructions
-## Step 1. Add Iplayer to the layout file.
-The fullScreenIconEnable property defaults to true. If true, it can play video full screen and you need to declare this activity(com.aliletter.iplayer.IPlayerActivity) in your AndroidManifest.xml .
-```Java
-  <com.aliletter.iplayer.widget.IPlayer
-        android:id="@+id/iPlayer"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:fullScreenIconEnable="false" />
-```
-
-## Step 2. Realize iplayer life cycle.
-```Java
+Iplayer is a player based on ijkplayer, which saves the process of compiling source code. It can play video or local video in mp4, avi, RMVB, FLV and other formats.[中文文档](https://github.com/aliletter/iplayer/blob/master/README_CHINESE.md)
+## Instruction
+Iplayer supports video dragging, pausing, playing, and playing video. Through setOnIPlayerStatusListener method can listen to the player's various state changes, the user can implement some special operation.
+### Code Sample
 public class MainActivity extends AppCompatActivity {
     IPlayer iPlayer;
 
@@ -78,3 +35,58 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 ```
+```Java
+  <com.aliletter.iplayer.widget.IPlayer
+        android:id="@+id/iPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:fullScreenIconEnable="false" />
+```
+
+## How to
+To get a Git project into your build:
+### Step 1. Add the JitPack repository to your build file
+Add it in your root build.gradle at the end of repositories.   [click here for details](https://github.com/aliletter/CarouselBanner/blob/master/root_build.gradle.png)
+```Java
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+### Step 2. Add the dependency
+Add it in your application module build.gradle at the end of dependencies where you want to use.[click here for details](https://github.com/aliletter/CarouselBanner/blob/master/application_build.gradle.png)
+```Java
+	dependencies {
+                ...
+	        compile 'com.github.aliletter:iplayer:v1.1.0'
+	}
+```
+### Step 3. Set JniLibs directory
+Add it in your application module build.gradle.[click here for details](https://github.com/aliletter/gifengine/blob/master/jnilibs.png)
+```Java
+android {
+    ...
+    sourceSets {
+        main() {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+
+```
+### Step 4. Add the permission
+Add it in your application AndroidManifest.xml in the manifest label.   [click here for details](https://github.com/aliletter/OnHttp/blob/master/androimanifest.png)
+```Java
+    <uses-permission android:name="android.permission.INTERNET" />
+```
+### Step 5. Copy dynamic library file
+Click [here](https://raw.githubusercontent.com/aliletter/iplayer/master/libs.7z) ,unzip and copy the files to your application libs directory.
+[click here for details](https://github.com/aliletter/gifengine/blob/master/libs.png)
+<br><br><br>
+## Thank you for your browsing
+If you have any questions, please join the QQ group. I will do my best to answer it for you. Welcome to star and fork this repository, alse follow me.
+<br>
+![Image Text](https://github.com/aliletter/CarouselBanner/blob/master/qq_group.png)
+
