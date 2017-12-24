@@ -85,7 +85,7 @@ Add it in your application AndroidManifest.xml in the manifest label.   [click h
 ### Step 5. Copy dynamic library file
 Click [here](https://raw.githubusercontent.com/aliletter/iplayer/master/libs.7z) ,unzip and copy the files to your application libs directory.
 [click here for details](https://github.com/aliletter/gifengine/blob/master/libs.png)
-<br>![Text Image](https://github.com/aliletter/iplayer/blob/master/iplayer.gif)
+<br><br><br>![Text Image](https://github.com/aliletter/iplayer/blob/master/iplayer.gif)
 <br><br><br>
 ## Thank you for your browsing
 If you have any questions, please join the QQ group. I will do my best to answer it for you. Welcome to star and fork this repository, alse follow me.
