@@ -3,6 +3,7 @@ Iplayer is a player based on ijkplayer, which saves the process of compiling sou
 ## Instruction
 Iplayer supports video dragging, pausing, playing, and playing video. Through setOnIPlayerStatusListener method can listen to the player's various state changes, the user can implement some special operation.
 ### Code Sample
+```Java
 public class MainActivity extends AppCompatActivity {
     IPlayer iPlayer;
 
