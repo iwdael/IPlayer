@@ -1,7 +1,7 @@
 # iplayer [![](https://jitpack.io/v/aliletter/iplayer.svg)](https://jitpack.io/#aliletter/iplayer)
 iplayer是一款基于ijkplayer的播放器，免去了编译源码的过程，它可以播放mp4、avi、rmvb、flv等格式的网络视频或者本地视频。
 ## 使用说明
-iplayer支持视频的拖动，暂停，播放，屏播放视频。通过setOnIPlayerStatusListener方法可以监听到播放器的各种状态的改变，使用者可以实现一些特别操作。
+iplayer支持视频的拖动，暂停，播放，全屏播放视频。通过setOnIPlayerStatusListener方法可以监听到播放器的各种状态的改变，使用者可以实现一些特别操作。
 ### 代码示例
 ```Java
 public class MainActivity extends AppCompatActivity {
