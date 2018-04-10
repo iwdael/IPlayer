@@ -1,5 +1,5 @@
-# iplayer [![](https://jitpack.io/v/aliletter/iplayer.svg)](https://jitpack.io/#aliletter/iplayer)
-Iplayer is a player based on ijkplayer, which saves the process of compiling source code. It can play video or local video in mp4, avi, RMVB, FLV and other formats.[中文文档](https://github.com/aliletter/iplayer/blob/master/README_CHINESE.md)
+# iplayer [![](https://jitpack.io/v/blackchopper/iplayer.svg)](https://jitpack.io/#blackchopper/iplayer)
+Iplayer is a player based on ijkplayer, which saves the process of compiling source code. It can play video or local video in mp4, avi, RMVB, FLV and other formats.[中文文档](https://github.com/blackchopper/iplayer/blob/master/README_CHINESE.md)
 ## Instruction
 Iplayer supports video dragging, pausing, playing, and playing video. Through setOnIPlayerStatusListener method can listen to the player's various state changes, the user can implement some special operation.
 ### Code Sample
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 ```Java
-  <com.aliletter.iplayer.widget.IPlayer
+  <com.blackchopper.iplayer.widget.IPlayer
         android:id="@+id/iPlayer"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 ## How to
 To get a Git project into your build:
 ### Step 1. Add the JitPack repository to your build file
-Add it in your root build.gradle at the end of repositories.   [click here for details](https://github.com/aliletter/CarouselBanner/blob/master/root_build.gradle.png)
+Add it in your root build.gradle at the end of repositories.   [click here for details](https://github.com/blackchopper/CarouselBanner/blob/master/root_build.gradle.png)
 ```Java
 	allprojects {
 		repositories {
@@ -57,15 +57,15 @@ Add it in your root build.gradle at the end of repositories.   [click here for d
 	}
 ```
 ### Step 2. Add the dependency
-Add it in your application module build.gradle at the end of dependencies where you want to use.[click here for details](https://github.com/aliletter/CarouselBanner/blob/master/application_build.gradle.png)
+Add it in your application module build.gradle at the end of dependencies where you want to use.[click here for details](https://github.com/blackchopper/CarouselBanner/blob/master/application_build.gradle.png)
 ```Java
 	dependencies {
                 ...
-	        compile 'com.github.aliletter:iplayer:v1.1.0'
+	        compile 'com.github.blackchopper:iplayer:v1.1.1'
 	}
 ```
 ### Step 3. Set JniLibs directory
-Add it in your application module build.gradle.[click here for details](https://github.com/aliletter/gifengine/blob/master/jnilibs.png)
+Add it in your application module build.gradle.[click here for details](https://github.com/blackchopper/gifengine/blob/master/jnilibs.png)
 ```Java
 android {
     ...
@@ -78,17 +78,17 @@ android {
 
 ```
 ### Step 4. Add the permission
-Add it in your application AndroidManifest.xml in the manifest label.   [click here for details](https://github.com/aliletter/OnHttp/blob/master/androimanifest.png)
+Add it in your application AndroidManifest.xml in the manifest label.   [click here for details](https://github.com/blackchopper/OnHttp/blob/master/androimanifest.png)
 ```Java
     <uses-permission android:name="android.permission.INTERNET" />
 ```
 ### Step 5. Copy dynamic library file
-Click [here](https://raw.githubusercontent.com/aliletter/iplayer/master/libs.7z) ,unzip and copy the files to your application libs directory.
-[click here for details](https://github.com/aliletter/gifengine/blob/master/libs.png)
-<br><br>![Text Image](https://github.com/aliletter/iplayer/blob/master/iplayer.gif)
+Click [here](https://raw.githubusercontent.com/blackchopper/iplayer/master/libs.7z) ,unzip and copy the files to your application libs directory.
+[click here for details](https://github.com/blackchopper/gifengine/blob/master/libs.png)
+<br><br>![Text Image](https://github.com/blackchopper/iplayer/blob/master/iplayer.gif)
 <br><br><br>
 ## Thank you for your browsing
 If you have any questions, please join the QQ group. I will do my best to answer it for you. Welcome to star and fork this repository, alse follow me.
 <br>
-![Image Text](https://github.com/aliletter/CarouselBanner/blob/master/qq_group.png)
+![Image Text](https://github.com/blackchopper/CarouselBanner/blob/master/qq_group.png)
 

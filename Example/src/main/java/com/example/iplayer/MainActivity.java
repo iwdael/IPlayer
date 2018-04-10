@@ -6,9 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.aliletter.iplayer.widget.OnIPlayerStatusListener;
-import com.example.iplayer.R;
-import com.aliletter.iplayer.widget.IPlayer;
+import com.blackchopper.iplayer.widget.OnIPlayerStatusListener;
+import com.blackchopper.iplayer.widget.IPlayer;
 
 public class MainActivity extends AppCompatActivity {
     IPlayer iPlayer;

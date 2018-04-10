@@ -5,7 +5,7 @@
     android:background="#000"
     android:layout_height="match_parent">
 
-    <com.aliletter.iplayer.widget.IPlayer
+    <com.blackchopper.iplayer.widget.IPlayer
         android:id="@+id/iPlayer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

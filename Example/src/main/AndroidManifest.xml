@@ -32,7 +32,7 @@
 
 
         <activity
-            android:name="com.aliletter.iplayer.IPlayerActivity"
+            android:name="com.blackchopper.iplayer.IPlayerActivity"
            />
     </application>
 

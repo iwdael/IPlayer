@@ -6,7 +6,7 @@
     android:background="#fff"
     android:orientation="vertical">
 
-    <com.aliletter.iplayer.widget.IPlayer
+    <com.blackchopper.iplayer.widget.IPlayer
         android:id="@+id/iPlayer"
         android:layout_width="320dp"
         android:layout_centerInParent="true"
