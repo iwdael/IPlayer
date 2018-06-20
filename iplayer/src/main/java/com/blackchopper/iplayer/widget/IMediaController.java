@@ -50,6 +50,7 @@ public abstract class IMediaController extends BaseMediaController implements Se
             }
         }
     };
+    private OnFullScreenListener onFullScreenListener;
 
     public IMediaController(Context context) {
         this(context, null);
@@ -172,11 +173,13 @@ public abstract class IMediaController extends BaseMediaController implements Se
             Intent intent = new Intent(getContext(), IPlayerActivity.class);
             intent.putParcelableArrayListExtra("url", url);
             intent.putExtra("duration", mPlayer.getCurrentPosition());
-            if (mPlayer.getActivity() != null) {
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mPlayer.getActivity(), this, "iplayer");
-                getContext().startActivity(intent, options.toBundle());
-            } else {
-                getContext().startActivity(intent);
+            if (null == onFullScreenListener | (null != onFullScreenListener && onFullScreenListener.onFullClick(intent))) {
+                if (mPlayer.getActivity() != null) {
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mPlayer.getActivity(), this, "iplayer");
+                    getContext().startActivity(intent, options.toBundle());
+                } else {
+                    getContext().startActivity(intent);
+                }
             }
         } else if (i == R.id.iv_iplayer_btn) {
             cb_play.setChecked(true);
@@ -229,5 +232,13 @@ public abstract class IMediaController extends BaseMediaController implements Se
     public void playerComplete() {
         cb_play.setChecked(false);
         onPlayComplete();
+    }
+
+    public interface OnFullScreenListener {
+        boolean onFullClick(Intent intent);
+    }
+
+    public void setOnFullScreenListener(OnFullScreenListener listener) {
+        this.onFullScreenListener = listener;
     }
 }
