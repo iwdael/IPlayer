@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 ```Java
 	dependencies {
                 ...
-	        compile 'com.github.blackchopper:iplayer:v1.1.1'
+	        compile 'com.github.blackchopper:iplayer:v1.1.2'
 	}
 ```
 ### Step 3. 设置JniLibs目录
