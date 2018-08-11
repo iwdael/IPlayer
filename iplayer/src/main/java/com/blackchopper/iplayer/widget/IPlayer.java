@@ -122,6 +122,7 @@ public class IPlayer extends IjkVideoView {
     public void onDestroy() {
         release(false);
         IjkMediaPlayer.native_profileEnd();
+        mMediaController.onDestroy();
     }
 
     public IPlayer setCover(Bitmap bitmap) {
