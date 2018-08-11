@@ -109,6 +109,13 @@ public abstract class IMediaController extends BaseMediaController implements Se
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
+        handle.removeCallbacksAndMessages(null);
+    }
+
+    @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
 
