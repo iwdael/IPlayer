@@ -127,6 +127,10 @@ public abstract class BaseMediaController extends FrameLayout implements IMediaC
 
     }
 
+    @Override
+    public void onDestroy() {
+        handle.removeCallbacksAndMessages(null);
+    }
 
     public void setVisibility(View view, int visibility) {
         view.setVisibility(visibility);
