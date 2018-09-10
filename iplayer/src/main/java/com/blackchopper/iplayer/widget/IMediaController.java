@@ -248,4 +248,8 @@ public abstract class IMediaController extends BaseMediaController implements Se
     public void setOnFullScreenListener(OnFullScreenListener listener) {
         this.onFullScreenListener = listener;
     }
+    
+    public void setPlayIconVisibility(int visibility){
+        iv_iplayer_btn.setVisibility(visibility);
+    }
 }
