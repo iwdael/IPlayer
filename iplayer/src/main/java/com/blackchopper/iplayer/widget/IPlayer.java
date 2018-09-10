@@ -90,6 +90,7 @@ public class IPlayer extends IjkVideoView {
     }
 
     public void setVideoUrl(String sd, String hd, String ultra, String blu, String _1080) {
+        url.clear();
         if (sd != null) url.add(new MediaQuality(MediaQuality.SD, sd));
         if (hd != null) url.add(new MediaQuality(MediaQuality.HD, hd));
         if (ultra != null) url.add(new MediaQuality(MediaQuality.ULTRA, ultra));
