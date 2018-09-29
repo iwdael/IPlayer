@@ -1,94 +1,138 @@
-# iplayer [![](https://jitpack.io/v/blackchopper/iplayer.svg)](https://jitpack.io/#blackchopper/iplayer)
-Iplayer is a player based on ijkplayer, which saves the process of compiling source code. It can play video or local video in mp4, avi, RMVB, FLV and other formats.[中文文档](https://github.com/blackchopper/iplayer/blob/master/README_CHINESE.md)
-## Instruction
-Iplayer supports video dragging, pausing, playing, and playing video. Through setOnIPlayerStatusListener method can listen to the player's various state changes, the user can implement some special operation.
-### Code Sample
-```Java
-public class MainActivity extends AppCompatActivity {
-    IPlayer iPlayer;
+<a href="https://github.com/lipangit/JiaoZiVideoPlayer" target="_blank"><p align="center"><img src="https://user-images.githubusercontent.com/2038071/42033014-0bf1c0b0-7b0e-11e8-811d-7639bcd294eb.png" alt="JiaoZiVideoPlayer" height="150px"></p></a>
+--
+<p align="center">
+<a href="http://developer.android.com/index.html"><img src="https://img.shields.io/badge/platform-android-green.svg"></a>
+<a href="http://search.maven.org/#artifactdetails%7Ccn.jzvd%7Cjiaozivideoplayer%7C5.8.2%7Caar"><img src="https://img.shields.io/badge/Maven%20Central-6.3.1-green.svg"></a>
+<a href="http://choosealicense.com/licenses/mit/"><img src="https://img.shields.io/badge/license-MIT-green.svg"></a>
+<a href="https://android-arsenal.com/details/1/3269"><img src="https://img.shields.io/badge/Android%20Arsenal-jiaozivideoplayer-green.svg?style=true"></a>
+</p>
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        iPlayer = (IPlayer) findViewById(R.id.iPlayer);
-        iPlayer.setCover(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
-                .setVideoUrl("http://gslb.miaopai.com/stream/~t7hYwFO974U4fDLTI3basB81DRAFPYTMjdPgw__.mp4?mpflag=64&vend=1&os=3&partner=4&platform=2&cookie_id=&refer=miaopai&scid=%7Et7hYwFO974U4fDLTI3basB81DRAFPYTMjdPgw__");
+Highly customizable Android video player
+
+Q群: 490442439 2群: 761899104 验证信息:jzvd
+
+[Wiki](https://github.com/lipangit/JiaoZiVideoPlayer/wiki)  [EnglishWiki](https://github.com/felipetorres/VideoPlayer-Wiki)  
+[中文ReadMe](https://github.com/lipangit/JiaoZiVideoPlayer/blob/develop/README-ZH.md)  
+[WorkPlan](https://github.com/lipangit/JiaoZiVideoPlayer/projects/2)  
+[Weibo](http://weibo.com/2342820395/profile?topnav=1&wvr=6&is_all=1)  
+
+## Features
+
+1. You can completely customize the UI and any method
+2. One line of code to switch the playback engine, supported video formats and protocols depends on the playback engine like:  [android.media.MediaPlayer](https://developer.android.com/guide/topics/media/media-formats.html), [IJKplayer](https://github.com/Bilibili/ijkplayer), [ExoPlayer](http://google.github.io/ExoPlayer/supported-formats.html).
+3. Perfect detection of list sliding
+4. Fullscreen and small window option available
+5. Fullscreen works in multiple nested modes like ListView, ViewPager and ListView, ViewPager and Fragment
+6. Can load, pause, play and other normal state into the fullscreen and exit fullscreen
+7. A variety of video screen modes: full screen, you can cut full screen
+8. Use of gravity sensors to automatically enter fullscreen
+9. Gestures to control progress, volume and brightness in fullscreen mode
+10. Home key to exit the interface to suspend the playback, return to the interface to continue playing
+11. WebView Nested Local Video Controls
+12. VideoCache in demo
+
+## Steps for usage
+
+1. Read through ReadMe
+2. Download and install the demo apk[jiaozivideoplayer-6.3.1.apk](https://github.com/lipangit/JiaoZiVideoPlayer/releases/download/v6.3.1/jiaozivideoplayer-6.3.1.apk), each page enters once, each button clicks once
+3. Download and debug the develop branch, and find the source code through the effect
+4. See [custom-related WIKI](https://github.com/lipangit/JiaoZiVideoPlayer/wiki)，Realize your own needs
+
+* [Getting Started Document 1](https://www.jianshu.com/p/4c187a09b838)
+* [Getting Started Document 2](https://shimo.im/docs/xj5F85W1gqEEBXRJ)
+
+## Screenshot 
+
+![Demo screenshot][1]
+
+[small window effect on list sliding](http://weibo.com/tv/v/FtxpWgqmg?fid=1034:5cda6fc7f394b403d592bd9b1d5a9701).
+
+## Usage
+
+Only five steps to use the player:
+
+1.Import library:
+```gradle
+compile 'cn.jzvd:jiaozivideoplayer:6.3.1'
+```
+
+Or download [lib](https://github.com/lipangit/JiaoZiVideoPlayer/releases/tag/v6.3.1) (not recommended).
+
+2.Add `JZVideoPlayer` in your layout:
+```xml
+<cn.jzvd.JzvdStd
+    android:id="@+id/videoplayer"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"/>
+```
+
+3.Set the video uri, video thumb url and video title:
+```java
+JzvdStd jzvdStd = (JzvdStd) findViewById(R.id.videoplayer);
+jzvdStd.setUp("http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4", 
+                            Jzvd.SCREEN_WINDOW_NORMAL, 
+                            "饺子闭眼睛");
+jzvdStd.thumbImageView.setImage("http://p.qpic.cn/videoyun/0/2449_43b6f696980311e59ed467f22794e792_1/640");
+```
+
+4.In `Activity`:
+```java
+@Override
+public void onBackPressed() {
+    if (Jzvd.backPress()) {
+        return;
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        iPlayer.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        iPlayer.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        iPlayer.onDestroy();
-
-    }
+    super.onBackPressed();
+}
+@Override
+protected void onPause() {
+    super.onPause();
+    Jzvd.releaseAllVideos();
 }
 ```
-```Java
-  <com.blackchopper.iplayer.widget.IPlayer
-        android:id="@+id/iPlayer"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:fullScreenIconEnable="false" />
+
+5.In `AndroidManifest.xml`:
+```xml
+<activity
+    android:name=".MainActivity"
+    android:configChanges="orientation|screenSize|keyboardHidden"
+    android:screenOrientation="portrait" />
+    <!-- or android:screenOrientation="landscape"-->
 ```
 
-## How to
-To get a Git project into your build:
-### Step 1. Add the JitPack repository to your build file
-Add it in your root build.gradle at the end of repositories.   [click here for details](https://github.com/blackchopper/CarouselBanner/blob/master/root_build.gradle.png)
-```Java
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-```
-### Step 2. Add the dependency
-Add it in your application module build.gradle at the end of dependencies where you want to use.[click here for details](https://github.com/blackchopper/CarouselBanner/blob/master/application_build.gradle.png)
-```Java
-	dependencies {
-                ...
-	        compile 'com.github.blackchopper:iplayer:v1.1.2'
-	}
-```
-### Step 3. Set JniLibs directory
-Add it in your application module build.gradle.[click here for details](https://github.com/blackchopper/gifengine/blob/master/jnilibs.png)
-```Java
-android {
-    ...
-    sourceSets {
-        main() {
-            jniLibs.srcDirs = ['libs']
-        }
-    }
-}
+## Details about UI and code customization
 
-```
-### Step 4. Add the permission
-Add it in your application AndroidManifest.xml in the manifest label.   [click here for details](https://github.com/blackchopper/OnHttp/blob/master/androimanifest.png)
-```Java
-    <uses-permission android:name="android.permission.INTERNET" />
-```
-### Step 5. Copy dynamic library file
-Click [here](https://raw.githubusercontent.com/blackchopper/iplayer/master/libs.7z) ,unzip and copy the files to your application libs directory.
-[click here for details](https://github.com/blackchopper/gifengine/blob/master/libs.png)
-<br><br>![Text Image](https://github.com/blackchopper/iplayer/blob/master/iplayer.gif)
-<br><br><br>
-## Thank you for your browsing
-If you have any questions, please join the QQ group. I will do my best to answer it for you. Welcome to star and fork this repository, alse follow me.
-<br>
-![Image Text](https://github.com/blackchopper/CarouselBanner/blob/master/qq_group.png)
+[See our Wiki](https://github.com/lipangit/JiaoZiVideoPlayer/wiki).
 
+## Community
+
+#### Group management
+
+1. [熊晓清](http://blog.csdn.net/yaya_xiong) QQ:137048616
+2. [Lionet](https://github.com/Lionet6?tab=repositories) QQ:2950527715
+3. [montauk](https://github.com/hanmeimei888) QQ:958489121
+4. [张展硕]() QQ:229431468
+
+#### Questions and Answers
+
+1. [熊晓清](http://blog.csdn.net/yaya_xiong) QQ:137048616
+2. [の伤也快乐](https://github.com/jmhjmh) QQ:466278628
+
+## Reward
+
+This project is dedicated to the integration of small and medium video playback app, greatly reducing the cost of development. If you save tons of time, we suggest a retail price of 76 USD. (It's not expensive, get a two-year project worth more than that)
+
+![Reward][2]
+
+## License MIT
+
+Copyright (c) 2015-2018 李盼 Nathen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+[1]: https://user-images.githubusercontent.com/2038071/31045150-a077cc8a-a5a2-11e7-8dc2-7a0e3a9f3e62.jpg
+[2]: https://user-images.githubusercontent.com/2038071/29978804-45c321ba-8f75-11e7-9040-776d3b6dca1f.jpg

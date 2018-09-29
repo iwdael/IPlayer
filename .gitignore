@@ -1,9 +1,12 @@
+/infer-out
+gradle.properties
 *.iml
 .gradle
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
+.idea
 .DS_Store
-/build
+build
 /captures
-.externalNativeBuild
+*.asc
+projectFilesBackup
+release

@@ -1,1 +1,1 @@
-include ':Example', ':iplayer'
+include ':app', ':iplayer'
