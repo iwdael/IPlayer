@@ -11,8 +11,8 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.jzvd.Video;
-import cn.jzvd.demo.R;
+import com.blackchopper.iplayer.Video;
+import com.blackchopper.demo.R;
 
 /**
  * Created by Nathen

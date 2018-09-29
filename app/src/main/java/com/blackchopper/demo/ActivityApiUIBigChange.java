@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import cn.jzvd.Video;
-import cn.jzvd.demo.R;
+import com.blackchopper.iplayer.Video;
+import com.blackchopper.demo.R;
 
 /**
  * Created by Nathen on 16/7/31.

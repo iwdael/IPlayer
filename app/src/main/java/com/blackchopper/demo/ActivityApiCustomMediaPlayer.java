@@ -16,12 +16,12 @@ import com.blackchopper.demo.CustomMediaPlayer.IplayerMediaIjkplayer;
 
 import java.io.IOException;
 
-import cn.jzvd.DataSource;
-import cn.jzvd.MediaSystem;
-import cn.jzvd.Video;
-import cn.jzvd.Iplayer;
+import com.blackchopper.iplayer.DataSource;
+import com.blackchopper.iplayer.MediaSystem;
+import com.blackchopper.iplayer.Video;
+import com.blackchopper.iplayer.Iplayer;
 
-import cn.jzvd.demo.R;
+import com.blackchopper.demo.R;
 
 /**
  * Created by Nathen on 2017/11/23.

@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import cn.jzvd.Video;
-import cn.jzvd.Iplayer;
-import cn.jzvd.demo.R;
+import com.blackchopper.iplayer.Video;
+import com.blackchopper.iplayer.Iplayer;
+import com.blackchopper.demo.R;
 
 /**
  * Created by Nathen on 16/7/31.

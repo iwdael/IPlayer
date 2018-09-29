@@ -6,9 +6,9 @@ import android.view.Surface;
 
 import java.io.IOException;
 
-import cn.jzvd.MediaInterface;
-import cn.jzvd.MediaManager;
-import cn.jzvd.VideoMgr;
+import com.blackchopper.iplayer.MediaInterface;
+import com.blackchopper.iplayer.MediaManager;
+import com.blackchopper.iplayer.VideoMgr;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkTimedText;

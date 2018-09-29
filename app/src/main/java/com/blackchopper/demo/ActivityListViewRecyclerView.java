@@ -8,10 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 
-import cn.jzvd.MediaManager;
-import cn.jzvd.Video;
-import cn.jzvd.VideoMgr;
-import cn.jzvd.demo.R;
+import com.blackchopper.iplayer.MediaManager;
+import com.blackchopper.iplayer.Video;
+import com.blackchopper.iplayer.VideoMgr;
+import com.blackchopper.demo.R;
 
 /**
  * Created by yujunkui on 16/8/29.

@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import cn.jzvd.demo.R;
+import com.blackchopper.demo.R;
 
 /**
  * Created by Nathen on 16/7/31.

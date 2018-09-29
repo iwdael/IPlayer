@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import cn.jzvd.Iplayer;
-import cn.jzvd.demo.R;
+import com.blackchopper.iplayer.Iplayer;
+import com.blackchopper.demo.R;
 
 public class IplayerMp3 extends Iplayer {
 
@@ -24,7 +24,7 @@ public class IplayerMp3 extends Iplayer {
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == cn.jzvd.R.id.thumb &&
+        if (v.getId() == com.blackchopper.R.id.thumb &&
                 (currentState == CURRENT_STATE_PLAYING ||
                         currentState == CURRENT_STATE_PAUSE)) {
             onClickUiToggle();

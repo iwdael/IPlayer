@@ -5,8 +5,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import cn.jzvd.Iplayer;
-import cn.jzvd.demo.R;
+import com.blackchopper.iplayer.Iplayer;
+import com.blackchopper.demo.R;
 
 /**
  * 这里可以监听到视频播放的生命周期和播放状态
@@ -31,7 +31,7 @@ public class IplayerCustom extends Iplayer {
     public void onClick(View v) {
         super.onClick(v);
         int i = v.getId();
-        if (i == cn.jzvd.R.id.fullscreen) {
+        if (i == com.blackchopper.R.id.fullscreen) {
             if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
                 //click quit fullscreen
             } else {

@@ -1,4 +1,4 @@
-package cn.jzvd;
+package com.blackchopper.iplayer;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

@@ -20,10 +20,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.LinkedHashMap;
 
-import cn.jzvd.DataSource;
-import cn.jzvd.Video;
-import cn.jzvd.Iplayer;
-import cn.jzvd.demo.R;
+import com.blackchopper.iplayer.DataSource;
+import com.blackchopper.iplayer.Video;
+import com.blackchopper.iplayer.Iplayer;
+import com.blackchopper.demo.R;
 
 /**
  * Created by Nathen on 16/7/31.

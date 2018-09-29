@@ -9,14 +9,14 @@ import com.bumptech.glide.Glide;
 import com.blackchopper.demo.CustomView.IplayerShowTextureViewAfterAutoComplete;
 import com.blackchopper.demo.CustomView.IplayerShowTitleAfterFullscreen;
 
-import cn.jzvd.Video;
-import cn.jzvd.Iplayer;
+import com.blackchopper.iplayer.Video;
+import com.blackchopper.iplayer.Iplayer;
 import com.blackchopper.demo.CustomView.IplayerAutoCompleteAfterFullscreen;
 import com.blackchopper.demo.CustomView.IplayerMp3;
 import com.blackchopper.demo.CustomView.IplayerShowShareButtonAfterFullscreen;
 import com.blackchopper.demo.CustomView.IplayerVolumeAfterFullscreen;
 
-import cn.jzvd.demo.R;
+import com.blackchopper.demo.R;
 
 /**
  * Created by Nathen on 16/7/31.

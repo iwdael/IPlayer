@@ -1,4 +1,4 @@
-package cn.jzvd;
+package com.blackchopper.iplayer;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -23,6 +23,8 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.blackchopper.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 
-import cn.jzvd.Video;
-import cn.jzvd.Iplayer;
-import cn.jzvd.demo.R;
+import com.blackchopper.iplayer.Video;
+import com.blackchopper.iplayer.Iplayer;
+import com.blackchopper.demo.R;
 
 public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecyclerViewVideo.MyViewHolder> {
 

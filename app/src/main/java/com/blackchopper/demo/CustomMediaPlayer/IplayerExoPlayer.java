@@ -34,10 +34,10 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoListener;
 
-import cn.jzvd.MediaInterface;
-import cn.jzvd.MediaManager;
-import cn.jzvd.VideoMgr;
-import cn.jzvd.demo.R;
+import com.blackchopper.iplayer.MediaInterface;
+import com.blackchopper.iplayer.MediaManager;
+import com.blackchopper.iplayer.VideoMgr;
+import com.blackchopper.demo.R;
 
 /**
  * Created by MinhDV on 5/3/18.

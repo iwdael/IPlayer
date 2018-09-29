@@ -8,8 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 
-import cn.jzvd.Video;
-import cn.jzvd.demo.R;
+import com.blackchopper.iplayer.Video;
+import com.blackchopper.demo.R;
 
 /**
  * Created by Nathen on 2017/11/1.

@@ -3,8 +3,8 @@ package com.blackchopper.demo.CustomView;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import cn.jzvd.MediaManager;
-import cn.jzvd.Iplayer;
+import com.blackchopper.iplayer.MediaManager;
+import com.blackchopper.iplayer.Iplayer;
 
 /**
  * Created by pc on 2018/1/17.

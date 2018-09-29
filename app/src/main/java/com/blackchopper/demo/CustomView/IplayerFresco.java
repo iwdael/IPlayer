@@ -4,9 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import cn.jzvd.DataSource;
-import cn.jzvd.Iplayer;
-import cn.jzvd.demo.R;
+import com.blackchopper.iplayer.DataSource;
+import com.blackchopper.iplayer.Iplayer;
+import com.blackchopper.demo.R;
 
 //import com.facebook.drawee.view.SimpleDraweeView;
 

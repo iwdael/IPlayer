@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import cn.jzvd.Video;
-import cn.jzvd.demo.R;
+import com.blackchopper.iplayer.Video;
+import com.blackchopper.demo.R;
 
 /**
  * Created by Nathen on 2017/6/9.

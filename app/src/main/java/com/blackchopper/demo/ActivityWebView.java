@@ -11,10 +11,10 @@ import android.widget.AbsoluteLayout;
 
 import com.bumptech.glide.Glide;
 
-import cn.jzvd.PlayerUtils;
-import cn.jzvd.Video;
-import cn.jzvd.Iplayer;
-import cn.jzvd.demo.R;
+import com.blackchopper.iplayer.PlayerUtils;
+import com.blackchopper.iplayer.Video;
+import com.blackchopper.iplayer.Iplayer;
+import com.blackchopper.demo.R;
 
 /**
  * Created by Nathen on 16/10/13.

@@ -1,4 +1,4 @@
-package cn.jzvd;
+package com.blackchopper.iplayer;
 
 import android.content.Context;
 import android.util.AttributeSet;

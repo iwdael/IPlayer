@@ -5,9 +5,9 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.view.Surface;
 
-import cn.jzvd.MediaInterface;
-import cn.jzvd.MediaManager;
-import cn.jzvd.VideoMgr;
+import com.blackchopper.iplayer.MediaInterface;
+import com.blackchopper.iplayer.MediaManager;
+import com.blackchopper.iplayer.VideoMgr;
 
 /**
  * Created by Nathen on 2017/11/23.

@@ -11,12 +11,12 @@ import android.widget.Button;
 import com.bumptech.glide.Glide;
 import com.blackchopper.demo.CustomView.IplayerCustom;
 
-import cn.jzvd.UserAction;
-import cn.jzvd.UserActionStd;
-import cn.jzvd.Video;
-import cn.jzvd.Iplayer;
+import com.blackchopper.iplayer.UserAction;
+import com.blackchopper.iplayer.UserActionStd;
+import com.blackchopper.iplayer.Video;
+import com.blackchopper.iplayer.Iplayer;
 
-import cn.jzvd.demo.R;
+import com.blackchopper.demo.R;
 
 /**
  * Created by Nathen on 16/7/22.

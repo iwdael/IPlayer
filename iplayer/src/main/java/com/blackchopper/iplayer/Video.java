@@ -1,4 +1,4 @@
-package cn.jzvd;
+package com.blackchopper.iplayer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -26,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.blackchopper.R;
 
 import java.lang.reflect.Constructor;
 import java.util.Timer;

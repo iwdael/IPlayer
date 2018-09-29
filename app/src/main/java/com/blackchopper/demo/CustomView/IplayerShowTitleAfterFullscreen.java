@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import cn.jzvd.DataSource;
-import cn.jzvd.Iplayer;
+import com.blackchopper.iplayer.DataSource;
+import com.blackchopper.iplayer.Iplayer;
 
 /**
  * Created by Nathen

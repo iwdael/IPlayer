@@ -10,9 +10,9 @@ import android.widget.Button;
 
 import com.bumptech.glide.Glide;
 
-import cn.jzvd.Video;
-import cn.jzvd.Iplayer;
-import cn.jzvd.demo.R;
+import com.blackchopper.iplayer.Video;
+import com.blackchopper.iplayer.Iplayer;
+import com.blackchopper.demo.R;
 
 /**
  * Created by Nathen on 2017/10/31.

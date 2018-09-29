@@ -6,9 +6,9 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.WindowManager;
 
-import cn.jzvd.MediaManager;
-import cn.jzvd.PlayerUtils;
-import cn.jzvd.Iplayer;
+import com.blackchopper.iplayer.MediaManager;
+import com.blackchopper.iplayer.PlayerUtils;
+import com.blackchopper.iplayer.Iplayer;
 
 /**
  * 全屏状态播放完成，不退出全屏
