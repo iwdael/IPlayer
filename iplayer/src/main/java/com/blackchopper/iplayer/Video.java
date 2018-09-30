@@ -125,7 +125,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     protected int mGestureDownVolume;
     protected float mGestureDownBrightness;
     protected long mSeekTimePosition;
-    boolean tmp_test_back = false;
+    protected boolean tmp_test_back = false;
 
     public Video(Context context) {
         super(context);
