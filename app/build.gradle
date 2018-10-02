@@ -4,26 +4,11 @@ android {
     compileSdkVersion 26
 
     defaultConfig {
-        applicationId "com.blackchopper.demo"
+        applicationId "com.hacknife.demo"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 84
         versionName "6.3.1"
-    }
-    signingConfigs {
-        releaseConfig {
-            storeFile file("jzvd-keystore")
-            storePassword "123456"
-            keyAlias "key0"
-            keyPassword "123456"
-        }
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.releaseConfig
-        }
     }
     lintOptions {
         abortOnError false

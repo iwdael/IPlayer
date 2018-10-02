@@ -20,7 +20,7 @@
                 android:layout_marginTop="18dp"
                 android:text="Standard ui with share button, visible after fullscreen" />
 
-            <com.blackchopper.demo.CustomView.IplayerShowShareButtonAfterFullscreen
+            <com.hacknife.demo.CustomView.IplayerShowShareButtonAfterFullscreen
                 android:id="@+id/custom_videoplayer_standard_with_share_button"
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
@@ -32,7 +32,7 @@
                 android:layout_marginTop="18dp"
                 android:text="Standard ui show title after fullscreen" />
 
-            <com.blackchopper.demo.CustomView.IplayerShowTitleAfterFullscreen
+            <com.hacknife.demo.CustomView.IplayerShowTitleAfterFullscreen
                 android:id="@+id/custom_videoplayer_standard_show_title_after_fullscreen"
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
@@ -44,7 +44,7 @@
                 android:layout_marginTop="18dp"
                 android:text="Standard ui show textureview after auto complete" />
 
-            <com.blackchopper.demo.CustomView.IplayerShowTextureViewAfterAutoComplete
+            <com.hacknife.demo.CustomView.IplayerShowTextureViewAfterAutoComplete
                 android:id="@+id/custom_videoplayer_standard_show_textureview_aoto_complete"
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
@@ -56,7 +56,7 @@
                 android:layout_marginTop="18dp"
                 android:text="Standard ui auto complete after fullscreen" />
 
-            <com.blackchopper.demo.CustomView.IplayerAutoCompleteAfterFullscreen
+            <com.hacknife.demo.CustomView.IplayerAutoCompleteAfterFullscreen
                 android:id="@+id/custom_videoplayer_standard_aoto_complete"
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
@@ -68,7 +68,7 @@
                 android:layout_marginTop="18dp"
                 android:text="Standard ui 1:1" />
 
-            <com.blackchopper.demo.CustomView.IplayerAutoCompleteAfterFullscreen
+            <com.hacknife.demo.CustomView.IplayerAutoCompleteAfterFullscreen
                 android:id="@+id/jz_videoplayer_1_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -80,7 +80,7 @@
                 android:layout_marginTop="18dp"
                 android:text="Standard ui 16:9" />
 
-            <com.blackchopper.demo.CustomView.IplayerAutoCompleteAfterFullscreen
+            <com.hacknife.demo.CustomView.IplayerAutoCompleteAfterFullscreen
                 android:id="@+id/jz_videoplayer_16_9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -92,7 +92,7 @@
                 android:layout_marginTop="18dp"
                 android:text="Volume after fullscreen" />
 
-            <com.blackchopper.demo.CustomView.IplayerVolumeAfterFullscreen
+            <com.hacknife.demo.CustomView.IplayerVolumeAfterFullscreen
                 android:id="@+id/jz_videoplayer_volume"
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
@@ -104,7 +104,7 @@
                 android:layout_marginTop="18dp"
                 android:text="Play Mp3" />
 
-            <com.blackchopper.demo.CustomView.IplayerMp3
+            <com.hacknife.demo.CustomView.IplayerMp3
                 android:id="@+id/jz_videoplayer_mp3"
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
