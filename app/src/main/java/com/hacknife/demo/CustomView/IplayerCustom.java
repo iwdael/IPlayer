@@ -31,7 +31,7 @@ public class IplayerCustom extends Iplayer {
     public void onClick(View v) {
         super.onClick(v);
         int i = v.getId();
-        if (i == com.hacknife.R.id.fullscreen) {
+        if (i ==  R.id.fullscreen) {
             if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
                 //click quit fullscreen
             } else {

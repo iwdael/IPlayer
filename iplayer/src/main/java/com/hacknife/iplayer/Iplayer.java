@@ -23,13 +23,11 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.hacknife.R;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import com.hacknife.iplayer.R;
 
 /**
  * Created by Nathen
@@ -118,7 +116,7 @@ public class Iplayer extends Video {
         super.setUp(dataSource, screen);
         titleTextView.setText(dataSource.title);
         if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
-            fullscreenButton.setImageResource(R.drawable.jz_shrink);
+            fullscreenButton.setImageResource(R.drawable.iplayer_shrink);
             backButton.setVisibility(View.VISIBLE);
             tinyBackImageView.setVisibility(View.INVISIBLE);
             batteryTimeLayout.setVisibility(View.VISIBLE);
@@ -128,13 +126,13 @@ public class Iplayer extends Video {
                 clarity.setText(dataSource.getCurrentKey().toString());
                 clarity.setVisibility(View.VISIBLE);
             }
-            changeStartButtonSize((int) getResources().getDimension(R.dimen.jz_start_button_w_h_fullscreen));
+            changeStartButtonSize((int) getResources().getDimension(R.dimen.iplayer_start_button_w_h_fullscreen));
         } else if (currentScreen == SCREEN_WINDOW_NORMAL
                 || currentScreen == SCREEN_WINDOW_LIST) {
-            fullscreenButton.setImageResource(R.drawable.jz_enlarge);
+            fullscreenButton.setImageResource(R.drawable.iplayer_enlarge);
             backButton.setVisibility(View.GONE);
             tinyBackImageView.setVisibility(View.INVISIBLE);
-            changeStartButtonSize((int) getResources().getDimension(R.dimen.jz_start_button_w_h_normal));
+            changeStartButtonSize((int) getResources().getDimension(R.dimen.iplayer_start_button_w_h_normal));
             batteryTimeLayout.setVisibility(View.GONE);
             clarity.setVisibility(View.GONE);
         } else if (currentScreen == SCREEN_WINDOW_TINY) {
@@ -435,17 +433,17 @@ public class Iplayer extends Video {
     public void setBatteryLevel() {
         int percent = LAST_GET_BATTERYLEVEL_PERCENT;
         if (percent < 15) {
-            batteryLevel.setBackgroundResource(R.drawable.jz_battery_level_10);
+            batteryLevel.setBackgroundResource(R.drawable.iplayer_battery_level_10);
         } else if (percent >= 15 && percent < 40) {
-            batteryLevel.setBackgroundResource(R.drawable.jz_battery_level_30);
+            batteryLevel.setBackgroundResource(R.drawable.iplayer_battery_level_30);
         } else if (percent >= 40 && percent < 60) {
-            batteryLevel.setBackgroundResource(R.drawable.jz_battery_level_50);
+            batteryLevel.setBackgroundResource(R.drawable.iplayer_battery_level_50);
         } else if (percent >= 60 && percent < 80) {
-            batteryLevel.setBackgroundResource(R.drawable.jz_battery_level_70);
+            batteryLevel.setBackgroundResource(R.drawable.iplayer_battery_level_70);
         } else if (percent >= 80 && percent < 95) {
-            batteryLevel.setBackgroundResource(R.drawable.jz_battery_level_90);
+            batteryLevel.setBackgroundResource(R.drawable.iplayer_battery_level_90);
         } else if (percent >= 95 && percent <= 100) {
-            batteryLevel.setBackgroundResource(R.drawable.jz_battery_level_100);
+            batteryLevel.setBackgroundResource(R.drawable.iplayer_battery_level_100);
         }
     }
 
@@ -652,17 +650,17 @@ public class Iplayer extends Video {
     public void updateStartImage() {
         if (currentState == CURRENT_STATE_PLAYING) {
             startButton.setVisibility(VISIBLE);
-            startButton.setImageResource(R.drawable.jz_click_pause_selector);
+            startButton.setImageResource(R.drawable.iplayer_click_pause_selector);
             replayTextView.setVisibility(INVISIBLE);
         } else if (currentState == CURRENT_STATE_ERROR) {
             startButton.setVisibility(INVISIBLE);
             replayTextView.setVisibility(INVISIBLE);
         } else if (currentState == CURRENT_STATE_AUTO_COMPLETE) {
             startButton.setVisibility(VISIBLE);
-            startButton.setImageResource(R.drawable.jz_click_replay_selector);
+            startButton.setImageResource(R.drawable.iplayer_click_replay_selector);
             replayTextView.setVisibility(VISIBLE);
         } else {
-            startButton.setImageResource(R.drawable.jz_click_play_selector);
+            startButton.setImageResource(R.drawable.iplayer_click_play_selector);
             replayTextView.setVisibility(INVISIBLE);
         }
     }
@@ -686,9 +684,9 @@ public class Iplayer extends Video {
         mDialogTotalTime.setText(" / " + totalTime);
         mDialogProgressBar.setProgress(totalTimeDuration <= 0 ? 0 : (int) (seekTimePosition * 100 / totalTimeDuration));
         if (deltaX > 0) {
-            mDialogIcon.setBackgroundResource(R.drawable.jz_forward_icon);
+            mDialogIcon.setBackgroundResource(R.drawable.iplayer_forward_icon);
         } else {
-            mDialogIcon.setBackgroundResource(R.drawable.jz_backward_icon);
+            mDialogIcon.setBackgroundResource(R.drawable.iplayer_backward_icon);
         }
         onCLickUiToggleToClear();
     }
@@ -715,9 +713,9 @@ public class Iplayer extends Video {
             mVolumeDialog.show();
         }
         if (volumePercent <= 0) {
-            mDialogVolumeImageView.setBackgroundResource(R.drawable.jz_close_volume);
+            mDialogVolumeImageView.setBackgroundResource(R.drawable.iplayer_close_volume);
         } else {
-            mDialogVolumeImageView.setBackgroundResource(R.drawable.jz_add_volume);
+            mDialogVolumeImageView.setBackgroundResource(R.drawable.iplayer_add_volume);
         }
         if (volumePercent > 100) {
             volumePercent = 100;
@@ -768,7 +766,7 @@ public class Iplayer extends Video {
     }
 
     public Dialog createDialogWithView(View localView) {
-        Dialog dialog = new Dialog(getContext(), R.style.jz_style_dialog_progress);
+        Dialog dialog = new Dialog(getContext(), R.style.iplayer_style_dialog_progress);
         dialog.setContentView(localView);
         Window window = dialog.getWindow();
         window.addFlags(Window.FEATURE_ACTION_BAR);

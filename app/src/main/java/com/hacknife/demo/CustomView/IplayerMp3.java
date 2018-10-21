@@ -24,7 +24,7 @@ public class IplayerMp3 extends Iplayer {
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == com.hacknife.R.id.thumb &&
+        if (v.getId() ==  R.id.thumb &&
                 (currentState == CURRENT_STATE_PLAYING ||
                         currentState == CURRENT_STATE_PAUSE)) {
             onClickUiToggle();

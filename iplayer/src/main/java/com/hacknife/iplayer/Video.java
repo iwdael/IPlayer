@@ -27,7 +27,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hacknife.R;
+
 
 import java.lang.reflect.Constructor;
 import java.util.Timer;
@@ -158,14 +158,14 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         PlayerUtils.setRequestedOrientation(context, FULLSCREEN_ORIENTATION);
         ViewGroup vp = (PlayerUtils.scanForActivity(context))//.getWindow().getDecorView();
                 .findViewById(Window.ID_ANDROID_CONTENT);
-        View old = vp.findViewById(R.id.jz_fullscreen_id);
+        View old = vp.findViewById(R.id.iplayer_fullscreen_id);
         if (old != null) {
             vp.removeView(old);
         }
         try {
             Constructor<Video> constructor = _class.getConstructor(Context.class);
             final Video video = constructor.newInstance(context);
-            video.setId(R.id.jz_fullscreen_id);
+            video.setId(R.id.iplayer_fullscreen_id);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             vp.addView(video, lp);
@@ -836,8 +836,8 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     public void clearFullscreenLayout() {
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
                 .findViewById(Window.ID_ANDROID_CONTENT);
-        View oldF = vp.findViewById(R.id.jz_fullscreen_id);
-        View oldT = vp.findViewById(R.id.jz_tiny_id);
+        View oldF = vp.findViewById(R.id.iplayer_fullscreen_id);
+        View oldT = vp.findViewById(R.id.iplayer_tiny_id);
         if (oldF != null) {
             vp.removeView(oldF);
         }
@@ -852,8 +852,8 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         showSupportActionBar(getContext());
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
                 .findViewById(Window.ID_ANDROID_CONTENT);
-        Video fullJzvd = vp.findViewById(R.id.jz_fullscreen_id);
-        Video tinyJzvd = vp.findViewById(R.id.jz_tiny_id);
+        Video fullJzvd = vp.findViewById(R.id.iplayer_fullscreen_id);
+        Video tinyJzvd = vp.findViewById(R.id.iplayer_tiny_id);
 
         if (fullJzvd != null) {
             vp.removeView(fullJzvd);
@@ -997,7 +997,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
 
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
                 .findViewById(Window.ID_ANDROID_CONTENT);
-        View old = vp.findViewById(R.id.jz_fullscreen_id);
+        View old = vp.findViewById(R.id.iplayer_fullscreen_id);
         if (old != null) {
             vp.removeView(old);
         }
@@ -1005,7 +1005,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         try {
             Constructor<Video> constructor = (Constructor<Video>) Video.this.getClass().getConstructor(Context.class);
             Video jzvd = constructor.newInstance(getContext());
-            jzvd.setId(R.id.jz_fullscreen_id);
+            jzvd.setId(R.id.iplayer_fullscreen_id);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             vp.addView(jzvd, lp);
@@ -1036,7 +1036,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
             return;
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
                 .findViewById(Window.ID_ANDROID_CONTENT);
-        View old = vp.findViewById(R.id.jz_tiny_id);
+        View old = vp.findViewById(R.id.iplayer_tiny_id);
         if (old != null) {
             vp.removeView(old);
         }
@@ -1045,7 +1045,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         try {
             Constructor<Video> constructor = (Constructor<Video>) Video.this.getClass().getConstructor(Context.class);
             Video jzvd = constructor.newInstance(getContext());
-            jzvd.setId(R.id.jz_tiny_id);
+            jzvd.setId(R.id.iplayer_tiny_id);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(400, 400);
             lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
             vp.addView(jzvd, lp);

@@ -47,11 +47,11 @@ public class IplayerFresco extends Iplayer {
         super.setUp(jzDataSource, screen);
         titleTextView.setText(jzDataSource.title);
         if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
-            fullscreenButton.setImageResource(R.drawable.jz_shrink);
+            fullscreenButton.setImageResource(R.drawable.iplayer_shrink);
             backButton.setVisibility(View.VISIBLE);
             tinyBackImageView.setVisibility(View.INVISIBLE);
         } else if (currentScreen == SCREEN_WINDOW_LIST) {
-            fullscreenButton.setImageResource(R.drawable.jz_enlarge);
+            fullscreenButton.setImageResource(R.drawable.iplayer_enlarge);
             backButton.setVisibility(View.GONE);
             tinyBackImageView.setVisibility(View.INVISIBLE);
         } else if (currentScreen == SCREEN_WINDOW_TINY) {
