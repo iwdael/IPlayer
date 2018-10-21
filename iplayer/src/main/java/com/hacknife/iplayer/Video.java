@@ -333,12 +333,12 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
 
     public static void onChildViewDetachedFromWindow(View view) {
         if (VideoManager.getCurrentVideo() != null && VideoManager.getCurrentVideo().currentScreen != Video.SCREEN_WINDOW_TINY) {
-            Video jzvd = VideoManager.getCurrentVideo();
-            if (((ViewGroup) view).indexOfChild(jzvd) != -1) {
-                if (jzvd.currentState == Video.CURRENT_STATE_PAUSE) {
+            Video video = VideoManager.getCurrentVideo();
+            if (((ViewGroup) view).indexOfChild(video) != -1) {
+                if (video.currentState == Video.CURRENT_STATE_PAUSE) {
                     Video.releaseAllVideos();
                 } else {
-                    jzvd.startWindowTiny();
+                    video.startWindowTiny();
                 }
             }
         }
@@ -403,7 +403,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
                 this.dataSource.containsTheUrl(dataSource.getCurrentUrl())) {
             return;
         }
-        if (isCurrentJZVD() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
+        if (isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
             long position = 0;
             try {
                 position = MediaManager.getCurrentPosition();
@@ -414,15 +414,15 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
                 PlayerUtils.saveProgress(getContext(), MediaManager.getCurrentUrl(), position);
             }
             MediaManager.instance().releaseMediaPlayer();
-        } else if (isCurrentJZVD() && !dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
+        } else if (isCurrentVideo() && !dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
             startWindowTiny();
-        } else if (!isCurrentJZVD() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
+        } else if (!isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
             if (VideoManager.getCurrentVideo() != null &&
                     VideoManager.getCurrentVideo().currentScreen == Video.SCREEN_WINDOW_TINY) {
                 //需要退出小窗退到我这里，我这里是第一层级
                 tmp_test_back = true;
             }
-        } else if (!isCurrentJZVD() && !dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
+        } else if (!isCurrentVideo() && !dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
         }
         this.dataSource = dataSource;
         this.currentScreen = screen;
@@ -1062,13 +1062,12 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     }
 
     public boolean isCurrentPlay() {
-        return isCurrentJZVD()
+        return isCurrentVideo()
                 && dataSource.containsTheUrl(MediaManager.getCurrentUrl());//不仅正在播放的url不能一样，并且各个清晰度也不能一样
     }
 
-    public boolean isCurrentJZVD() {
-        return VideoManager.getCurrentVideo() != null
-                && VideoManager.getCurrentVideo() == this;
+    public boolean isCurrentVideo() {
+        return VideoManager.getCurrentVideo() != null && VideoManager.getCurrentVideo() == this;
     }
 
     //退出全屏和小窗的方法
