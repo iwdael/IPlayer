@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import com.hacknife.iplayer.MediaInterface;
 import com.hacknife.iplayer.MediaManager;
-import com.hacknife.iplayer.VideoMgr;
+import com.hacknife.iplayer.VideoManager;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkTimedText;
@@ -28,15 +28,6 @@ public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlaye
     @Override
     public void prepare() {
         ijkMediaPlayer = new IjkMediaPlayer();
-//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec", 0);
-//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "opensles", 0);
-//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "overlay-format", IjkMediaPlayer.SDL_FCC_RV32);
-//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 1);
-//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "start-on-prepared", 0);
-//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "http-detect-range-support", 0);
-//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_CODEC, "skip_loop_filter", 48);
-//        ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 1024 * 1024);
-
         ijkMediaPlayer.setOnPreparedListener(IplayerMediaIjkplayer.this);
         ijkMediaPlayer.setOnVideoSizeChangedListener(IplayerMediaIjkplayer.this);
         ijkMediaPlayer.setOnCompletionListener(IplayerMediaIjkplayer.this);
@@ -47,7 +38,7 @@ public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlaye
         ijkMediaPlayer.setOnTimedTextListener(IplayerMediaIjkplayer.this);
 
         try {
-            ijkMediaPlayer.setDataSource(jzDataSource.getCurrentUrl().toString());
+            ijkMediaPlayer.setDataSource(dataSource.getCurrentUrl().toString());
             ijkMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             ijkMediaPlayer.setScreenOnWhilePlaying(true);
             ijkMediaPlayer.prepareAsync();
@@ -100,12 +91,12 @@ public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlaye
     @Override
     public void onPrepared(IMediaPlayer iMediaPlayer) {
         ijkMediaPlayer.start();
-        if (jzDataSource.getCurrentUrl().toString().toLowerCase().contains("mp3")) {
+        if (dataSource.getCurrentUrl().toString().toLowerCase().contains("mp3")) {
             MediaManager.instance().mainThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (VideoMgr.getCurrentJzvd() != null) {
-                        VideoMgr.getCurrentJzvd().onPrepared();
+                    if (VideoManager.getCurrentVideo() != null) {
+                        VideoManager.getCurrentVideo().onPrepared();
                     }
                 }
             });
@@ -119,8 +110,8 @@ public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlaye
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().onVideoSizeChanged();
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().onVideoSizeChanged();
                 }
             }
         });
@@ -131,8 +122,8 @@ public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlaye
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().onAutoCompletion();
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().onAutoCompletion();
                 }
             }
         });
@@ -143,8 +134,8 @@ public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlaye
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().onError(what, extra);
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().onError(what, extra);
                 }
             }
         });
@@ -156,11 +147,11 @@ public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlaye
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
+                if (VideoManager.getCurrentVideo() != null) {
                     if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                        VideoMgr.getCurrentJzvd().onPrepared();
+                        VideoManager.getCurrentVideo().onPrepared();
                     } else {
-                        VideoMgr.getCurrentJzvd().onInfo(what, extra);
+                        VideoManager.getCurrentVideo().onInfo(what, extra);
                     }
                 }
             }
@@ -173,8 +164,8 @@ public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlaye
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().setBufferProgress(percent);
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().setBufferProgress(percent);
                 }
             }
         });
@@ -185,8 +176,8 @@ public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlaye
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().onSeekComplete();
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().onSeekComplete();
                 }
             }
         });

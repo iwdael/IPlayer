@@ -5,14 +5,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
-        android:name="com.hacknife.demo.com.hacknife.demo.ApplicationDemo"
+        android:name="com.hacknife.demo.ApplicationDemo"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/jz_network_security_config_allow_cleartext"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityMain"
+            android:name="com.hacknife.demo.ActivityMain"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -23,79 +23,79 @@
         </activity>
 
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityDirectPlay"
+            android:name="com.hacknife.demo.ActivityDirectPlay"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityListView"
+            android:name="com.hacknife.demo.ActivityListView"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityListViewNormal"
+            android:name="com.hacknife.demo.ActivityListViewNormal"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityTinyWindowListViewNormal"
+            android:name="com.hacknife.demo.ActivityTinyWindowListViewNormal"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityListViewFragmentViewPager"
+            android:name="com.hacknife.demo.ActivityListViewFragmentViewPager"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityListViewMultiHolder"
+            android:name="com.hacknife.demo.ActivityListViewMultiHolder"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityTinyWindowRecycleView"
+            android:name="com.hacknife.demo.ActivityTinyWindowRecycleView"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityTinyWindow"
+            android:name="com.hacknife.demo.ActivityTinyWindow"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityTinyWindowListViewMultiHolder"
+            android:name="com.hacknife.demo.ActivityTinyWindowListViewMultiHolder"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityTinyWindowRecycleViewMultiHolder"
+            android:name="com.hacknife.demo.ActivityTinyWindowRecycleViewMultiHolder"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityApi"
+            android:name="com.hacknife.demo.ActivityApi"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityApiUISmallChange"
+            android:name="com.hacknife.demo.ActivityApiUISmallChange"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityApiUIBigChange"
+            android:name="com.hacknife.demo.ActivityApiUIBigChange"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityApiRotationVideoSize"
+            android:name="com.hacknife.demo.ActivityApiRotationVideoSize"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityApiCustomMediaPlayer"
+            android:name="com.hacknife.demo.ActivityApiCustomMediaPlayer"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityListViewRecyclerView"
+            android:name="com.hacknife.demo.ActivityListViewRecyclerView"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityWebView"
+            android:name="com.hacknife.demo.ActivityWebView"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityApiOrientation"
+            android:name="com.hacknife.demo.ActivityApiOrientation"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hacknife.demo.com.hacknife.demo.ActivityApiExtendsNormal"
+            android:name="com.hacknife.demo.ActivityApiExtendsNormal"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
 

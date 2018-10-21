@@ -8,7 +8,7 @@ import android.view.Surface;
  */
 public abstract class MediaInterface {
 
-    public DataSource jzDataSource;
+    public DataSource dataSource;
 
     public abstract void start();
 

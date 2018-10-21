@@ -36,7 +36,7 @@ import com.google.android.exoplayer2.video.VideoListener;
 
 import com.hacknife.iplayer.MediaInterface;
 import com.hacknife.iplayer.MediaManager;
-import com.hacknife.iplayer.VideoMgr;
+import com.hacknife.iplayer.VideoManager;
 import com.hacknife.demo.R;
 
 /**
@@ -61,7 +61,7 @@ public class IplayerExoPlayer extends MediaInterface implements Player.EventList
     public void prepare() {
         Log.e(TAG, "prepare");
         mainHandler = new Handler();
-        Context context = VideoMgr.getCurrentJzvd().getContext();
+        Context context = VideoManager.getCurrentVideo().getContext();
 
         BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         TrackSelection.Factory videoTrackSelectionFactory =
@@ -82,7 +82,7 @@ public class IplayerExoPlayer extends MediaInterface implements Player.EventList
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context,
                 Util.getUserAgent(context, context.getResources().getString(R.string.app_name)));
 
-        String currUrl = jzDataSource.getCurrentUrl().toString();
+        String currUrl = dataSource.getCurrentUrl().toString();
         if (currUrl.contains(".m3u8")) {
             videoSource = new HlsMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(Uri.parse(currUrl), mainHandler, null);
@@ -108,8 +108,8 @@ public class IplayerExoPlayer extends MediaInterface implements Player.EventList
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().onVideoSizeChanged();
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().onVideoSizeChanged();
                 }
             }
         });
@@ -127,8 +127,8 @@ public class IplayerExoPlayer extends MediaInterface implements Player.EventList
             MediaManager.instance().mainThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (VideoMgr.getCurrentJzvd() != null) {
-                        VideoMgr.getCurrentJzvd().setBufferProgress(percent);
+                    if (VideoManager.getCurrentVideo() != null) {
+                        VideoManager.getCurrentVideo().setBufferProgress(percent);
                     }
                 }
             });
@@ -155,7 +155,7 @@ public class IplayerExoPlayer extends MediaInterface implements Player.EventList
         if (time != previousSeek) {
             simpleExoPlayer.seekTo(time);
             previousSeek = time;
-            VideoMgr.getCurrentJzvd().seekToInAdvance = time;
+            VideoManager.getCurrentVideo().seekToInAdvance = time;
         }
     }
 
@@ -203,7 +203,7 @@ public class IplayerExoPlayer extends MediaInterface implements Player.EventList
 //            public void run() {
 //                if (reason == 0) {
 //
-//                    VideoMgr.getCurrentJzvd().onInfo(reason, timeline.getPeriodCount());
+//                    VideoManager.getCurrentVideo().onInfo(reason, timeline.getPeriodCount());
 //                }
 //            }
 //        });
@@ -225,7 +225,7 @@ public class IplayerExoPlayer extends MediaInterface implements Player.EventList
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
+                if (VideoManager.getCurrentVideo() != null) {
                     switch (playbackState) {
                         case Player.STATE_IDLE: {
                         }
@@ -236,13 +236,13 @@ public class IplayerExoPlayer extends MediaInterface implements Player.EventList
                         break;
                         case Player.STATE_READY: {
                             if (playWhenReady) {
-                                VideoMgr.getCurrentJzvd().onPrepared();
+                                VideoManager.getCurrentVideo().onPrepared();
                             } else {
                             }
                         }
                         break;
                         case Player.STATE_ENDED: {
-                            VideoMgr.getCurrentJzvd().onAutoCompletion();
+                            VideoManager.getCurrentVideo().onAutoCompletion();
                         }
                         break;
                     }
@@ -267,8 +267,8 @@ public class IplayerExoPlayer extends MediaInterface implements Player.EventList
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().onError(1000, 1000);
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().onError(1000, 1000);
                 }
             }
         });
@@ -289,8 +289,8 @@ public class IplayerExoPlayer extends MediaInterface implements Player.EventList
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().onSeekComplete();
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().onSeekComplete();
                 }
             }
         });

@@ -49,22 +49,22 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
     }
 
     //这几个方法是不是多余了，为了不让其他地方动MediaInterface的方法
-    public static void setDataSource(DataSource jzDataSource) {
-        instance().jzMediaInterface.jzDataSource = jzDataSource;
+    public static void setDataSource(DataSource dataSource) {
+        instance().jzMediaInterface.dataSource = dataSource;
     }
 
     public static DataSource getDataSource() {
-        return instance().jzMediaInterface.jzDataSource;
+        return instance().jzMediaInterface.dataSource;
     }
 
 
     //    //正在播放的url或者uri
     public static Object getCurrentUrl() {
-        return instance().jzMediaInterface.jzDataSource == null ? null : instance().jzMediaInterface.jzDataSource.getCurrentUrl();
+        return instance().jzMediaInterface.dataSource == null ? null : instance().jzMediaInterface.dataSource.getCurrentUrl();
     }
 //
-//    public static void setCurrentDataSource(DataSource jzDataSource) {
-//        instance().jzMediaInterface.jzDataSource = jzDataSource;
+//    public static void setCurrentDataSource(DataSource dataSource) {
+//        instance().jzMediaInterface.dataSource = dataSource;
 //    }
 
     public static long getCurrentPosition() {
@@ -107,8 +107,8 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
-        if (VideoMgr.getCurrentJzvd() == null) return;
-        Log.i(TAG, "onSurfaceTextureAvailable [" + VideoMgr.getCurrentJzvd().hashCode() + "] ");
+        if (VideoManager.getCurrentVideo() == null) return;
+        Log.i(TAG, "onSurfaceTextureAvailable [" + VideoManager.getCurrentVideo().hashCode() + "] ");
         if (savedSurfaceTexture == null) {
             savedSurfaceTexture = surfaceTexture;
             prepare();

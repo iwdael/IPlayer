@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@android:color/black"
     android:descendantFocusability="blocksDescendants">
 
@@ -137,7 +138,8 @@
             android:layout_toLeftOf="@+id/battery_time_layout"
             android:layout_toRightOf="@+id/back"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="1"
+            tools:text="ahjffhafhlkhflsfhlskhfashflafkhlakfhasfkhlassfafssafasf"
             android:textColor="#ffffff"
             android:textSize="18sp" />
 

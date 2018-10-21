@@ -107,7 +107,6 @@ public class Iplayer extends Video {
         clarity = findViewById(R.id.clarity);
         mRetryBtn = findViewById(R.id.retry_btn);
         mRetryLayout = findViewById(R.id.retry_layout);
-
         thumbImageView.setOnClickListener(this);
         backButton.setOnClickListener(this);
         tinyBackImageView.setOnClickListener(this);
@@ -115,18 +114,18 @@ public class Iplayer extends Video {
         mRetryBtn.setOnClickListener(this);
     }
 
-    public void setUp(DataSource jzDataSource, int screen) {
-        super.setUp(jzDataSource, screen);
-        titleTextView.setText(jzDataSource.title);
+    public void setUp(DataSource dataSource, int screen) {
+        super.setUp(dataSource, screen);
+        titleTextView.setText(dataSource.title);
         if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
             fullscreenButton.setImageResource(R.drawable.jz_shrink);
             backButton.setVisibility(View.VISIBLE);
             tinyBackImageView.setVisibility(View.INVISIBLE);
             batteryTimeLayout.setVisibility(View.VISIBLE);
-            if (jzDataSource.urlsMap.size() == 1) {
+            if (dataSource.urlsMap.size() == 1) {
                 clarity.setVisibility(GONE);
             } else {
-                clarity.setText(jzDataSource.getCurrentKey().toString());
+                clarity.setText(dataSource.getCurrentKey().toString());
                 clarity.setVisibility(View.VISIBLE);
             }
             changeStartButtonSize((int) getResources().getDimension(R.dimen.jz_start_button_w_h_fullscreen));
@@ -150,7 +149,7 @@ public class Iplayer extends Video {
 
         if (tmp_test_back) {
             tmp_test_back = false;
-            VideoMgr.setFirstFloor(this);
+            VideoManager.setFirstFloor(this);
             backPress();
         }
     }
@@ -189,9 +188,9 @@ public class Iplayer extends Video {
     }
 
     @Override
-    public void changeUrl(DataSource jzDataSource, long seekToInAdvance) {
-        super.changeUrl(jzDataSource, seekToInAdvance);
-        titleTextView.setText(jzDataSource.title);
+    public void changeUrl(DataSource dataSource, long seekToInAdvance) {
+        super.changeUrl(dataSource, seekToInAdvance);
+        titleTextView.setText(dataSource.title);
         loadingProgressBar.setVisibility(VISIBLE);
         startButton.setVisibility(INVISIBLE);
     }
@@ -263,13 +262,13 @@ public class Iplayer extends Video {
         super.onClick(v);
         int i = v.getId();
         if (i == R.id.thumb) {
-            if (jzDataSource.urlsMap.isEmpty() || jzDataSource.getCurrentUrl() == null) {
+            if (dataSource.urlsMap.isEmpty() || dataSource.getCurrentUrl() == null) {
                 Toast.makeText(getContext(), getResources().getString(R.string.no_url), Toast.LENGTH_SHORT).show();
                 return;
             }
             if (currentState == CURRENT_STATE_NORMAL) {
-                if (!jzDataSource.getCurrentUrl().toString().startsWith("file") &&
-                        !jzDataSource.getCurrentUrl().toString().startsWith("/") &&
+                if (!dataSource.getCurrentUrl().toString().startsWith("file") &&
+                        !dataSource.getCurrentUrl().toString().startsWith("/") &&
                         !PlayerUtils.isWifiConnected(getContext()) && !WIFI_TIP_DIALOG_SHOWED) {
                     showWifiDialog();
                     return;
@@ -284,7 +283,7 @@ public class Iplayer extends Video {
         } else if (i == R.id.back) {
             backPress();
         } else if (i == R.id.back_tiny) {
-            if (VideoMgr.getFirstFloor().currentScreen == Video.SCREEN_WINDOW_LIST) {
+            if (VideoManager.getFirstFloor().currentScreen == Video.SCREEN_WINDOW_LIST) {
                 quitFullscreenOrTinyWindow();
             } else {
                 backPress();
@@ -298,9 +297,9 @@ public class Iplayer extends Video {
                 public void onClick(View v) {
                     int index = (int) v.getTag();
                     changeUrl(index, getCurrentPositionWhenPlaying());
-                    clarity.setText(jzDataSource.getCurrentKey().toString());
+                    clarity.setText(dataSource.getCurrentKey().toString());
                     for (int j = 0; j < layout.getChildCount(); j++) {//设置点击之后的颜色
-                        if (j == jzDataSource.currentUrlIndex) {
+                        if (j == dataSource.currentUrlIndex) {
                             ((TextView) layout.getChildAt(j)).setTextColor(Color.parseColor("#fff85959"));
                         } else {
                             ((TextView) layout.getChildAt(j)).setTextColor(Color.parseColor("#ffffff"));
@@ -312,14 +311,14 @@ public class Iplayer extends Video {
                 }
             };
 
-            for (int j = 0; j < jzDataSource.urlsMap.size(); j++) {
-                String key = jzDataSource.getKeyFromDataSource(j);
+            for (int j = 0; j < dataSource.urlsMap.size(); j++) {
+                String key = dataSource.getKeyFromDataSource(j);
                 TextView clarityItem = (TextView) View.inflate(getContext(), R.layout.iplayer_layout_clarity_item, null);
                 clarityItem.setText(key);
                 clarityItem.setTag(j);
                 layout.addView(clarityItem, j);
                 clarityItem.setOnClickListener(mQualityListener);
-                if (j == jzDataSource.currentUrlIndex) {
+                if (j == dataSource.currentUrlIndex) {
                     clarityItem.setTextColor(Color.parseColor("#fff85959"));
                 }
             }
@@ -332,19 +331,19 @@ public class Iplayer extends Video {
             int offsetY = clarity.getMeasuredHeight() / 3;
             clarityPopWindow.update(clarity, -offsetX, -offsetY, Math.round(layout.getMeasuredWidth() * 2), layout.getMeasuredHeight());
         } else if (i == R.id.retry_btn) {
-            if (jzDataSource.urlsMap.isEmpty() || jzDataSource.getCurrentUrl() == null) {
+            if (dataSource.urlsMap.isEmpty() || dataSource.getCurrentUrl() == null) {
                 Toast.makeText(getContext(), getResources().getString(R.string.no_url), Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!jzDataSource.getCurrentUrl().toString().startsWith("file") && !
-                    jzDataSource.getCurrentUrl().toString().startsWith("/") &&
+            if (!dataSource.getCurrentUrl().toString().startsWith("file") && !
+                    dataSource.getCurrentUrl().toString().startsWith("/") &&
                     !PlayerUtils.isWifiConnected(getContext()) && !WIFI_TIP_DIALOG_SHOWED) {
                 showWifiDialog();
                 return;
             }
             initTextureView();//和开始播放的代码重复
             addTextureView();
-            MediaManager.setDataSource(jzDataSource);
+            MediaManager.setDataSource(dataSource);
             onStatePreparing();
             onEvent(UserAction.ON_CLICK_START_ERROR);
         }
@@ -395,7 +394,7 @@ public class Iplayer extends Video {
     public void onClickUiToggle() {
         if (bottomContainer.getVisibility() != View.VISIBLE) {
             setSystemTimeAndBattery();
-            clarity.setText(jzDataSource.getCurrentKey().toString());
+            clarity.setText(dataSource.getCurrentKey().toString());
         }
         if (currentState == CURRENT_STATE_PREPARING) {
             changeUiToPreparing();

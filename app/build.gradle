@@ -1,12 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-
+    compileSdkVersion 27
     defaultConfig {
         applicationId "com.hacknife.demo"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 84
         versionName "6.3.1"
     }
@@ -19,11 +18,11 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     //noinspection GradleCompatible
-    implementation 'com.android.support:appcompat-v7:26.0.0'
+    implementation 'com.android.support:appcompat-v7:27.0.0'
     implementation project(':iplayer')
     implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.4'
     implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.4'
-    implementation 'com.android.support:recyclerview-v7:26.0.0'
+    implementation 'com.android.support:recyclerview-v7:27.0.0'
     implementation 'com.danikula:videocache:2.7.0'
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     implementation 'com.google.android.exoplayer:exoplayer:2.7.1'

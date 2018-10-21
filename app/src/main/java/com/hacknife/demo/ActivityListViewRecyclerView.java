@@ -10,7 +10,7 @@ import android.view.View;
 
 import com.hacknife.iplayer.MediaManager;
 import com.hacknife.iplayer.Video;
-import com.hacknife.iplayer.VideoMgr;
+import com.hacknife.iplayer.VideoManager;
 
 /**
  * Created by yujunkui on 16/8/29.
@@ -42,9 +42,9 @@ public class ActivityListViewRecyclerView extends AppCompatActivity {
 
             @Override
             public void onChildViewDetachedFromWindow(View view) {
-                Video jzvd = view.findViewById(R.id.videoplayer);
-                if (jzvd != null && jzvd.jzDataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-                    Video currentJzvd = VideoMgr.getCurrentJzvd();
+                Video video = view.findViewById(R.id.videoplayer);
+                if (video != null && video.dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
+                    Video currentJzvd = VideoManager.getCurrentVideo();
                     if (currentJzvd != null && currentJzvd.currentScreen != Video.SCREEN_WINDOW_FULLSCREEN) {
                         Video.releaseAllVideos();
                     }

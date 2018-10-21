@@ -25,7 +25,7 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
         try {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setLooping(jzDataSource.looping);
+            mediaPlayer.setLooping(dataSource.looping);
             mediaPlayer.setOnPreparedListener(MediaSystem.this);
             mediaPlayer.setOnCompletionListener(MediaSystem.this);
             mediaPlayer.setOnBufferingUpdateListener(MediaSystem.this);
@@ -37,7 +37,7 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
             Class<MediaPlayer> clazz = MediaPlayer.class;
             Method method = clazz.getDeclaredMethod("setDataSource", String.class, Map.class);
 //            if (dataSourceObjects.length > 2) {
-            method.invoke(mediaPlayer, jzDataSource.getCurrentUrl().toString(), jzDataSource.headerMap);
+            method.invoke(mediaPlayer, dataSource.getCurrentUrl().toString(), dataSource.headerMap);
 //            } else {
 //                method.invoke(mediaPlayer, currentDataSource.toString(), null);
 //            }
@@ -103,13 +103,13 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
         mediaPlayer.start();
-        if (jzDataSource.getCurrentUrl().toString().toLowerCase().contains("mp3") ||
-                jzDataSource.getCurrentUrl().toString().toLowerCase().contains("wav")) {
+        if (dataSource.getCurrentUrl().toString().toLowerCase().contains("mp3") ||
+                dataSource.getCurrentUrl().toString().toLowerCase().contains("wav")) {
             MediaManager.instance().mainThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (VideoMgr.getCurrentJzvd() != null) {
-                        VideoMgr.getCurrentJzvd().onPrepared();
+                    if (VideoManager.getCurrentVideo() != null) {
+                        VideoManager.getCurrentVideo().onPrepared();
                     }
                 }
             });
@@ -121,8 +121,8 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().onAutoCompletion();
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().onAutoCompletion();
                 }
             }
         });
@@ -133,8 +133,8 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().setBufferProgress(percent);
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().setBufferProgress(percent);
                 }
             }
         });
@@ -145,8 +145,8 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().onSeekComplete();
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().onSeekComplete();
                 }
             }
         });
@@ -157,8 +157,8 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().onError(what, extra);
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().onError(what, extra);
                 }
             }
         });
@@ -170,14 +170,14 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
+                if (VideoManager.getCurrentVideo() != null) {
                     if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                        if (VideoMgr.getCurrentJzvd().currentState == Video.CURRENT_STATE_PREPARING
-                                || VideoMgr.getCurrentJzvd().currentState == Video.CURRENT_STATE_PREPARING_CHANGING_URL) {
-                            VideoMgr.getCurrentJzvd().onPrepared();
+                        if (VideoManager.getCurrentVideo().currentState == Video.CURRENT_STATE_PREPARING
+                                || VideoManager.getCurrentVideo().currentState == Video.CURRENT_STATE_PREPARING_CHANGING_URL) {
+                            VideoManager.getCurrentVideo().onPrepared();
                         }
                     } else {
-                        VideoMgr.getCurrentJzvd().onInfo(what, extra);
+                        VideoManager.getCurrentVideo().onInfo(what, extra);
                     }
                 }
             }
@@ -192,8 +192,8 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().onVideoSizeChanged();
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().onVideoSizeChanged();
                 }
             }
         });

@@ -23,5 +23,5 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
-    compileOnly 'com.android.support:appcompat-v7:26.0.0'
+    compileOnly 'com.android.support:appcompat-v7:27.0.0'
 }

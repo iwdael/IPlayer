@@ -33,7 +33,7 @@ public class IplayerAutoCompleteAfterFullscreen extends Iplayer {
             mAudioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
             PlayerUtils.scanForActivity(getContext()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-            MediaManager.setDataSource(jzDataSource);
+            MediaManager.setDataSource(dataSource);
             MediaManager.instance().positionInList = positionInList;
             onStatePreparing();
         } else {

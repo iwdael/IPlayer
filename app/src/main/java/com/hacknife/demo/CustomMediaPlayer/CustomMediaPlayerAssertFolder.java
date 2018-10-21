@@ -7,7 +7,7 @@ import android.view.Surface;
 
 import com.hacknife.iplayer.MediaInterface;
 import com.hacknife.iplayer.MediaManager;
-import com.hacknife.iplayer.VideoMgr;
+import com.hacknife.iplayer.VideoManager;
 
 /**
  * Created by Nathen on 2017/11/23.
@@ -35,7 +35,7 @@ public class CustomMediaPlayerAssertFolder extends MediaInterface implements Med
             mediaPlayer.setOnInfoListener(CustomMediaPlayerAssertFolder.this);
             mediaPlayer.setOnVideoSizeChangedListener(CustomMediaPlayerAssertFolder.this);
 
-            AssetFileDescriptor assetFileDescriptor = (AssetFileDescriptor) jzDataSource.getCurrentUrl();
+            AssetFileDescriptor assetFileDescriptor = (AssetFileDescriptor) dataSource.getCurrentUrl();
             mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(), assetFileDescriptor.getStartOffset(), assetFileDescriptor.getLength());
 
             mediaPlayer.prepareAsync();
@@ -96,12 +96,12 @@ public class CustomMediaPlayerAssertFolder extends MediaInterface implements Med
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
         mediaPlayer.start();
-        if (jzDataSource.getCurrentUrl().toString().toLowerCase().contains("mp3")) {
+        if (dataSource.getCurrentUrl().toString().toLowerCase().contains("mp3")) {
             MediaManager.instance().mainThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (VideoMgr.getCurrentJzvd() != null) {
-                        VideoMgr.getCurrentJzvd().onPrepared();
+                    if (VideoManager.getCurrentVideo() != null) {
+                        VideoManager.getCurrentVideo().onPrepared();
                     }
                 }
             });
@@ -113,8 +113,8 @@ public class CustomMediaPlayerAssertFolder extends MediaInterface implements Med
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().onAutoCompletion();
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().onAutoCompletion();
                 }
             }
         });
@@ -125,8 +125,8 @@ public class CustomMediaPlayerAssertFolder extends MediaInterface implements Med
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().setBufferProgress(percent);
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().setBufferProgress(percent);
                 }
             }
         });
@@ -137,8 +137,8 @@ public class CustomMediaPlayerAssertFolder extends MediaInterface implements Med
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().onSeekComplete();
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().onSeekComplete();
                 }
             }
         });
@@ -149,8 +149,8 @@ public class CustomMediaPlayerAssertFolder extends MediaInterface implements Med
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().onError(what, extra);
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().onError(what, extra);
                 }
             }
         });
@@ -162,11 +162,11 @@ public class CustomMediaPlayerAssertFolder extends MediaInterface implements Med
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
+                if (VideoManager.getCurrentVideo() != null) {
                     if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                        VideoMgr.getCurrentJzvd().onPrepared();
+                        VideoManager.getCurrentVideo().onPrepared();
                     } else {
-                        VideoMgr.getCurrentJzvd().onInfo(what, extra);
+                        VideoManager.getCurrentVideo().onInfo(what, extra);
                     }
                 }
             }
@@ -181,8 +181,8 @@ public class CustomMediaPlayerAssertFolder extends MediaInterface implements Med
         MediaManager.instance().mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoMgr.getCurrentJzvd() != null) {
-                    VideoMgr.getCurrentJzvd().onVideoSizeChanged();
+                if (VideoManager.getCurrentVideo() != null) {
+                    VideoManager.getCurrentVideo().onVideoSizeChanged();
                 }
             }
         });
