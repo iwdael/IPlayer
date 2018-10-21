@@ -135,7 +135,15 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="#ffffff"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/iv_setting"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/iplayer_setting" />
 
         <LinearLayout
             android:id="@+id/battery_time_layout"
@@ -232,4 +240,10 @@
             android:textColor="@android:color/white"
             android:textSize="14sp" />
     </LinearLayout>
+
+    <com.hacknife.iplayer.SettingView
+        android:id="@+id/setting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 </RelativeLayout>

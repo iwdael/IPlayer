@@ -7,4 +7,10 @@
     <string name="replay">Replay</string>
     <string name="click_to_restart">Click to try again</string>
     <string name="video_loading_faild">Video loading failed</string>
+    <string name="rotate_90">90°</string>
+    <string name="rotate_180">180°</string>
+    <string name="rotate_270">270°</string>
+    <string name="size_4_3" >4:3</string>
+    <string name="size_16_9" >16:9</string>
+    <string name="size_full" >全屏</string>
 </resources>

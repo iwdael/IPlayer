@@ -1,4 +1,6 @@
 <resources>
     <dimen name="iplayer_start_button_w_h_normal">45dp</dimen>
     <dimen name="iplayer_start_button_w_h_fullscreen">62dp</dimen>
+    <dimen name="iplayer_setting_text_size">20sp</dimen>
+
 </resources>

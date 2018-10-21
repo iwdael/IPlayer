@@ -23,17 +23,19 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import com.hacknife.iplayer.R;
 
 /**
  * Created by Nathen
  * On 2016/04/18 16:15
  */
-public class Iplayer extends Video {
+public class Iplayer extends Video implements SettingView.OnSettingListener {
 
     protected static Timer DISMISS_CONTROL_VIEW_TIMER;
 
@@ -43,6 +45,7 @@ public class Iplayer extends Video {
     public ImageView thumbImageView;
     public ImageView tinyBackImageView;
     public LinearLayout batteryTimeLayout;
+    public ImageView setting;
     public ImageView batteryLevel;
     public TextView videoCurrentTime;
     public TextView replayTextView;
@@ -64,6 +67,7 @@ public class Iplayer extends Video {
     protected Dialog mBrightnessDialog;
     protected ProgressBar mDialogBrightnessProgressBar;
     protected TextView mDialogBrightnessTextView;
+    protected SettingView settingView;
     public static long LAST_GET_BATTERYLEVEL_TIME = 0;
     public static int LAST_GET_BATTERYLEVEL_PERCENT = 70;
 
@@ -93,6 +97,7 @@ public class Iplayer extends Video {
     public void init(Context context) {
         super.init(context);
         batteryTimeLayout = findViewById(R.id.battery_time_layout);
+        setting = findViewById(R.id.iv_setting);
         bottomProgressBar = findViewById(R.id.bottom_progress);
         titleTextView = findViewById(R.id.title);
         backButton = findViewById(R.id.back);
@@ -105,11 +110,14 @@ public class Iplayer extends Video {
         clarity = findViewById(R.id.clarity);
         mRetryBtn = findViewById(R.id.retry_btn);
         mRetryLayout = findViewById(R.id.retry_layout);
+        settingView = findViewById(R.id.setting);
         thumbImageView.setOnClickListener(this);
         backButton.setOnClickListener(this);
         tinyBackImageView.setOnClickListener(this);
         clarity.setOnClickListener(this);
         mRetryBtn.setOnClickListener(this);
+        setting.setOnClickListener(this);
+        settingView.setOnSettingListener(this);
     }
 
     public void setUp(DataSource dataSource, int screen) {
@@ -120,6 +128,7 @@ public class Iplayer extends Video {
             backButton.setVisibility(View.VISIBLE);
             tinyBackImageView.setVisibility(View.INVISIBLE);
             batteryTimeLayout.setVisibility(View.VISIBLE);
+            setting.setVisibility(View.VISIBLE);
             if (dataSource.urlsMap.size() == 1) {
                 clarity.setVisibility(GONE);
             } else {
@@ -134,12 +143,14 @@ public class Iplayer extends Video {
             tinyBackImageView.setVisibility(View.INVISIBLE);
             changeStartButtonSize((int) getResources().getDimension(R.dimen.iplayer_start_button_w_h_normal));
             batteryTimeLayout.setVisibility(View.GONE);
+            setting.setVisibility(View.GONE);
             clarity.setVisibility(View.GONE);
         } else if (currentScreen == SCREEN_WINDOW_TINY) {
             tinyBackImageView.setVisibility(View.VISIBLE);
             setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                     View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
             batteryTimeLayout.setVisibility(View.GONE);
+            setting.setVisibility(View.GONE);
             clarity.setVisibility(View.GONE);
         }
         setSystemTimeAndBattery();
@@ -344,6 +355,12 @@ public class Iplayer extends Video {
             MediaManager.setDataSource(dataSource);
             onStatePreparing();
             onEvent(UserAction.ON_CLICK_START_ERROR);
+        } else if (R.id.iv_setting == v.getId()) {
+            if (settingView.getVisibility() == View.VISIBLE) {
+                settingView.setVisibility(View.GONE);
+            } else {
+                settingView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -832,8 +849,17 @@ public class Iplayer extends Video {
         }
     }
 
-    public class DismissControlViewTimerTask extends TimerTask {
+    @Override
+    public void onRatate(int angle) {
+        Video.setTextureViewRotation(angle);
+    }
 
+    @Override
+    public void onSize(int size) {
+
+    }
+
+    public class DismissControlViewTimerTask extends TimerTask {
         @Override
         public void run() {
             dissmissControlView();
