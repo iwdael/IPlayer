@@ -8,23 +8,23 @@ package com.hacknife.iplayer;
  */
 public class VideoManager {
 
-    public static Video FIRST_FLOOR_VIDEO;
-    public static Video SECOND_FLOOR_VIDEO;
+    public static Video pFirstVideo;
+    public static Video pSecendVideo;
 
     public static Video getFirstFloor() {
-        return FIRST_FLOOR_VIDEO;
+        return pFirstVideo;
     }
 
-    public static void setFirstFloor(Video jzvd) {
-        FIRST_FLOOR_VIDEO = jzvd;
+    public static void setFirstFloor(Video video) {
+        pFirstVideo = video;
     }
 
     public static Video getSecondFloor() {
-        return SECOND_FLOOR_VIDEO;
+        return pSecendVideo;
     }
 
-    public static void setSecondFloor(Video jzvd) {
-        SECOND_FLOOR_VIDEO = jzvd;
+    public static void setSecondFloor(Video video) {
+        pSecendVideo = video;
     }
 
     public static Video getCurrentVideo() {
@@ -35,13 +35,13 @@ public class VideoManager {
     }
 
     public static void completeAll() {
-        if (SECOND_FLOOR_VIDEO != null) {
-            SECOND_FLOOR_VIDEO.onCompletion();
-            SECOND_FLOOR_VIDEO = null;
+        if (pSecendVideo != null) {
+            pSecendVideo.onCompletion();
+            pSecendVideo = null;
         }
-        if (FIRST_FLOOR_VIDEO != null) {
-            FIRST_FLOOR_VIDEO.onCompletion();
-            FIRST_FLOOR_VIDEO = null;
+        if (pFirstVideo != null) {
+            pFirstVideo.onCompletion();
+            pFirstVideo = null;
         }
     }
 }

@@ -32,7 +32,7 @@ public class ActivityApiRotationVideoSize extends AppCompatActivity implements V
         setContentView(R.layout.activity_api_rotation_videosize);
 
         myJzvdStd = findViewById(R.id.jz_video);
-        myJzvdStd.setUp(VideoConstant.videoUrls[0][7], VideoConstant.videoTitles[0][7]
+        myJzvdStd.setDataSource(VideoConstant.videoUrls[0][7], VideoConstant.videoTitles[0][7]
                 , Iplayer.SCREEN_WINDOW_NORMAL);
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][7])

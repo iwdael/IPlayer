@@ -28,7 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-
 import java.lang.reflect.Constructor;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -50,6 +49,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     public static final int SCREEN_WINDOW_FULLSCREEN = 2;
     public static final int SCREEN_WINDOW_TINY = 3;
 
+
     public static final int CURRENT_STATE_IDLE = -1;
     public static final int CURRENT_STATE_NORMAL = 0;
     public static final int CURRENT_STATE_PREPARING = 1;
@@ -59,14 +59,18 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     public static final int CURRENT_STATE_AUTO_COMPLETE = 6;
     public static final int CURRENT_STATE_ERROR = 7;
 
+
     public static final int VIDEO_IMAGE_DISPLAY_TYPE_ADAPTER = 0;//default
     public static final int VIDEO_IMAGE_DISPLAY_TYPE_FILL_PARENT = 1;
     public static final int VIDEO_IMAGE_DISPLAY_TYPE_FILL_SCROP = 2;
     public static final int VIDEO_IMAGE_DISPLAY_TYPE_ORIGINAL = 3;
+
+
     public static boolean ACTION_BAR_EXIST = true;
     public static boolean TOOL_BAR_EXIST = true;
     public static int FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
     public static int NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+
     public static boolean SAVE_PROGRESS = true;
     public static boolean WIFI_TIP_DIALOG_SHOWED = false;
     public static int VIDEO_IMAGE_DISPLAY_TYPE = 0;
@@ -80,7 +84,6 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS:
                     releaseAllVideos();
-                    Log.d(TAG, "AUDIOFOCUS_LOSS [" + this.hashCode() + "]");
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                     try {
@@ -91,15 +94,14 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
                     } catch (IllegalStateException e) {
                         e.printStackTrace();
                     }
-                    Log.d(TAG, "AUDIOFOCUS_LOSS_TRANSIENT [" + this.hashCode() + "]");
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                     break;
             }
         }
     };
-    protected static UserAction EVENT;
-    protected Timer UPDATE_PROGRESS_TIMER;
+    protected static Event pEvent;
+    protected Timer pProgressTimer;
     public int currentState = -1;
     public int currentScreen = -1;
     public long seekToInAdvance = 0;
@@ -142,7 +144,6 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
 
     public static void releaseAllVideos() {
         if ((System.currentTimeMillis() - CLICK_QUIT_FULLSCREEN_TIME) > FULL_SCREEN_NORMAL_DELAY) {
-            Log.d(TAG, "releaseAllVideos");
             VideoManager.completeAll();
             MediaManager.instance().positionInList = -1;
             MediaManager.instance().releaseMediaPlayer();
@@ -156,7 +157,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     public static void startFullscreen(Context context, Class _class, DataSource dataSource) {
         hideSupportActionBar(context);
         PlayerUtils.setRequestedOrientation(context, FULLSCREEN_ORIENTATION);
-        ViewGroup vp = (PlayerUtils.scanForActivity(context))//.getWindow().getDecorView();
+        ViewGroup vp = (PlayerUtils.scanForActivity(context))
                 .findViewById(Window.ID_ANDROID_CONTENT);
         View old = vp.findViewById(R.id.iplayer_fullscreen_id);
         if (old != null) {
@@ -169,7 +170,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             vp.addView(video, lp);
-            video.setUp(dataSource, Iplayer.SCREEN_WINDOW_FULLSCREEN);
+            video.setDataSource(dataSource, Iplayer.SCREEN_WINDOW_FULLSCREEN);
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
             video.startButton.performClick();
         } catch (InstantiationException e) {
@@ -180,18 +181,16 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     }
 
     public static boolean backPress() {
-        Log.i(TAG, "backPress");
         if ((System.currentTimeMillis() - CLICK_QUIT_FULLSCREEN_TIME) < FULL_SCREEN_NORMAL_DELAY)
             return false;
-
         if (VideoManager.getSecondFloor() != null) {
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
             if (VideoManager.getFirstFloor().dataSource.containsTheUrl(MediaManager.getDataSource().getCurrentUrl())) {
                 Video video = VideoManager.getSecondFloor();
                 video.onEvent(video.currentScreen == Iplayer.SCREEN_WINDOW_FULLSCREEN ?
-                        UserAction.ON_QUIT_FULLSCREEN :
-                        UserAction.ON_QUIT_TINYSCREEN);
-                VideoManager.getFirstFloor().playOnThisJzvd();
+                        Event.ON_QUIT_FULLSCREEN :
+                        Event.ON_QUIT_TINYSCREEN);
+                VideoManager.getFirstFloor().playOnThisVideo();
             } else {
                 quitFullscreenOrTinyWindow();
             }
@@ -237,8 +236,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
             }
         }
         if (TOOL_BAR_EXIST) {
-            PlayerUtils.getWindow(context).setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            PlayerUtils.getWindow(context).setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
     }
 
@@ -246,8 +244,8 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         PlayerUtils.clearSavedProgress(context, url);
     }
 
-    public static void setJzUserAction(UserAction jzUserEvent) {
-        EVENT = jzUserEvent;
+    public static void setEvent(Event event) {
+        pEvent = event;
     }
 
     public static void goOnPlayOnResume() {
@@ -274,7 +272,6 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
             if (video.currentState == Video.CURRENT_STATE_AUTO_COMPLETE ||
                     video.currentState == Video.CURRENT_STATE_NORMAL ||
                     video.currentState == Video.CURRENT_STATE_ERROR) {
-//                JZVideoPlayer.releaseAllVideos();
             } else {
                 ON_PLAY_PAUSE_TMP_STATE = video.currentState;
                 video.onStatePause();
@@ -311,8 +308,6 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     public static void onScrollReleaseAllVideos(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         int lastVisibleItem = firstVisibleItem + visibleItemCount;
         int currentPlayPosition = MediaManager.instance().positionInList;
-        Log.e(TAG, "onScrollReleaseAllVideos: " +
-                currentPlayPosition + " " + firstVisibleItem + " " + currentPlayPosition + " " + lastVisibleItem);
         if (currentPlayPosition >= 0) {
             if ((currentPlayPosition < firstVisibleItem || currentPlayPosition > (lastVisibleItem - 1))) {
                 if (VideoManager.getCurrentVideo().currentScreen != Video.SCREEN_WINDOW_FULLSCREEN) {
@@ -357,6 +352,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         }
     }
 
+
     public Object getCurrentUrl() {
         return dataSource.getCurrentUrl();
     }
@@ -394,16 +390,16 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         }
     }
 
-    public void setUp(String url, String title, int screen) {
-        setUp(new DataSource(url, title), screen);
+    public void setDataSource(String url, String title, int screen) {
+        setDataSource(new DataSource(url, title), screen);
     }
 
-    public void setUp(DataSource dataSource, int screen) {
-        if (this.dataSource != null && dataSource.getCurrentUrl() != null &&
-                this.dataSource.containsTheUrl(dataSource.getCurrentUrl())) {
-            return;
+    public void setDataSource(DataSource dataSource, int screen) {
+        if (this.dataSource != null && dataSource.getCurrentUrl() != null && this.dataSource.containsTheUrl(dataSource.getCurrentUrl())) {
+            return;//数据源一致直接跳过
         }
         if (isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
+            //当前是正在播放的Video且播放链接相等
             long position = 0;
             try {
                 position = MediaManager.getCurrentPosition();
@@ -417,8 +413,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         } else if (isCurrentVideo() && !dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
             startWindowTiny();
         } else if (!isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-            if (VideoManager.getCurrentVideo() != null &&
-                    VideoManager.getCurrentVideo().currentScreen == Video.SCREEN_WINDOW_TINY) {
+            if (VideoManager.getCurrentVideo() != null && VideoManager.getCurrentVideo().currentScreen == Video.SCREEN_WINDOW_TINY) {
                 //需要退出小窗退到我这里，我这里是第一层级
                 tmp_test_back = true;
             }
@@ -434,42 +429,38 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.start) {
-            Log.i(TAG, "onClick start [" + this.hashCode() + "] ");
             if (dataSource.urlsMap.isEmpty() || dataSource.getCurrentUrl() == null) {
                 Toast.makeText(getContext(), getResources().getString(R.string.no_url), Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (currentState == CURRENT_STATE_NORMAL) {
-                if (!dataSource.getCurrentUrl().toString().startsWith("file") && !
-                        dataSource.getCurrentUrl().toString().startsWith("/") &&
-                        !PlayerUtils.isWifiConnected(getContext()) && !WIFI_TIP_DIALOG_SHOWED) {
+            if (currentState == CURRENT_STATE_NORMAL) {//网络播放，且非WIFI
+                if (!dataSource.getCurrentUrl().toString().startsWith("file") &&
+                        !dataSource.getCurrentUrl().toString().startsWith("/") &&
+                        !PlayerUtils.isWifiConnected(getContext()) &&
+                        !WIFI_TIP_DIALOG_SHOWED) {
                     showWifiDialog();
                     return;
                 }
                 startVideo();
-                onEvent(UserAction.ON_CLICK_START_ICON);//开始的事件应该在播放之后，此处特殊
+                onEvent(Event.ON_CLICK_START_ICON);//开始的事件应该在播放之后，此处特殊
             } else if (currentState == CURRENT_STATE_PLAYING) {
-                onEvent(UserAction.ON_CLICK_PAUSE);
-                Log.d(TAG, "pauseVideo [" + this.hashCode() + "] ");
+                onEvent(Event.ON_CLICK_PAUSE);
                 MediaManager.pause();
                 onStatePause();
             } else if (currentState == CURRENT_STATE_PAUSE) {
-                onEvent(UserAction.ON_CLICK_RESUME);
+                onEvent(Event.ON_CLICK_RESUME);
                 MediaManager.start();
                 onStatePlaying();
             } else if (currentState == CURRENT_STATE_AUTO_COMPLETE) {
-                onEvent(UserAction.ON_CLICK_START_AUTO_COMPLETE);
+                onEvent(Event.ON_CLICK_START_AUTO_COMPLETE);
                 startVideo();
             }
         } else if (i == R.id.fullscreen) {
-            Log.i(TAG, "onClick fullscreen [" + this.hashCode() + "] ");
             if (currentState == CURRENT_STATE_AUTO_COMPLETE) return;
             if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
-                //quit fullscreen
                 backPress();
             } else {
-                Log.d(TAG, "toFullscreenActivity [" + this.hashCode() + "] ");
-                onEvent(UserAction.ON_ENTER_FULLSCREEN);
+                onEvent(Event.ON_ENTER_FULLSCREEN);
                 startWindowFullscreen();
             }
         }
@@ -483,7 +474,6 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         if (id == R.id.surface_container) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    Log.i(TAG, "onTouch surfaceContainer actionDown [" + this.hashCode() + "] ");
                     mTouchingProgressBar = true;
                     mDownX = x;
                     mDownY = y;
@@ -492,7 +482,6 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
                     mChangeBrightness = false;
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    Log.i(TAG, "onTouch surfaceContainer actionMove [" + this.hashCode() + "] ");
                     float deltaX = x - mDownX;
                     float deltaY = y - mDownY;
                     float absDeltaX = Math.abs(deltaX);
@@ -516,13 +505,11 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
                                         if (lp.screenBrightness < 0) {
                                             try {
                                                 mGestureDownBrightness = Settings.System.getInt(getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
-                                                Log.i(TAG, "current system brightness: " + mGestureDownBrightness);
                                             } catch (Settings.SettingNotFoundException e) {
                                                 e.printStackTrace();
                                             }
                                         } else {
                                             mGestureDownBrightness = lp.screenBrightness * 255;
-                                            Log.i(TAG, "current activity brightness: " + mGestureDownBrightness);
                                         }
                                     } else {//右侧改变声音
                                         mChangeVolume = true;
@@ -567,24 +554,22 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
                         //dialog中显示百分比
                         int brightnessPercent = (int) (mGestureDownBrightness * 100 / 255 + deltaY * 3 * 100 / mScreenHeight);
                         showBrightnessDialog(brightnessPercent);
-//                        mDownY = y;
                     }
                     break;
                 case MotionEvent.ACTION_UP:
-                    Log.i(TAG, "onTouch surfaceContainer actionUp [" + this.hashCode() + "] ");
                     mTouchingProgressBar = false;
                     dismissProgressDialog();
                     dismissVolumeDialog();
                     dismissBrightnessDialog();
                     if (mChangePosition) {
-                        onEvent(UserAction.ON_TOUCH_SCREEN_SEEK_POSITION);
+                        onEvent(Event.ON_TOUCH_SCREEN_SEEK_POSITION);
                         MediaManager.seekTo(mSeekTimePosition);
                         long duration = getDuration();
                         int progress = (int) (mSeekTimePosition * 100 / (duration == 0 ? 1 : duration));
                         progressBar.setProgress(progress);
                     }
                     if (mChangeVolume) {
-                        onEvent(UserAction.ON_TOUCH_SCREEN_SEEK_VOLUME);
+                        onEvent(Event.ON_TOUCH_SCREEN_SEEK_VOLUME);
                     }
                     startProgressTimer();
                     break;
@@ -595,21 +580,18 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
 
     public void startVideo() {
         VideoManager.completeAll();
-        Log.d(TAG, "startVideo [" + this.hashCode() + "] ");
         initTextureView();
         addTextureView();
         AudioManager mAudioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
         mAudioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
-        PlayerUtils.scanForActivity(getContext()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-        MediaManager.setDataSource(dataSource);
-        MediaManager.instance().positionInList = positionInList;
-        onStatePreparing();
+        PlayerUtils.scanForActivity(getContext()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//屏幕常亮
+        MediaManager.setDataSource(dataSource);//设置数据源
+        MediaManager.instance().positionInList = positionInList;//todo
+        onStatePreparing();//准备播放
         VideoManager.setFirstFloor(this);
     }
 
     public void onPrepared() {
-        Log.i(TAG, "onPrepared " + " [" + this.hashCode() + "] ");
         onStatePrepared();
         onStatePlaying();
     }
@@ -645,13 +627,11 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     }
 
     public void onStateNormal() {
-        Log.i(TAG, "onStateNormal " + " [" + this.hashCode() + "] ");
         currentState = CURRENT_STATE_NORMAL;
         cancelProgressTimer();
     }
 
     public void onStatePreparing() {
-        Log.i(TAG, "onStatePreparing " + " [" + this.hashCode() + "] ");
         currentState = CURRENT_STATE_PREPARING;
         resetProgressAndTime();
     }
@@ -679,7 +659,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         changeUrl(new DataSource(url, title), seekToInAdvance);
     }
 
-    public void onStatePrepared() {//因为这个紧接着就会进入播放状态，所以不设置state
+    protected void onStatePrepared() {//因为这个紧接着就会进入播放状态，所以不设置state
         if (seekToInAdvance != 0) {
             MediaManager.seekTo(seekToInAdvance);
             seekToInAdvance = 0;
@@ -691,26 +671,22 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         }
     }
 
-    public void onStatePlaying() {
-        Log.i(TAG, "onStatePlaying " + " [" + this.hashCode() + "] ");
+    protected void onStatePlaying() {
         currentState = CURRENT_STATE_PLAYING;
         startProgressTimer();
     }
 
-    public void onStatePause() {
-        Log.i(TAG, "onStatePause " + " [" + this.hashCode() + "] ");
+    protected void onStatePause() {
         currentState = CURRENT_STATE_PAUSE;
         startProgressTimer();
     }
 
-    public void onStateError() {
-        Log.i(TAG, "onStateError " + " [" + this.hashCode() + "] ");
+    protected void onStateError() {
         currentState = CURRENT_STATE_ERROR;
         cancelProgressTimer();
     }
 
-    public void onStateAutoComplete() {
-        Log.i(TAG, "onStateAutoComplete " + " [" + this.hashCode() + "] ");
+    protected void onStateAutoComplete() {
         currentState = CURRENT_STATE_AUTO_COMPLETE;
         cancelProgressTimer();
         progressBar.setProgress(100);
@@ -718,11 +694,9 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     }
 
     public void onInfo(int what, int extra) {
-        Log.d(TAG, "onInfo what - " + what + " extra - " + extra);
     }
 
     public void onError(int what, int extra) {
-        Log.e(TAG, "onError " + what + " - " + extra + " [" + this.hashCode() + "] ");
         if (what != 38 && extra != -38 && what != -38 && extra != 38 && extra != -19) {
             onStateError();
             if (isCurrentPlay()) {
@@ -753,13 +727,11 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
 
     public void onAutoCompletion() {
         Runtime.getRuntime().gc();
-        Log.i(TAG, "onAutoCompletion " + " [" + this.hashCode() + "] ");
-        onEvent(UserAction.ON_AUTO_COMPLETE);
+        onEvent(Event.ON_AUTO_COMPLETE);
         dismissVolumeDialog();
         dismissProgressDialog();
         dismissBrightnessDialog();
         onStateAutoComplete();
-
         if (currentScreen == SCREEN_WINDOW_FULLSCREEN || currentScreen == SCREEN_WINDOW_TINY) {
             backPress();
         }
@@ -768,7 +740,6 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     }
 
     public void onCompletion() {
-        Log.i(TAG, "onCompletion " + " [" + this.hashCode() + "] ");
         if (currentState == CURRENT_STATE_PLAYING || currentState == CURRENT_STATE_PAUSE) {
             long position = getCurrentPositionWhenPlaying();
             PlayerUtils.saveProgress(getContext(), dataSource.getCurrentUrl(), position);
@@ -795,7 +766,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         MediaManager.savedSurfaceTexture = null;
     }
 
-    public void release() {
+    protected void release() {
         if (dataSource.getCurrentUrl().equals(MediaManager.getCurrentUrl()) &&
                 (System.currentTimeMillis() - CLICK_QUIT_FULLSCREEN_TIME) > FULL_SCREEN_NORMAL_DELAY) {
             //在非全屏的情况下只能backPress()
@@ -804,20 +775,18 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
             } else if (VideoManager.getSecondFloor() == null && VideoManager.getFirstFloor() != null &&
                     VideoManager.getFirstFloor().currentScreen == SCREEN_WINDOW_FULLSCREEN) {//直接全屏
             } else {
-                Log.d(TAG, "releaseMediaPlayer [" + this.hashCode() + "]");
                 releaseAllVideos();
             }
         }
     }
 
-    public void initTextureView() {
+    protected void initTextureView() {
         removeTextureView();
         MediaManager.textureView = new PlayerTextureView(getContext());
         MediaManager.textureView.setSurfaceTextureListener(MediaManager.instance());
     }
 
-    public void addTextureView() {
-        Log.d(TAG, "addTextureView [" + this.hashCode() + "] ");
+    protected void addTextureView() {
         FrameLayout.LayoutParams layoutParams =
                 new FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
@@ -826,15 +795,15 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         textureViewContainer.addView(MediaManager.textureView, layoutParams);
     }
 
-    public void removeTextureView() {
+    protected void removeTextureView() {
         MediaManager.savedSurfaceTexture = null;
         if (MediaManager.textureView != null && MediaManager.textureView.getParent() != null) {
             ((ViewGroup) MediaManager.textureView.getParent()).removeView(MediaManager.textureView);
         }
     }
 
-    public void clearFullscreenLayout() {
-        ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
+    protected void clearFullscreenLayout() {
+        ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))
                 .findViewById(Window.ID_ANDROID_CONTENT);
         View oldF = vp.findViewById(R.id.iplayer_fullscreen_id);
         View oldT = vp.findViewById(R.id.iplayer_tiny_id);
@@ -847,29 +816,28 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         showSupportActionBar(getContext());
     }
 
-    public void clearFloatScreen() {
+    protected void clearFloatScreen() {
         PlayerUtils.setRequestedOrientation(getContext(), NORMAL_ORIENTATION);
         showSupportActionBar(getContext());
-        ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
+        ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))
                 .findViewById(Window.ID_ANDROID_CONTENT);
-        Video fullJzvd = vp.findViewById(R.id.iplayer_fullscreen_id);
-        Video tinyJzvd = vp.findViewById(R.id.iplayer_tiny_id);
+        Video fullVideo = vp.findViewById(R.id.iplayer_fullscreen_id);
+        Video tinyVideo = vp.findViewById(R.id.iplayer_tiny_id);
 
-        if (fullJzvd != null) {
-            vp.removeView(fullJzvd);
-            if (fullJzvd.textureViewContainer != null)
-                fullJzvd.textureViewContainer.removeView(MediaManager.textureView);
+        if (fullVideo != null) {
+            vp.removeView(fullVideo);
+            if (fullVideo.textureViewContainer != null)
+                fullVideo.textureViewContainer.removeView(MediaManager.textureView);
         }
-        if (tinyJzvd != null) {
-            vp.removeView(tinyJzvd);
-            if (tinyJzvd.textureViewContainer != null)
-                tinyJzvd.textureViewContainer.removeView(MediaManager.textureView);
+        if (tinyVideo != null) {
+            vp.removeView(tinyVideo);
+            if (tinyVideo.textureViewContainer != null)
+                tinyVideo.textureViewContainer.removeView(MediaManager.textureView);
         }
         VideoManager.setSecondFloor(null);
     }
 
     public void onVideoSizeChanged() {
-        Log.i(TAG, "onVideoSizeChanged " + " [" + this.hashCode() + "] ");
         if (MediaManager.textureView != null) {
             if (videoRotation != 0) {
                 MediaManager.textureView.setRotation(videoRotation);
@@ -879,16 +847,15 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     }
 
     public void startProgressTimer() {
-        Log.i(TAG, "startProgressTimer: " + " [" + this.hashCode() + "] ");
         cancelProgressTimer();
-        UPDATE_PROGRESS_TIMER = new Timer();
+        pProgressTimer = new Timer();
         mProgressTimerTask = new ProgressTimerTask();
-        UPDATE_PROGRESS_TIMER.schedule(mProgressTimerTask, 0, 300);
+        pProgressTimer.schedule(mProgressTimerTask, 0, 300);
     }
 
     public void cancelProgressTimer() {
-        if (UPDATE_PROGRESS_TIMER != null) {
-            UPDATE_PROGRESS_TIMER.cancel();
+        if (pProgressTimer != null) {
+            pProgressTimer.cancel();
         }
         if (mProgressTimerTask != null) {
             mProgressTimerTask.cancel();
@@ -896,7 +863,6 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     }
 
     public void onProgress(int progress, long position, long duration) {
-//        Log.d(TAG, "onProgress: progress=" + progress + " position=" + position + " duration=" + duration);
         if (!mTouchingProgressBar) {
             if (seekToManulPosition != -1) {
                 if (seekToManulPosition > progress) {
@@ -925,9 +891,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
 
     public long getCurrentPositionWhenPlaying() {
         long position = 0;
-        //TODO 这块的判断应该根据MediaPlayer来
-        if (currentState == CURRENT_STATE_PLAYING ||
-                currentState == CURRENT_STATE_PAUSE) {
+        if (currentState == CURRENT_STATE_PLAYING || currentState == CURRENT_STATE_PAUSE) {
             try {
                 position = MediaManager.getCurrentPosition();
             } catch (IllegalStateException e) {
@@ -940,8 +904,6 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
 
     public long getDuration() {
         long duration = 0;
-        //TODO MediaPlayer 判空的问题
-//        if (MediaManager.instance().mediaPlayer == null) return duration;
         try {
             duration = MediaManager.getDuration();
         } catch (IllegalStateException e) {
@@ -953,7 +915,6 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        Log.i(TAG, "bottomProgress onStartTrackingTouch [" + this.hashCode() + "] ");
         cancelProgressTimer();
         ViewParent vpdown = getParent();
         while (vpdown != null) {
@@ -964,8 +925,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        Log.i(TAG, "bottomProgress onStopTrackingTouch [" + this.hashCode() + "] ");
-        onEvent(UserAction.ON_SEEK_POSITION);
+        onEvent(Event.ON_SEEK_POSITION);
         startProgressTimer();
         ViewParent vpup = getParent();
         while (vpup != null) {
@@ -977,7 +937,6 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         long time = seekBar.getProgress() * getDuration() / 100;
         seekToManulPosition = seekBar.getProgress();
         MediaManager.seekTo(time);
-        Log.i(TAG, "seekTo " + time + " [" + this.hashCode() + "] ");
     }
 
     public int seekToManulPosition = -1;
@@ -985,14 +944,12 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (fromUser) {
-            //设置这个progres对应的时间，给textview
             long duration = getDuration();
             currentTimeTextView.setText(PlayerUtils.stringForTime(progress * duration / 100));
         }
     }
 
     public void startWindowFullscreen() {
-        Log.i(TAG, "startWindowFullscreen " + " [" + this.hashCode() + "] ");
         hideSupportActionBar(getContext());
 
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
@@ -1004,24 +961,21 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         textureViewContainer.removeView(MediaManager.textureView);
         try {
             Constructor<Video> constructor = (Constructor<Video>) Video.this.getClass().getConstructor(Context.class);
-            Video jzvd = constructor.newInstance(getContext());
-            jzvd.setId(R.id.iplayer_fullscreen_id);
+            Video iplayer = constructor.newInstance(getContext());
+            iplayer.setId(R.id.iplayer_fullscreen_id);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            vp.addView(jzvd, lp);
-            jzvd.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            vp.addView(iplayer, lp);
+            iplayer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN);
-            jzvd.setUp(dataSource, Iplayer.SCREEN_WINDOW_FULLSCREEN);
-            jzvd.setState(currentState);
-            jzvd.addTextureView();
-            VideoManager.setSecondFloor(jzvd);
-//            final Animation ra = AnimationUtils.loadAnimation(getContext(), R.anim.start_fullscreen);
-//            jzVideoPlayer.setAnimation(ra);
+            iplayer.setDataSource(dataSource, Iplayer.SCREEN_WINDOW_FULLSCREEN);
+            iplayer.setState(currentState);
+            iplayer.addTextureView();
+            VideoManager.setSecondFloor(iplayer);
             PlayerUtils.setRequestedOrientation(getContext(), FULLSCREEN_ORIENTATION);
-
             onStateNormal();
-            jzvd.progressBar.setSecondaryProgress(progressBar.getSecondaryProgress());
-            jzvd.startProgressTimer();
+            iplayer.progressBar.setSecondaryProgress(progressBar.getSecondaryProgress());
+            iplayer.startProgressTimer();
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
         } catch (Exception e) {
             e.printStackTrace();
@@ -1030,8 +984,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     }
 
     public void startWindowTiny() {
-        Log.i(TAG, "startWindowTiny " + " [" + this.hashCode() + "] ");
-        onEvent(UserAction.ON_ENTER_TINYSCREEN);
+        onEvent(Event.ON_ENTER_TINYSCREEN);
         if (currentState == CURRENT_STATE_NORMAL || currentState == CURRENT_STATE_ERROR || currentState == CURRENT_STATE_AUTO_COMPLETE)
             return;
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
@@ -1044,15 +997,15 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
 
         try {
             Constructor<Video> constructor = (Constructor<Video>) Video.this.getClass().getConstructor(Context.class);
-            Video jzvd = constructor.newInstance(getContext());
-            jzvd.setId(R.id.iplayer_tiny_id);
+            Video iplayer = constructor.newInstance(getContext());
+            iplayer.setId(R.id.iplayer_tiny_id);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(400, 400);
             lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
-            vp.addView(jzvd, lp);
-            jzvd.setUp(dataSource, Iplayer.SCREEN_WINDOW_TINY);
-            jzvd.setState(currentState);
-            jzvd.addTextureView();
-            VideoManager.setSecondFloor(jzvd);
+            vp.addView(iplayer, lp);
+            iplayer.setDataSource(dataSource, Iplayer.SCREEN_WINDOW_TINY);
+            iplayer.setState(currentState);
+            iplayer.addTextureView();
+            VideoManager.setSecondFloor(iplayer);
             onStateNormal();
         } catch (InstantiationException e) {
             e.printStackTrace();
@@ -1062,8 +1015,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     }
 
     public boolean isCurrentPlay() {
-        return isCurrentVideo()
-                && dataSource.containsTheUrl(MediaManager.getCurrentUrl());//不仅正在播放的url不能一样，并且各个清晰度也不能一样
+        return isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl());//不仅正在播放的url不能一样，并且各个清晰度也不能一样
     }
 
     public boolean isCurrentVideo() {
@@ -1071,19 +1023,17 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     }
 
     //退出全屏和小窗的方法
-    public void playOnThisJzvd() {
-        Log.i(TAG, "playOnThisJzvd " + " [" + this.hashCode() + "] ");
+    public void playOnThisVideo() {
         //1.清空全屏和小窗的jzvd
         currentState = VideoManager.getSecondFloor().currentState;
         clearFloatScreen();
         //2.在本jzvd上播放
         setState(currentState);
-//        removeTextureView();
         addTextureView();
     }
 
     //重力感应的时候调用的函数，
-    public void autoFullscreen(float x) {
+    protected void autoFullscreen(float x) {
         if (isCurrentPlay()
                 && (currentState == CURRENT_STATE_PLAYING || currentState == CURRENT_STATE_PAUSE)
                 && currentScreen != SCREEN_WINDOW_FULLSCREEN
@@ -1093,7 +1043,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
             } else {
                 PlayerUtils.setRequestedOrientation(getContext(), ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
             }
-            onEvent(UserAction.ON_ENTER_FULLSCREEN);
+            onEvent(Event.ON_ENTER_FULLSCREEN);
             startWindowFullscreen();
         }
     }
@@ -1109,16 +1059,16 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     }
 
     public void onEvent(int type) {
-        if (EVENT != null && isCurrentPlay() && !dataSource.urlsMap.isEmpty()) {
-            EVENT.onEvent(type, dataSource.getCurrentUrl(), currentScreen);
+        if (pEvent != null && isCurrentPlay() && !dataSource.urlsMap.isEmpty()) {
+            pEvent.onEvent(type, dataSource.getCurrentUrl(), currentScreen);
         }
     }
 
-    public static void setMediaInterface(MediaInterface mediaInterface) {
-        MediaManager.instance().jzMediaInterface = mediaInterface;
+    public static void setPlayerEngine(PlayerEngine engine) {
+        MediaManager.instance().engine = engine;
     }
 
-    //TODO 是否有用
+
     public void onSeekComplete() {
 
     }
@@ -1126,9 +1076,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     public void showWifiDialog() {
     }
 
-    public void showProgressDialog(float deltaX,
-                                   String seekTime, long seekTimePosition,
-                                   String totalTime, long totalTimeDuration) {
+    public void showProgressDialog(float deltaX, String seekTime, long seekTimePosition, String totalTime, long totalTimeDuration) {
     }
 
     public void dismissProgressDialog() {
@@ -1151,7 +1099,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
 
     }
 
-    public static class JZAutoFullscreenListener implements SensorEventListener {
+    public static class AutoFullscreenListener implements SensorEventListener {
         @Override
         public void onSensorChanged(SensorEvent event) {//可以得到传感器实时测量出来的变化值
             final float x = event.values[SensorManager.DATA_X];
@@ -1177,7 +1125,6 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         @Override
         public void run() {
             if (currentState == CURRENT_STATE_PLAYING || currentState == CURRENT_STATE_PAUSE) {
-//                Log.v(TAG, "onProgressUpdate " + "[" + this.hashCode() + "] ");
                 post(new Runnable() {
                     @Override
                     public void run() {

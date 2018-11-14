@@ -19,7 +19,7 @@ public class ActivityApiExtendsNormal extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_extends_normal);
         Iplayer jzvdStd = findViewById(R.id.videoplayer);
-        jzvdStd.setUp(VideoConstant.videoUrlList[0], "饺子不信"
+        jzvdStd.setDataSource(VideoConstant.videoUrlList[0], "饺子不信"
                 , Iplayer.SCREEN_WINDOW_NORMAL);
         Glide.with(this)
                 .load(VideoConstant.videoThumbList[0])

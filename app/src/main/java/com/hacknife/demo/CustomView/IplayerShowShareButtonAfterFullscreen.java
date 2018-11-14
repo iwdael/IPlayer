@@ -48,8 +48,8 @@ public class IplayerShowShareButtonAfterFullscreen extends Iplayer {
     }
 
     @Override
-    public void setUp(DataSource jzDataSource, int screen) {
-        super.setUp(jzDataSource, screen);
+    public void setDataSource(DataSource jzDataSource, int screen) {
+        super.setDataSource(jzDataSource, screen);
         if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
             shareButton.setVisibility(View.VISIBLE);
         } else {

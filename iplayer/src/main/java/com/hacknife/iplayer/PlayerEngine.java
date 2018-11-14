@@ -6,7 +6,7 @@ import android.view.Surface;
  * Created by Nathen on 2017/11/7.
  * 自定义播放器
  */
-public abstract class MediaInterface {
+public abstract class PlayerEngine {
 
     public DataSource dataSource;
 

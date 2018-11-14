@@ -5,111 +5,103 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 
-/**
- * 这个类用来和jzvd互相调用，当jzvd需要调用Media的时候调用这个类，当MediaPlayer有回调的时候，通过这个类回调JZVD
- * Created by Nathen on 2017/11/18.
- */
+
 public class MediaManager implements TextureView.SurfaceTextureListener {
 
-    public static final String TAG = "JZVD";
+    public static final String TAG = "MediaManager";
     public static final int HANDLER_PREPARE = 0;
     public static final int HANDLER_RELEASE = 2;
 
     public static PlayerTextureView textureView;
     public static SurfaceTexture savedSurfaceTexture;
     public static Surface surface;
-    public static MediaManager jzMediaManager;
+    public static MediaManager sMediaManager;
     public int positionInList = -1;
-    public MediaInterface jzMediaInterface;
+    public PlayerEngine engine;
     public int currentVideoWidth = 0;
     public int currentVideoHeight = 0;
 
-    public HandlerThread mMediaHandlerThread;
-    public MediaHandler mMediaHandler;
-    public Handler mainThreadHandler;
+    public HandlerThread pMediaHandlerThread;
+    public MediaHandler pMediaHandler;
+    public Handler pMainThreadHandler;
 
     public MediaManager() {
-        mMediaHandlerThread = new HandlerThread(TAG);
-        mMediaHandlerThread.start();
-        mMediaHandler = new MediaHandler(mMediaHandlerThread.getLooper());
-        mainThreadHandler = new Handler();
-        if (jzMediaInterface == null)
-            jzMediaInterface = new MediaSystem();
+        pMediaHandlerThread = new HandlerThread(TAG);
+        pMediaHandlerThread.start();
+        pMediaHandler = new MediaHandler(pMediaHandlerThread.getLooper());
+        pMainThreadHandler = new Handler();
+        if (engine == null)
+            engine = new MediaEngine();
     }
 
     public static MediaManager instance() {
-        if (jzMediaManager == null) {
-            jzMediaManager = new MediaManager();
+        if (sMediaManager == null) {
+            sMediaManager = new MediaManager();
         }
-        return jzMediaManager;
+        return sMediaManager;
     }
 
     //这几个方法是不是多余了，为了不让其他地方动MediaInterface的方法
     public static void setDataSource(DataSource dataSource) {
-        instance().jzMediaInterface.dataSource = dataSource;
+        instance().engine.dataSource = dataSource;
     }
 
     public static DataSource getDataSource() {
-        return instance().jzMediaInterface.dataSource;
+        return instance().engine.dataSource;
     }
 
 
     //    //正在播放的url或者uri
     public static Object getCurrentUrl() {
-        return instance().jzMediaInterface.dataSource == null ? null : instance().jzMediaInterface.dataSource.getCurrentUrl();
+        return instance().engine.dataSource == null ? null : instance().engine.dataSource.getCurrentUrl();
     }
-//
-//    public static void setCurrentDataSource(DataSource dataSource) {
-//        instance().jzMediaInterface.dataSource = dataSource;
-//    }
+
 
     public static long getCurrentPosition() {
-        return instance().jzMediaInterface.getCurrentPosition();
+        return instance().engine.getCurrentPosition();
     }
 
     public static long getDuration() {
-        return instance().jzMediaInterface.getDuration();
+        return instance().engine.getDuration();
     }
 
     public static void seekTo(long time) {
-        instance().jzMediaInterface.seekTo(time);
+        instance().engine.seekTo(time);
     }
 
     public static void pause() {
-        instance().jzMediaInterface.pause();
+        instance().engine.pause();
     }
 
     public static void start() {
-        instance().jzMediaInterface.start();
+        instance().engine.start();
     }
 
     public static boolean isPlaying() {
-        return instance().jzMediaInterface.isPlaying();
+        return instance().engine.isPlaying();
     }
 
     public void releaseMediaPlayer() {
-        mMediaHandler.removeCallbacksAndMessages(null);
+        pMediaHandler.removeCallbacksAndMessages(null);
         Message msg = new Message();
         msg.what = HANDLER_RELEASE;
-        mMediaHandler.sendMessage(msg);
+        pMediaHandler.sendMessage(msg);
     }
 
     public void prepare() {
         releaseMediaPlayer();
         Message msg = new Message();
         msg.what = HANDLER_PREPARE;
-        mMediaHandler.sendMessage(msg);
+        pMediaHandler.sendMessage(msg);
     }
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
         if (VideoManager.getCurrentVideo() == null) return;
-        Log.i(TAG, "onSurfaceTextureAvailable [" + VideoManager.getCurrentVideo().hashCode() + "] ");
-        if (savedSurfaceTexture == null) {
+         if (savedSurfaceTexture == null) {
             savedSurfaceTexture = surfaceTexture;
             prepare();
         } else {
@@ -145,18 +137,17 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
                 case HANDLER_PREPARE:
                     currentVideoWidth = 0;
                     currentVideoHeight = 0;
-                    jzMediaInterface.prepare();
-
+                    engine.prepare();
                     if (savedSurfaceTexture != null) {
                         if (surface != null) {
                             surface.release();
                         }
                         surface = new Surface(savedSurfaceTexture);
-                        jzMediaInterface.setSurface(surface);
+                        engine.setSurface(surface);
                     }
                     break;
                 case HANDLER_RELEASE:
-                    jzMediaInterface.release();
+                    engine.release();
                     break;
             }
         }

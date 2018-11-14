@@ -12,7 +12,6 @@ public class DataSource {
     public String title = "";
     public HashMap headerMap = new HashMap();
     public boolean looping = false;
-    public Object[] objects;
 
     public DataSource(String url) {
         urlsMap.put(URL_KEY_DEFAULT, url);

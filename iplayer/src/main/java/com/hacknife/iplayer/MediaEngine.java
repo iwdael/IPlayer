@@ -11,7 +11,7 @@ import java.util.Map;
  * Created by Nathen on 2017/11/8.
  * 实现系统的播放引擎
  */
-public class MediaSystem extends MediaInterface implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener, MediaPlayer.OnVideoSizeChangedListener {
+public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener, MediaPlayer.OnVideoSizeChangedListener {
 
     public MediaPlayer mediaPlayer;
 
@@ -26,21 +26,17 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setLooping(dataSource.looping);
-            mediaPlayer.setOnPreparedListener(MediaSystem.this);
-            mediaPlayer.setOnCompletionListener(MediaSystem.this);
-            mediaPlayer.setOnBufferingUpdateListener(MediaSystem.this);
+            mediaPlayer.setOnPreparedListener(MediaEngine.this);
+            mediaPlayer.setOnCompletionListener(MediaEngine.this);
+            mediaPlayer.setOnBufferingUpdateListener(MediaEngine.this);
             mediaPlayer.setScreenOnWhilePlaying(true);
-            mediaPlayer.setOnSeekCompleteListener(MediaSystem.this);
-            mediaPlayer.setOnErrorListener(MediaSystem.this);
-            mediaPlayer.setOnInfoListener(MediaSystem.this);
-            mediaPlayer.setOnVideoSizeChangedListener(MediaSystem.this);
+            mediaPlayer.setOnSeekCompleteListener(MediaEngine.this);
+            mediaPlayer.setOnErrorListener(MediaEngine.this);
+            mediaPlayer.setOnInfoListener(MediaEngine.this);
+            mediaPlayer.setOnVideoSizeChangedListener(MediaEngine.this);
             Class<MediaPlayer> clazz = MediaPlayer.class;
             Method method = clazz.getDeclaredMethod("setDataSource", String.class, Map.class);
-//            if (dataSourceObjects.length > 2) {
             method.invoke(mediaPlayer, dataSource.getCurrentUrl().toString(), dataSource.headerMap);
-//            } else {
-//                method.invoke(mediaPlayer, currentDataSource.toString(), null);
-//            }
             mediaPlayer.prepareAsync();
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,7 +101,7 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
         mediaPlayer.start();
         if (dataSource.getCurrentUrl().toString().toLowerCase().contains("mp3") ||
                 dataSource.getCurrentUrl().toString().toLowerCase().contains("wav")) {
-            MediaManager.instance().mainThreadHandler.post(new Runnable() {
+            MediaManager.instance().pMainThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (VideoManager.getCurrentVideo() != null) {
@@ -118,7 +114,7 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -130,7 +126,7 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
 
     @Override
     public void onBufferingUpdate(MediaPlayer mediaPlayer, final int percent) {
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -142,7 +138,7 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
 
     @Override
     public void onSeekComplete(MediaPlayer mediaPlayer) {
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -154,7 +150,7 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
 
     @Override
     public boolean onError(MediaPlayer mediaPlayer, final int what, final int extra) {
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -167,13 +163,12 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
 
     @Override
     public boolean onInfo(MediaPlayer mediaPlayer, final int what, final int extra) {
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
                     if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                        if (VideoManager.getCurrentVideo().currentState == Video.CURRENT_STATE_PREPARING
-                                || VideoManager.getCurrentVideo().currentState == Video.CURRENT_STATE_PREPARING_CHANGING_URL) {
+                        if (VideoManager.getCurrentVideo().currentState == Video.CURRENT_STATE_PREPARING || VideoManager.getCurrentVideo().currentState == Video.CURRENT_STATE_PREPARING_CHANGING_URL) {
                             VideoManager.getCurrentVideo().onPrepared();
                         }
                     } else {
@@ -189,7 +184,7 @@ public class MediaSystem extends MediaInterface implements MediaPlayer.OnPrepare
     public void onVideoSizeChanged(MediaPlayer mediaPlayer, int width, int height) {
         MediaManager.instance().currentVideoWidth = width;
         MediaManager.instance().currentVideoHeight = height;
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {

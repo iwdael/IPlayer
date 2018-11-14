@@ -43,8 +43,8 @@ public class IplayerFresco extends Iplayer {
     }
 
     @Override
-    public void setUp(DataSource jzDataSource, int screen) {
-        super.setUp(jzDataSource, screen);
+    public void setDataSource(DataSource jzDataSource, int screen) {
+        super.setDataSource(jzDataSource, screen);
         titleTextView.setText(jzDataSource.title);
         if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
             fullscreenButton.setImageResource(R.drawable.iplayer_shrink);

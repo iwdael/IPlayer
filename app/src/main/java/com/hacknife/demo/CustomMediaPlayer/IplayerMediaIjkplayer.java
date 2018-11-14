@@ -6,7 +6,7 @@ import android.view.Surface;
 
 import java.io.IOException;
 
-import com.hacknife.iplayer.MediaInterface;
+import com.hacknife.iplayer.PlayerEngine;
 import com.hacknife.iplayer.MediaManager;
 import com.hacknife.iplayer.VideoManager;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
@@ -17,7 +17,7 @@ import tv.danmaku.ijk.media.player.IjkTimedText;
  * Created by Nathen on 2017/11/18.
  */
 
-public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlayer.OnPreparedListener, IMediaPlayer.OnVideoSizeChangedListener, IMediaPlayer.OnCompletionListener, IMediaPlayer.OnErrorListener, IMediaPlayer.OnInfoListener, IMediaPlayer.OnBufferingUpdateListener, IMediaPlayer.OnSeekCompleteListener, IMediaPlayer.OnTimedTextListener {
+public class IplayerMediaIjkplayer extends PlayerEngine implements IMediaPlayer.OnPreparedListener, IMediaPlayer.OnVideoSizeChangedListener, IMediaPlayer.OnCompletionListener, IMediaPlayer.OnErrorListener, IMediaPlayer.OnInfoListener, IMediaPlayer.OnBufferingUpdateListener, IMediaPlayer.OnSeekCompleteListener, IMediaPlayer.OnTimedTextListener {
     IjkMediaPlayer ijkMediaPlayer;
 
     @Override
@@ -92,7 +92,7 @@ public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlaye
     public void onPrepared(IMediaPlayer iMediaPlayer) {
         ijkMediaPlayer.start();
         if (dataSource.getCurrentUrl().toString().toLowerCase().contains("mp3")) {
-            MediaManager.instance().mainThreadHandler.post(new Runnable() {
+            MediaManager.instance().pMainThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (VideoManager.getCurrentVideo() != null) {
@@ -107,7 +107,7 @@ public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlaye
     public void onVideoSizeChanged(IMediaPlayer iMediaPlayer, int i, int i1, int i2, int i3) {
         MediaManager.instance().currentVideoWidth = iMediaPlayer.getVideoWidth();
         MediaManager.instance().currentVideoHeight = iMediaPlayer.getVideoHeight();
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -119,7 +119,7 @@ public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlaye
 
     @Override
     public void onCompletion(IMediaPlayer iMediaPlayer) {
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -131,7 +131,7 @@ public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlaye
 
     @Override
     public boolean onError(IMediaPlayer iMediaPlayer, final int what, final int extra) {
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -144,7 +144,7 @@ public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlaye
 
     @Override
     public boolean onInfo(IMediaPlayer iMediaPlayer, final int what, final int extra) {
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -161,7 +161,7 @@ public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlaye
 
     @Override
     public void onBufferingUpdate(IMediaPlayer iMediaPlayer, final int percent) {
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -173,7 +173,7 @@ public class IplayerMediaIjkplayer extends MediaInterface implements IMediaPlaye
 
     @Override
     public void onSeekComplete(IMediaPlayer iMediaPlayer) {
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {

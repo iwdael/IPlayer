@@ -30,7 +30,7 @@ import com.hacknife.iplayer.Iplayer;
 public class ActivityApi extends AppCompatActivity implements View.OnClickListener {
     Button mSmallChange, mBigChange, mOrientation, mExtendsNormalActivity, mRationAndVideoSize, mCustomMediaPlayer;
     Iplayer mJzvdStd;
-    Video.JZAutoFullscreenListener mSensorEventListener;
+    Video.AutoFullscreenListener mSensorEventListener;
     SensorManager mSensorManager;
 
     @Override
@@ -70,7 +70,7 @@ public class ActivityApi extends AppCompatActivity implements View.OnClickListen
         jzDataSource.looping = true;
         jzDataSource.currentUrlIndex = 2;
         jzDataSource.headerMap.put("key", "value");//header
-        mJzvdStd.setUp(jzDataSource
+        mJzvdStd.setDataSource(jzDataSource
                 , Iplayer.SCREEN_WINDOW_NORMAL);
         Glide.with(this).load(VideoConstant.videoThumbList[0]).into(mJzvdStd.thumbImageView);
         mJzvdStd.seekToInAdvance = 20000;
@@ -85,7 +85,7 @@ public class ActivityApi extends AppCompatActivity implements View.OnClickListen
 //                videoController1.thumbImageView);
         /** volley Fresco omit **/
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        mSensorEventListener = new Video.JZAutoFullscreenListener();
+        mSensorEventListener = new Video.AutoFullscreenListener();
     }
 
     @Override

@@ -19,7 +19,7 @@ import java.util.Locale;
  * On 2016/02/21 12:25
  */
 public class PlayerUtils {
-    public static final String TAG = "JZVD";
+    public static final String PRE_NAME= "PROGRESS";
 
     public static String stringForTime(long timeMs) {
         if (timeMs <= 0 || timeMs >= 24 * 60 * 60 * 1000) {
@@ -38,24 +38,14 @@ public class PlayerUtils {
         }
     }
 
-    /**
-     * This method requires the caller to hold the permission ACCESS_NETWORK_STATE.
-     *
-     * @param context context
-     * @return if wifi is connected,return true
-     */
+
     public static boolean isWifiConnected(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
     }
 
-    /**
-     * Get activity from context object
-     *
-     * @param context context
-     * @return object of Activity or null if it is not Activity
-     */
+
     public static Activity scanForActivity(Context context) {
         if (context == null) return null;
 
@@ -68,12 +58,6 @@ public class PlayerUtils {
         return null;
     }
 
-    /**
-     * Get AppCompatActivity from context
-     *
-     * @param context context
-     * @return AppCompatActivity if it's not null
-     */
     public static AppCompatActivity getAppCompActivity(Context context) {
         if (context == null) return null;
         if (context instanceof AppCompatActivity) {
@@ -109,11 +93,10 @@ public class PlayerUtils {
 
     public static void saveProgress(Context context, Object url, long progress) {
         if (!Video.SAVE_PROGRESS) return;
-        Log.i(TAG, "saveProgress: " + progress);
-        if (progress < 5000) {
+         if (progress < 5000) {
             progress = 0;
         }
-        SharedPreferences spn = context.getSharedPreferences("JZVD_PROGRESS",
+        SharedPreferences spn = context.getSharedPreferences(PRE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = spn.edit();
         editor.putLong("newVersion:" + url.toString(), progress).apply();
@@ -121,24 +104,19 @@ public class PlayerUtils {
 
     public static long getSavedProgress(Context context, Object url) {
         if (!Video.SAVE_PROGRESS) return 0;
-        SharedPreferences spn = context.getSharedPreferences("JZVD_PROGRESS",
+        SharedPreferences spn = context.getSharedPreferences(PRE_NAME,
                 Context.MODE_PRIVATE);
         return spn.getLong("newVersion:" + url.toString(), 0);
     }
 
-    /**
-     * if url == null, clear all progress
-     *
-     * @param context context
-     * @param url     if url!=null clear this url progress
-     */
+
     public static void clearSavedProgress(Context context, Object url) {
         if (url == null) {
-            SharedPreferences spn = context.getSharedPreferences("JZVD_PROGRESS",
+            SharedPreferences spn = context.getSharedPreferences(PRE_NAME,
                     Context.MODE_PRIVATE);
             spn.edit().clear().apply();
         } else {
-            SharedPreferences spn = context.getSharedPreferences("JZVD_PROGRESS",
+            SharedPreferences spn = context.getSharedPreferences(PRE_NAME,
                     Context.MODE_PRIVATE);
             spn.edit().putLong("newVersion:" + url.toString(), 0).apply();
         }

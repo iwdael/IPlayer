@@ -17,7 +17,7 @@ import com.hacknife.demo.CustomMediaPlayer.IplayerMediaIjkplayer;
 import java.io.IOException;
 
 import com.hacknife.iplayer.DataSource;
-import com.hacknife.iplayer.MediaSystem;
+import com.hacknife.iplayer.MediaEngine;
 import com.hacknife.iplayer.Video;
 import com.hacknife.iplayer.Iplayer;
 
@@ -56,12 +56,12 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
         } catch (IOException e) {
             e.printStackTrace();
         }
-        jzvdStd.setUp(jzDataSource, Iplayer.SCREEN_WINDOW_NORMAL);
+        jzvdStd.setDataSource(jzDataSource, Iplayer.SCREEN_WINDOW_NORMAL);
         Glide.with(this)
                 .load("http://jzvd-pic.nathen.cn/jzvd-pic/1bb2ebbe-140d-4e2e-abd2-9e7e564f71ac.png")
                 .into(jzvdStd.thumbImageView);
 
-        Video.setMediaInterface(new CustomMediaPlayerAssertFolder());//进入此页面修改MediaInterface，让此页面的jzvd正常工作
+        Video.setPlayerEngine(new CustomMediaPlayerAssertFolder());//进入此页面修改MediaInterface，让此页面的jzvd正常工作
     }
 
     @Override
@@ -72,7 +72,7 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Video.setMediaInterface(new IplayerMediaIjkplayer());
+                        Video.setPlayerEngine(new IplayerMediaIjkplayer());
                     }
                 }, 1000);
                 Toast.makeText(ActivityApiCustomMediaPlayer.this, "Change to Ijkplayer", Toast.LENGTH_SHORT).show();
@@ -83,7 +83,7 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Video.setMediaInterface(new MediaSystem());
+                        Video.setPlayerEngine(new MediaEngine());
                     }
                 }, 1000);
                 Toast.makeText(this, "Change to MediaPlayer", Toast.LENGTH_SHORT).show();
@@ -94,7 +94,7 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Video.setMediaInterface(new IplayerExoPlayer());
+                        Video.setPlayerEngine(new IplayerExoPlayer());
                     }
                 }, 1000);
                 Toast.makeText(this, "Change to ExoPlayer", Toast.LENGTH_SHORT).show();
@@ -112,7 +112,7 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Video.setMediaInterface(new MediaSystem());
+                Video.setPlayerEngine(new MediaEngine());
             }
         }, 1000);
         super.onBackPressed();
@@ -132,7 +132,7 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Video.setMediaInterface(new MediaSystem());
+                        Video.setPlayerEngine(new MediaEngine());
                     }
                 }, 1000);
                 finish();

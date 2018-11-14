@@ -23,9 +23,9 @@ public class IplayerVolumeAfterFullscreen extends Iplayer {
     public void onPrepared() {
         super.onPrepared();
         if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
-            MediaManager.instance().jzMediaInterface.setVolume(1f, 1f);
+            MediaManager.instance().engine.setVolume(1f, 1f);
         } else {
-            MediaManager.instance().jzMediaInterface.setVolume(0f, 0f);
+            MediaManager.instance().engine.setVolume(0f, 0f);
         }
     }
 
@@ -35,15 +35,15 @@ public class IplayerVolumeAfterFullscreen extends Iplayer {
     @Override
     public void startWindowFullscreen() {
         super.startWindowFullscreen();
-        MediaManager.instance().jzMediaInterface.setVolume(1f, 1f);
+        MediaManager.instance().engine.setVolume(1f, 1f);
     }
 
     /**
      * 退出全屏模式的时候开启静音模式
      */
     @Override
-    public void playOnThisJzvd() {
-        super.playOnThisJzvd();
-        MediaManager.instance().jzMediaInterface.setVolume(0f, 0f);
+    public void playOnThisVideo() {
+        super.playOnThisVideo();
+        MediaManager.instance().engine.setVolume(0f, 0f);
     }
 }

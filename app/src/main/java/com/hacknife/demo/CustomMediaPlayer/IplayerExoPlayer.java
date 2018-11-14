@@ -34,7 +34,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoListener;
 
-import com.hacknife.iplayer.MediaInterface;
+import com.hacknife.iplayer.PlayerEngine;
 import com.hacknife.iplayer.MediaManager;
 import com.hacknife.iplayer.VideoManager;
 import com.hacknife.demo.R;
@@ -43,7 +43,7 @@ import com.hacknife.demo.R;
  * Created by MinhDV on 5/3/18.
  */
 
-public class IplayerExoPlayer extends MediaInterface implements Player.EventListener, VideoListener {
+public class IplayerExoPlayer extends PlayerEngine implements Player.EventListener, VideoListener {
     private SimpleExoPlayer simpleExoPlayer;
     private Handler mainHandler;
     private Runnable callback;
@@ -105,7 +105,7 @@ public class IplayerExoPlayer extends MediaInterface implements Player.EventList
     public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
         MediaManager.instance().currentVideoWidth = width;
         MediaManager.instance().currentVideoHeight = height;
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -124,7 +124,7 @@ public class IplayerExoPlayer extends MediaInterface implements Player.EventList
         @Override
         public void run() {
             final int percent = simpleExoPlayer.getBufferedPercentage();
-            MediaManager.instance().mainThreadHandler.post(new Runnable() {
+            MediaManager.instance().pMainThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (VideoManager.getCurrentVideo() != null) {
@@ -222,7 +222,7 @@ public class IplayerExoPlayer extends MediaInterface implements Player.EventList
     @Override
     public void onPlayerStateChanged(final boolean playWhenReady, final int playbackState) {
         Log.e(TAG, "onPlayerStateChanged" + playbackState + "/ready=" + String.valueOf(playWhenReady));
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -264,7 +264,7 @@ public class IplayerExoPlayer extends MediaInterface implements Player.EventList
     @Override
     public void onPlayerError(ExoPlaybackException error) {
         Log.e(TAG, "onPlayerError" + error.toString());
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -286,7 +286,7 @@ public class IplayerExoPlayer extends MediaInterface implements Player.EventList
 
     @Override
     public void onSeekProcessed() {
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {

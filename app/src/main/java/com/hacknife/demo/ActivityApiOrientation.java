@@ -27,7 +27,7 @@ public class ActivityApiOrientation extends AppCompatActivity {
         getSupportActionBar().setTitle("Orientation");
         setContentView(R.layout.activity_orientation);
         mJzvdStd = findViewById(R.id.jz_video);
-        mJzvdStd.setUp(VideoConstant.videoUrlList[0], "饺子不信"
+        mJzvdStd.setDataSource(VideoConstant.videoUrlList[0], "饺子不信"
                 , Iplayer.SCREEN_WINDOW_NORMAL);
         Glide.with(this)
                 .load(VideoConstant.videoThumbList[0])

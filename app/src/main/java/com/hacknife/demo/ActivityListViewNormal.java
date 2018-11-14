@@ -18,7 +18,7 @@ public class ActivityListViewNormal extends AppCompatActivity {
     ListView listView;
 
     SensorManager sensorManager;
-    Video.JZAutoFullscreenListener sensorEventListener;
+    Video.AutoFullscreenListener sensorEventListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class ActivityListViewNormal extends AppCompatActivity {
         });
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensorEventListener = new Video.JZAutoFullscreenListener();
+        sensorEventListener = new Video.AutoFullscreenListener();
     }
 
     @Override

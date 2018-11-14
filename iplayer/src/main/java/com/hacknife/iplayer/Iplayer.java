@@ -29,8 +29,6 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.hacknife.iplayer.R;
-
 /**
  * Created by Nathen
  * On 2016/04/18 16:15
@@ -120,8 +118,8 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
         settingView.setOnSettingListener(this);
     }
 
-    public void setUp(DataSource dataSource, int screen) {
-        super.setUp(dataSource, screen);
+    public void setDataSource(DataSource dataSource, int screen) {
+        super.setDataSource(dataSource, screen);
         titleTextView.setText(dataSource.title);
         if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
             fullscreenButton.setImageResource(R.drawable.iplayer_shrink);
@@ -248,7 +246,7 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
                         bottomProgressBar.setProgress(progress);
                     }
                     if (!mChangePosition && !mChangeVolume) {
-                        onEvent(UserActionStd.ON_CLICK_BLANK);
+                        onEvent(Event.ON_CLICK_BLANK);
                         onClickUiToggle();
                     }
                     break;
@@ -283,7 +281,7 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
                     return;
                 }
                 startVideo();
-                onEvent(UserActionStd.ON_CLICK_START_THUMB);//开始的事件应该在播放之后，此处特殊
+                onEvent(Event.ON_CLICK_START_THUMB);//开始的事件应该在播放之后，此处特殊
             } else if (currentState == CURRENT_STATE_AUTO_COMPLETE) {
                 onClickUiToggle();
             }
@@ -354,7 +352,7 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
             addTextureView();
             MediaManager.setDataSource(dataSource);
             onStatePreparing();
-            onEvent(UserAction.ON_CLICK_START_ERROR);
+            onEvent(Event.ON_CLICK_START_ERROR);
         } else if (R.id.iv_setting == v.getId()) {
             if (settingView.getVisibility() == View.VISIBLE) {
                 settingView.setVisibility(View.GONE);
@@ -373,7 +371,7 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                onEvent(UserActionStd.ON_CLICK_START_WIFIDIALOG);
+                onEvent(Event.ON_CLICK_START_WIFIDIALOG);
                 startVideo();
                 WIFI_TIP_DIALOG_SHOWED = true;
             }

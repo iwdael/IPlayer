@@ -36,7 +36,7 @@ public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecycl
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Log.i(TAG, "onBindViewHolder [" + holder.jzvdStd.hashCode() + "] position=" + position);
 
-        holder.jzvdStd.setUp(
+        holder.jzvdStd.setDataSource(
                 VideoConstant.videoUrls[0][position],
                 VideoConstant.videoTitles[0][position], Video.SCREEN_WINDOW_LIST);
         Glide.with(holder.jzvdStd.getContext()).load(VideoConstant.videoThumbs[0][position]).into(holder.jzvdStd.thumbImageView);

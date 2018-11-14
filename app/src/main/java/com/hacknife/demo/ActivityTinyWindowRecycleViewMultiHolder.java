@@ -106,7 +106,7 @@ public class ActivityTinyWindowRecycleViewMultiHolder extends AppCompatActivity 
                 TextHolder textHolder = (TextHolder) holder;
             } else {
                 VideoHolder videoHolder = (VideoHolder) holder;
-                videoHolder.jzvdStd.setUp(
+                videoHolder.jzvdStd.setDataSource(
                         VideoConstant.videoUrls[0][position],
                         VideoConstant.videoTitles[0][position], Video.SCREEN_WINDOW_LIST);
                 videoHolder.jzvdStd.positionInList = position;

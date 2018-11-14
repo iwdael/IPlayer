@@ -5,14 +5,14 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.view.Surface;
 
-import com.hacknife.iplayer.MediaInterface;
+import com.hacknife.iplayer.PlayerEngine;
 import com.hacknife.iplayer.MediaManager;
 import com.hacknife.iplayer.VideoManager;
 
 /**
  * Created by Nathen on 2017/11/23.
  */
-public class CustomMediaPlayerAssertFolder extends MediaInterface implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener, MediaPlayer.OnVideoSizeChangedListener {
+public class CustomMediaPlayerAssertFolder extends PlayerEngine implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener, MediaPlayer.OnVideoSizeChangedListener {
 
     public MediaPlayer mediaPlayer;
 
@@ -97,7 +97,7 @@ public class CustomMediaPlayerAssertFolder extends MediaInterface implements Med
     public void onPrepared(MediaPlayer mediaPlayer) {
         mediaPlayer.start();
         if (dataSource.getCurrentUrl().toString().toLowerCase().contains("mp3")) {
-            MediaManager.instance().mainThreadHandler.post(new Runnable() {
+            MediaManager.instance().pMainThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (VideoManager.getCurrentVideo() != null) {
@@ -110,7 +110,7 @@ public class CustomMediaPlayerAssertFolder extends MediaInterface implements Med
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -122,7 +122,7 @@ public class CustomMediaPlayerAssertFolder extends MediaInterface implements Med
 
     @Override
     public void onBufferingUpdate(MediaPlayer mediaPlayer, final int percent) {
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -134,7 +134,7 @@ public class CustomMediaPlayerAssertFolder extends MediaInterface implements Med
 
     @Override
     public void onSeekComplete(MediaPlayer mediaPlayer) {
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -146,7 +146,7 @@ public class CustomMediaPlayerAssertFolder extends MediaInterface implements Med
 
     @Override
     public boolean onError(MediaPlayer mediaPlayer, final int what, final int extra) {
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -159,7 +159,7 @@ public class CustomMediaPlayerAssertFolder extends MediaInterface implements Med
 
     @Override
     public boolean onInfo(MediaPlayer mediaPlayer, final int what, final int extra) {
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {
@@ -178,7 +178,7 @@ public class CustomMediaPlayerAssertFolder extends MediaInterface implements Med
     public void onVideoSizeChanged(MediaPlayer mediaPlayer, int width, int height) {
         MediaManager.instance().currentVideoWidth = width;
         MediaManager.instance().currentVideoHeight = height;
-        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (VideoManager.getCurrentVideo() != null) {

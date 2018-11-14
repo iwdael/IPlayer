@@ -60,7 +60,7 @@ public class AdapterVideoList extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.jzvdStd = convertView.findViewById(R.id.videoplayer);
-        viewHolder.jzvdStd.setUp(
+        viewHolder.jzvdStd.setDataSource(
                 videoUrls[position],
                 videoTitles[position], Video.SCREEN_WINDOW_LIST);
         Glide.with(convertView.getContext())

@@ -117,7 +117,7 @@ public class ActivityListViewMultiHolder extends AppCompatActivity {
                     convertView.setTag(viewHolder);
                 }
 
-                viewHolder.jzvdStd.setUp(
+                viewHolder.jzvdStd.setDataSource(
                         VideoConstant.videoUrls[0][position],
                         VideoConstant.videoTitles[0][position], Video.SCREEN_WINDOW_LIST);
                 viewHolder.jzvdStd.positionInList = position;
