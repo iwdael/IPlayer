@@ -121,7 +121,7 @@ public class ActivityTinyWindowListViewMultiHolder extends AppCompatActivity {
                         VideoConstant.videoUrls[0][position],
                         VideoConstant.videoTitles[0][position], Video.SCREEN_WINDOW_LIST);
                 viewHolder.jzvdStd.positionInList = position;
-                Glide.with(ActivityTinyWindowListViewMultiHolder.this).load(VideoConstant.videoThumbs[0][position]).into(viewHolder.jzvdStd.thumbImageView);
+                Glide.with(ActivityTinyWindowListViewMultiHolder.this).load(VideoConstant.videoThumbs[0][position]).into(viewHolder.jzvdStd.iv_thumb);
             } else {
                 TextViewHolder textViewHolder;
                 if (convertView != null && convertView.getTag() != null && convertView.getTag() instanceof VideoListAdapter.TextViewHolder) {

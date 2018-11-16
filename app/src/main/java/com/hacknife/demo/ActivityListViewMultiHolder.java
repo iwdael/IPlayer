@@ -123,7 +123,7 @@ public class ActivityListViewMultiHolder extends AppCompatActivity {
                 viewHolder.jzvdStd.positionInList = position;
                 Glide.with(ActivityListViewMultiHolder.this)
                         .load(VideoConstant.videoThumbs[0][position])
-                        .into(viewHolder.jzvdStd.thumbImageView);
+                        .into(viewHolder.jzvdStd.iv_thumb);
             } else {
                 TextViewHolder textViewHolder;
                 if (convertView != null && convertView.getTag() != null && convertView.getTag() instanceof TextViewHolder) {

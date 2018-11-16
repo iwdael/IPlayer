@@ -24,9 +24,9 @@ public class IplayerShowTitleAfterFullscreen extends Iplayer {
     public void setDataSource(DataSource jzDataSource, int screen) {
         super.setDataSource(jzDataSource, screen);
         if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
-            titleTextView.setVisibility(View.VISIBLE);
+            tv_title.setVisibility(View.VISIBLE);
         } else {
-            titleTextView.setVisibility(View.INVISIBLE);
+            tv_title.setVisibility(View.INVISIBLE);
         }
     }
 }

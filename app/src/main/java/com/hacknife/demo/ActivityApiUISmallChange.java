@@ -44,7 +44,7 @@ public class ActivityApiUISmallChange extends AppCompatActivity {
         );
         Glide.with(this)
                 .load(VideoConstant.videoThumbList[3])
-                .into(jzvdStdWithShareButton.thumbImageView);
+                .into(jzvdStdWithShareButton.iv_thumb);
 
 
         jzvdStdShowTitleAfterFullscreen = findViewById(R.id.custom_videoplayer_standard_show_title_after_fullscreen);
@@ -52,28 +52,28 @@ public class ActivityApiUISmallChange extends AppCompatActivity {
         );
         Glide.with(this)
                 .load(VideoConstant.videoThumbList[4])
-                .into(jzvdStdShowTitleAfterFullscreen.thumbImageView);
+                .into(jzvdStdShowTitleAfterFullscreen.iv_thumb);
 
         jzvdStdShowTextureViewAfterAutoComplete = findViewById(R.id.custom_videoplayer_standard_show_textureview_aoto_complete);
         jzvdStdShowTextureViewAfterAutoComplete.setDataSource(VideoConstant.videoUrlList[5], "饺子想旅行", Video.SCREEN_WINDOW_NORMAL
         );
         Glide.with(this)
                 .load(VideoConstant.videoThumbList[5])
-                .into(jzvdStdShowTextureViewAfterAutoComplete.thumbImageView);
+                .into(jzvdStdShowTextureViewAfterAutoComplete.iv_thumb);
 
         jzvdStdAutoCompleteAfterFullscreen = findViewById(R.id.custom_videoplayer_standard_aoto_complete);
         jzvdStdAutoCompleteAfterFullscreen.setDataSource(VideoConstant.videoUrls[0][1], "饺子没来", Video.SCREEN_WINDOW_NORMAL
         );
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][1])
-                .into(jzvdStdAutoCompleteAfterFullscreen.thumbImageView);
+                .into(jzvdStdAutoCompleteAfterFullscreen.iv_thumb);
 
         jzvdStd_1_1 = findViewById(R.id.jz_videoplayer_1_1);
         jzvdStd_1_1.setDataSource(VideoConstant.videoUrls[0][1], "饺子有事吗", Video.SCREEN_WINDOW_NORMAL
         );
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][1])
-                .into(jzvdStd_1_1.thumbImageView);
+                .into(jzvdStd_1_1.iv_thumb);
         jzvdStd_1_1.widthRatio = 1;
         jzvdStd_1_1.heightRatio = 1;
 
@@ -82,7 +82,7 @@ public class ActivityApiUISmallChange extends AppCompatActivity {
         );
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][1])
-                .into(jzvdStd_16_9.thumbImageView);
+                .into(jzvdStd_16_9.iv_thumb);
         jzvdStd_16_9.widthRatio = 16;
         jzvdStd_16_9.heightRatio = 9;
 
@@ -91,7 +91,7 @@ public class ActivityApiUISmallChange extends AppCompatActivity {
         );
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][1])
-                .into(jzvdStdVolumeAfterFullscreen.thumbImageView);
+                .into(jzvdStdVolumeAfterFullscreen.iv_thumb);
 
         jzvdStdMp3 = findViewById(R.id.jz_videoplayer_mp3);
         jzvdStdMp3.setDataSource("https://in-20170815011809382-q34ludd68h.oss-cn-shanghai.aliyuncs.com/video/401edae1-16431aa8156-0007-1823-c86-de200.mp3?Expires=1532102862&OSSAccessKeyId=LTAIPZHZDaUNpnca&Signature=apruidffjNeN0O584VJiz8q1mJ4%3D",
@@ -99,7 +99,7 @@ public class ActivityApiUISmallChange extends AppCompatActivity {
         );
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][1])
-                .into(jzvdStdMp3.thumbImageView);
+                .into(jzvdStdMp3.iv_thumb);
 
 
     }

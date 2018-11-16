@@ -59,7 +59,7 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
         jzvdStd.setDataSource(jzDataSource, Iplayer.SCREEN_WINDOW_NORMAL);
         Glide.with(this)
                 .load("http://jzvd-pic.nathen.cn/jzvd-pic/1bb2ebbe-140d-4e2e-abd2-9e7e564f71ac.png")
-                .into(jzvdStd.thumbImageView);
+                .into(jzvdStd.iv_thumb);
 
         Video.setPlayerEngine(new CustomMediaPlayerAssertFolder());//进入此页面修改MediaInterface，让此页面的jzvd正常工作
     }

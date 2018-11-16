@@ -37,7 +37,7 @@ public class ActivityTinyWindow extends AppCompatActivity implements View.OnClic
                 , Iplayer.SCREEN_WINDOW_NORMAL);
         Glide.with(this)
                 .load("http://jzvd-pic.nathen.cn/jzvd-pic/1bb2ebbe-140d-4e2e-abd2-9e7e564f71ac.png")
-                .into(mJzvdStd.thumbImageView);
+                .into(mJzvdStd.iv_thumb);
 
         mBtnTinyWindow = findViewById(R.id.tiny_window);
         mBtnTinyWindowListView = findViewById(R.id.auto_tiny_list_view);

@@ -37,20 +37,20 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
 
     protected static Timer DISMISS_CONTROL_VIEW_TIMER;
 
-    public ImageView backButton;
-    public ProgressBar bottomProgressBar, loadingProgressBar;
-    public TextView titleTextView;
-    public ImageView thumbImageView;
-    public ImageView tinyBackImageView;
-    public LinearLayout batteryTimeLayout;
+    public ImageView iv_back;
+    public ProgressBar pro_bottom, pro_loading;
+    public TextView tv_title;
+    public ImageView iv_thumb;
+    public ImageView iv_back_tiny;
+    public LinearLayout ll_battery_time;
     public ImageView setting;
-    public ImageView batteryLevel;
-    public TextView videoCurrentTime;
-    public TextView replayTextView;
-    public TextView clarity;
-    public PopupWindow clarityPopWindow;
-    public TextView mRetryBtn;
-    public LinearLayout mRetryLayout;
+    public ImageView iv_battery;
+    public TextView tv_system_time;
+    public TextView tv_replay;
+    public TextView tv_clarity;
+    public PopupWindow tv_clarityPopWindow;
+    public TextView tv_retry;
+    public LinearLayout ll_retry;
 
     protected DismissControlViewTimerTask mDismissControlViewTimerTask;
     protected Dialog mProgressDialog;
@@ -66,8 +66,8 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
     protected ProgressBar mDialogBrightnessProgressBar;
     protected TextView mDialogBrightnessTextView;
     protected SettingView settingView;
-    public static long LAST_GET_BATTERYLEVEL_TIME = 0;
-    public static int LAST_GET_BATTERYLEVEL_PERCENT = 70;
+    public static long LAST_GET_iv_battery_TIME = 0;
+    public static int LAST_GET_iv_battery_PERCENT = 70;
 
     private BroadcastReceiver battertReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -76,8 +76,8 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
                 int level = intent.getIntExtra("level", 0);
                 int scale = intent.getIntExtra("scale", 100);
                 int percent = level * 100 / scale;
-                LAST_GET_BATTERYLEVEL_PERCENT = percent;
-                setBatteryLevel();
+                LAST_GET_iv_battery_PERCENT = percent;
+                setiv_battery();
                 getContext().unregisterReceiver(battertReceiver);
             }
         }
@@ -94,62 +94,62 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
     @Override
     public void init(Context context) {
         super.init(context);
-        batteryTimeLayout = findViewById(R.id.battery_time_layout);
+        ll_battery_time = findViewById(R.id.ll_battery_time);
         setting = findViewById(R.id.iv_setting);
-        bottomProgressBar = findViewById(R.id.bottom_progress);
-        titleTextView = findViewById(R.id.title);
-        backButton = findViewById(R.id.back);
-        thumbImageView = findViewById(R.id.thumb);
-        loadingProgressBar = findViewById(R.id.loading);
-        tinyBackImageView = findViewById(R.id.back_tiny);
-        batteryLevel = findViewById(R.id.battery_level);
-        videoCurrentTime = findViewById(R.id.video_current_time);
-        replayTextView = findViewById(R.id.replay_text);
-        clarity = findViewById(R.id.clarity);
-        mRetryBtn = findViewById(R.id.retry_btn);
-        mRetryLayout = findViewById(R.id.retry_layout);
+        pro_bottom = findViewById(R.id.pro_bottom);
+        tv_title = findViewById(R.id.tv_title);
+        iv_back = findViewById(R.id.iv_back);
+        iv_thumb = findViewById(R.id.iv_thumb);
+        pro_loading = findViewById(R.id.pro_loading);
+        iv_back_tiny = findViewById(R.id.iv_back_tiny);
+        iv_battery = findViewById(R.id.iv_battery);
+        tv_system_time = findViewById(R.id.tv_system_time);
+        tv_replay = findViewById(R.id.tv_replay);
+        tv_clarity = findViewById(R.id.tv_clarity);
+        tv_retry = findViewById(R.id.tv_retry);
+        ll_retry = findViewById(R.id.ll_retry);
         settingView = findViewById(R.id.setting);
-        thumbImageView.setOnClickListener(this);
-        backButton.setOnClickListener(this);
-        tinyBackImageView.setOnClickListener(this);
-        clarity.setOnClickListener(this);
-        mRetryBtn.setOnClickListener(this);
+        iv_thumb.setOnClickListener(this);
+        iv_back.setOnClickListener(this);
+        iv_back_tiny.setOnClickListener(this);
+        tv_clarity.setOnClickListener(this);
+        tv_retry.setOnClickListener(this);
         setting.setOnClickListener(this);
         settingView.setOnSettingListener(this);
     }
 
     public void setDataSource(DataSource dataSource, int screen) {
         super.setDataSource(dataSource, screen);
-        titleTextView.setText(dataSource.title);
+        tv_title.setText(dataSource.title);
         if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
-            fullscreenButton.setImageResource(R.drawable.iplayer_shrink);
-            backButton.setVisibility(View.VISIBLE);
-            tinyBackImageView.setVisibility(View.INVISIBLE);
-            batteryTimeLayout.setVisibility(View.VISIBLE);
+            iv_fullscreen.setImageResource(R.drawable.iplayer_shrink);
+            iv_back.setVisibility(View.VISIBLE);
+            iv_back_tiny.setVisibility(View.INVISIBLE);
+            ll_battery_time.setVisibility(View.VISIBLE);
             setting.setVisibility(View.VISIBLE);
             if (dataSource.urlsMap.size() == 1) {
-                clarity.setVisibility(GONE);
+                tv_clarity.setVisibility(GONE);
             } else {
-                clarity.setText(dataSource.getCurrentKey().toString());
-                clarity.setVisibility(View.VISIBLE);
+                tv_clarity.setText(dataSource.getCurrentKey().toString());
+                tv_clarity.setVisibility(View.VISIBLE);
             }
-            changeStartButtonSize((int) getResources().getDimension(R.dimen.iplayer_start_button_w_h_fullscreen));
+            changeiv_playSize((int) getResources().getDimension(R.dimen.iplayer_start_button_w_h_fullscreen));
         } else if (currentScreen == SCREEN_WINDOW_NORMAL
                 || currentScreen == SCREEN_WINDOW_LIST) {
-            fullscreenButton.setImageResource(R.drawable.iplayer_enlarge);
-            backButton.setVisibility(View.GONE);
-            tinyBackImageView.setVisibility(View.INVISIBLE);
-            changeStartButtonSize((int) getResources().getDimension(R.dimen.iplayer_start_button_w_h_normal));
-            batteryTimeLayout.setVisibility(View.GONE);
+            iv_fullscreen.setImageResource(R.drawable.iplayer_enlarge);
+            iv_back.setVisibility(View.GONE);
+            iv_back_tiny.setVisibility(View.INVISIBLE);
+            changeiv_playSize((int) getResources().getDimension(R.dimen.iplayer_start_button_w_h_normal));
+            ll_battery_time.setVisibility(View.GONE);
             setting.setVisibility(View.GONE);
-            clarity.setVisibility(View.GONE);
+            tv_clarity.setVisibility(View.GONE);
         } else if (currentScreen == SCREEN_WINDOW_TINY) {
-            tinyBackImageView.setVisibility(View.VISIBLE);
+            iv_back_tiny.setVisibility(View.VISIBLE);
             setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                     View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
-            batteryTimeLayout.setVisibility(View.GONE);
+            ll_battery_time.setVisibility(View.GONE);
             setting.setVisibility(View.GONE);
-            clarity.setVisibility(View.GONE);
+            tv_clarity.setVisibility(View.GONE);
         }
         setSystemTimeAndBattery();
 
@@ -161,11 +161,11 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
         }
     }
 
-    public void changeStartButtonSize(int size) {
-        ViewGroup.LayoutParams lp = startButton.getLayoutParams();
+    public void changeiv_playSize(int size) {
+        ViewGroup.LayoutParams lp = iv_play.getLayoutParams();
         lp.height = size;
         lp.width = size;
-        lp = loadingProgressBar.getLayoutParams();
+        lp = pro_loading.getLayoutParams();
         lp.height = size;
         lp.width = size;
     }
@@ -190,16 +190,16 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
     @Override
     public void changeUrl(int urlMapIndex, long seekToInAdvance) {
         super.changeUrl(urlMapIndex, seekToInAdvance);
-        loadingProgressBar.setVisibility(VISIBLE);
-        startButton.setVisibility(INVISIBLE);
+        pro_loading.setVisibility(VISIBLE);
+        iv_play.setVisibility(INVISIBLE);
     }
 
     @Override
     public void changeUrl(DataSource dataSource, long seekToInAdvance) {
         super.changeUrl(dataSource, seekToInAdvance);
-        titleTextView.setText(dataSource.title);
-        loadingProgressBar.setVisibility(VISIBLE);
-        startButton.setVisibility(INVISIBLE);
+        tv_title.setText(dataSource.title);
+        pro_loading.setVisibility(VISIBLE);
+        iv_play.setVisibility(INVISIBLE);
     }
 
     @Override
@@ -226,13 +226,13 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
         super.onStateAutoComplete();
         changeUiToComplete();
         cancelDismissControlViewTimer();
-        bottomProgressBar.setProgress(100);
+        pro_bottom.setProgress(100);
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         int id = v.getId();
-        if (id == R.id.surface_container) {
+        if (id == R.id.fl_surface) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     break;
@@ -243,7 +243,7 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
                     if (mChangePosition) {
                         long duration = getDuration();
                         int progress = (int) (mSeekTimePosition * 100 / (duration == 0 ? 1 : duration));
-                        bottomProgressBar.setProgress(progress);
+                        pro_bottom.setProgress(progress);
                     }
                     if (!mChangePosition && !mChangeVolume) {
                         onEvent(Event.ON_CLICK_BLANK);
@@ -251,7 +251,7 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
                     }
                     break;
             }
-        } else if (id == R.id.bottom_seek_progress) {
+        } else if (id == R.id.sb_bottom) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     cancelDismissControlViewTimer();
@@ -268,7 +268,7 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
     public void onClick(View v) {
         super.onClick(v);
         int i = v.getId();
-        if (i == R.id.thumb) {
+        if (i == R.id.iv_thumb) {
             if (dataSource.urlsMap.isEmpty() || dataSource.getCurrentUrl() == null) {
                 Toast.makeText(getContext(), getResources().getString(R.string.no_url), Toast.LENGTH_SHORT).show();
                 return;
@@ -285,17 +285,17 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
             } else if (currentState == CURRENT_STATE_AUTO_COMPLETE) {
                 onClickUiToggle();
             }
-        } else if (i == R.id.surface_container) {
+        } else if (i == R.id.fl_surface) {
             startDismissControlViewTimer();
-        } else if (i == R.id.back) {
+        } else if (i == R.id.iv_back) {
             backPress();
-        } else if (i == R.id.back_tiny) {
+        } else if (i == R.id.iv_back_tiny) {
             if (VideoManager.getFirstFloor().currentScreen == Video.SCREEN_WINDOW_LIST) {
                 quitFullscreenOrTinyWindow();
             } else {
                 backPress();
             }
-        } else if (i == R.id.clarity) {
+        } else if (i == R.id.tv_clarity) {
             LayoutInflater inflater = (LayoutInflater) getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.iplayer_layout_clarity, null);
@@ -304,7 +304,7 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
                 public void onClick(View v) {
                     int index = (int) v.getTag();
                     changeUrl(index, getCurrentPositionWhenPlaying());
-                    clarity.setText(dataSource.getCurrentKey().toString());
+                    tv_clarity.setText(dataSource.getCurrentKey().toString());
                     for (int j = 0; j < layout.getChildCount(); j++) {//设置点击之后的颜色
                         if (j == dataSource.currentUrlIndex) {
                             ((TextView) layout.getChildAt(j)).setTextColor(Color.parseColor("#fff85959"));
@@ -312,32 +312,32 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
                             ((TextView) layout.getChildAt(j)).setTextColor(Color.parseColor("#ffffff"));
                         }
                     }
-                    if (clarityPopWindow != null) {
-                        clarityPopWindow.dismiss();
+                    if (tv_clarityPopWindow != null) {
+                        tv_clarityPopWindow.dismiss();
                     }
                 }
             };
 
             for (int j = 0; j < dataSource.urlsMap.size(); j++) {
                 String key = dataSource.getKeyFromDataSource(j);
-                TextView clarityItem = (TextView) View.inflate(getContext(), R.layout.iplayer_layout_clarity_item, null);
-                clarityItem.setText(key);
-                clarityItem.setTag(j);
-                layout.addView(clarityItem, j);
-                clarityItem.setOnClickListener(mQualityListener);
+                TextView tv_clarityItem = (TextView) View.inflate(getContext(), R.layout.iplayer_layout_clarity_item, null);
+                tv_clarityItem.setText(key);
+                tv_clarityItem.setTag(j);
+                layout.addView(tv_clarityItem, j);
+                tv_clarityItem.setOnClickListener(mQualityListener);
                 if (j == dataSource.currentUrlIndex) {
-                    clarityItem.setTextColor(Color.parseColor("#fff85959"));
+                    tv_clarityItem.setTextColor(Color.parseColor("#fff85959"));
                 }
             }
 
-            clarityPopWindow = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
-            clarityPopWindow.setContentView(layout);
-            clarityPopWindow.showAsDropDown(clarity);
+            tv_clarityPopWindow = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+            tv_clarityPopWindow.setContentView(layout);
+            tv_clarityPopWindow.showAsDropDown(tv_clarity);
             layout.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-            int offsetX = clarity.getMeasuredWidth() / 3;
-            int offsetY = clarity.getMeasuredHeight() / 3;
-            clarityPopWindow.update(clarity, -offsetX, -offsetY, Math.round(layout.getMeasuredWidth() * 2), layout.getMeasuredHeight());
-        } else if (i == R.id.retry_btn) {
+            int offsetX = tv_clarity.getMeasuredWidth() / 3;
+            int offsetY = tv_clarity.getMeasuredHeight() / 3;
+            tv_clarityPopWindow.update(tv_clarity, -offsetX, -offsetY, Math.round(layout.getMeasuredWidth() * 2), layout.getMeasuredHeight());
+        } else if (i == R.id.tv_retry) {
             if (dataSource.urlsMap.isEmpty() || dataSource.getCurrentUrl() == null) {
                 Toast.makeText(getContext(), getResources().getString(R.string.no_url), Toast.LENGTH_SHORT).show();
                 return;
@@ -405,24 +405,24 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
     }
 
     public void onClickUiToggle() {
-        if (bottomContainer.getVisibility() != View.VISIBLE) {
+        if (ll_bottom.getVisibility() != View.VISIBLE) {
             setSystemTimeAndBattery();
-            clarity.setText(dataSource.getCurrentKey().toString());
+            tv_clarity.setText(dataSource.getCurrentKey().toString());
         }
         if (currentState == CURRENT_STATE_PREPARING) {
             changeUiToPreparing();
-            if (bottomContainer.getVisibility() == View.VISIBLE) {
+            if (ll_bottom.getVisibility() == View.VISIBLE) {
             } else {
                 setSystemTimeAndBattery();
             }
         } else if (currentState == CURRENT_STATE_PLAYING) {
-            if (bottomContainer.getVisibility() == View.VISIBLE) {
+            if (ll_bottom.getVisibility() == View.VISIBLE) {
                 changeUiToPlayingClear();
             } else {
                 changeUiToPlayingShow();
             }
         } else if (currentState == CURRENT_STATE_PAUSE) {
-            if (bottomContainer.getVisibility() == View.VISIBLE) {
+            if (ll_bottom.getVisibility() == View.VISIBLE) {
                 changeUiToPauseClear();
             } else {
                 changeUiToPauseShow();
@@ -433,53 +433,53 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
     public void setSystemTimeAndBattery() {
         SimpleDateFormat dateFormater = new SimpleDateFormat("HH:mm");
         Date date = new Date();
-        videoCurrentTime.setText(dateFormater.format(date));
-        if ((System.currentTimeMillis() - LAST_GET_BATTERYLEVEL_TIME) > 30000) {
-            LAST_GET_BATTERYLEVEL_TIME = System.currentTimeMillis();
+        tv_system_time.setText(dateFormater.format(date));
+        if ((System.currentTimeMillis() - LAST_GET_iv_battery_TIME) > 30000) {
+            LAST_GET_iv_battery_TIME = System.currentTimeMillis();
             getContext().registerReceiver(
                     battertReceiver,
                     new IntentFilter(Intent.ACTION_BATTERY_CHANGED)
             );
         } else {
-            setBatteryLevel();
+            setiv_battery();
         }
     }
 
-    public void setBatteryLevel() {
-        int percent = LAST_GET_BATTERYLEVEL_PERCENT;
+    public void setiv_battery() {
+        int percent = LAST_GET_iv_battery_PERCENT;
         if (percent < 15) {
-            batteryLevel.setBackgroundResource(R.drawable.iplayer_battery_level_10);
+            iv_battery.setBackgroundResource(R.drawable.iplayer_battery_level_10);
         } else if (percent >= 15 && percent < 40) {
-            batteryLevel.setBackgroundResource(R.drawable.iplayer_battery_level_30);
+            iv_battery.setBackgroundResource(R.drawable.iplayer_battery_level_30);
         } else if (percent >= 40 && percent < 60) {
-            batteryLevel.setBackgroundResource(R.drawable.iplayer_battery_level_50);
+            iv_battery.setBackgroundResource(R.drawable.iplayer_battery_level_50);
         } else if (percent >= 60 && percent < 80) {
-            batteryLevel.setBackgroundResource(R.drawable.iplayer_battery_level_70);
+            iv_battery.setBackgroundResource(R.drawable.iplayer_battery_level_70);
         } else if (percent >= 80 && percent < 95) {
-            batteryLevel.setBackgroundResource(R.drawable.iplayer_battery_level_90);
+            iv_battery.setBackgroundResource(R.drawable.iplayer_battery_level_90);
         } else if (percent >= 95 && percent <= 100) {
-            batteryLevel.setBackgroundResource(R.drawable.iplayer_battery_level_100);
+            iv_battery.setBackgroundResource(R.drawable.iplayer_battery_level_100);
         }
     }
 
     public void onCLickUiToggleToClear() {
         if (currentState == CURRENT_STATE_PREPARING) {
-            if (bottomContainer.getVisibility() == View.VISIBLE) {
+            if (ll_bottom.getVisibility() == View.VISIBLE) {
                 changeUiToPreparing();
             } else {
             }
         } else if (currentState == CURRENT_STATE_PLAYING) {
-            if (bottomContainer.getVisibility() == View.VISIBLE) {
+            if (ll_bottom.getVisibility() == View.VISIBLE) {
                 changeUiToPlayingClear();
             } else {
             }
         } else if (currentState == CURRENT_STATE_PAUSE) {
-            if (bottomContainer.getVisibility() == View.VISIBLE) {
+            if (ll_bottom.getVisibility() == View.VISIBLE) {
                 changeUiToPauseClear();
             } else {
             }
         } else if (currentState == CURRENT_STATE_AUTO_COMPLETE) {
-            if (bottomContainer.getVisibility() == View.VISIBLE) {
+            if (ll_bottom.getVisibility() == View.VISIBLE) {
                 changeUiToComplete();
             } else {
             }
@@ -489,20 +489,20 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
     @Override
     public void onProgress(int progress, long position, long duration) {
         super.onProgress(progress, position, duration);
-        if (progress != 0) bottomProgressBar.setProgress(progress);
+        if (progress != 0) pro_bottom.setProgress(progress);
     }
 
     @Override
     public void setBufferProgress(int bufferProgress) {
         super.setBufferProgress(bufferProgress);
-        if (bufferProgress != 0) bottomProgressBar.setSecondaryProgress(bufferProgress);
+        if (bufferProgress != 0) pro_bottom.setSecondaryProgress(bufferProgress);
     }
 
     @Override
     public void resetProgressAndTime() {
         super.resetProgressAndTime();
-        bottomProgressBar.setProgress(0);
-        bottomProgressBar.setSecondaryProgress(0);
+        pro_bottom.setProgress(0);
+        pro_bottom.setSecondaryProgress(0);
     }
 
     public void changeUiToNormal() {
@@ -653,30 +653,30 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
 
     public void setAllControlsVisiblity(int topCon, int bottomCon, int startBtn, int loadingPro,
                                         int thumbImg, int bottomPro, int retryLayout) {
-        topContainer.setVisibility(topCon);
-        bottomContainer.setVisibility(bottomCon);
-        startButton.setVisibility(startBtn);
-        loadingProgressBar.setVisibility(loadingPro);
-        thumbImageView.setVisibility(thumbImg);
-        bottomProgressBar.setVisibility(bottomPro);
-        mRetryLayout.setVisibility(retryLayout);
+        ll_top.setVisibility(topCon);
+        ll_bottom.setVisibility(bottomCon);
+        iv_play.setVisibility(startBtn);
+        pro_loading.setVisibility(loadingPro);
+        iv_thumb.setVisibility(thumbImg);
+        pro_bottom.setVisibility(bottomPro);
+        ll_retry.setVisibility(retryLayout);
     }
 
     public void updateStartImage() {
         if (currentState == CURRENT_STATE_PLAYING) {
-            startButton.setVisibility(VISIBLE);
-            startButton.setImageResource(R.drawable.iplayer_click_pause_selector);
-            replayTextView.setVisibility(INVISIBLE);
+            iv_play.setVisibility(VISIBLE);
+            iv_play.setImageResource(R.drawable.iplayer_click_pause_selector);
+            tv_replay.setVisibility(INVISIBLE);
         } else if (currentState == CURRENT_STATE_ERROR) {
-            startButton.setVisibility(INVISIBLE);
-            replayTextView.setVisibility(INVISIBLE);
+            iv_play.setVisibility(INVISIBLE);
+            tv_replay.setVisibility(INVISIBLE);
         } else if (currentState == CURRENT_STATE_AUTO_COMPLETE) {
-            startButton.setVisibility(VISIBLE);
-            startButton.setImageResource(R.drawable.iplayer_click_replay_selector);
-            replayTextView.setVisibility(VISIBLE);
+            iv_play.setVisibility(VISIBLE);
+            iv_play.setImageResource(R.drawable.iplayer_click_replay_selector);
+            tv_replay.setVisibility(VISIBLE);
         } else {
-            startButton.setImageResource(R.drawable.iplayer_click_play_selector);
-            replayTextView.setVisibility(INVISIBLE);
+            iv_play.setImageResource(R.drawable.iplayer_click_play_selector);
+            tv_replay.setVisibility(INVISIBLE);
         }
     }
 
@@ -821,8 +821,8 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
     public void onCompletion() {
         super.onCompletion();
         cancelDismissControlViewTimer();
-        if (clarityPopWindow != null) {
-            clarityPopWindow.dismiss();
+        if (tv_clarityPopWindow != null) {
+            tv_clarityPopWindow.dismiss();
         }
     }
 
@@ -833,14 +833,14 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
             post(new Runnable() {
                 @Override
                 public void run() {
-                    bottomContainer.setVisibility(View.INVISIBLE);
-                    topContainer.setVisibility(View.INVISIBLE);
-                    startButton.setVisibility(View.INVISIBLE);
-                    if (clarityPopWindow != null) {
-                        clarityPopWindow.dismiss();
+                    ll_bottom.setVisibility(View.INVISIBLE);
+                    ll_top.setVisibility(View.INVISIBLE);
+                    iv_play.setVisibility(View.INVISIBLE);
+                    if (tv_clarityPopWindow != null) {
+                        tv_clarityPopWindow.dismiss();
                     }
                     if (currentScreen != SCREEN_WINDOW_TINY) {
-                        bottomProgressBar.setVisibility(View.VISIBLE);
+                        pro_bottom.setVisibility(View.VISIBLE);
                     }
                 }
             });

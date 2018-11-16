@@ -49,28 +49,28 @@ public class IplayerMp3 extends Iplayer {
     @Override
     public void changeUiToPlayingShow() {
         super.changeUiToPlayingShow();
-        thumbImageView.setVisibility(View.VISIBLE);
+        iv_thumb.setVisibility(View.VISIBLE);
 
     }
 
     @Override
     public void changeUiToPlayingClear() {
         super.changeUiToPlayingClear();
-        thumbImageView.setVisibility(View.VISIBLE);
+        iv_thumb.setVisibility(View.VISIBLE);
 
     }
 
     @Override
     public void changeUiToPauseShow() {
         super.changeUiToPauseShow();
-        thumbImageView.setVisibility(View.VISIBLE);
+        iv_thumb.setVisibility(View.VISIBLE);
 
     }
 
     @Override
     public void changeUiToPauseClear() {
         super.changeUiToPauseClear();
-        thumbImageView.setVisibility(View.VISIBLE);
+        iv_thumb.setVisibility(View.VISIBLE);
 
     }
 

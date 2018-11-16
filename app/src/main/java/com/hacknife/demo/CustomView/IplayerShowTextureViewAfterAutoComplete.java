@@ -22,7 +22,7 @@ public class IplayerShowTextureViewAfterAutoComplete extends Iplayer {
     @Override
     public void onAutoCompletion() {
         super.onAutoCompletion();
-        thumbImageView.setVisibility(View.GONE);
+        iv_thumb.setVisibility(View.GONE);
     }
 
 }

@@ -36,7 +36,7 @@ public class ActivityApiRotationVideoSize extends AppCompatActivity implements V
                 , Iplayer.SCREEN_WINDOW_NORMAL);
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][7])
-                .into(myJzvdStd.thumbImageView);
+                .into(myJzvdStd.iv_thumb);
         // The Point IS
         myJzvdStd.videoRotation = 180;
 

@@ -75,7 +75,7 @@ public class ActivityWebView extends AppCompatActivity {
                                 Video.SCREEN_WINDOW_LIST);
                         Glide.with(ActivityWebView.this)
                                 .load(VideoConstant.videoThumbList[1])
-                                .into(webVieo.thumbImageView);
+                                .into(webVieo.iv_thumb);
                         ViewGroup.LayoutParams ll = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                         AbsoluteLayout.LayoutParams layoutParams = new AbsoluteLayout.LayoutParams(ll);
                         layoutParams.y = PlayerUtils.dip2px(ActivityWebView.this, top);
@@ -89,7 +89,7 @@ public class ActivityWebView extends AppCompatActivity {
                                 Video.SCREEN_WINDOW_LIST);
                         Glide.with(ActivityWebView.this)
                                 .load(VideoConstant.videoThumbList[2])
-                                .into(webVieo.thumbImageView);
+                                .into(webVieo.iv_thumb);
                         ViewGroup.LayoutParams ll = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                         AbsoluteLayout.LayoutParams layoutParams = new AbsoluteLayout.LayoutParams(ll);
                         layoutParams.y = PlayerUtils.dip2px(ActivityWebView.this, top);

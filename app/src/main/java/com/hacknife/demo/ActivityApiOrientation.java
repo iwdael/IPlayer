@@ -31,7 +31,7 @@ public class ActivityApiOrientation extends AppCompatActivity {
                 , Iplayer.SCREEN_WINDOW_NORMAL);
         Glide.with(this)
                 .load(VideoConstant.videoThumbList[0])
-                .into(mJzvdStd.thumbImageView);
+                .into(mJzvdStd.iv_thumb);
 
         Video.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
         Video.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;

@@ -39,7 +39,7 @@ public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecycl
         holder.jzvdStd.setDataSource(
                 VideoConstant.videoUrls[0][position],
                 VideoConstant.videoTitles[0][position], Video.SCREEN_WINDOW_LIST);
-        Glide.with(holder.jzvdStd.getContext()).load(VideoConstant.videoThumbs[0][position]).into(holder.jzvdStd.thumbImageView);
+        Glide.with(holder.jzvdStd.getContext()).load(VideoConstant.videoThumbs[0][position]).into(holder.jzvdStd.iv_thumb);
     }
 
     @Override

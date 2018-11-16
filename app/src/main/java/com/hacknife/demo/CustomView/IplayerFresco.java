@@ -29,33 +29,33 @@ public class IplayerFresco extends Iplayer {
     @Override
     public void init(Context context) {
         super.init(context);
-        bottomProgressBar = findViewById(R.id.bottom_progress);
-        titleTextView = findViewById(R.id.title);
-        backButton = findViewById(R.id.back);
+        pro_bottom = findViewById(R.id.pro_bottom);
+        tv_title = findViewById(R.id.tv_title);
+        iv_back = findViewById(R.id.iv_back);
 //        thumbImageView = findViewById(R.id.thumb);
-        loadingProgressBar = findViewById(R.id.loading);
-        tinyBackImageView = findViewById(R.id.back_tiny);
+        pro_loading = findViewById(R.id.pro_loading);
+        iv_back_tiny = findViewById(R.id.iv_back_tiny);
 
 //        thumbImageView.setOnClickListener(this);
-        backButton.setOnClickListener(this);
-        tinyBackImageView.setOnClickListener(this);
+        iv_back.setOnClickListener(this);
+        iv_back_tiny.setOnClickListener(this);
 
     }
 
     @Override
     public void setDataSource(DataSource jzDataSource, int screen) {
         super.setDataSource(jzDataSource, screen);
-        titleTextView.setText(jzDataSource.title);
+        tv_title.setText(jzDataSource.title);
         if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
-            fullscreenButton.setImageResource(R.drawable.iplayer_shrink);
-            backButton.setVisibility(View.VISIBLE);
-            tinyBackImageView.setVisibility(View.INVISIBLE);
+            iv_fullscreen.setImageResource(R.drawable.iplayer_shrink);
+            iv_back.setVisibility(View.VISIBLE);
+            iv_back_tiny.setVisibility(View.INVISIBLE);
         } else if (currentScreen == SCREEN_WINDOW_LIST) {
-            fullscreenButton.setImageResource(R.drawable.iplayer_enlarge);
-            backButton.setVisibility(View.GONE);
-            tinyBackImageView.setVisibility(View.INVISIBLE);
+            iv_fullscreen.setImageResource(R.drawable.iplayer_enlarge);
+            iv_back.setVisibility(View.GONE);
+            iv_back_tiny.setVisibility(View.INVISIBLE);
         } else if (currentScreen == SCREEN_WINDOW_TINY) {
-            tinyBackImageView.setVisibility(View.VISIBLE);
+            iv_back_tiny.setVisibility(View.VISIBLE);
             setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                     View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
         }

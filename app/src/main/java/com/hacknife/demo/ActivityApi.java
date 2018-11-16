@@ -72,7 +72,7 @@ public class ActivityApi extends AppCompatActivity implements View.OnClickListen
         jzDataSource.headerMap.put("key", "value");//header
         mJzvdStd.setDataSource(jzDataSource
                 , Iplayer.SCREEN_WINDOW_NORMAL);
-        Glide.with(this).load(VideoConstant.videoThumbList[0]).into(mJzvdStd.thumbImageView);
+        Glide.with(this).load(VideoConstant.videoThumbList[0]).into(mJzvdStd.iv_thumb);
         mJzvdStd.seekToInAdvance = 20000;
         //JZVideoPlayer.SAVE_PROGRESS = false;
 

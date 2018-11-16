@@ -23,7 +23,7 @@ public class ActivityApiExtendsNormal extends Activity {
                 , Iplayer.SCREEN_WINDOW_NORMAL);
         Glide.with(this)
                 .load(VideoConstant.videoThumbList[0])
-                .into(jzvdStd.thumbImageView);
+                .into(jzvdStd.iv_thumb);
     }
 
     @Override

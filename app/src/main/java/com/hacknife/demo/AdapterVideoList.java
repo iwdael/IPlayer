@@ -65,7 +65,7 @@ public class AdapterVideoList extends BaseAdapter {
                 videoTitles[position], Video.SCREEN_WINDOW_LIST);
         Glide.with(convertView.getContext())
                 .load(videoThumbs[position])
-                .into(viewHolder.jzvdStd.thumbImageView);
+                .into(viewHolder.jzvdStd.iv_thumb);
         viewHolder.jzvdStd.positionInList = position;
         return convertView;
     }

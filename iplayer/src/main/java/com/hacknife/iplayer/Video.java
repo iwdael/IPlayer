@@ -89,7 +89,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
                     try {
                         Video player = VideoManager.getCurrentVideo();
                         if (player != null && player.currentState == Video.CURRENT_STATE_PLAYING) {
-                            player.startButton.performClick();
+                            player.iv_play.performClick();
                         }
                     } catch (IllegalStateException e) {
                         e.printStackTrace();
@@ -105,12 +105,12 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     public int currentState = -1;
     public int currentScreen = -1;
     public long seekToInAdvance = 0;
-    public ImageView startButton;
+    public ImageView iv_play;
     public SeekBar progressBar;
-    public ImageView fullscreenButton;
-    public TextView currentTimeTextView, totalTimeTextView;
-    public ViewGroup textureViewContainer;
-    public ViewGroup topContainer, bottomContainer;
+    public ImageView iv_fullscreen;
+    public TextView tv_current_time, tv_total_time;
+    public ViewGroup fl_surface;
+    public ViewGroup ll_top, ll_bottom;
     public int widthRatio = 0;
     public int heightRatio = 0;
     public DataSource dataSource;
@@ -172,7 +172,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
             vp.addView(video, lp);
             video.setDataSource(dataSource, Iplayer.SCREEN_WINDOW_FULLSCREEN);
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
-            video.startButton.performClick();
+            video.iv_play.performClick();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -361,21 +361,21 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
 
     public void init(Context context) {
         View.inflate(context, getLayoutId(), this);
-        startButton = findViewById(R.id.start);
-        fullscreenButton = findViewById(R.id.fullscreen);
-        progressBar = findViewById(R.id.bottom_seek_progress);
-        currentTimeTextView = findViewById(R.id.current);
-        totalTimeTextView = findViewById(R.id.total);
-        bottomContainer = findViewById(R.id.layout_bottom);
-        textureViewContainer = findViewById(R.id.surface_container);
-        topContainer = findViewById(R.id.layout_top);
+        iv_play = findViewById(R.id.iv_play);
+        iv_fullscreen = findViewById(R.id.iv_fullscreen);
+        progressBar = findViewById(R.id.sb_bottom);
+        tv_current_time = findViewById(R.id.tv_current_time);
+        tv_total_time = findViewById(R.id.tv_total_time);
+        ll_bottom = findViewById(R.id.ll_bottom);
+        fl_surface = findViewById(R.id.fl_surface);
+        ll_top = findViewById(R.id.ll_top);
 
-        startButton.setOnClickListener(this);
-        fullscreenButton.setOnClickListener(this);
+        iv_play.setOnClickListener(this);
+        iv_fullscreen.setOnClickListener(this);
         progressBar.setOnSeekBarChangeListener(this);
-        bottomContainer.setOnClickListener(this);
-        textureViewContainer.setOnClickListener(this);
-        textureViewContainer.setOnTouchListener(this);
+        ll_bottom.setOnClickListener(this);
+        fl_surface.setOnClickListener(this);
+        fl_surface.setOnTouchListener(this);
 
         mScreenWidth = getContext().getResources().getDisplayMetrics().widthPixels;
         mScreenHeight = getContext().getResources().getDisplayMetrics().heightPixels;
@@ -428,7 +428,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.start) {
+        if (i == R.id.iv_play) {
             if (dataSource.urlsMap.isEmpty() || dataSource.getCurrentUrl() == null) {
                 Toast.makeText(getContext(), getResources().getString(R.string.no_url), Toast.LENGTH_SHORT).show();
                 return;
@@ -455,7 +455,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
                 onEvent(Event.ON_CLICK_START_AUTO_COMPLETE);
                 startVideo();
             }
-        } else if (i == R.id.fullscreen) {
+        } else if (i == R.id.iv_fullscreen) {
             if (currentState == CURRENT_STATE_AUTO_COMPLETE) return;
             if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
                 backPress();
@@ -471,7 +471,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         float x = event.getX();
         float y = event.getY();
         int id = v.getId();
-        if (id == R.id.surface_container) {
+        if (id == R.id.fl_surface) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     mTouchingProgressBar = true;
@@ -690,7 +690,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         currentState = CURRENT_STATE_AUTO_COMPLETE;
         cancelProgressTimer();
         progressBar.setProgress(100);
-        currentTimeTextView.setText(totalTimeTextView.getText());
+        tv_current_time.setText(tv_total_time.getText());
     }
 
     public void onInfo(int what, int extra) {
@@ -749,7 +749,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         dismissProgressDialog();
         dismissVolumeDialog();
         onStateNormal();
-        textureViewContainer.removeView(MediaManager.textureView);
+        fl_surface.removeView(MediaManager.textureView);
         MediaManager.instance().currentVideoWidth = 0;
         MediaManager.instance().currentVideoHeight = 0;
 
@@ -792,7 +792,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         Gravity.CENTER);
-        textureViewContainer.addView(MediaManager.textureView, layoutParams);
+        fl_surface.addView(MediaManager.textureView, layoutParams);
     }
 
     protected void removeTextureView() {
@@ -826,13 +826,13 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
 
         if (fullVideo != null) {
             vp.removeView(fullVideo);
-            if (fullVideo.textureViewContainer != null)
-                fullVideo.textureViewContainer.removeView(MediaManager.textureView);
+            if (fullVideo.fl_surface != null)
+                fullVideo.fl_surface.removeView(MediaManager.textureView);
         }
         if (tinyVideo != null) {
             vp.removeView(tinyVideo);
-            if (tinyVideo.textureViewContainer != null)
-                tinyVideo.textureViewContainer.removeView(MediaManager.textureView);
+            if (tinyVideo.fl_surface != null)
+                tinyVideo.fl_surface.removeView(MediaManager.textureView);
         }
         VideoManager.setSecondFloor(null);
     }
@@ -874,8 +874,8 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
                 if (progress != 0) progressBar.setProgress(progress);
             }
         }
-        if (position != 0) currentTimeTextView.setText(PlayerUtils.stringForTime(position));
-        totalTimeTextView.setText(PlayerUtils.stringForTime(duration));
+        if (position != 0) tv_current_time.setText(PlayerUtils.stringForTime(position));
+        tv_total_time.setText(PlayerUtils.stringForTime(duration));
     }
 
     public void setBufferProgress(int bufferProgress) {
@@ -885,8 +885,8 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     public void resetProgressAndTime() {
         progressBar.setProgress(0);
         progressBar.setSecondaryProgress(0);
-        currentTimeTextView.setText(PlayerUtils.stringForTime(0));
-        totalTimeTextView.setText(PlayerUtils.stringForTime(0));
+        tv_current_time.setText(PlayerUtils.stringForTime(0));
+        tv_total_time.setText(PlayerUtils.stringForTime(0));
     }
 
     public long getCurrentPositionWhenPlaying() {
@@ -945,7 +945,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (fromUser) {
             long duration = getDuration();
-            currentTimeTextView.setText(PlayerUtils.stringForTime(progress * duration / 100));
+            tv_current_time.setText(PlayerUtils.stringForTime(progress * duration / 100));
         }
     }
 
@@ -958,7 +958,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         if (old != null) {
             vp.removeView(old);
         }
-        textureViewContainer.removeView(MediaManager.textureView);
+        fl_surface.removeView(MediaManager.textureView);
         try {
             Constructor<Video> constructor = (Constructor<Video>) Video.this.getClass().getConstructor(Context.class);
             Video iplayer = constructor.newInstance(getContext());
@@ -993,7 +993,7 @@ public abstract class Video extends FrameLayout implements View.OnClickListener,
         if (old != null) {
             vp.removeView(old);
         }
-        textureViewContainer.removeView(MediaManager.textureView);
+        fl_surface.removeView(MediaManager.textureView);
 
         try {
             Constructor<Video> constructor = (Constructor<Video>) Video.this.getClass().getConstructor(Context.class);
