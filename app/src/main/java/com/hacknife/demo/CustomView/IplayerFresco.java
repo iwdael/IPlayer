@@ -27,8 +27,8 @@ public class IplayerFresco extends IPlayer {
     }
 
     @Override
-    public void init(Context context) {
-        super.init(context);
+    public void init(Context context, AttributeSet attrs) {
+        super.init(context, attrs);
         pro_bottom = findViewById(R.id.iplayer_pro_bottom);
         tv_title = findViewById(R.id.iplayer_tv_title);
         iv_back = findViewById(R.id.iplayer_iv_back);

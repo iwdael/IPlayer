@@ -8,16 +8,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
-import android.provider.Settings;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
@@ -25,7 +20,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import java.lang.reflect.Constructor;
@@ -134,12 +128,12 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
 
     public Player(Context context) {
         super(context);
-        init(context);
+        init(context,null);
     }
 
     public Player(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init(context,attrs);
     }
 
     public static void setPlayerEngine(PlayerEngine engine) {
@@ -390,7 +384,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         }
     }
 
-    protected abstract void init(Context context);
+    protected abstract void init(Context context, AttributeSet attrs);
 
     protected abstract void onProgress(int progress, long position, long duration);
 

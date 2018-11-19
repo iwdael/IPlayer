@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -70,6 +71,10 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     protected long lastGetBatteryTime = 0;
     protected int lastGetBatteryPercent = 70;
 
+    protected boolean enableBottomProgressBar = true;
+    protected boolean enableFullScreen = true;
+    protected boolean enableTitleBar = true;
+
     private BroadcastReceiver battertReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -93,8 +98,15 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     }
 
     @Override
-    public void init(Context context) {
-        super.init(context);
+    public void init(Context context, AttributeSet attrs) {
+        super.init(context, attrs);
+        if (attrs != null) {
+            TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.IPlayer);
+            enableBottomProgressBar = ta.getBoolean(R.styleable.IPlayer_enableBottomProgressBar, true);
+            enableFullScreen = ta.getBoolean(R.styleable.IPlayer_enableFullScreen, true);
+            enableTitleBar = ta.getBoolean(R.styleable.IPlayer_enableTitleBar, true);
+            ta.recycle();
+        }
         ll_battery_time = findViewById(R.id.iplayer_ll_battery_time);
         setting = findViewById(R.id.iplayer_iv_setting);
         pro_bottom = findViewById(R.id.iplayer_pro_bottom);

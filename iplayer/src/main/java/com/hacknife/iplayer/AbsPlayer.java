@@ -40,7 +40,7 @@ public abstract class AbsPlayer extends Player {
 
     public abstract int getLayoutId();
 
-    public void init(Context context) {
+    public void init(Context context, AttributeSet attrs) {
         View.inflate(context, getLayoutId(), this);
         iv_play = findViewById(R.id.iplayer_iv_play);
         iv_fullscreen = findViewById(R.id.iplayer_iv_fullscreen);

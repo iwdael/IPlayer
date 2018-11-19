@@ -27,8 +27,8 @@ public class IplayerShowShareButtonAfterFullscreen extends IPlayer {
     }
 
     @Override
-    public void init(Context context) {
-        super.init(context);
+    public void init(Context context, AttributeSet attrs) {
+        super.init(context, attrs);
         shareButton = findViewById(R.id.share);
         shareButton.setOnClickListener(this);
 
