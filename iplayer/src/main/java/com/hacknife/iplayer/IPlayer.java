@@ -130,13 +130,13 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         setting.setOnClickListener(this);
         settingView.setOnSettingListener(this);
         if (!enableTitleBar) {
-            ll_top.setVisibility(INVISIBLE);
+            ll_top.setVisibility(GONE);
         }
         if (!enableBottomProgressBar) {
-            pro_bottom.setVisibility(INVISIBLE);
+            pro_bottom.setVisibility(GONE);
         }
         if (!enableFullScreen) {
-            iv_fullscreen.setVisibility(INVISIBLE);
+            iv_fullscreen.setVisibility(GONE);
         }
 
     }
