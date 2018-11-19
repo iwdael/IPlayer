@@ -129,6 +129,16 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         tv_retry.setOnClickListener(this);
         setting.setOnClickListener(this);
         settingView.setOnSettingListener(this);
+        if (!enableTitleBar) {
+            ll_top.setVisibility(INVISIBLE);
+        }
+        if (!enableBottomProgressBar) {
+            pro_bottom.setVisibility(INVISIBLE);
+        }
+        if (!enableFullScreen) {
+            iv_fullscreen.setVisibility(INVISIBLE);
+        }
+
     }
 
     public void setDataSource(DataSource dataSource, int screen) {
@@ -664,12 +674,12 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
 
     public void setAllControlsVisiblity(int topCon, int bottomCon, int startBtn, int loadingPro,
                                         int thumbImg, int bottomPro, int retryLayout) {
-        ll_top.setVisibility(topCon);
+        ll_top.setVisibility(enableTitleBar ? topCon : INVISIBLE);
         ll_bottom.setVisibility(bottomCon);
         iv_play.setVisibility(startBtn);
         pro_loading.setVisibility(loadingPro);
         iv_thumb.setVisibility(thumbImg);
-        pro_bottom.setVisibility(bottomPro);
+        pro_bottom.setVisibility(enableBottomProgressBar ? bottomPro : INVISIBLE);
         ll_retry.setVisibility(retryLayout);
     }
 
