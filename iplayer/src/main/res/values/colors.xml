@@ -2,5 +2,5 @@
 <resources>
     <color name="iplayer_setting_text_color">#fff</color>
     <color name="iplayer_setting_text_color_selected">@color/iplayer_primary_color</color>
-    <color name="iplayer_primary_color">#fff85959</color>
+    <color name="iplayer_primary_color">?attr/iplayer_primary_color</color>
 </resources>
