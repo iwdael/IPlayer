@@ -18,7 +18,7 @@
             android:src="@drawable/iplayer_brightness_video" />
 
         <TextView
-            android:id="@+id/tv_brightness"
+            android:id="@id/iplayer_tv_brightness"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -28,7 +28,7 @@
             android:textSize="16sp" />
 
         <ProgressBar
-            android:id="@+id/brightness_progressbar"
+            android:id="@id/iplayer_brightness_progressbar"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="fill_parent"
             android:layout_height="3dp"

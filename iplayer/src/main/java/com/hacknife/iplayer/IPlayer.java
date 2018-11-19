@@ -95,21 +95,21 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     @Override
     public void init(Context context) {
         super.init(context);
-        ll_battery_time = findViewById(R.id.ll_battery_time);
-        setting = findViewById(R.id.iv_setting);
-        pro_bottom = findViewById(R.id.pro_bottom);
-        tv_title = findViewById(R.id.tv_title);
-        iv_back = findViewById(R.id.iv_back);
-        iv_thumb = findViewById(R.id.iv_thumb);
-        pro_loading = findViewById(R.id.pro_loading);
-        iv_back_tiny = findViewById(R.id.iv_back_tiny);
-        iv_battery = findViewById(R.id.iv_battery);
-        tv_system_time = findViewById(R.id.tv_system_time);
-        tv_replay = findViewById(R.id.tv_replay);
-        tv_clarity = findViewById(R.id.tv_clarity);
-        tv_retry = findViewById(R.id.tv_retry);
-        ll_retry = findViewById(R.id.ll_retry);
-        settingView = findViewById(R.id.setting);
+        ll_battery_time = findViewById(R.id.iplayer_ll_battery_time);
+        setting = findViewById(R.id.iplayer_iv_setting);
+        pro_bottom = findViewById(R.id.iplayer_pro_bottom);
+        tv_title = findViewById(R.id.iplayer_tv_title);
+        iv_back = findViewById(R.id.iplayer_iv_back);
+        iv_thumb = findViewById(R.id.iplayer_iv_thumb);
+        pro_loading = findViewById(R.id.iplayer_pro_loading);
+        iv_back_tiny = findViewById(R.id.iplayer_iv_back_tiny);
+        iv_battery = findViewById(R.id.iplayer_iv_battery);
+        tv_system_time = findViewById(R.id.iplayer_tv_system_time);
+        tv_replay = findViewById(R.id.iplayer_tv_replay);
+        tv_clarity = findViewById(R.id.iplayer_tv_clarity);
+        tv_retry = findViewById(R.id.iplayer_tv_retry);
+        ll_retry = findViewById(R.id.iplayer_ll_retry);
+        settingView = findViewById(R.id.iplayer_setting);
         iv_thumb.setOnClickListener(this);
         iv_back.setOnClickListener(this);
         iv_back_tiny.setOnClickListener(this);
@@ -231,7 +231,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         int id = v.getId();
-        if (id == R.id.fl_surface) {
+        if (id == R.id.iplayer_fl_surface) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     break;
@@ -250,7 +250,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
                     }
                     break;
             }
-        } else if (id == R.id.sb_bottom) {
+        } else if (id == R.id.iplayer_sb_bottom) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     cancelDismissControlViewTimer();
@@ -267,7 +267,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     public void onClick(View v) {
         super.onClick(v);
         int i = v.getId();
-        if (i == R.id.iv_thumb) {
+        if (i == R.id.iplayer_iv_thumb) {
             if (dataSource.urlsMap.isEmpty() || dataSource.getCurrentUrl() == null) {
                 Toast.makeText(getContext(), getResources().getString(R.string.no_url), Toast.LENGTH_SHORT).show();
                 return;
@@ -284,17 +284,17 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             } else if (currentState == CURRENT_STATE_AUTO_COMPLETE) {
                 onClickUiToggle();
             }
-        } else if (i == R.id.fl_surface) {
+        } else if (i == R.id.iplayer_fl_surface) {
             startDismissControlViewTimer();
-        } else if (i == R.id.iv_back) {
+        } else if (i == R.id.iplayer_iv_back) {
             backPress();
-        } else if (i == R.id.iv_back_tiny) {
+        } else if (i == R.id.iplayer_iv_back_tiny) {
             if (PlayerManager.getFirstFloor().currentScreen == Player.SCREEN_WINDOW_LIST) {
                 quitFullscreenOrTinyWindow();
             } else {
                 backPress();
             }
-        } else if (i == R.id.tv_clarity) {
+        } else if (i == R.id.iplayer_tv_clarity) {
             LayoutInflater inflater = (LayoutInflater) getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.iplayer_layout_clarity, null);
@@ -336,7 +336,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             int offsetX = tv_clarity.getMeasuredWidth() / 3;
             int offsetY = tv_clarity.getMeasuredHeight() / 3;
             tv_clarityPopWindow.update(tv_clarity, -offsetX, -offsetY, Math.round(layout.getMeasuredWidth() * 2), layout.getMeasuredHeight());
-        } else if (i == R.id.tv_retry) {
+        } else if (i == R.id.iplayer_tv_retry) {
             if (dataSource.urlsMap.isEmpty() || dataSource.getCurrentUrl() == null) {
                 Toast.makeText(getContext(), getResources().getString(R.string.no_url), Toast.LENGTH_SHORT).show();
                 return;
@@ -352,7 +352,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             MediaManager.setDataSource(dataSource);
             onStatePreparing();
             onEvent(Event.ON_CLICK_START_ERROR);
-        } else if (R.id.iv_setting == v.getId()) {
+        } else if (R.id.iplayer_iv_setting == v.getId()) {
             if (settingView.getVisibility() == View.VISIBLE) {
                 settingView.setVisibility(View.GONE);
             } else {
@@ -684,10 +684,10 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         super.showProgressDialog(deltaX, seekTime, seekTimePosition, totalTime, totalTimeDuration);
         if (progressDialog == null) {
             View localView = LayoutInflater.from(getContext()).inflate(R.layout.iplayer_dialog_progress, null);
-            dialogProgressBar = localView.findViewById(R.id.duration_progressbar);
-            dialogSeekTime = localView.findViewById(R.id.tv_current);
-            dialogTotalTime = localView.findViewById(R.id.tv_duration);
-            dialogIcon = localView.findViewById(R.id.duration_image_tip);
+            dialogProgressBar = localView.findViewById(R.id.iplayer_duration_progressbar);
+            dialogSeekTime = localView.findViewById(R.id.iplayer_tv_current);
+            dialogTotalTime = localView.findViewById(R.id.iplayer_tv_duration);
+            dialogIcon = localView.findViewById(R.id.iplayer_duration_image_tip);
             progressDialog = createDialogWithView(localView);
         }
         if (!progressDialog.isShowing()) {
@@ -718,9 +718,9 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         super.showVolumeDialog(deltaY, volumePercent);
         if (volumeDialog == null) {
             View localView = LayoutInflater.from(getContext()).inflate(R.layout.iplayer_dialog_volume, null);
-            dialogVolumeImageView = localView.findViewById(R.id.volume_image_tip);
-            dialogVolumeTextView = localView.findViewById(R.id.tv_volume);
-            dialogVolumeProgressBar = localView.findViewById(R.id.volume_progressbar);
+            dialogVolumeImageView = localView.findViewById(R.id.iplayer_volume_image_tip);
+            dialogVolumeTextView = localView.findViewById(R.id.iplayer_tv_volume);
+            dialogVolumeProgressBar = localView.findViewById(R.id.iplayer_volume_progressbar);
             volumeDialog = createDialogWithView(localView);
         }
         if (!volumeDialog.isShowing()) {
@@ -754,8 +754,8 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         super.showBrightnessDialog(brightnessPercent);
         if (brightnessDialog == null) {
             View localView = LayoutInflater.from(getContext()).inflate(R.layout.iplayer_dialog_brightness, null);
-            dialogBrightnessTextView = localView.findViewById(R.id.tv_brightness);
-            dialogBrightnessProgressBar = localView.findViewById(R.id.brightness_progressbar);
+            dialogBrightnessTextView = localView.findViewById(R.id.iplayer_tv_brightness);
+            dialogBrightnessProgressBar = localView.findViewById(R.id.iplayer_brightness_progressbar);
             brightnessDialog = createDialogWithView(localView);
         }
         if (!brightnessDialog.isShowing()) {

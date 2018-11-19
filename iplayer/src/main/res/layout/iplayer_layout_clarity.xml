@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/video_quality_wrapper_area"
+    android:id="@id/iplayer_video_quality_wrapper_area"
     android:layout_width="80dp"
     android:layout_height="wrap_content"
     android:background="@drawable/iplayer_clarity_popwindow_bg"

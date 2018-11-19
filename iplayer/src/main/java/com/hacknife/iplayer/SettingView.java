@@ -34,12 +34,12 @@ public class SettingView extends FrameLayout implements View.OnClickListener {
         super(context, attrs, defStyleAttr);
         View view = View.inflate(context, R.layout.iplayer_layout_setting, null);
         addView(view);
-        rotate90 = view.findViewById(R.id.tv_rotate_90);
-        rotate180 = view.findViewById(R.id.tv_rotate_180);
-        rotate270 = view.findViewById(R.id.tv_rotate_270);
-        size4_3 = view.findViewById(R.id.tv_size_4_3);
-        size16_9 = view.findViewById(R.id.tv_size_16_9);
-        sizeFull = view.findViewById(R.id.tv_size_full);
+        rotate90 = view.findViewById(R.id.iplayer_tv_rotate_90);
+        rotate180 = view.findViewById(R.id.iplayer_tv_rotate_180);
+        rotate270 = view.findViewById(R.id.iplayer_tv_rotate_270);
+        size4_3 = view.findViewById(R.id.iplayer_tv_size_4_3);
+        size16_9 = view.findViewById(R.id.iplayer_tv_size_16_9);
+        sizeFull = view.findViewById(R.id.iplayer_tv_size_full);
 
         rotate90.setOnClickListener(this);
         rotate180.setOnClickListener(this);
@@ -64,32 +64,32 @@ public class SettingView extends FrameLayout implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (onSettingListener == null) return;
-        if (view.getId() == R.id.tv_rotate_90) {
+        if (view.getId() == R.id.iplayer_tv_rotate_90) {
             resetRotate();
             rotate90.setTextColor(getResources().getColor(R.color.iplayer_setting_text_color_selected));
             onSettingListener.onRatate(90);
         }
-        if (view.getId() == R.id.tv_rotate_180) {
+        if (view.getId() == R.id.iplayer_tv_rotate_180) {
             resetRotate();
             rotate180.setTextColor(getResources().getColor(R.color.iplayer_setting_text_color_selected));
             onSettingListener.onRatate(180);
         }
-        if (view.getId() == R.id.tv_rotate_270) {
+        if (view.getId() == R.id.iplayer_tv_rotate_270) {
             resetRotate();
             rotate270.setTextColor(getResources().getColor(R.color.iplayer_setting_text_color_selected));
             onSettingListener.onRatate(270);
         }
-        if (view.getId() == R.id.tv_size_4_3) {
+        if (view.getId() == R.id.iplayer_tv_size_4_3) {
             resetSize();
             size4_3.setTextColor(getResources().getColor(R.color.iplayer_setting_text_color_selected));
             onSettingListener.onSize(1);
         }
-        if (view.getId() == R.id.tv_size_16_9) {
+        if (view.getId() == R.id.iplayer_tv_size_16_9) {
             resetSize();
             size16_9.setTextColor(getResources().getColor(R.color.iplayer_setting_text_color_selected));
             onSettingListener.onSize(2);
         }
-        if (view.getId() == R.id.tv_size_full) {
+        if (view.getId() == R.id.iplayer_tv_size_full) {
             resetSize();
             sizeFull.setTextColor(getResources().getColor(R.color.iplayer_setting_text_color_selected));
             onSettingListener.onSize(3);

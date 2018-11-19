@@ -29,12 +29,12 @@ public class IplayerFresco extends IPlayer {
     @Override
     public void init(Context context) {
         super.init(context);
-        pro_bottom = findViewById(R.id.pro_bottom);
-        tv_title = findViewById(R.id.tv_title);
-        iv_back = findViewById(R.id.iv_back);
-//        thumbImageView = findViewById(R.id.thumb);
-        pro_loading = findViewById(R.id.pro_loading);
-        iv_back_tiny = findViewById(R.id.iv_back_tiny);
+        pro_bottom = findViewById(R.id.iplayer_pro_bottom);
+        tv_title = findViewById(R.id.iplayer_tv_title);
+        iv_back = findViewById(R.id.iplayer_iv_back);
+//        thumbImageView = findViewById(R.id.iplayer_thumb);
+        pro_loading = findViewById(R.id.iplayer_pro_loading);
+        iv_back_tiny = findViewById(R.id.iplayer_iv_back_tiny);
 
 //        thumbImageView.setOnClickListener(this);
         iv_back.setOnClickListener(this);

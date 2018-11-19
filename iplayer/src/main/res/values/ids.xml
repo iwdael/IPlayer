@@ -2,4 +2,45 @@
 <resources>
     <item name="iplayer_fullscreen_id" type="id" />
     <item name="iplayer_tiny_id" type="id" />
+    <item name="iplayer_tv_clarity" type="id" />
+    <item name="iplayer_tv_total_time" type="id" />
+    <item name="iplayer_sb_bottom" type="id" />
+    <item name="iplayer_tv_current_time" type="id" />
+    <item name="iplayer_ll_bottom" type="id" />
+    <item name="iplayer_iv_thumb" type="id" />
+    <item name="iplayer_fl_surface" type="id" />
+    <item name="iplayer_iv_fullscreen" type="id" />
+    <item name="iplayer_pro_bottom" type="id" />
+    <item name="iplayer_iv_back_tiny" type="id" />
+    <item name="iplayer_ll_top" type="id" />
+    <item name="iplayer_iv_back" type="id" />
+    <item name="iplayer_tv_title" type="id" />
+    <item name="iplayer_iv_setting" type="id" />
+    <item name="iplayer_ll_battery_time" type="id" />
+    <item name="iplayer_iv_battery" type="id" />
+    <item name="iplayer_tv_system_time" type="id" />
+    <item name="iplayer_pro_loading" type="id" />
+    <item name="iplayer_ll_play" type="id" />
+    <item name="iplayer_iv_play" type="id" />
+    <item name="iplayer_tv_replay" type="id" />
+    <item name="iplayer_ll_retry" type="id" />
+    <item name="iplayer_tv_retry" type="id" />
+    <item name="iplayer_setting" type="id" />
+    <item name="iplayer_duration_image_tip" type="id" />
+    <item name="iplayer_tv_current" type="id" />
+    <item name="iplayer_tv_duration" type="id" />
+    <item name="iplayer_duration_progressbar" type="id" />
+    <item name="iplayer_tv_brightness" type="id" />
+    <item name="iplayer_brightness_progressbar" type="id" />
+    <item name="iplayer_volume_image_tip" type="id" />
+    <item name="iplayer_tv_volume" type="id" />
+    <item name="iplayer_volume_progressbar" type="id" />
+    <item name="iplayer_video_item" type="id" />
+    <item name="iplayer_video_quality_wrapper_area" type="id" />
+    <item name="iplayer_tv_rotate_90" type="id" />
+    <item name="iplayer_tv_rotate_180" type="id" />
+    <item name="iplayer_tv_rotate_270" type="id" />
+    <item name="iplayer_tv_size_4_3" type="id" />
+    <item name="iplayer_tv_size_16_9" type="id" />
+    <item name="iplayer_tv_size_full" type="id" />
 </resources>

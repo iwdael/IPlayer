@@ -18,17 +18,17 @@
             android:background="@drawable/iplayer_setting_rotate" />
 
         <TextView
-            android:id="@+id/tv_rotate_90"
+            android:id="@id/iplayer_tv_rotate_90"
             style="@style/iplayer_setting_text"
             android:text="@string/rotate_90" />
 
         <TextView
-            android:id="@+id/tv_rotate_180"
+            android:id="@id/iplayer_tv_rotate_180"
             style="@style/iplayer_setting_text"
             android:text="@string/rotate_180" />
 
         <TextView
-            android:id="@+id/tv_rotate_270"
+            android:id="@id/iplayer_tv_rotate_270"
             style="@style/iplayer_setting_text"
             android:text="@string/rotate_270" />
     </LinearLayout>
@@ -47,17 +47,17 @@
             android:background="@drawable/iplayer_setting_size" />
 
         <TextView
-            android:id="@+id/tv_size_4_3"
+            android:id="@id/iplayer_tv_size_4_3"
             style="@style/iplayer_setting_text"
             android:text="@string/size_4_3" />
 
         <TextView
-            android:id="@+id/tv_size_16_9"
+            android:id="@id/iplayer_tv_size_16_9"
             style="@style/iplayer_setting_text"
             android:text="@string/size_16_9" />
 
         <TextView
-            android:id="@+id/tv_size_full"
+            android:id="@id/iplayer_tv_size_full"
             style="@style/iplayer_setting_text"
             android:text="@string/size_full" />
     </LinearLayout>

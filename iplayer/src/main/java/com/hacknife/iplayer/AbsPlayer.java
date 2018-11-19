@@ -42,14 +42,14 @@ public abstract class AbsPlayer extends Player {
 
     public void init(Context context) {
         View.inflate(context, getLayoutId(), this);
-        iv_play = findViewById(R.id.iv_play);
-        iv_fullscreen = findViewById(R.id.iv_fullscreen);
-        sb_bottom = findViewById(R.id.sb_bottom);
-        tv_current_time = findViewById(R.id.tv_current_time);
-        tv_total_time = findViewById(R.id.tv_total_time);
-        ll_bottom = findViewById(R.id.ll_bottom);
-        fl_surface = findViewById(R.id.fl_surface);
-        ll_top = findViewById(R.id.ll_top);
+        iv_play = findViewById(R.id.iplayer_iv_play);
+        iv_fullscreen = findViewById(R.id.iplayer_iv_fullscreen);
+        sb_bottom = findViewById(R.id.iplayer_sb_bottom);
+        tv_current_time = findViewById(R.id.iplayer_tv_current_time);
+        tv_total_time = findViewById(R.id.iplayer_tv_total_time);
+        ll_bottom = findViewById(R.id.iplayer_ll_bottom);
+        fl_surface = findViewById(R.id.iplayer_fl_surface);
+        ll_top = findViewById(R.id.iplayer_ll_top);
 
         iv_play.setOnClickListener(this);
         iv_fullscreen.setOnClickListener(this);
@@ -113,7 +113,7 @@ public abstract class AbsPlayer extends Player {
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.iv_play) {
+        if (i == R.id.iplayer_iv_play) {
             if (dataSource.urlsMap.isEmpty() || dataSource.getCurrentUrl() == null) {
                 Toast.makeText(getContext(), getResources().getString(R.string.no_url), Toast.LENGTH_SHORT).show();
                 return;
@@ -140,7 +140,7 @@ public abstract class AbsPlayer extends Player {
                 onEvent(Event.ON_CLICK_START_AUTO_COMPLETE);
                 startVideo();
             }
-        } else if (i == R.id.iv_fullscreen) {
+        } else if (i == R.id.iplayer_iv_fullscreen) {
             if (currentState == CURRENT_STATE_AUTO_COMPLETE) return;
             if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
                 backPress();
@@ -156,7 +156,7 @@ public abstract class AbsPlayer extends Player {
         float x = event.getX();
         float y = event.getY();
         int id = v.getId();
-        if (id == R.id.fl_surface) {
+        if (id == R.id.iplayer_fl_surface) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     mTouchingsb_bottom = true;

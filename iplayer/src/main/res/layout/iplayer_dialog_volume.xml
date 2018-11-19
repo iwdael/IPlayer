@@ -11,14 +11,14 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/volume_image_tip"
+            android:id="@id/iplayer_volume_image_tip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp" />
 
         <TextView
-            android:id="@+id/tv_volume"
+            android:id="@id/iplayer_tv_volume"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -28,7 +28,7 @@
             android:textSize="16sp" />
 
         <ProgressBar
-            android:id="@+id/volume_progressbar"
+            android:id="@id/iplayer_volume_progressbar"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="fill_parent"
             android:layout_height="3dp"
