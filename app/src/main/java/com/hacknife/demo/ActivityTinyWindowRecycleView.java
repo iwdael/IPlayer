@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.hacknife.iplayer.Video;
+import com.hacknife.iplayer.Player;
 
 /**
  * Created by Nathen on 2017/11/1.
@@ -36,12 +36,12 @@ public class ActivityTinyWindowRecycleView extends AppCompatActivity {
         recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
             public void onChildViewAttachedToWindow(View view) {
-                Video.onChildViewAttachedToWindow(view, R.id.videoplayer);
+                Player.onChildViewAttachedToWindow(view, R.id.videoplayer);
             }
 
             @Override
             public void onChildViewDetachedFromWindow(View view) {
-                Video.onChildViewDetachedFromWindow(view);
+                Player.onChildViewDetachedFromWindow(view);
             }
         });
 
@@ -49,7 +49,7 @@ public class ActivityTinyWindowRecycleView extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (Video.backPress()) {
+        if (Player.backPress()) {
             return;
         }
         super.onBackPressed();
@@ -58,7 +58,7 @@ public class ActivityTinyWindowRecycleView extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Video.releaseAllVideos();
+        Player.releaseAllVideos();
     }
 
     @Override

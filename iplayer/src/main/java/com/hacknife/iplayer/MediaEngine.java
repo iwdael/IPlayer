@@ -104,8 +104,8 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
             MediaManager.instance().pMainThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (VideoManager.getCurrentVideo() != null) {
-                        VideoManager.getCurrentVideo().onPrepared();
+                    if (PlayerManager.getCurrentVideo() != null) {
+                        PlayerManager.getCurrentVideo().onPrepared();
                     }
                 }
             });
@@ -117,8 +117,8 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
         MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoManager.getCurrentVideo() != null) {
-                    VideoManager.getCurrentVideo().onAutoCompletion();
+                if (PlayerManager.getCurrentVideo() != null) {
+                    PlayerManager.getCurrentVideo().onAutoCompletion();
                 }
             }
         });
@@ -129,8 +129,8 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
         MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoManager.getCurrentVideo() != null) {
-                    VideoManager.getCurrentVideo().setBufferProgress(percent);
+                if (PlayerManager.getCurrentVideo() != null) {
+                    PlayerManager.getCurrentVideo().setBufferProgress(percent);
                 }
             }
         });
@@ -141,8 +141,8 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
         MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoManager.getCurrentVideo() != null) {
-                    VideoManager.getCurrentVideo().onSeekComplete();
+                if (PlayerManager.getCurrentVideo() != null) {
+                    PlayerManager.getCurrentVideo().onSeekComplete();
                 }
             }
         });
@@ -153,8 +153,8 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
         MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoManager.getCurrentVideo() != null) {
-                    VideoManager.getCurrentVideo().onError(what, extra);
+                if (PlayerManager.getCurrentVideo() != null) {
+                    PlayerManager.getCurrentVideo().onError(what, extra);
                 }
             }
         });
@@ -166,13 +166,13 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
         MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoManager.getCurrentVideo() != null) {
+                if (PlayerManager.getCurrentVideo() != null) {
                     if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                        if (VideoManager.getCurrentVideo().currentState == Video.CURRENT_STATE_PREPARING || VideoManager.getCurrentVideo().currentState == Video.CURRENT_STATE_PREPARING_CHANGING_URL) {
-                            VideoManager.getCurrentVideo().onPrepared();
+                        if (PlayerManager.getCurrentVideo().currentState == Player.CURRENT_STATE_PREPARING || PlayerManager.getCurrentVideo().currentState == Player.CURRENT_STATE_PREPARING_CHANGING_URL) {
+                            PlayerManager.getCurrentVideo().onPrepared();
                         }
                     } else {
-                        VideoManager.getCurrentVideo().onInfo(what, extra);
+                        PlayerManager.getCurrentVideo().onInfo(what, extra);
                     }
                 }
             }
@@ -187,8 +187,8 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
         MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoManager.getCurrentVideo() != null) {
-                    VideoManager.getCurrentVideo().onVideoSizeChanged();
+                if (PlayerManager.getCurrentVideo() != null) {
+                    PlayerManager.getCurrentVideo().onVideoSizeChanged();
                 }
             }
         });

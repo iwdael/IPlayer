@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.IPlayer;
 import com.hacknife.demo.R;
 
 /**
@@ -13,7 +13,7 @@ import com.hacknife.demo.R;
  * 所有关于视频的逻辑都应该写在这里
  * Created by Nathen on 2017/7/2.
  */
-public class IplayerCustom extends Iplayer {
+public class IplayerCustom extends IPlayer {
     public IplayerCustom(Context context) {
         super(context);
     }

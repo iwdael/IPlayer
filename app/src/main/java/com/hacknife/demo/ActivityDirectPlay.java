@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.hacknife.iplayer.Video;
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.Player;
+import com.hacknife.iplayer.IPlayer;
 
 /**
  * Created by Nathen on 16/7/31.
@@ -40,7 +40,7 @@ public class ActivityDirectPlay extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fullscreen:
-                Iplayer.startFullscreen(this, Iplayer.class, VideoConstant.videoUrlList[6], "饺子辛苦了");
+                IPlayer.startFullscreen(this, IPlayer.class, VideoConstant.videoUrlList[6], "饺子辛苦了");
                 break;
             case R.id.tiny_window:
                 Toast.makeText(ActivityDirectPlay.this, "Comming Soon", Toast.LENGTH_SHORT).show();
@@ -50,7 +50,7 @@ public class ActivityDirectPlay extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onBackPressed() {
-        if (Video.backPress()) {
+        if (Player.backPress()) {
             return;
         }
         super.onBackPressed();
@@ -59,7 +59,7 @@ public class ActivityDirectPlay extends AppCompatActivity implements View.OnClic
     @Override
     protected void onPause() {
         super.onPause();
-        Video.releaseAllVideos();
+        Player.releaseAllVideos();
     }
 
     @Override

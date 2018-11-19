@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import com.hacknife.iplayer.Video;
+import com.hacknife.iplayer.Player;
 
 /**
  * Created by Nathen on 16/7/31.
@@ -18,7 +18,7 @@ public class ActivityListViewNormal extends AppCompatActivity {
     ListView listView;
 
     SensorManager sensorManager;
-    Video.AutoFullscreenListener sensorEventListener;
+    Player.AutoFullscreenListener sensorEventListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,17 +44,17 @@ public class ActivityListViewNormal extends AppCompatActivity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                Video.onScrollReleaseAllVideos(view, firstVisibleItem, visibleItemCount, totalItemCount);
+                Player.onScrollReleaseAllVideos(view, firstVisibleItem, visibleItemCount, totalItemCount);
             }
         });
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensorEventListener = new Video.AutoFullscreenListener();
+        sensorEventListener = new Player.AutoFullscreenListener();
     }
 
     @Override
     public void onBackPressed() {
-        if (Video.backPress()) {
+        if (Player.backPress()) {
             return;
         }
         super.onBackPressed();
@@ -71,7 +71,7 @@ public class ActivityListViewNormal extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         sensorManager.unregisterListener(sensorEventListener);
-        Video.releaseAllVideos();
+        Player.releaseAllVideos();
     }
 
     @Override

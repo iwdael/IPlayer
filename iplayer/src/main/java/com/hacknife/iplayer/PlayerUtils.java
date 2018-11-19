@@ -8,7 +8,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
-import android.util.Log;
 import android.view.Window;
 
 import java.util.Formatter;
@@ -48,7 +47,6 @@ public class PlayerUtils {
 
     public static Activity scanForActivity(Context context) {
         if (context == null) return null;
-
         if (context instanceof Activity) {
             return (Activity) context;
         } else if (context instanceof ContextWrapper) {
@@ -92,7 +90,7 @@ public class PlayerUtils {
     }
 
     public static void saveProgress(Context context, Object url, long progress) {
-        if (!Video.SAVE_PROGRESS) return;
+        if (!Player.SAVE_PROGRESS) return;
          if (progress < 5000) {
             progress = 0;
         }
@@ -103,7 +101,7 @@ public class PlayerUtils {
     }
 
     public static long getSavedProgress(Context context, Object url) {
-        if (!Video.SAVE_PROGRESS) return 0;
+        if (!Player.SAVE_PROGRESS) return 0;
         SharedPreferences spn = context.getSharedPreferences(PRE_NAME,
                 Context.MODE_PRIVATE);
         return spn.getLong("newVersion:" + url.toString(), 0);

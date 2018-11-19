@@ -9,8 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.hacknife.iplayer.MediaManager;
-import com.hacknife.iplayer.Video;
-import com.hacknife.iplayer.VideoManager;
+import com.hacknife.iplayer.Player;
+import com.hacknife.iplayer.PlayerManager;
 
 /**
  * Created by yujunkui on 16/8/29.
@@ -42,11 +42,11 @@ public class ActivityListViewRecyclerView extends AppCompatActivity {
 
             @Override
             public void onChildViewDetachedFromWindow(View view) {
-                Video video = view.findViewById(R.id.videoplayer);
+                Player video = view.findViewById(R.id.videoplayer);
                 if (video != null && video.dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-                    Video currentJzvd = VideoManager.getCurrentVideo();
-                    if (currentJzvd != null && currentJzvd.currentScreen != Video.SCREEN_WINDOW_FULLSCREEN) {
-                        Video.releaseAllVideos();
+                    Player currentJzvd = PlayerManager.getCurrentVideo();
+                    if (currentJzvd != null && currentJzvd.currentScreen != Player.SCREEN_WINDOW_FULLSCREEN) {
+                        Player.releaseAllVideos();
                     }
                 }
             }
@@ -55,7 +55,7 @@ public class ActivityListViewRecyclerView extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (Video.backPress()) {
+        if (Player.backPress()) {
             return;
         }
         super.onBackPressed();
@@ -64,7 +64,7 @@ public class ActivityListViewRecyclerView extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Video.releaseAllVideos();
+        Player.releaseAllVideos();
     }
 
     @Override

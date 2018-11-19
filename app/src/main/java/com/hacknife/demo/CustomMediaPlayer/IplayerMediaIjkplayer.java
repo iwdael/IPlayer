@@ -8,7 +8,8 @@ import java.io.IOException;
 
 import com.hacknife.iplayer.PlayerEngine;
 import com.hacknife.iplayer.MediaManager;
-import com.hacknife.iplayer.VideoManager;
+import com.hacknife.iplayer.PlayerManager;
+
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkTimedText;
@@ -95,8 +96,8 @@ public class IplayerMediaIjkplayer extends PlayerEngine implements IMediaPlayer.
             MediaManager.instance().pMainThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (VideoManager.getCurrentVideo() != null) {
-                        VideoManager.getCurrentVideo().onPrepared();
+                    if (PlayerManager.getCurrentVideo() != null) {
+                        PlayerManager.getCurrentVideo().onPrepared();
                     }
                 }
             });
@@ -110,8 +111,8 @@ public class IplayerMediaIjkplayer extends PlayerEngine implements IMediaPlayer.
         MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoManager.getCurrentVideo() != null) {
-                    VideoManager.getCurrentVideo().onVideoSizeChanged();
+                if (PlayerManager.getCurrentVideo() != null) {
+                    PlayerManager.getCurrentVideo().onVideoSizeChanged();
                 }
             }
         });
@@ -122,8 +123,8 @@ public class IplayerMediaIjkplayer extends PlayerEngine implements IMediaPlayer.
         MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoManager.getCurrentVideo() != null) {
-                    VideoManager.getCurrentVideo().onAutoCompletion();
+                if (PlayerManager.getCurrentVideo() != null) {
+                    PlayerManager.getCurrentVideo().onAutoCompletion();
                 }
             }
         });
@@ -134,8 +135,8 @@ public class IplayerMediaIjkplayer extends PlayerEngine implements IMediaPlayer.
         MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoManager.getCurrentVideo() != null) {
-                    VideoManager.getCurrentVideo().onError(what, extra);
+                if (PlayerManager.getCurrentVideo() != null) {
+                    PlayerManager.getCurrentVideo().onError(what, extra);
                 }
             }
         });
@@ -147,11 +148,11 @@ public class IplayerMediaIjkplayer extends PlayerEngine implements IMediaPlayer.
         MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoManager.getCurrentVideo() != null) {
+                if (PlayerManager.getCurrentVideo() != null) {
                     if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                        VideoManager.getCurrentVideo().onPrepared();
+                        PlayerManager.getCurrentVideo().onPrepared();
                     } else {
-                        VideoManager.getCurrentVideo().onInfo(what, extra);
+                        PlayerManager.getCurrentVideo().onInfo(what, extra);
                     }
                 }
             }
@@ -164,8 +165,8 @@ public class IplayerMediaIjkplayer extends PlayerEngine implements IMediaPlayer.
         MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoManager.getCurrentVideo() != null) {
-                    VideoManager.getCurrentVideo().setBufferProgress(percent);
+                if (PlayerManager.getCurrentVideo() != null) {
+                    PlayerManager.getCurrentVideo().setBufferProgress(percent);
                 }
             }
         });
@@ -176,8 +177,8 @@ public class IplayerMediaIjkplayer extends PlayerEngine implements IMediaPlayer.
         MediaManager.instance().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (VideoManager.getCurrentVideo() != null) {
-                    VideoManager.getCurrentVideo().onSeekComplete();
+                if (PlayerManager.getCurrentVideo() != null) {
+                    PlayerManager.getCurrentVideo().onSeekComplete();
                 }
             }
         });

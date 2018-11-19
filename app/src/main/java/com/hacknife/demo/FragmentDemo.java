@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import com.hacknife.iplayer.Video;
+import com.hacknife.iplayer.Player;
 
 /**
  * Created by Nathen on 2017/6/9.
@@ -45,7 +45,7 @@ public class FragmentDemo extends Fragment {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                Video.onScrollReleaseAllVideos(view, firstVisibleItem, visibleItemCount, totalItemCount);
+                Player.onScrollReleaseAllVideos(view, firstVisibleItem, visibleItemCount, totalItemCount);
             }
         });
         return listView;

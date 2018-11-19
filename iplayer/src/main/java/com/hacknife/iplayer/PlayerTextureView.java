@@ -58,7 +58,7 @@ public class PlayerTextureView extends android.view.TextureView {
         int parentHeight = ((View) getParent()).getMeasuredHeight();
         int parentWidth = ((View) getParent()).getMeasuredWidth();
         if (parentWidth != 0 && parentHeight != 0 && videoWidth != 0 && videoHeight != 0) {
-            if (Video.VIDEO_IMAGE_DISPLAY_TYPE == Video.VIDEO_IMAGE_DISPLAY_TYPE_FILL_PARENT) {
+            if (Player.VIDEO_IMAGE_DISPLAY_TYPE == Player.VIDEO_IMAGE_DISPLAY_TYPE_FILL_PARENT) {
                 if (viewRotation == 90 || viewRotation == 270) {
                     int tempSize = parentWidth;
                     parentWidth = parentHeight;
@@ -135,11 +135,11 @@ public class PlayerTextureView extends android.view.TextureView {
             // no size yet, just adopt the given spec sizes
         }
         if (parentWidth != 0 && parentHeight != 0 && videoWidth != 0 && videoHeight != 0) {
-            if (Video.VIDEO_IMAGE_DISPLAY_TYPE == Video.VIDEO_IMAGE_DISPLAY_TYPE_ORIGINAL) {
+            if (Player.VIDEO_IMAGE_DISPLAY_TYPE == Player.VIDEO_IMAGE_DISPLAY_TYPE_ORIGINAL) {
                 /**原图**/
                 height = videoHeight;
                 width = videoWidth;
-            } else if (Video.VIDEO_IMAGE_DISPLAY_TYPE == Video.VIDEO_IMAGE_DISPLAY_TYPE_FILL_SCROP) {
+            } else if (Player.VIDEO_IMAGE_DISPLAY_TYPE == Player.VIDEO_IMAGE_DISPLAY_TYPE_FILL_SCROP) {
                 if (viewRotation == 90 || viewRotation == 270) {
                     int tempSize = parentWidth;
                     parentWidth = parentHeight;

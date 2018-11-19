@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import com.hacknife.iplayer.Video;
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.Player;
+import com.hacknife.iplayer.IPlayer;
 
 /**
  * Created by Nathen on 2017/11/1.
@@ -43,12 +43,12 @@ public class ActivityTinyWindowRecycleViewMultiHolder extends AppCompatActivity 
         recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
             public void onChildViewAttachedToWindow(View view) {
-                Video.onChildViewAttachedToWindow(view, R.id.videoplayer);
+                Player.onChildViewAttachedToWindow(view, R.id.videoplayer);
             }
 
             @Override
             public void onChildViewDetachedFromWindow(View view) {
-                Video.onChildViewDetachedFromWindow(view);
+                Player.onChildViewDetachedFromWindow(view);
             }
         });
 
@@ -57,12 +57,12 @@ public class ActivityTinyWindowRecycleViewMultiHolder extends AppCompatActivity 
     @Override
     protected void onPause() {
         super.onPause();
-        Video.releaseAllVideos();
+        Player.releaseAllVideos();
     }
 
     @Override
     public void onBackPressed() {
-        if (Video.backPress()) {
+        if (Player.backPress()) {
             return;
         }
         super.onBackPressed();
@@ -108,7 +108,7 @@ public class ActivityTinyWindowRecycleViewMultiHolder extends AppCompatActivity 
                 VideoHolder videoHolder = (VideoHolder) holder;
                 videoHolder.jzvdStd.setDataSource(
                         VideoConstant.videoUrls[0][position],
-                        VideoConstant.videoTitles[0][position], Video.SCREEN_WINDOW_LIST);
+                        VideoConstant.videoTitles[0][position], Player.SCREEN_WINDOW_LIST);
                 videoHolder.jzvdStd.positionInList = position;
                 Glide.with(ActivityTinyWindowRecycleViewMultiHolder.this).load(VideoConstant.videoThumbs[0][position]).into(videoHolder.jzvdStd.iv_thumb);
             }
@@ -120,7 +120,7 @@ public class ActivityTinyWindowRecycleViewMultiHolder extends AppCompatActivity 
         }
 
         class VideoHolder extends RecyclerView.ViewHolder {
-            Iplayer jzvdStd;
+            IPlayer jzvdStd;
 
             public VideoHolder(View itemView) {
                 super(itemView);

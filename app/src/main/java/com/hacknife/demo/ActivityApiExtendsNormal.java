@@ -5,8 +5,8 @@ import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
 
-import com.hacknife.iplayer.Video;
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.Player;
+import com.hacknife.iplayer.IPlayer;
 
 /**
  * Created by Nathen on 2017/9/19.
@@ -18,9 +18,9 @@ public class ActivityApiExtendsNormal extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_extends_normal);
-        Iplayer jzvdStd = findViewById(R.id.videoplayer);
+        IPlayer jzvdStd = findViewById(R.id.videoplayer);
         jzvdStd.setDataSource(VideoConstant.videoUrlList[0], "饺子不信"
-                , Iplayer.SCREEN_WINDOW_NORMAL);
+                , IPlayer.SCREEN_WINDOW_NORMAL);
         Glide.with(this)
                 .load(VideoConstant.videoThumbList[0])
                 .into(jzvdStd.iv_thumb);
@@ -28,7 +28,7 @@ public class ActivityApiExtendsNormal extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (Video.backPress()) {
+        if (Player.backPress()) {
             return;
         }
         super.onBackPressed();
@@ -37,6 +37,6 @@ public class ActivityApiExtendsNormal extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        Video.releaseAllVideos();
+        Player.releaseAllVideos();
     }
 }

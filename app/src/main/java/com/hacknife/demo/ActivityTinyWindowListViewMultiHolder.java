@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import com.hacknife.iplayer.Video;
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.Player;
+import com.hacknife.iplayer.IPlayer;
 
 /**
  * Created by Nathen on 2017/10/31.
@@ -48,14 +48,14 @@ public class ActivityTinyWindowListViewMultiHolder extends AppCompatActivity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                Video.onScrollAutoTiny(view, firstVisibleItem, visibleItemCount, totalItemCount);
+                Player.onScrollAutoTiny(view, firstVisibleItem, visibleItemCount, totalItemCount);
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        if (Video.backPress()) {
+        if (Player.backPress()) {
             return;
         }
         super.onBackPressed();
@@ -64,7 +64,7 @@ public class ActivityTinyWindowListViewMultiHolder extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Video.releaseAllVideos();
+        Player.releaseAllVideos();
     }
 
     @Override
@@ -119,7 +119,7 @@ public class ActivityTinyWindowListViewMultiHolder extends AppCompatActivity {
 
                 viewHolder.jzvdStd.setDataSource(
                         VideoConstant.videoUrls[0][position],
-                        VideoConstant.videoTitles[0][position], Video.SCREEN_WINDOW_LIST);
+                        VideoConstant.videoTitles[0][position], Player.SCREEN_WINDOW_LIST);
                 viewHolder.jzvdStd.positionInList = position;
                 Glide.with(ActivityTinyWindowListViewMultiHolder.this).load(VideoConstant.videoThumbs[0][position]).into(viewHolder.jzvdStd.iv_thumb);
             } else {
@@ -148,7 +148,7 @@ public class ActivityTinyWindowListViewMultiHolder extends AppCompatActivity {
         }
 
         class VideoHolder {
-            Iplayer jzvdStd;
+            IPlayer jzvdStd;
         }
 
         class TextViewHolder {

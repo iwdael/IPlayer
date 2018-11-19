@@ -21,16 +21,16 @@ import java.io.OutputStream;
 import java.util.LinkedHashMap;
 
 import com.hacknife.iplayer.DataSource;
-import com.hacknife.iplayer.Video;
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.Player;
+import com.hacknife.iplayer.IPlayer;
 
 /**
  * Created by Nathen on 16/7/31.
  */
 public class ActivityApi extends AppCompatActivity implements View.OnClickListener {
     Button mSmallChange, mBigChange, mOrientation, mExtendsNormalActivity, mRationAndVideoSize, mCustomMediaPlayer;
-    Iplayer mJzvdStd;
-    Video.AutoFullscreenListener mSensorEventListener;
+    IPlayer mJzvdStd;
+    Player.AutoFullscreenListener mSensorEventListener;
     SensorManager mSensorManager;
 
     @Override
@@ -71,7 +71,7 @@ public class ActivityApi extends AppCompatActivity implements View.OnClickListen
         jzDataSource.currentUrlIndex = 2;
         jzDataSource.headerMap.put("key", "value");//header
         mJzvdStd.setDataSource(jzDataSource
-                , Iplayer.SCREEN_WINDOW_NORMAL);
+                , IPlayer.SCREEN_WINDOW_NORMAL);
         Glide.with(this).load(VideoConstant.videoThumbList[0]).into(mJzvdStd.iv_thumb);
         mJzvdStd.seekToInAdvance = 20000;
         //JZVideoPlayer.SAVE_PROGRESS = false;
@@ -85,7 +85,7 @@ public class ActivityApi extends AppCompatActivity implements View.OnClickListen
 //                videoController1.thumbImageView);
         /** volley Fresco omit **/
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        mSensorEventListener = new Video.AutoFullscreenListener();
+        mSensorEventListener = new Player.AutoFullscreenListener();
     }
 
     @Override
@@ -119,21 +119,21 @@ public class ActivityApi extends AppCompatActivity implements View.OnClickListen
         Sensor accelerometerSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(mSensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
         //home back
-        Video.goOnPlayOnResume();
+        Player.goOnPlayOnResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(mSensorEventListener);
-        Video.clearSavedProgress(this, null);
+        Player.clearSavedProgress(this, null);
         //home back
-        Video.goOnPlayOnPause();
+        Player.goOnPlayOnPause();
     }
 
     @Override
     public void onBackPressed() {
-        if (Video.backPress()) {
+        if (Player.backPress()) {
             return;
         }
         super.onBackPressed();

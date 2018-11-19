@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hacknife.iplayer.Video;
+import com.hacknife.iplayer.Player;
 
 /**
  * Created by Nathen
@@ -43,7 +43,7 @@ public class ActivityListViewFragmentViewPager extends AppCompatActivity impleme
     @Override
     protected void onPause() {
         super.onPause();
-        Video.releaseAllVideos();
+        Player.releaseAllVideos();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ActivityListViewFragmentViewPager extends AppCompatActivity impleme
 
     @Override
     public void onPageSelected(int position) {
-        Video.releaseAllVideos();
+        Player.releaseAllVideos();
     }
 
     @Override
@@ -63,7 +63,7 @@ public class ActivityListViewFragmentViewPager extends AppCompatActivity impleme
 
     @Override
     public void onBackPressed() {
-        if (Video.backPress()) {
+        if (Player.backPress()) {
             return;
         }
         super.onBackPressed();

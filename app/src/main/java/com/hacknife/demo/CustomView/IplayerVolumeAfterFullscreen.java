@@ -4,13 +4,13 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.hacknife.iplayer.MediaManager;
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.IPlayer;
 
 /**
  * Created by pc on 2018/1/17.
  */
 
-public class IplayerVolumeAfterFullscreen extends Iplayer {
+public class IplayerVolumeAfterFullscreen extends IPlayer {
     public IplayerVolumeAfterFullscreen(Context context) {
         super(context);
     }

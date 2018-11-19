@@ -18,8 +18,8 @@ import java.io.IOException;
 
 import com.hacknife.iplayer.DataSource;
 import com.hacknife.iplayer.MediaEngine;
-import com.hacknife.iplayer.Video;
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.Player;
+import com.hacknife.iplayer.IPlayer;
 
 /**
  * Created by Nathen on 2017/11/23.
@@ -27,7 +27,7 @@ import com.hacknife.iplayer.Iplayer;
 
 public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements View.OnClickListener {
     Button mChangeToIjk, mChangeToSystemMediaPlayer, mChangeToExo;
-    Iplayer jzvdStd;
+    IPlayer jzvdStd;
     Handler handler = new Handler();//这里其实并不需要handler，为了防止播放中切换播放器引擎导致的崩溃，实际使用时一般不会遇到，可以随时调用JZVideoPlayer.setMediaInterface();
 
     @Override
@@ -56,45 +56,45 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
         } catch (IOException e) {
             e.printStackTrace();
         }
-        jzvdStd.setDataSource(jzDataSource, Iplayer.SCREEN_WINDOW_NORMAL);
+        jzvdStd.setDataSource(jzDataSource, IPlayer.SCREEN_WINDOW_NORMAL);
         Glide.with(this)
                 .load("http://jzvd-pic.nathen.cn/jzvd-pic/1bb2ebbe-140d-4e2e-abd2-9e7e564f71ac.png")
                 .into(jzvdStd.iv_thumb);
 
-        Video.setPlayerEngine(new CustomMediaPlayerAssertFolder());//进入此页面修改MediaInterface，让此页面的jzvd正常工作
+        Player.setPlayerEngine(new CustomMediaPlayerAssertFolder());//进入此页面修改MediaInterface，让此页面的jzvd正常工作
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.change_to_ijkplayer:
-                Video.releaseAllVideos();
+                Player.releaseAllVideos();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Video.setPlayerEngine(new IplayerMediaIjkplayer());
+                        Player.setPlayerEngine(new IplayerMediaIjkplayer());
                     }
                 }, 1000);
                 Toast.makeText(ActivityApiCustomMediaPlayer.this, "Change to Ijkplayer", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
             case R.id.change_to_system_mediaplayer:
-                Video.releaseAllVideos();
+                Player.releaseAllVideos();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Video.setPlayerEngine(new MediaEngine());
+                        Player.setPlayerEngine(new MediaEngine());
                     }
                 }, 1000);
                 Toast.makeText(this, "Change to MediaPlayer", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
             case R.id.change_to_exo:
-                Video.releaseAllVideos();
+                Player.releaseAllVideos();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Video.setPlayerEngine(new IplayerExoPlayer());
+                        Player.setPlayerEngine(new IplayerExoPlayer());
                     }
                 }, 1000);
                 Toast.makeText(this, "Change to ExoPlayer", Toast.LENGTH_SHORT).show();
@@ -105,14 +105,14 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
 
     @Override
     public void onBackPressed() {
-        if (Video.backPress()) {
+        if (Player.backPress()) {
             return;
         }
-        Video.releaseAllVideos();
+        Player.releaseAllVideos();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Video.setPlayerEngine(new MediaEngine());
+                Player.setPlayerEngine(new MediaEngine());
             }
         }, 1000);
         super.onBackPressed();
@@ -121,18 +121,18 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
     @Override
     protected void onPause() {
         super.onPause();
-        Video.releaseAllVideos();
+        Player.releaseAllVideos();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Video.releaseAllVideos();
+                Player.releaseAllVideos();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Video.setPlayerEngine(new MediaEngine());
+                        Player.setPlayerEngine(new MediaEngine());
                     }
                 }, 1000);
                 finish();

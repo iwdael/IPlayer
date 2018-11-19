@@ -8,8 +8,8 @@ import android.widget.BaseAdapter;
 
 import com.bumptech.glide.Glide;
 
-import com.hacknife.iplayer.Video;
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.Player;
+import com.hacknife.iplayer.IPlayer;
 
 /**
  * Created by Nathen
@@ -62,7 +62,7 @@ public class AdapterVideoList extends BaseAdapter {
         viewHolder.jzvdStd = convertView.findViewById(R.id.videoplayer);
         viewHolder.jzvdStd.setDataSource(
                 videoUrls[position],
-                videoTitles[position], Video.SCREEN_WINDOW_LIST);
+                videoTitles[position], Player.SCREEN_WINDOW_LIST);
         Glide.with(convertView.getContext())
                 .load(videoThumbs[position])
                 .into(viewHolder.jzvdStd.iv_thumb);
@@ -71,6 +71,6 @@ public class AdapterVideoList extends BaseAdapter {
     }
 
     class ViewHolder {
-        Iplayer jzvdStd;
+        IPlayer jzvdStd;
     }
 }

@@ -12,8 +12,8 @@ import android.widget.AbsoluteLayout;
 import com.bumptech.glide.Glide;
 
 import com.hacknife.iplayer.PlayerUtils;
-import com.hacknife.iplayer.Video;
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.Player;
+import com.hacknife.iplayer.IPlayer;
 
 /**
  * Created by Nathen on 16/10/13.
@@ -40,7 +40,7 @@ public class ActivityWebView extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (Video.backPress()) {
+        if (Player.backPress()) {
             return;
         }
         super.onBackPressed();
@@ -49,7 +49,7 @@ public class ActivityWebView extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Video.releaseAllVideos();
+        Player.releaseAllVideos();
     }
 
     @Override
@@ -70,9 +70,9 @@ public class ActivityWebView extends AppCompatActivity {
                 @Override
                 public void run() {
                     if (index == 0) {
-                        Iplayer webVieo = new Iplayer(ActivityWebView.this);
+                        IPlayer webVieo = new IPlayer(ActivityWebView.this);
                         webVieo.setDataSource(VideoConstant.videoUrlList[1], "饺子骑大马",
-                                Video.SCREEN_WINDOW_LIST);
+                                Player.SCREEN_WINDOW_LIST);
                         Glide.with(ActivityWebView.this)
                                 .load(VideoConstant.videoThumbList[1])
                                 .into(webVieo.iv_thumb);
@@ -84,9 +84,9 @@ public class ActivityWebView extends AppCompatActivity {
                         layoutParams.width = PlayerUtils.dip2px(ActivityWebView.this, width);
                         mWebView.addView(webVieo, layoutParams);
                     } else {
-                        Iplayer webVieo = new Iplayer(ActivityWebView.this);
+                        IPlayer webVieo = new IPlayer(ActivityWebView.this);
                         webVieo.setDataSource(VideoConstant.videoUrlList[2], "饺子失态了",
-                                Video.SCREEN_WINDOW_LIST);
+                                Player.SCREEN_WINDOW_LIST);
                         Glide.with(ActivityWebView.this)
                                 .load(VideoConstant.videoThumbList[2])
                                 .into(webVieo.iv_thumb);

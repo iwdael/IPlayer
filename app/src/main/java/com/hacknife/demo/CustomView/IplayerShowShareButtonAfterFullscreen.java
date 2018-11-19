@@ -7,14 +7,14 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.hacknife.iplayer.DataSource;
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.IPlayer;
 import com.hacknife.demo.R;
 
 /**
  * Created by Nathen
  * On 2016/04/22 00:54
  */
-public class IplayerShowShareButtonAfterFullscreen extends Iplayer {
+public class IplayerShowShareButtonAfterFullscreen extends IPlayer {
 
     public ImageView shareButton;
 

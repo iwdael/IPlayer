@@ -8,13 +8,13 @@ import android.view.WindowManager;
 
 import com.hacknife.iplayer.MediaManager;
 import com.hacknife.iplayer.PlayerUtils;
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.IPlayer;
 
 /**
  * 全屏状态播放完成，不退出全屏
  * Created by Nathen on 2016/11/26.
  */
-public class IplayerAutoCompleteAfterFullscreen extends Iplayer {
+public class IplayerAutoCompleteAfterFullscreen extends IPlayer {
     public IplayerAutoCompleteAfterFullscreen(Context context) {
         super(context);
     }

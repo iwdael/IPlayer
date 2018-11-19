@@ -9,8 +9,8 @@ import android.widget.Button;
 
 import com.bumptech.glide.Glide;
 
-import com.hacknife.iplayer.Video;
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.Player;
+import com.hacknife.iplayer.IPlayer;
 
 /**
  * Created by Nathen on 2017/11/2.
@@ -18,7 +18,7 @@ import com.hacknife.iplayer.Iplayer;
 
 public class ActivityApiRotationVideoSize extends AppCompatActivity implements View.OnClickListener {
 
-    Iplayer myJzvdStd;
+    IPlayer myJzvdStd;
     Button mBtnRotation, mBtnFillParent, mBtnFillCrop, mBtnOriginal;
 
     @Override
@@ -33,7 +33,7 @@ public class ActivityApiRotationVideoSize extends AppCompatActivity implements V
 
         myJzvdStd = findViewById(R.id.jz_video);
         myJzvdStd.setDataSource(VideoConstant.videoUrls[0][7], VideoConstant.videoTitles[0][7]
-                , Iplayer.SCREEN_WINDOW_NORMAL);
+                , IPlayer.SCREEN_WINDOW_NORMAL);
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][7])
                 .into(myJzvdStd.iv_thumb);
@@ -54,19 +54,19 @@ public class ActivityApiRotationVideoSize extends AppCompatActivity implements V
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rotation_to_90:
-                Video.setTextureViewRotation(90);
+                Player.setTextureViewRotation(90);
 
                 break;
             case R.id.video_image_display_fill_parent:
-                Video.setVideoImageDisplayType(Video.VIDEO_IMAGE_DISPLAY_TYPE_FILL_PARENT);
+                Player.setVideoImageDisplayType(Player.VIDEO_IMAGE_DISPLAY_TYPE_FILL_PARENT);
 
                 break;
             case R.id.video_image_display_fill_crop:
-                Video.setVideoImageDisplayType(Video.VIDEO_IMAGE_DISPLAY_TYPE_FILL_SCROP);
+                Player.setVideoImageDisplayType(Player.VIDEO_IMAGE_DISPLAY_TYPE_FILL_SCROP);
 
                 break;
             case R.id.video_image_diaplay_original:
-                Video.setVideoImageDisplayType(Video.VIDEO_IMAGE_DISPLAY_TYPE_ORIGINAL);
+                Player.setVideoImageDisplayType(Player.VIDEO_IMAGE_DISPLAY_TYPE_ORIGINAL);
 
                 break;
         }
@@ -75,13 +75,13 @@ public class ActivityApiRotationVideoSize extends AppCompatActivity implements V
     @Override
     protected void onPause() {
         super.onPause();
-        Video.releaseAllVideos();
-        Video.setVideoImageDisplayType(Video.VIDEO_IMAGE_DISPLAY_TYPE_ADAPTER);
+        Player.releaseAllVideos();
+        Player.setVideoImageDisplayType(Player.VIDEO_IMAGE_DISPLAY_TYPE_ADAPTER);
     }
 
     @Override
     public void onBackPressed() {
-        if (Video.backPress()) {
+        if (Player.backPress()) {
             return;
         }
         super.onBackPressed();

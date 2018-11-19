@@ -8,14 +8,14 @@ import android.view.MenuItem;
 
 import com.bumptech.glide.Glide;
 
-import com.hacknife.iplayer.Video;
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.Player;
+import com.hacknife.iplayer.IPlayer;
 
 /**
  * Created by Nathen on 2016/12/30.
  */
 public class ActivityApiOrientation extends AppCompatActivity {
-    Iplayer mJzvdStd;
+    IPlayer mJzvdStd;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,19 +28,19 @@ public class ActivityApiOrientation extends AppCompatActivity {
         setContentView(R.layout.activity_orientation);
         mJzvdStd = findViewById(R.id.jz_video);
         mJzvdStd.setDataSource(VideoConstant.videoUrlList[0], "饺子不信"
-                , Iplayer.SCREEN_WINDOW_NORMAL);
+                , IPlayer.SCREEN_WINDOW_NORMAL);
         Glide.with(this)
                 .load(VideoConstant.videoThumbList[0])
                 .into(mJzvdStd.iv_thumb);
 
-        Video.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-        Video.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        Player.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+        Player.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
     }
 
     @Override
     public void onBackPressed() {
-        if (Video.backPress()) {
+        if (Player.backPress()) {
             return;
         }
         super.onBackPressed();
@@ -49,11 +49,11 @@ public class ActivityApiOrientation extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Video.releaseAllVideos();
+        Player.releaseAllVideos();
 
         //Change these two variables back
-        Video.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
-        Video.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        Player.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
+        Player.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
     }
 
     @Override

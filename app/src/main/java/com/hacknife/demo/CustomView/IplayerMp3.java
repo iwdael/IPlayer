@@ -4,10 +4,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.IPlayer;
 import com.hacknife.demo.R;
 
-public class IplayerMp3 extends Iplayer {
+public class IplayerMp3 extends IPlayer {
 
     public IplayerMp3(Context context) {
         super(context);

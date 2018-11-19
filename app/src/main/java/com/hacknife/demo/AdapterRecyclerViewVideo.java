@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 
-import com.hacknife.iplayer.Video;
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.Player;
+import com.hacknife.iplayer.IPlayer;
 
 public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecyclerViewVideo.MyViewHolder> {
 
@@ -38,7 +38,7 @@ public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecycl
 
         holder.jzvdStd.setDataSource(
                 VideoConstant.videoUrls[0][position],
-                VideoConstant.videoTitles[0][position], Video.SCREEN_WINDOW_LIST);
+                VideoConstant.videoTitles[0][position], Player.SCREEN_WINDOW_LIST);
         Glide.with(holder.jzvdStd.getContext()).load(VideoConstant.videoThumbs[0][position]).into(holder.jzvdStd.iv_thumb);
     }
 
@@ -48,7 +48,7 @@ public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecycl
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        Iplayer jzvdStd;
+        IPlayer jzvdStd;
 
         public MyViewHolder(View itemView) {
             super(itemView);

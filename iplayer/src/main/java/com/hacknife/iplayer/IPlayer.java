@@ -33,7 +33,7 @@ import java.util.TimerTask;
  * Created by Nathen
  * On 2016/04/18 16:15
  */
-public class Iplayer extends Video implements SettingView.OnSettingListener {
+public class IPlayer extends Player implements SettingView.OnSettingListener {
 
     protected static Timer DISMISS_CONTROL_VIEW_TIMER;
 
@@ -83,11 +83,11 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
         }
     };
 
-    public Iplayer(Context context) {
+    public IPlayer(Context context) {
         super(context);
     }
 
-    public Iplayer(Context context, AttributeSet attrs) {
+    public IPlayer(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -133,13 +133,13 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
                 tv_clarity.setText(dataSource.getCurrentKey().toString());
                 tv_clarity.setVisibility(View.VISIBLE);
             }
-            changeiv_playSize((int) getResources().getDimension(R.dimen.iplayer_start_button_w_h_fullscreen));
+            changePlaySize((int) getResources().getDimension(R.dimen.iplayer_start_button_w_h_fullscreen));
         } else if (currentScreen == SCREEN_WINDOW_NORMAL
                 || currentScreen == SCREEN_WINDOW_LIST) {
             iv_fullscreen.setImageResource(R.drawable.iplayer_enlarge);
             iv_back.setVisibility(View.GONE);
             iv_back_tiny.setVisibility(View.INVISIBLE);
-            changeiv_playSize((int) getResources().getDimension(R.dimen.iplayer_start_button_w_h_normal));
+            changePlaySize((int) getResources().getDimension(R.dimen.iplayer_start_button_w_h_normal));
             ll_battery_time.setVisibility(View.GONE);
             setting.setVisibility(View.GONE);
             tv_clarity.setVisibility(View.GONE);
@@ -156,12 +156,12 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
 
         if (tmp_test_back) {
             tmp_test_back = false;
-            VideoManager.setFirstFloor(this);
+            PlayerManager.setFirstFloor(this);
             backPress();
         }
     }
 
-    public void changeiv_playSize(int size) {
+    public void changePlaySize(int size) {
         ViewGroup.LayoutParams lp = iv_play.getLayoutParams();
         lp.height = size;
         lp.width = size;
@@ -290,7 +290,7 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
         } else if (i == R.id.iv_back) {
             backPress();
         } else if (i == R.id.iv_back_tiny) {
-            if (VideoManager.getFirstFloor().currentScreen == Video.SCREEN_WINDOW_LIST) {
+            if (PlayerManager.getFirstFloor().currentScreen == Player.SCREEN_WINDOW_LIST) {
                 quitFullscreenOrTinyWindow();
             } else {
                 backPress();
@@ -849,7 +849,7 @@ public class Iplayer extends Video implements SettingView.OnSettingListener {
 
     @Override
     public void onRatate(int angle) {
-        Video.setTextureViewRotation(angle);
+        Player.setTextureViewRotation(angle);
     }
 
     @Override

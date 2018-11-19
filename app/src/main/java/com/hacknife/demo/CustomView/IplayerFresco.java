@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.hacknife.iplayer.DataSource;
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.IPlayer;
 import com.hacknife.demo.R;
 
 //import com.facebook.drawee.view.SimpleDraweeView;
@@ -15,7 +15,7 @@ import com.hacknife.demo.R;
  * Created by Nathen
  * On 2016/05/01 22:59
  */
-public class IplayerFresco extends Iplayer {
+public class IplayerFresco extends IPlayer {
     //    public SimpleDraweeView thumbImageView;
 
     public IplayerFresco(Context context) {

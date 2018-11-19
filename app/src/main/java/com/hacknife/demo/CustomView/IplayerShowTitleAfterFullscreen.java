@@ -5,13 +5,13 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.hacknife.iplayer.DataSource;
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.IPlayer;
 
 /**
  * Created by Nathen
  * On 2016/04/27 10:49
  */
-public class IplayerShowTitleAfterFullscreen extends Iplayer {
+public class IplayerShowTitleAfterFullscreen extends IPlayer {
     public IplayerShowTitleAfterFullscreen(Context context) {
         super(context);
     }

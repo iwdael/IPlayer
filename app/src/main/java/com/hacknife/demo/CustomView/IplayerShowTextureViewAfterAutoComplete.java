@@ -4,13 +4,13 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.hacknife.iplayer.Iplayer;
+import com.hacknife.iplayer.IPlayer;
 
 /**
  * Created by Nathen on 2016/11/6.
  */
 
-public class IplayerShowTextureViewAfterAutoComplete extends Iplayer {
+public class IplayerShowTextureViewAfterAutoComplete extends IPlayer {
     public IplayerShowTextureViewAfterAutoComplete(Context context) {
         super(context);
     }

@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import com.hacknife.iplayer.Video;
+import com.hacknife.iplayer.Player;
 
 /**
  * Created by Nathen on 2017/10/22.
@@ -41,14 +41,14 @@ public class ActivityTinyWindowListViewNormal extends AppCompatActivity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                Video.onScrollAutoTiny(view, firstVisibleItem, visibleItemCount, totalItemCount);
+                Player.onScrollAutoTiny(view, firstVisibleItem, visibleItemCount, totalItemCount);
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        if (Video.backPress()) {
+        if (Player.backPress()) {
             return;
         }
         super.onBackPressed();
@@ -57,7 +57,7 @@ public class ActivityTinyWindowListViewNormal extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Video.releaseAllVideos();
+        Player.releaseAllVideos();
     }
 
     @Override

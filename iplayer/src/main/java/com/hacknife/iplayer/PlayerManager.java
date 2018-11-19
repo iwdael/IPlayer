@@ -4,30 +4,30 @@ package com.hacknife.iplayer;
  * author  : hacknife
  * e-mail  : 4884280@qq.com
  * github  : http://github.com/hacknife
- * desc    : VideoManager
+ * desc    : PlayerManager
  */
-public class VideoManager {
+public class PlayerManager {
 
-    public static Video pFirstVideo;
-    public static Video pSecendVideo;
+    public static Player pFirstVideo;
+    public static Player pSecendVideo;
 
-    public static Video getFirstFloor() {
+    public static Player getFirstFloor() {
         return pFirstVideo;
     }
 
-    public static void setFirstFloor(Video video) {
+    public static void setFirstFloor(Player video) {
         pFirstVideo = video;
     }
 
-    public static Video getSecondFloor() {
+    public static Player getSecondFloor() {
         return pSecendVideo;
     }
 
-    public static void setSecondFloor(Video video) {
+    public static void setSecondFloor(Player video) {
         pSecendVideo = video;
     }
 
-    public static Video getCurrentVideo() {
+    public static Player getCurrentVideo() {
         if (getSecondFloor() != null) {
             return getSecondFloor();
         }
