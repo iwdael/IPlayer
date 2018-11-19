@@ -71,9 +71,6 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     protected long lastGetBatteryTime = 0;
     protected int lastGetBatteryPercent = 70;
 
-    protected boolean enableBottomProgressBar = true;
-    protected boolean enableFullScreen = true;
-    protected boolean enableTitleBar = true;
 
     private BroadcastReceiver battertReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -100,13 +97,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     @Override
     public void init(Context context, AttributeSet attrs) {
         super.init(context, attrs);
-        if (attrs != null) {
-            TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.IPlayer);
-            enableBottomProgressBar = ta.getBoolean(R.styleable.IPlayer_enableBottomProgressBar, true);
-            enableFullScreen = ta.getBoolean(R.styleable.IPlayer_enableFullScreen, true);
-            enableTitleBar = ta.getBoolean(R.styleable.IPlayer_enableTitleBar, true);
-            ta.recycle();
-        }
+
         ll_battery_time = findViewById(R.id.iplayer_ll_battery_time);
         setting = findViewById(R.id.iplayer_iv_setting);
         pro_bottom = findViewById(R.id.iplayer_pro_bottom);
@@ -129,15 +120,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         tv_retry.setOnClickListener(this);
         setting.setOnClickListener(this);
         settingView.setOnSettingListener(this);
-        if (!enableTitleBar) {
-            ll_top.setVisibility(GONE);
-        }
-        if (!enableBottomProgressBar) {
-            pro_bottom.setVisibility(GONE);
-        }
-        if (!enableFullScreen) {
-            iv_fullscreen.setVisibility(GONE);
-        }
+
 
     }
 
@@ -674,12 +657,12 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
 
     public void setAllControlsVisiblity(int topCon, int bottomCon, int startBtn, int loadingPro,
                                         int thumbImg, int bottomPro, int retryLayout) {
-        ll_top.setVisibility(enableTitleBar ? topCon : INVISIBLE);
+        ll_top.setVisibility(topCon);
         ll_bottom.setVisibility(bottomCon);
         iv_play.setVisibility(startBtn);
         pro_loading.setVisibility(loadingPro);
         iv_thumb.setVisibility(thumbImg);
-        pro_bottom.setVisibility(enableBottomProgressBar ? bottomPro : INVISIBLE);
+        pro_bottom.setVisibility(bottomPro);
         ll_retry.setVisibility(retryLayout);
     }
 

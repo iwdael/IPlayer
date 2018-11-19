@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="IPlayer">
-        <attr name="enableFullScreen" format="boolean" />
-        <attr name="enableBottomProgressBar" format="boolean" />
-        <attr name="enableTitleBar" format="boolean" />
-    </declare-styleable>
+    <attr name="iplayer_primary_color" format="color" />
+
 </resources>
