@@ -49,7 +49,7 @@ public class PlayerTextureView extends android.view.TextureView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        Log.i(TAG, "onMeasure " + " [" + this.hashCode() + "] ");
+
         int viewRotation = (int) getRotation();
         int videoWidth = currentVideoWidth;
         int videoHeight = currentVideoHeight;

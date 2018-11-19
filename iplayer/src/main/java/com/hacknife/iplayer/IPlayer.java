@@ -33,9 +33,8 @@ import java.util.TimerTask;
  * Created by Nathen
  * On 2016/04/18 16:15
  */
-public class IPlayer extends Player implements SettingView.OnSettingListener {
+public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener {
 
-    protected static Timer DISMISS_CONTROL_VIEW_TIMER;
 
     public ImageView iv_back;
     public ProgressBar pro_bottom, pro_loading;
@@ -53,21 +52,23 @@ public class IPlayer extends Player implements SettingView.OnSettingListener {
     public LinearLayout ll_retry;
 
     protected DismissControlViewTimerTask mDismissControlViewTimerTask;
-    protected Dialog mProgressDialog;
-    protected ProgressBar mDialogProgressBar;
-    protected TextView mDialogSeekTime;
-    protected TextView mDialogTotalTime;
-    protected ImageView mDialogIcon;
-    protected Dialog mVolumeDialog;
-    protected ProgressBar mDialogVolumeProgressBar;
-    protected TextView mDialogVolumeTextView;
-    protected ImageView mDialogVolumeImageView;
-    protected Dialog mBrightnessDialog;
-    protected ProgressBar mDialogBrightnessProgressBar;
-    protected TextView mDialogBrightnessTextView;
+    protected Timer dismissControlViewTimer;
+
+    protected Dialog progressDialog;
+    protected ProgressBar dialogProgressBar;
+    protected TextView dialogSeekTime;
+    protected TextView dialogTotalTime;
+    protected ImageView dialogIcon;
+    protected Dialog volumeDialog;
+    protected ProgressBar dialogVolumeProgressBar;
+    protected TextView dialogVolumeTextView;
+    protected ImageView dialogVolumeImageView;
+    protected Dialog brightnessDialog;
+    protected ProgressBar dialogBrightnessProgressBar;
+    protected TextView dialogBrightnessTextView;
     protected SettingView settingView;
-    public static long LAST_GET_iv_battery_TIME = 0;
-    public static int LAST_GET_iv_battery_PERCENT = 70;
+    protected long lastGetBatteryTime = 0;
+    protected int lastGetBatteryPercent = 70;
 
     private BroadcastReceiver battertReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -76,8 +77,8 @@ public class IPlayer extends Player implements SettingView.OnSettingListener {
                 int level = intent.getIntExtra("level", 0);
                 int scale = intent.getIntExtra("scale", 100);
                 int percent = level * 100 / scale;
-                LAST_GET_iv_battery_PERCENT = percent;
-                setiv_battery();
+                lastGetBatteryPercent = percent;
+                setBattery();
                 getContext().unregisterReceiver(battertReceiver);
             }
         }
@@ -152,8 +153,6 @@ public class IPlayer extends Player implements SettingView.OnSettingListener {
             tv_clarity.setVisibility(View.GONE);
         }
         setSystemTimeAndBattery();
-
-
         if (tmp_test_back) {
             tmp_test_back = false;
             PlayerManager.setFirstFloor(this);
@@ -434,19 +433,19 @@ public class IPlayer extends Player implements SettingView.OnSettingListener {
         SimpleDateFormat dateFormater = new SimpleDateFormat("HH:mm");
         Date date = new Date();
         tv_system_time.setText(dateFormater.format(date));
-        if ((System.currentTimeMillis() - LAST_GET_iv_battery_TIME) > 30000) {
-            LAST_GET_iv_battery_TIME = System.currentTimeMillis();
+        if ((System.currentTimeMillis() - lastGetBatteryTime) > 30000) {
+            lastGetBatteryTime = System.currentTimeMillis();
             getContext().registerReceiver(
                     battertReceiver,
                     new IntentFilter(Intent.ACTION_BATTERY_CHANGED)
             );
         } else {
-            setiv_battery();
+            setBattery();
         }
     }
 
-    public void setiv_battery() {
-        int percent = LAST_GET_iv_battery_PERCENT;
+    public void setBattery() {
+        int percent = lastGetBatteryPercent;
         if (percent < 15) {
             iv_battery.setBackgroundResource(R.drawable.iplayer_battery_level_10);
         } else if (percent >= 15 && percent < 40) {
@@ -683,25 +682,25 @@ public class IPlayer extends Player implements SettingView.OnSettingListener {
     @Override
     public void showProgressDialog(float deltaX, String seekTime, long seekTimePosition, String totalTime, long totalTimeDuration) {
         super.showProgressDialog(deltaX, seekTime, seekTimePosition, totalTime, totalTimeDuration);
-        if (mProgressDialog == null) {
+        if (progressDialog == null) {
             View localView = LayoutInflater.from(getContext()).inflate(R.layout.iplayer_dialog_progress, null);
-            mDialogProgressBar = localView.findViewById(R.id.duration_progressbar);
-            mDialogSeekTime = localView.findViewById(R.id.tv_current);
-            mDialogTotalTime = localView.findViewById(R.id.tv_duration);
-            mDialogIcon = localView.findViewById(R.id.duration_image_tip);
-            mProgressDialog = createDialogWithView(localView);
+            dialogProgressBar = localView.findViewById(R.id.duration_progressbar);
+            dialogSeekTime = localView.findViewById(R.id.tv_current);
+            dialogTotalTime = localView.findViewById(R.id.tv_duration);
+            dialogIcon = localView.findViewById(R.id.duration_image_tip);
+            progressDialog = createDialogWithView(localView);
         }
-        if (!mProgressDialog.isShowing()) {
-            mProgressDialog.show();
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
         }
 
-        mDialogSeekTime.setText(seekTime);
-        mDialogTotalTime.setText(" / " + totalTime);
-        mDialogProgressBar.setProgress(totalTimeDuration <= 0 ? 0 : (int) (seekTimePosition * 100 / totalTimeDuration));
+        dialogSeekTime.setText(seekTime);
+        dialogTotalTime.setText(" / " + totalTime);
+        dialogProgressBar.setProgress(totalTimeDuration <= 0 ? 0 : (int) (seekTimePosition * 100 / totalTimeDuration));
         if (deltaX > 0) {
-            mDialogIcon.setBackgroundResource(R.drawable.iplayer_forward_icon);
+            dialogIcon.setBackgroundResource(R.drawable.iplayer_forward_icon);
         } else {
-            mDialogIcon.setBackgroundResource(R.drawable.iplayer_backward_icon);
+            dialogIcon.setBackgroundResource(R.drawable.iplayer_backward_icon);
         }
         onCLickUiToggleToClear();
     }
@@ -709,74 +708,74 @@ public class IPlayer extends Player implements SettingView.OnSettingListener {
     @Override
     public void dismissProgressDialog() {
         super.dismissProgressDialog();
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
         }
     }
 
     @Override
     public void showVolumeDialog(float deltaY, int volumePercent) {
         super.showVolumeDialog(deltaY, volumePercent);
-        if (mVolumeDialog == null) {
+        if (volumeDialog == null) {
             View localView = LayoutInflater.from(getContext()).inflate(R.layout.iplayer_dialog_volume, null);
-            mDialogVolumeImageView = localView.findViewById(R.id.volume_image_tip);
-            mDialogVolumeTextView = localView.findViewById(R.id.tv_volume);
-            mDialogVolumeProgressBar = localView.findViewById(R.id.volume_progressbar);
-            mVolumeDialog = createDialogWithView(localView);
+            dialogVolumeImageView = localView.findViewById(R.id.volume_image_tip);
+            dialogVolumeTextView = localView.findViewById(R.id.tv_volume);
+            dialogVolumeProgressBar = localView.findViewById(R.id.volume_progressbar);
+            volumeDialog = createDialogWithView(localView);
         }
-        if (!mVolumeDialog.isShowing()) {
-            mVolumeDialog.show();
+        if (!volumeDialog.isShowing()) {
+            volumeDialog.show();
         }
         if (volumePercent <= 0) {
-            mDialogVolumeImageView.setBackgroundResource(R.drawable.iplayer_close_volume);
+            dialogVolumeImageView.setBackgroundResource(R.drawable.iplayer_close_volume);
         } else {
-            mDialogVolumeImageView.setBackgroundResource(R.drawable.iplayer_add_volume);
+            dialogVolumeImageView.setBackgroundResource(R.drawable.iplayer_add_volume);
         }
         if (volumePercent > 100) {
             volumePercent = 100;
         } else if (volumePercent < 0) {
             volumePercent = 0;
         }
-        mDialogVolumeTextView.setText(volumePercent + "%");
-        mDialogVolumeProgressBar.setProgress(volumePercent);
+        dialogVolumeTextView.setText(volumePercent + "%");
+        dialogVolumeProgressBar.setProgress(volumePercent);
         onCLickUiToggleToClear();
     }
 
     @Override
     public void dismissVolumeDialog() {
         super.dismissVolumeDialog();
-        if (mVolumeDialog != null) {
-            mVolumeDialog.dismiss();
+        if (volumeDialog != null) {
+            volumeDialog.dismiss();
         }
     }
 
     @Override
     public void showBrightnessDialog(int brightnessPercent) {
         super.showBrightnessDialog(brightnessPercent);
-        if (mBrightnessDialog == null) {
+        if (brightnessDialog == null) {
             View localView = LayoutInflater.from(getContext()).inflate(R.layout.iplayer_dialog_brightness, null);
-            mDialogBrightnessTextView = localView.findViewById(R.id.tv_brightness);
-            mDialogBrightnessProgressBar = localView.findViewById(R.id.brightness_progressbar);
-            mBrightnessDialog = createDialogWithView(localView);
+            dialogBrightnessTextView = localView.findViewById(R.id.tv_brightness);
+            dialogBrightnessProgressBar = localView.findViewById(R.id.brightness_progressbar);
+            brightnessDialog = createDialogWithView(localView);
         }
-        if (!mBrightnessDialog.isShowing()) {
-            mBrightnessDialog.show();
+        if (!brightnessDialog.isShowing()) {
+            brightnessDialog.show();
         }
         if (brightnessPercent > 100) {
             brightnessPercent = 100;
         } else if (brightnessPercent < 0) {
             brightnessPercent = 0;
         }
-        mDialogBrightnessTextView.setText(brightnessPercent + "%");
-        mDialogBrightnessProgressBar.setProgress(brightnessPercent);
+        dialogBrightnessTextView.setText(brightnessPercent + "%");
+        dialogBrightnessProgressBar.setProgress(brightnessPercent);
         onCLickUiToggleToClear();
     }
 
     @Override
     public void dismissBrightnessDialog() {
         super.dismissBrightnessDialog();
-        if (mBrightnessDialog != null) {
-            mBrightnessDialog.dismiss();
+        if (brightnessDialog != null) {
+            brightnessDialog.dismiss();
         }
     }
 
@@ -796,14 +795,14 @@ public class IPlayer extends Player implements SettingView.OnSettingListener {
 
     public void startDismissControlViewTimer() {
         cancelDismissControlViewTimer();
-        DISMISS_CONTROL_VIEW_TIMER = new Timer();
+        dismissControlViewTimer = new Timer();
         mDismissControlViewTimerTask = new DismissControlViewTimerTask();
-        DISMISS_CONTROL_VIEW_TIMER.schedule(mDismissControlViewTimerTask, 2500);
+        dismissControlViewTimer.schedule(mDismissControlViewTimerTask, 2500);
     }
 
     public void cancelDismissControlViewTimer() {
-        if (DISMISS_CONTROL_VIEW_TIMER != null) {
-            DISMISS_CONTROL_VIEW_TIMER.cancel();
+        if (dismissControlViewTimer != null) {
+            dismissControlViewTimer.cancel();
         }
         if (mDismissControlViewTimerTask != null) {
             mDismissControlViewTimerTask.cancel();

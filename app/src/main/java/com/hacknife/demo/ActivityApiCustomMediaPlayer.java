@@ -9,10 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.hacknife.demo.CustomMediaPlayer.IplayerExoPlayer;
+import com.hacknife.demo.CustomMediaPlayer.ExoEngine;
 import com.bumptech.glide.Glide;
-import com.hacknife.demo.CustomMediaPlayer.CustomMediaPlayerAssertFolder;
-import com.hacknife.demo.CustomMediaPlayer.IplayerMediaIjkplayer;
+import com.hacknife.demo.CustomMediaPlayer.CustomEngine;
+import com.hacknife.demo.CustomMediaPlayer.IjkEngine;
 
 import java.io.IOException;
 
@@ -61,7 +61,7 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
                 .load("http://jzvd-pic.nathen.cn/jzvd-pic/1bb2ebbe-140d-4e2e-abd2-9e7e564f71ac.png")
                 .into(jzvdStd.iv_thumb);
 
-        Player.setPlayerEngine(new CustomMediaPlayerAssertFolder());//进入此页面修改MediaInterface，让此页面的jzvd正常工作
+        Player.setPlayerEngine(new CustomEngine());//进入此页面修改MediaInterface，让此页面的jzvd正常工作
     }
 
     @Override
@@ -72,7 +72,7 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Player.setPlayerEngine(new IplayerMediaIjkplayer());
+                        Player.setPlayerEngine(new IjkEngine());
                     }
                 }, 1000);
                 Toast.makeText(ActivityApiCustomMediaPlayer.this, "Change to Ijkplayer", Toast.LENGTH_SHORT).show();
@@ -94,7 +94,7 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Player.setPlayerEngine(new IplayerExoPlayer());
+                        Player.setPlayerEngine(new ExoEngine());
                     }
                 }, 1000);
                 Toast.makeText(this, "Change to ExoPlayer", Toast.LENGTH_SHORT).show();

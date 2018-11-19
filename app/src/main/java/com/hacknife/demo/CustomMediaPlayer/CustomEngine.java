@@ -12,7 +12,7 @@ import com.hacknife.iplayer.PlayerManager;
 /**
  * Created by Nathen on 2017/11/23.
  */
-public class CustomMediaPlayerAssertFolder extends PlayerEngine implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener, MediaPlayer.OnVideoSizeChangedListener {
+public class CustomEngine extends PlayerEngine implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener, MediaPlayer.OnVideoSizeChangedListener {
 
     public MediaPlayer mediaPlayer;
 
@@ -26,14 +26,14 @@ public class CustomMediaPlayerAssertFolder extends PlayerEngine implements Media
         try {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setOnPreparedListener(CustomMediaPlayerAssertFolder.this);
-            mediaPlayer.setOnCompletionListener(CustomMediaPlayerAssertFolder.this);
-            mediaPlayer.setOnBufferingUpdateListener(CustomMediaPlayerAssertFolder.this);
+            mediaPlayer.setOnPreparedListener(CustomEngine.this);
+            mediaPlayer.setOnCompletionListener(CustomEngine.this);
+            mediaPlayer.setOnBufferingUpdateListener(CustomEngine.this);
             mediaPlayer.setScreenOnWhilePlaying(true);
-            mediaPlayer.setOnSeekCompleteListener(CustomMediaPlayerAssertFolder.this);
-            mediaPlayer.setOnErrorListener(CustomMediaPlayerAssertFolder.this);
-            mediaPlayer.setOnInfoListener(CustomMediaPlayerAssertFolder.this);
-            mediaPlayer.setOnVideoSizeChangedListener(CustomMediaPlayerAssertFolder.this);
+            mediaPlayer.setOnSeekCompleteListener(CustomEngine.this);
+            mediaPlayer.setOnErrorListener(CustomEngine.this);
+            mediaPlayer.setOnInfoListener(CustomEngine.this);
+            mediaPlayer.setOnVideoSizeChangedListener(CustomEngine.this);
 
             AssetFileDescriptor assetFileDescriptor = (AssetFileDescriptor) dataSource.getCurrentUrl();
             mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(), assetFileDescriptor.getStartOffset(), assetFileDescriptor.getLength());

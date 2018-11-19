@@ -18,7 +18,7 @@ import tv.danmaku.ijk.media.player.IjkTimedText;
  * Created by Nathen on 2017/11/18.
  */
 
-public class IplayerMediaIjkplayer extends PlayerEngine implements IMediaPlayer.OnPreparedListener, IMediaPlayer.OnVideoSizeChangedListener, IMediaPlayer.OnCompletionListener, IMediaPlayer.OnErrorListener, IMediaPlayer.OnInfoListener, IMediaPlayer.OnBufferingUpdateListener, IMediaPlayer.OnSeekCompleteListener, IMediaPlayer.OnTimedTextListener {
+public class IjkEngine extends PlayerEngine implements IMediaPlayer.OnPreparedListener, IMediaPlayer.OnVideoSizeChangedListener, IMediaPlayer.OnCompletionListener, IMediaPlayer.OnErrorListener, IMediaPlayer.OnInfoListener, IMediaPlayer.OnBufferingUpdateListener, IMediaPlayer.OnSeekCompleteListener, IMediaPlayer.OnTimedTextListener {
     IjkMediaPlayer ijkMediaPlayer;
 
     @Override
@@ -29,14 +29,14 @@ public class IplayerMediaIjkplayer extends PlayerEngine implements IMediaPlayer.
     @Override
     public void prepare() {
         ijkMediaPlayer = new IjkMediaPlayer();
-        ijkMediaPlayer.setOnPreparedListener(IplayerMediaIjkplayer.this);
-        ijkMediaPlayer.setOnVideoSizeChangedListener(IplayerMediaIjkplayer.this);
-        ijkMediaPlayer.setOnCompletionListener(IplayerMediaIjkplayer.this);
-        ijkMediaPlayer.setOnErrorListener(IplayerMediaIjkplayer.this);
-        ijkMediaPlayer.setOnInfoListener(IplayerMediaIjkplayer.this);
-        ijkMediaPlayer.setOnBufferingUpdateListener(IplayerMediaIjkplayer.this);
-        ijkMediaPlayer.setOnSeekCompleteListener(IplayerMediaIjkplayer.this);
-        ijkMediaPlayer.setOnTimedTextListener(IplayerMediaIjkplayer.this);
+        ijkMediaPlayer.setOnPreparedListener(IjkEngine.this);
+        ijkMediaPlayer.setOnVideoSizeChangedListener(IjkEngine.this);
+        ijkMediaPlayer.setOnCompletionListener(IjkEngine.this);
+        ijkMediaPlayer.setOnErrorListener(IjkEngine.this);
+        ijkMediaPlayer.setOnInfoListener(IjkEngine.this);
+        ijkMediaPlayer.setOnBufferingUpdateListener(IjkEngine.this);
+        ijkMediaPlayer.setOnSeekCompleteListener(IjkEngine.this);
+        ijkMediaPlayer.setOnTimedTextListener(IjkEngine.this);
 
         try {
             ijkMediaPlayer.setDataSource(dataSource.getCurrentUrl().toString());

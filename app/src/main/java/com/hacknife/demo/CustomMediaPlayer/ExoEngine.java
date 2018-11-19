@@ -43,11 +43,11 @@ import com.hacknife.demo.R;
  * Created by MinhDV on 5/3/18.
  */
 
-public class IplayerExoPlayer extends PlayerEngine implements Player.EventListener, VideoListener {
+public class ExoEngine extends PlayerEngine implements Player.EventListener, VideoListener {
     private SimpleExoPlayer simpleExoPlayer;
     private Handler mainHandler;
     private Runnable callback;
-    private String TAG = "IplayerExoPlayer";
+    private String TAG = "ExoEngine";
     private MediaSource videoSource;
     private long previousSeek = 0;
 
