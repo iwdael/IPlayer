@@ -21,7 +21,7 @@ import com.hacknife.iplayer.IPlayer;
 public class ActivityMain extends AppCompatActivity implements View.OnClickListener {
 
 
-    IplayerCustom myJzvdStd;
+    IPlayer myJzvdStd;
 
     Button mTinyWindow, mListView, mDirectFullscreen, mApi, mWebView;
 

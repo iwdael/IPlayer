@@ -109,7 +109,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     @Override
     public void init(Context context, AttributeSet attrs) {
         super.init(context, attrs);
-        if (attrs == null) {
+        if (attrs != null) {
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.IPlayer);
             enableBottomProgressBar = ta.getBoolean(R.styleable.IPlayer_enableBottomProgressBar, true);
             enableTitleBar = ta.getBoolean(R.styleable.IPlayer_enableTitleBar, true);
