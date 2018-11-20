@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="iplayer_primary_color" format="color" />
+    <declare-styleable name="IPlayer">
+        <attr name="enableTitleBar" format="boolean"/>
+        <attr name="enableBottomBar" format="boolean"/>
+        <attr name="enableBottomProgressBar" format="boolean"/>
+        <attr name="enableEnlarge" format="boolean"/>
+        <attr name="enableClarity" format="boolean"/>
+    </declare-styleable>
 </resources>

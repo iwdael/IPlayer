@@ -62,6 +62,7 @@
             android:id="@id/iplayer_tv_total_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingRight="10dp"
             android:text="00:00"
             android:textColor="#ffffff" />
 
@@ -70,16 +71,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
             android:text="clarity"
             android:textAlignment="center"
             android:textColor="#ffffff" />
 
         <ImageView
             android:id="@id/iplayer_iv_fullscreen"
-            android:layout_width="52.5dp"
+            android:layout_width="38.5dp"
             android:layout_height="fill_parent"
-            android:paddingLeft="14dp"
             android:paddingRight="14dp"
             android:scaleType="centerInside"
             android:src="@drawable/iplayer_enlarge" />

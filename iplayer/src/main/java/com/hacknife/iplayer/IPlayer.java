@@ -71,6 +71,18 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     protected long lastGetBatteryTime = 0;
     protected int lastGetBatteryPercent = 70;
 
+    /**
+     * <attr name="enableTitleBar" format="boolean"/>
+     * <attr name="enableBottomBar" format="boolean"/>
+     * <attr name="enableBottomProgressBar" format="boolean"/>
+     * <attr name="enableEnlarge" format="boolean"/>
+     * <attr name="enableClarity" format="boolean"/>
+     */
+    protected boolean enableTitleBar;
+    protected boolean enableBottomBar;
+    protected boolean enableBottomProgressBar;
+    protected boolean enableEnlarge;
+    protected boolean enableClarity;
 
     private BroadcastReceiver battertReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -97,7 +109,21 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     @Override
     public void init(Context context, AttributeSet attrs) {
         super.init(context, attrs);
-
+        if (attrs == null) {
+            TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.IPlayer);
+            enableBottomProgressBar = ta.getBoolean(R.styleable.IPlayer_enableBottomProgressBar, true);
+            enableTitleBar = ta.getBoolean(R.styleable.IPlayer_enableTitleBar, true);
+            enableBottomBar = ta.getBoolean(R.styleable.IPlayer_enableBottomBar, true);
+            enableClarity = ta.getBoolean(R.styleable.IPlayer_enableClarity, true);
+            enableEnlarge = ta.getBoolean(R.styleable.IPlayer_enableEnlarge, true);
+            ta.recycle();
+        } else {
+            enableBottomProgressBar = true;
+            enableTitleBar = true;
+            enableBottomBar = true;
+            enableClarity = true;
+            enableEnlarge = true;
+        }
         ll_battery_time = findViewById(R.id.iplayer_ll_battery_time);
         setting = findViewById(R.id.iplayer_iv_setting);
         pro_bottom = findViewById(R.id.iplayer_pro_bottom);
@@ -120,8 +146,18 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         tv_retry.setOnClickListener(this);
         setting.setOnClickListener(this);
         settingView.setOnSettingListener(this);
-
-
+        if (!enableEnlarge) {
+            iv_fullscreen.setVisibility(GONE);
+        }
+        if (!enableBottomProgressBar) {
+            pro_bottom.setVisibility(INVISIBLE);
+        }
+        if (!enableTitleBar) {
+            ll_top.setVisibility(INVISIBLE);
+        }
+        if (!enableBottomBar) {
+            ll_bottom.setVisibility(INVISIBLE);
+        }
     }
 
     public void setDataSource(DataSource dataSource, int screen) {
@@ -148,7 +184,12 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             changePlaySize((int) getResources().getDimension(R.dimen.iplayer_start_button_w_h_normal));
             ll_battery_time.setVisibility(View.GONE);
             setting.setVisibility(View.GONE);
-            tv_clarity.setVisibility(View.GONE);
+            if (dataSource.urlsMap.size() == 1 || (!enableClarity)) {
+                tv_clarity.setVisibility(GONE);
+            } else {
+                tv_clarity.setText(dataSource.getCurrentKey().toString());
+                tv_clarity.setVisibility(View.VISIBLE);
+            }
         } else if (currentScreen == SCREEN_WINDOW_TINY) {
             iv_back_tiny.setVisibility(View.VISIBLE);
             setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
@@ -657,12 +698,12 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
 
     public void setAllControlsVisiblity(int topCon, int bottomCon, int startBtn, int loadingPro,
                                         int thumbImg, int bottomPro, int retryLayout) {
-        ll_top.setVisibility(topCon);
-        ll_bottom.setVisibility(bottomCon);
+        ll_top.setVisibility(enableTitleBar ? topCon : INVISIBLE);
+        ll_bottom.setVisibility(enableBottomBar ? bottomCon : INVISIBLE);
         iv_play.setVisibility(startBtn);
         pro_loading.setVisibility(loadingPro);
         iv_thumb.setVisibility(thumbImg);
-        pro_bottom.setVisibility(bottomPro);
+        pro_bottom.setVisibility(enableBottomProgressBar ? bottomPro : INVISIBLE);
         ll_retry.setVisibility(retryLayout);
     }
 
@@ -844,7 +885,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
                         tv_clarityPopWindow.dismiss();
                     }
                     if (currentScreen != SCREEN_WINDOW_TINY) {
-                        pro_bottom.setVisibility(View.VISIBLE);
+                        pro_bottom.setVisibility(enableBottomProgressBar ? View.VISIBLE : INVISIBLE);
                     }
                 }
             });
