@@ -35,7 +35,7 @@ public class IplayerShowShareButtonAfterFullscreen extends IPlayer {
     }
 
     @Override
-    public int getLayoutId() {
+    public int getLayoutResId() {
         return R.layout.layout_standard_with_share_button;
     }
 
@@ -50,7 +50,7 @@ public class IplayerShowShareButtonAfterFullscreen extends IPlayer {
     @Override
     public void setDataSource(DataSource jzDataSource, int screen) {
         super.setDataSource(jzDataSource, screen);
-        if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
+        if (currentScreen == CONTAINER_MODE_FULLSCREEN) {
             shareButton.setVisibility(View.VISIBLE);
         } else {
             shareButton.setVisibility(View.INVISIBLE);

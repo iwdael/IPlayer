@@ -20,7 +20,7 @@ public class ActivityApiExtendsNormal extends Activity {
         setContentView(R.layout.activity_extends_normal);
         IPlayer jzvdStd = findViewById(R.id.videoplayer);
         jzvdStd.setDataSource(VideoConstant.videoUrlList[0], "饺子不信"
-                , IPlayer.SCREEN_WINDOW_NORMAL);
+                , IPlayer.CONTAINER_MODE_NORMAL);
         Glide.with(this)
                 .load(VideoConstant.videoThumbList[0])
                 .into(jzvdStd.iv_thumb);

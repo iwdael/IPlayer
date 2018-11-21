@@ -8,22 +8,22 @@ package com.hacknife.iplayer;
  */
 public class PlayerManager {
 
-    public static AbsPlayer pFirstVideo;
-    public static AbsPlayer pSecendVideo;
+    private static AbsPlayer pFirstVideo;
+    private static AbsPlayer pSecendVideo;
 
-    public static AbsPlayer getFirstFloor() {
+    static AbsPlayer getFirstFloor() {
         return pFirstVideo;
     }
 
-    public static void setFirstFloor(AbsPlayer video) {
+    static void setFirstFloor(AbsPlayer video) {
         pFirstVideo = video;
     }
 
-    public static AbsPlayer getSecondFloor() {
+    static AbsPlayer getSecondFloor() {
         return pSecendVideo;
     }
 
-    public static void setSecondFloor(AbsPlayer video) {
+    static void setSecondFloor(AbsPlayer video) {
         pSecendVideo = video;
     }
 

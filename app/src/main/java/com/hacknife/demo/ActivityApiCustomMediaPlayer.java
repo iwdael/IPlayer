@@ -51,12 +51,11 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
 
         DataSource jzDataSource = null;
         try {
-            jzDataSource = new DataSource(getAssets().openFd("local_video.mp4"));
-            jzDataSource.title = "饺子快长大";
+            jzDataSource = new DataSource(getAssets().openFd("local_video.mp4"), "饺子快长大");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        jzvdStd.setDataSource(jzDataSource, IPlayer.SCREEN_WINDOW_NORMAL);
+        jzvdStd.setDataSource(jzDataSource, IPlayer.CONTAINER_MODE_NORMAL);
         Glide.with(this)
                 .load("http://jzvd-pic.nathen.cn/jzvd-pic/1bb2ebbe-140d-4e2e-abd2-9e7e564f71ac.png")
                 .into(jzvdStd.iv_thumb);

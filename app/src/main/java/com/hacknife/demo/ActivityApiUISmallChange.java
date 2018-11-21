@@ -40,7 +40,7 @@ public class ActivityApiUISmallChange extends AppCompatActivity {
         setContentView(R.layout.activity_ui_small_change);
 
         jzvdStdWithShareButton = findViewById(R.id.custom_videoplayer_standard_with_share_button);
-        jzvdStdWithShareButton.setDataSource(VideoConstant.videoUrlList[3], "饺子想呼吸", Player.SCREEN_WINDOW_NORMAL
+        jzvdStdWithShareButton.setDataSource(VideoConstant.videoUrlList[3], "饺子想呼吸", Player.CONTAINER_MODE_NORMAL
         );
         Glide.with(this)
                 .load(VideoConstant.videoThumbList[3])
@@ -48,28 +48,28 @@ public class ActivityApiUISmallChange extends AppCompatActivity {
 
 
         jzvdStdShowTitleAfterFullscreen = findViewById(R.id.custom_videoplayer_standard_show_title_after_fullscreen);
-        jzvdStdShowTitleAfterFullscreen.setDataSource(VideoConstant.videoUrlList[4], "饺子想摇头", Player.SCREEN_WINDOW_NORMAL
+        jzvdStdShowTitleAfterFullscreen.setDataSource(VideoConstant.videoUrlList[4], "饺子想摇头", Player.CONTAINER_MODE_NORMAL
         );
         Glide.with(this)
                 .load(VideoConstant.videoThumbList[4])
                 .into(jzvdStdShowTitleAfterFullscreen.iv_thumb);
 
         jzvdStdShowTextureViewAfterAutoComplete = findViewById(R.id.custom_videoplayer_standard_show_textureview_aoto_complete);
-        jzvdStdShowTextureViewAfterAutoComplete.setDataSource(VideoConstant.videoUrlList[5], "饺子想旅行", Player.SCREEN_WINDOW_NORMAL
+        jzvdStdShowTextureViewAfterAutoComplete.setDataSource(VideoConstant.videoUrlList[5], "饺子想旅行", Player.CONTAINER_MODE_NORMAL
         );
         Glide.with(this)
                 .load(VideoConstant.videoThumbList[5])
                 .into(jzvdStdShowTextureViewAfterAutoComplete.iv_thumb);
 
         jzvdStdAutoCompleteAfterFullscreen = findViewById(R.id.custom_videoplayer_standard_aoto_complete);
-        jzvdStdAutoCompleteAfterFullscreen.setDataSource(VideoConstant.videoUrls[0][1], "饺子没来", Player.SCREEN_WINDOW_NORMAL
+        jzvdStdAutoCompleteAfterFullscreen.setDataSource(VideoConstant.videoUrls[0][1], "饺子没来", Player.CONTAINER_MODE_NORMAL
         );
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][1])
                 .into(jzvdStdAutoCompleteAfterFullscreen.iv_thumb);
 
         jzvdStd_1_1 = findViewById(R.id.jz_videoplayer_1_1);
-        jzvdStd_1_1.setDataSource(VideoConstant.videoUrls[0][1], "饺子有事吗", Player.SCREEN_WINDOW_NORMAL
+        jzvdStd_1_1.setDataSource(VideoConstant.videoUrls[0][1], "饺子有事吗", Player.CONTAINER_MODE_NORMAL
         );
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][1])
@@ -78,7 +78,7 @@ public class ActivityApiUISmallChange extends AppCompatActivity {
         jzvdStd_1_1.heightRatio = 1;
 
         jzvdStd_16_9 = findViewById(R.id.jz_videoplayer_16_9);
-        jzvdStd_16_9.setDataSource(VideoConstant.videoUrls[0][1], "饺子来不了", Player.SCREEN_WINDOW_NORMAL
+        jzvdStd_16_9.setDataSource(VideoConstant.videoUrls[0][1], "饺子来不了", Player.CONTAINER_MODE_NORMAL
         );
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][1])
@@ -87,7 +87,7 @@ public class ActivityApiUISmallChange extends AppCompatActivity {
         jzvdStd_16_9.heightRatio = 9;
 
         jzvdStdVolumeAfterFullscreen = findViewById(R.id.jz_videoplayer_volume);
-        jzvdStdVolumeAfterFullscreen.setDataSource(VideoConstant.videoUrls[0][1], "饺子摇摆", Player.SCREEN_WINDOW_NORMAL
+        jzvdStdVolumeAfterFullscreen.setDataSource(VideoConstant.videoUrls[0][1], "饺子摇摆", Player.CONTAINER_MODE_NORMAL
         );
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][1])
@@ -95,7 +95,7 @@ public class ActivityApiUISmallChange extends AppCompatActivity {
 
         jzvdStdMp3 = findViewById(R.id.jz_videoplayer_mp3);
         jzvdStdMp3.setDataSource("https://in-20170815011809382-q34ludd68h.oss-cn-shanghai.aliyuncs.com/video/401edae1-16431aa8156-0007-1823-c86-de200.mp3?Expires=1532102862&OSSAccessKeyId=LTAIPZHZDaUNpnca&Signature=apruidffjNeN0O584VJiz8q1mJ4%3D",
-                "饺子你听", Player.SCREEN_WINDOW_NORMAL
+                "饺子你听", Player.CONTAINER_MODE_NORMAL
         );
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][1])

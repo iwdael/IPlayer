@@ -59,19 +59,21 @@ public class ActivityApi extends AppCompatActivity implements View.OnClickListen
 
 
         mJzvdStd = findViewById(R.id.jz_video);
-        LinkedHashMap map = new LinkedHashMap();
 
         String proxyUrl = ApplicationDemo.getProxy(this).getProxyUrl(VideoConstant.videoUrls[0][9]);
 
-        map.put("高清", proxyUrl);
-        map.put("标清", VideoConstant.videoUrls[0][6]);
-        map.put("普清", VideoConstant.videoUrlList[0]);
-        DataSource jzDataSource = new DataSource(map, "饺子不信");
-        jzDataSource.looping = true;
-        jzDataSource.currentUrlIndex = 2;
-        jzDataSource.headerMap.put("key", "value");//header
-        mJzvdStd.setDataSource(jzDataSource
-                , IPlayer.SCREEN_WINDOW_NORMAL);
+
+        DataSource dataSource = new DataSource.Builder()
+                .url("高清", proxyUrl)
+                .url("标清", VideoConstant.videoUrls[0][6])
+                .url("普清", VideoConstant.videoUrlList[0])
+                .header("key", "value")
+                .title("饺子不信")
+                .loop(true)
+                .index(2)
+                .build();
+        mJzvdStd.setDataSource(dataSource
+                , IPlayer.CONTAINER_MODE_NORMAL);
         Glide.with(this).load(VideoConstant.videoThumbList[0]).into(mJzvdStd.iv_thumb);
         mJzvdStd.seekToInAdvance = 20000;
         //JZVideoPlayer.SAVE_PROGRESS = false;

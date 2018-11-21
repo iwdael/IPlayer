@@ -45,16 +45,16 @@ public class IplayerFresco extends IPlayer {
     @Override
     public void setDataSource(DataSource jzDataSource, int screen) {
         super.setDataSource(jzDataSource, screen);
-        tv_title.setText(jzDataSource.title);
-        if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
+        tv_title.setText(jzDataSource.title());
+        if (currentScreen == CONTAINER_MODE_FULLSCREEN) {
             iv_fullscreen.setImageResource(R.drawable.iplayer_shrink);
             iv_back.setVisibility(View.VISIBLE);
             iv_back_tiny.setVisibility(View.INVISIBLE);
-        } else if (currentScreen == SCREEN_WINDOW_LIST) {
+        } else if (currentScreen == CONTAINER_MODE_LIST) {
             iv_fullscreen.setImageResource(R.drawable.iplayer_enlarge);
             iv_back.setVisibility(View.GONE);
             iv_back_tiny.setVisibility(View.INVISIBLE);
-        } else if (currentScreen == SCREEN_WINDOW_TINY) {
+        } else if (currentScreen == CONTAINER_MODE_TINY) {
             iv_back_tiny.setVisibility(View.VISIBLE);
             setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                     View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
@@ -62,7 +62,7 @@ public class IplayerFresco extends IPlayer {
     }
 
     @Override
-    public int getLayoutId() {
+    public int getLayoutResId() {
         return R.layout.layout_standard_fresco;
     }
 

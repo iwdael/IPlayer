@@ -22,7 +22,7 @@ public class IplayerVolumeAfterFullscreen extends IPlayer {
     @Override
     public void onPrepared() {
         super.onPrepared();
-        if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
+        if (currentScreen == CONTAINER_MODE_FULLSCREEN) {
             MediaManager.instance().engine.setVolume(1f, 1f);
         } else {
             MediaManager.instance().engine.setVolume(0f, 0f);

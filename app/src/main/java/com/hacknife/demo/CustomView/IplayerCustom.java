@@ -32,7 +32,7 @@ public class IplayerCustom extends IPlayer {
         super.onClick(v);
         int i = v.getId();
         if (i ==  R.id.fullscreen) {
-            if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
+            if (currentScreen == CONTAINER_MODE_FULLSCREEN) {
                 //click quit fullscreen
             } else {
                 //click goto fullscreen
@@ -41,7 +41,7 @@ public class IplayerCustom extends IPlayer {
     }
 
     @Override
-    public int getLayoutId() {
+    public int getLayoutResId() {
         return R.layout.iplayer_layout_standard;
     }
 

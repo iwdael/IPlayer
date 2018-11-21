@@ -18,15 +18,15 @@ public class IplayerMp3 extends IPlayer {
     }
 
     @Override
-    public int getLayoutId() {
+    public int getLayoutResId() {
         return R.layout.jz_layout_standard_mp3;
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() ==  R.id.thumb &&
-                (currentState == CURRENT_STATE_PLAYING ||
-                        currentState == CURRENT_STATE_PAUSE)) {
+                (currentState == PLAYER_STATE_PLAYING ||
+                        currentState == PLAYER_STATE_PAUSE)) {
             onClickUiToggle();
         } else if (v.getId() == R.id.fullscreen) {
 

@@ -25,7 +25,7 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
         try {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setLooping(dataSource.looping);
+            mediaPlayer.setLooping(dataSource.isLoop());
             mediaPlayer.setOnPreparedListener(MediaEngine.this);
             mediaPlayer.setOnCompletionListener(MediaEngine.this);
             mediaPlayer.setOnBufferingUpdateListener(MediaEngine.this);
@@ -36,7 +36,7 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
             mediaPlayer.setOnVideoSizeChangedListener(MediaEngine.this);
             Class<MediaPlayer> clazz = MediaPlayer.class;
             Method method = clazz.getDeclaredMethod("setDataSource", String.class, Map.class);
-            method.invoke(mediaPlayer, dataSource.getCurrentUrl().toString(), dataSource.headerMap);
+            method.invoke(mediaPlayer, dataSource.getCurrentUrl(), dataSource.heanderMap());
             mediaPlayer.prepareAsync();
         } catch (Exception e) {
             e.printStackTrace();
@@ -168,7 +168,7 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
                     if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                        if (PlayerManager.getCurrentVideo().currentState == Player.CURRENT_STATE_PREPARING || PlayerManager.getCurrentVideo().currentState == Player.CURRENT_STATE_PREPARING_CHANGING_URL) {
+                        if (PlayerManager.getCurrentVideo().currentState == Player.PLAYER_STATE_PREPARING || PlayerManager.getCurrentVideo().currentState == Player.PLAYER_STATE_PREPARING_CHANGING_URL) {
                             PlayerManager.getCurrentVideo().onPrepared();
                         }
                     } else {

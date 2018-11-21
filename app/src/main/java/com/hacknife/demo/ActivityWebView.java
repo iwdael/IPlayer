@@ -72,7 +72,7 @@ public class ActivityWebView extends AppCompatActivity {
                     if (index == 0) {
                         IPlayer webVieo = new IPlayer(ActivityWebView.this);
                         webVieo.setDataSource(VideoConstant.videoUrlList[1], "饺子骑大马",
-                                Player.SCREEN_WINDOW_LIST);
+                                Player.CONTAINER_MODE_LIST);
                         Glide.with(ActivityWebView.this)
                                 .load(VideoConstant.videoThumbList[1])
                                 .into(webVieo.iv_thumb);
@@ -86,7 +86,7 @@ public class ActivityWebView extends AppCompatActivity {
                     } else {
                         IPlayer webVieo = new IPlayer(ActivityWebView.this);
                         webVieo.setDataSource(VideoConstant.videoUrlList[2], "饺子失态了",
-                                Player.SCREEN_WINDOW_LIST);
+                                Player.CONTAINER_MODE_LIST);
                         Glide.with(ActivityWebView.this)
                                 .load(VideoConstant.videoThumbList[2])
                                 .into(webVieo.iv_thumb);

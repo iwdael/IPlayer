@@ -18,7 +18,7 @@ import java.util.Locale;
  * On 2016/02/21 12:25
  */
 public class PlayerUtils {
-    public static final String PRE_NAME= "PROGRESS";
+    public static final String PRE_NAME = "PROGRESS";
 
     public static String stringForTime(long timeMs) {
         if (timeMs <= 0 || timeMs >= 24 * 60 * 60 * 1000) {
@@ -91,11 +91,10 @@ public class PlayerUtils {
 
     public static void saveProgress(Context context, Object url, long progress) {
         if (!Player.SAVE_PROGRESS) return;
-         if (progress < 5000) {
+        if (progress < 5000) {
             progress = 0;
         }
-        SharedPreferences spn = context.getSharedPreferences(PRE_NAME,
-                Context.MODE_PRIVATE);
+        SharedPreferences spn = context.getSharedPreferences(PRE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = spn.edit();
         editor.putLong("newVersion:" + url.toString(), progress).apply();
     }
@@ -119,7 +118,6 @@ public class PlayerUtils {
             spn.edit().putLong("newVersion:" + url.toString(), 0).apply();
         }
     }
-
 
 
 }

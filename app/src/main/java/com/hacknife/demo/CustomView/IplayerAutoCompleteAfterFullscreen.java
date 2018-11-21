@@ -25,7 +25,7 @@ public class IplayerAutoCompleteAfterFullscreen extends IPlayer {
 
     @Override
     public void startVideo() {
-        if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
+        if (currentScreen == CONTAINER_MODE_FULLSCREEN) {
             Log.d(TAG, "startVideo [" + this.hashCode() + "] ");
             initTextureView();
             addTextureView();
@@ -43,7 +43,7 @@ public class IplayerAutoCompleteAfterFullscreen extends IPlayer {
 
     @Override
     public void onAutoCompletion() {
-        if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
+        if (currentScreen == CONTAINER_MODE_FULLSCREEN) {
             onStateAutoComplete();
         } else {
             super.onAutoCompletion();

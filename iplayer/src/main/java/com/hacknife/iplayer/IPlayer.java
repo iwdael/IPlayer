@@ -37,20 +37,20 @@ import java.util.TimerTask;
 public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener {
 
 
-    public ImageView iv_back;
-    public ProgressBar pro_bottom, pro_loading;
-    public TextView tv_title;
+    protected ImageView iv_back;
+    protected ProgressBar pro_bottom, pro_loading;
+    protected TextView tv_title;
     public ImageView iv_thumb;
-    public ImageView iv_back_tiny;
-    public LinearLayout ll_battery_time;
-    public ImageView setting;
-    public ImageView iv_battery;
-    public TextView tv_system_time;
-    public TextView tv_replay;
-    public TextView tv_clarity;
-    public PopupWindow tv_clarityPopWindow;
-    public TextView tv_retry;
-    public LinearLayout ll_retry;
+    protected ImageView iv_back_tiny;
+    protected LinearLayout ll_battery_time;
+    protected ImageView setting;
+    protected ImageView iv_battery;
+    protected TextView tv_system_time;
+    protected TextView tv_replay;
+    protected TextView tv_clarity;
+    protected PopupWindow tv_clarityPopWindow;
+    protected TextView tv_retry;
+    protected LinearLayout ll_retry;
 
     protected DismissControlViewTimerTask mDismissControlViewTimerTask;
     protected Timer dismissControlViewTimer;
@@ -71,13 +71,6 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     protected long lastGetBatteryTime = 0;
     protected int lastGetBatteryPercent = 70;
 
-    /**
-     * <attr name="enableTitleBar" format="boolean"/>
-     * <attr name="enableBottomBar" format="boolean"/>
-     * <attr name="enableBottomProgressBar" format="boolean"/>
-     * <attr name="enableEnlarge" format="boolean"/>
-     * <attr name="enableClarity" format="boolean"/>
-     */
     protected boolean enableTitleBar;
     protected boolean enableBottomBar;
     protected boolean enableBottomProgressBar;
@@ -162,35 +155,35 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
 
     public void setDataSource(DataSource dataSource, int screen) {
         super.setDataSource(dataSource, screen);
-        tv_title.setText(dataSource.title);
-        if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
+        tv_title.setText(dataSource.title());
+        if (currentScreen == CONTAINER_MODE_FULLSCREEN) {
             iv_fullscreen.setImageResource(R.drawable.iplayer_shrink);
             iv_back.setVisibility(View.VISIBLE);
             iv_back_tiny.setVisibility(View.INVISIBLE);
             ll_battery_time.setVisibility(View.VISIBLE);
             setting.setVisibility(View.VISIBLE);
-            if (dataSource.urlsMap.size() == 1) {
+            if (dataSource.urlsMap().size() == 1) {
                 tv_clarity.setVisibility(GONE);
             } else {
-                tv_clarity.setText(dataSource.getCurrentKey().toString());
+                tv_clarity.setText(dataSource.getCurrentKey());
                 tv_clarity.setVisibility(View.VISIBLE);
             }
             changePlaySize((int) getResources().getDimension(R.dimen.iplayer_start_button_w_h_fullscreen));
-        } else if (currentScreen == SCREEN_WINDOW_NORMAL
-                || currentScreen == SCREEN_WINDOW_LIST) {
+        } else if (currentScreen == CONTAINER_MODE_NORMAL
+                || currentScreen == CONTAINER_MODE_LIST) {
             iv_fullscreen.setImageResource(R.drawable.iplayer_enlarge);
             iv_back.setVisibility(View.GONE);
             iv_back_tiny.setVisibility(View.INVISIBLE);
             changePlaySize((int) getResources().getDimension(R.dimen.iplayer_start_button_w_h_normal));
             ll_battery_time.setVisibility(View.GONE);
             setting.setVisibility(View.GONE);
-            if (dataSource.urlsMap.size() == 1 || (!enableClarity)) {
+            if (dataSource.urlsMap().size() == 1 || (!enableClarity)) {
                 tv_clarity.setVisibility(GONE);
             } else {
                 tv_clarity.setText(dataSource.getCurrentKey().toString());
                 tv_clarity.setVisibility(View.VISIBLE);
             }
-        } else if (currentScreen == SCREEN_WINDOW_TINY) {
+        } else if (currentScreen == CONTAINER_MODE_TINY) {
             iv_back_tiny.setVisibility(View.VISIBLE);
             setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                     View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
@@ -216,7 +209,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     }
 
     @Override
-    public int getLayoutId() {
+    public int getLayoutResId() {
         return R.layout.iplayer_layout_standard;
     }
 
@@ -242,7 +235,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     @Override
     public void changeUrl(DataSource dataSource, long seekToInAdvance) {
         super.changeUrl(dataSource, seekToInAdvance);
-        tv_title.setText(dataSource.title);
+        tv_title.setText(dataSource.title());
         pro_loading.setVisibility(VISIBLE);
         iv_play.setVisibility(INVISIBLE);
     }
@@ -314,11 +307,11 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         super.onClick(v);
         int i = v.getId();
         if (i == R.id.iplayer_iv_thumb) {
-            if (dataSource.urlsMap.isEmpty() || dataSource.getCurrentUrl() == null) {
+            if (dataSource.urlsMap().isEmpty() || dataSource.getCurrentUrl() == null) {
                 Toast.makeText(getContext(), getResources().getString(R.string.no_url), Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (currentState == CURRENT_STATE_NORMAL) {
+            if (currentState == PLAYER_STATE_NORMAL) {
                 if (!dataSource.getCurrentUrl().toString().startsWith("file") &&
                         !dataSource.getCurrentUrl().toString().startsWith("/") &&
                         !PlayerUtils.isWifiConnected(getContext()) && !WIFI_TIP_DIALOG_SHOWED) {
@@ -327,7 +320,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
                 }
                 startVideo();
                 onEvent(Event.ON_CLICK_START_THUMB);//开始的事件应该在播放之后，此处特殊
-            } else if (currentState == CURRENT_STATE_AUTO_COMPLETE) {
+            } else if (currentState == PLAYER_STATE_AUTO_COMPLETE) {
                 onClickUiToggle();
             }
         } else if (i == R.id.iplayer_fl_surface) {
@@ -335,7 +328,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         } else if (i == R.id.iplayer_iv_back) {
             backPress();
         } else if (i == R.id.iplayer_iv_back_tiny) {
-            if (PlayerManager.getFirstFloor().currentScreen == Player.SCREEN_WINDOW_LIST) {
+            if (PlayerManager.getFirstFloor().currentScreen == Player.CONTAINER_MODE_LIST) {
                 quitFullscreenOrTinyWindow();
             } else {
                 backPress();
@@ -349,9 +342,9 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
                 public void onClick(View v) {
                     int index = (int) v.getTag();
                     changeUrl(index, getCurrentPositionWhenPlaying());
-                    tv_clarity.setText(dataSource.getCurrentKey().toString());
+                    tv_clarity.setText(dataSource.getCurrentKey());
                     for (int j = 0; j < layout.getChildCount(); j++) {//设置点击之后的颜色
-                        if (j == dataSource.currentUrlIndex) {
+                        if (j == dataSource.index()) {
                             ((TextView) layout.getChildAt(j)).setTextColor(Color.parseColor("#fff85959"));
                         } else {
                             ((TextView) layout.getChildAt(j)).setTextColor(Color.parseColor("#ffffff"));
@@ -363,14 +356,14 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
                 }
             };
 
-            for (int j = 0; j < dataSource.urlsMap.size(); j++) {
-                String key = dataSource.getKeyFromDataSource(j);
+            for (int j = 0; j < dataSource.urlsMap().size(); j++) {
+                String key = dataSource.getKey(j);
                 TextView tv_clarityItem = (TextView) View.inflate(getContext(), R.layout.iplayer_layout_clarity_item, null);
                 tv_clarityItem.setText(key);
                 tv_clarityItem.setTag(j);
                 layout.addView(tv_clarityItem, j);
                 tv_clarityItem.setOnClickListener(mQualityListener);
-                if (j == dataSource.currentUrlIndex) {
+                if (j == dataSource.index()) {
                     tv_clarityItem.setTextColor(Color.parseColor("#fff85959"));
                 }
             }
@@ -383,7 +376,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             int offsetY = tv_clarity.getMeasuredHeight() / 3;
             tv_clarityPopWindow.update(tv_clarity, -offsetX, -offsetY, Math.round(layout.getMeasuredWidth() * 2), layout.getMeasuredHeight());
         } else if (i == R.id.iplayer_tv_retry) {
-            if (dataSource.urlsMap.isEmpty() || dataSource.getCurrentUrl() == null) {
+            if (dataSource.urlsMap().isEmpty() || dataSource.getCurrentUrl() == null) {
                 Toast.makeText(getContext(), getResources().getString(R.string.no_url), Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -454,19 +447,19 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             setSystemTimeAndBattery();
             tv_clarity.setText(dataSource.getCurrentKey().toString());
         }
-        if (currentState == CURRENT_STATE_PREPARING) {
+        if (currentState == PLAYER_STATE_PREPARING) {
             changeUiToPreparing();
             if (ll_bottom.getVisibility() == View.VISIBLE) {
             } else {
                 setSystemTimeAndBattery();
             }
-        } else if (currentState == CURRENT_STATE_PLAYING) {
+        } else if (currentState == PLAYER_STATE_PLAYING) {
             if (ll_bottom.getVisibility() == View.VISIBLE) {
                 changeUiToPlayingClear();
             } else {
                 changeUiToPlayingShow();
             }
-        } else if (currentState == CURRENT_STATE_PAUSE) {
+        } else if (currentState == PLAYER_STATE_PAUSE) {
             if (ll_bottom.getVisibility() == View.VISIBLE) {
                 changeUiToPauseClear();
             } else {
@@ -508,22 +501,22 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     }
 
     public void onCLickUiToggleToClear() {
-        if (currentState == CURRENT_STATE_PREPARING) {
+        if (currentState == PLAYER_STATE_PREPARING) {
             if (ll_bottom.getVisibility() == View.VISIBLE) {
                 changeUiToPreparing();
             } else {
             }
-        } else if (currentState == CURRENT_STATE_PLAYING) {
+        } else if (currentState == PLAYER_STATE_PLAYING) {
             if (ll_bottom.getVisibility() == View.VISIBLE) {
                 changeUiToPlayingClear();
             } else {
             }
-        } else if (currentState == CURRENT_STATE_PAUSE) {
+        } else if (currentState == PLAYER_STATE_PAUSE) {
             if (ll_bottom.getVisibility() == View.VISIBLE) {
                 changeUiToPauseClear();
             } else {
             }
-        } else if (currentState == CURRENT_STATE_AUTO_COMPLETE) {
+        } else if (currentState == PLAYER_STATE_AUTO_COMPLETE) {
             if (ll_bottom.getVisibility() == View.VISIBLE) {
                 changeUiToComplete();
             } else {
@@ -552,36 +545,36 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
 
     public void changeUiToNormal() {
         switch (currentScreen) {
-            case SCREEN_WINDOW_NORMAL:
-            case SCREEN_WINDOW_LIST:
+            case CONTAINER_MODE_NORMAL:
+            case CONTAINER_MODE_LIST:
                 setAllControlsVisiblity(View.VISIBLE, View.INVISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
-            case SCREEN_WINDOW_FULLSCREEN:
+            case CONTAINER_MODE_FULLSCREEN:
                 setAllControlsVisiblity(View.VISIBLE, View.INVISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
-            case SCREEN_WINDOW_TINY:
+            case CONTAINER_MODE_TINY:
                 break;
         }
     }
 
     public void changeUiToPreparing() {
         switch (currentScreen) {
-            case SCREEN_WINDOW_NORMAL:
-            case SCREEN_WINDOW_LIST:
+            case CONTAINER_MODE_NORMAL:
+            case CONTAINER_MODE_LIST:
                 setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                         View.VISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
-            case SCREEN_WINDOW_FULLSCREEN:
+            case CONTAINER_MODE_FULLSCREEN:
                 setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                         View.VISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
-            case SCREEN_WINDOW_TINY:
+            case CONTAINER_MODE_TINY:
                 break;
         }
 
@@ -589,18 +582,18 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
 
     public void changeUiToPlayingShow() {
         switch (currentScreen) {
-            case SCREEN_WINDOW_NORMAL:
-            case SCREEN_WINDOW_LIST:
+            case CONTAINER_MODE_NORMAL:
+            case CONTAINER_MODE_LIST:
                 setAllControlsVisiblity(View.VISIBLE, View.VISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
-            case SCREEN_WINDOW_FULLSCREEN:
+            case CONTAINER_MODE_FULLSCREEN:
                 setAllControlsVisiblity(View.VISIBLE, View.VISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
-            case SCREEN_WINDOW_TINY:
+            case CONTAINER_MODE_TINY:
                 break;
         }
 
@@ -608,16 +601,16 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
 
     public void changeUiToPlayingClear() {
         switch (currentScreen) {
-            case SCREEN_WINDOW_NORMAL:
-            case SCREEN_WINDOW_LIST:
+            case CONTAINER_MODE_NORMAL:
+            case CONTAINER_MODE_LIST:
                 setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.VISIBLE, View.INVISIBLE);
                 break;
-            case SCREEN_WINDOW_FULLSCREEN:
+            case CONTAINER_MODE_FULLSCREEN:
                 setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.VISIBLE, View.INVISIBLE);
                 break;
-            case SCREEN_WINDOW_TINY:
+            case CONTAINER_MODE_TINY:
                 break;
         }
 
@@ -625,34 +618,34 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
 
     public void changeUiToPauseShow() {
         switch (currentScreen) {
-            case SCREEN_WINDOW_NORMAL:
-            case SCREEN_WINDOW_LIST:
+            case CONTAINER_MODE_NORMAL:
+            case CONTAINER_MODE_LIST:
                 setAllControlsVisiblity(View.VISIBLE, View.VISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
-            case SCREEN_WINDOW_FULLSCREEN:
+            case CONTAINER_MODE_FULLSCREEN:
                 setAllControlsVisiblity(View.VISIBLE, View.VISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
-            case SCREEN_WINDOW_TINY:
+            case CONTAINER_MODE_TINY:
                 break;
         }
     }
 
     public void changeUiToPauseClear() {
         switch (currentScreen) {
-            case SCREEN_WINDOW_NORMAL:
-            case SCREEN_WINDOW_LIST:
+            case CONTAINER_MODE_NORMAL:
+            case CONTAINER_MODE_LIST:
                 setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.VISIBLE, View.INVISIBLE);
                 break;
-            case SCREEN_WINDOW_FULLSCREEN:
+            case CONTAINER_MODE_FULLSCREEN:
                 setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.VISIBLE, View.INVISIBLE);
                 break;
-            case SCREEN_WINDOW_TINY:
+            case CONTAINER_MODE_TINY:
                 break;
         }
 
@@ -660,18 +653,18 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
 
     public void changeUiToComplete() {
         switch (currentScreen) {
-            case SCREEN_WINDOW_NORMAL:
-            case SCREEN_WINDOW_LIST:
+            case CONTAINER_MODE_NORMAL:
+            case CONTAINER_MODE_LIST:
                 setAllControlsVisiblity(View.VISIBLE, View.INVISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
-            case SCREEN_WINDOW_FULLSCREEN:
+            case CONTAINER_MODE_FULLSCREEN:
                 setAllControlsVisiblity(View.VISIBLE, View.INVISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
-            case SCREEN_WINDOW_TINY:
+            case CONTAINER_MODE_TINY:
                 break;
         }
 
@@ -679,18 +672,18 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
 
     public void changeUiToError() {
         switch (currentScreen) {
-            case SCREEN_WINDOW_NORMAL:
-            case SCREEN_WINDOW_LIST:
+            case CONTAINER_MODE_NORMAL:
+            case CONTAINER_MODE_LIST:
                 setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.VISIBLE);
                 updateStartImage();
                 break;
-            case SCREEN_WINDOW_FULLSCREEN:
+            case CONTAINER_MODE_FULLSCREEN:
                 setAllControlsVisiblity(View.VISIBLE, View.INVISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.VISIBLE);
                 updateStartImage();
                 break;
-            case SCREEN_WINDOW_TINY:
+            case CONTAINER_MODE_TINY:
                 break;
         }
 
@@ -708,14 +701,14 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     }
 
     public void updateStartImage() {
-        if (currentState == CURRENT_STATE_PLAYING) {
+        if (currentState == PLAYER_STATE_PLAYING) {
             iv_play.setVisibility(VISIBLE);
             iv_play.setImageResource(R.drawable.iplayer_click_pause_selector);
             tv_replay.setVisibility(INVISIBLE);
-        } else if (currentState == CURRENT_STATE_ERROR) {
+        } else if (currentState == PLAYER_STATE_ERROR) {
             iv_play.setVisibility(INVISIBLE);
             tv_replay.setVisibility(INVISIBLE);
-        } else if (currentState == CURRENT_STATE_AUTO_COMPLETE) {
+        } else if (currentState == PLAYER_STATE_AUTO_COMPLETE) {
             iv_play.setVisibility(VISIBLE);
             iv_play.setImageResource(R.drawable.iplayer_click_replay_selector);
             tv_replay.setVisibility(VISIBLE);
@@ -872,9 +865,9 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     }
 
     public void dissmissControlView() {
-        if (currentState != CURRENT_STATE_NORMAL
-                && currentState != CURRENT_STATE_ERROR
-                && currentState != CURRENT_STATE_AUTO_COMPLETE) {
+        if (currentState != PLAYER_STATE_NORMAL
+                && currentState != PLAYER_STATE_ERROR
+                && currentState != PLAYER_STATE_AUTO_COMPLETE) {
             post(new Runnable() {
                 @Override
                 public void run() {
@@ -884,7 +877,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
                     if (tv_clarityPopWindow != null) {
                         tv_clarityPopWindow.dismiss();
                     }
-                    if (currentScreen != SCREEN_WINDOW_TINY) {
+                    if (currentScreen != CONTAINER_MODE_TINY) {
                         pro_bottom.setVisibility(enableBottomProgressBar ? View.VISIBLE : INVISIBLE);
                     }
                 }
