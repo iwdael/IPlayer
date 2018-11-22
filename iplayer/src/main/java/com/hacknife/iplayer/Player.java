@@ -308,7 +308,6 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         }
     }
 
-
     public static class AutoFullscreenListener implements SensorEventListener {
         @Override
         public void onSensorChanged(SensorEvent event) {//可以得到传感器实时测量出来的变化值
@@ -352,24 +351,17 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         this.seekToProgress = seekToProgress;
     }
 
-
     public void setScreenRotation(int screenRotation) {
         this.screenRotation = screenRotation;
     }
-
-
 
     public void setWidthRatio(int widthRatio) {
         this.widthRatio = widthRatio;
     }
 
-
-
     public void setHeightRatio(int heightRatio) {
         this.heightRatio = heightRatio;
     }
-
-
 
     public DataSource getDataSource() {
         return dataSource;
