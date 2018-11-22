@@ -28,6 +28,6 @@ public interface Event {
     int ON_CLICK_BLANK = 102;
     int ON_CLICK_START_WIFIDIALOG = 103;
 
-    void onEvent(int type, Object url, int screen, Object... objects);
+    void onEvent(int type, Object url, ContainerMode screen, Object... objects);
 
 }

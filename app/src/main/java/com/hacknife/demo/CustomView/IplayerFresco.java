@@ -4,9 +4,14 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.hacknife.iplayer.ContainerMode;
 import com.hacknife.iplayer.DataSource;
 import com.hacknife.iplayer.IPlayer;
 import com.hacknife.demo.R;
+
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_LIST;
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_TINY;
 
 //import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -43,18 +48,18 @@ public class IplayerFresco extends IPlayer {
     }
 
     @Override
-    public void setDataSource(DataSource jzDataSource, int screen) {
+    public void setDataSource(DataSource jzDataSource, ContainerMode screen) {
         super.setDataSource(jzDataSource, screen);
         tv_title.setText(jzDataSource.title());
-        if (currentScreen == CONTAINER_MODE_FULLSCREEN) {
+        if (containerMode == CONTAINER_MODE_FULLSCREEN) {
             iv_fullscreen.setImageResource(R.drawable.iplayer_shrink);
             iv_back.setVisibility(View.VISIBLE);
             iv_back_tiny.setVisibility(View.INVISIBLE);
-        } else if (currentScreen == CONTAINER_MODE_LIST) {
+        } else if (containerMode == CONTAINER_MODE_LIST) {
             iv_fullscreen.setImageResource(R.drawable.iplayer_enlarge);
             iv_back.setVisibility(View.GONE);
             iv_back_tiny.setVisibility(View.INVISIBLE);
-        } else if (currentScreen == CONTAINER_MODE_TINY) {
+        } else if (containerMode == CONTAINER_MODE_TINY) {
             iv_back_tiny.setVisibility(View.VISIBLE);
             setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                     View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);

@@ -16,6 +16,8 @@ import com.bumptech.glide.Glide;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.IPlayer;
 
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_LIST;
+
 /**
  * Created by Nathen on 2017/11/1.
  */
@@ -108,7 +110,7 @@ public class ActivityTinyWindowRecycleViewMultiHolder extends AppCompatActivity 
                 VideoHolder videoHolder = (VideoHolder) holder;
                 videoHolder.jzvdStd.setDataSource(
                         VideoConstant.videoUrls[0][position],
-                        VideoConstant.videoTitles[0][position], Player.CONTAINER_MODE_LIST);
+                        VideoConstant.videoTitles[0][position], CONTAINER_MODE_LIST);
                 videoHolder.jzvdStd.positionInList = position;
                 Glide.with(ActivityTinyWindowRecycleViewMultiHolder.this).load(VideoConstant.videoThumbs[0][position]).into(videoHolder.jzvdStd.iv_thumb);
             }

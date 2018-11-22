@@ -7,6 +7,9 @@ import android.view.View;
 import com.hacknife.iplayer.IPlayer;
 import com.hacknife.demo.R;
 
+import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PAUSE;
+import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PLAYING;
+
 public class IplayerMp3 extends IPlayer {
 
     public IplayerMp3(Context context) {
@@ -25,8 +28,8 @@ public class IplayerMp3 extends IPlayer {
     @Override
     public void onClick(View v) {
         if (v.getId() ==  R.id.thumb &&
-                (currentState == PLAYER_STATE_PLAYING ||
-                        currentState == PLAYER_STATE_PAUSE)) {
+                (playerState == PLAYER_STATE_PLAYING ||
+                        playerState == PLAYER_STATE_PAUSE)) {
             onClickUiToggle();
         } else if (v.getId() == R.id.fullscreen) {
 

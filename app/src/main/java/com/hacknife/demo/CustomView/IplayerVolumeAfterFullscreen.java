@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 import com.hacknife.iplayer.MediaManager;
 import com.hacknife.iplayer.IPlayer;
 
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+
 /**
  * Created by pc on 2018/1/17.
  */
@@ -22,7 +24,7 @@ public class IplayerVolumeAfterFullscreen extends IPlayer {
     @Override
     public void onPrepared() {
         super.onPrepared();
-        if (currentScreen == CONTAINER_MODE_FULLSCREEN) {
+        if (containerMode == CONTAINER_MODE_FULLSCREEN) {
             MediaManager.instance().engine.setVolume(1f, 1f);
         } else {
             MediaManager.instance().engine.setVolume(0f, 0f);

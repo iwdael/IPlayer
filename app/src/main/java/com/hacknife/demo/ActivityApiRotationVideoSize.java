@@ -12,6 +12,12 @@ import com.bumptech.glide.Glide;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.IPlayer;
 
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_NORMAL;
+import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_ADAPTER;
+import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_FILL_PARENT;
+import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_FILL_SCROP;
+import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_ORIGINAL;
+
 /**
  * Created by Nathen on 2017/11/2.
  */
@@ -33,7 +39,7 @@ public class ActivityApiRotationVideoSize extends AppCompatActivity implements V
 
         myJzvdStd = findViewById(R.id.jz_video);
         myJzvdStd.setDataSource(VideoConstant.videoUrls[0][7], VideoConstant.videoTitles[0][7]
-                , IPlayer.CONTAINER_MODE_NORMAL);
+                ,  CONTAINER_MODE_NORMAL);
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][7])
                 .into(myJzvdStd.iv_thumb);
@@ -58,15 +64,15 @@ public class ActivityApiRotationVideoSize extends AppCompatActivity implements V
 
                 break;
             case R.id.video_image_display_fill_parent:
-                Player.setVideoImageDisplayType(Player.SCREEN_TYPE_FILL_PARENT);
+                Player.setVideoImageDisplayType( SCREEN_TYPE_FILL_PARENT);
 
                 break;
             case R.id.video_image_display_fill_crop:
-                Player.setVideoImageDisplayType(Player.SCREEN_TYPE_FILL_SCROP);
+                Player.setVideoImageDisplayType( SCREEN_TYPE_FILL_SCROP);
 
                 break;
             case R.id.video_image_diaplay_original:
-                Player.setVideoImageDisplayType(Player.SCREEN_TYPE_ORIGINAL);
+                Player.setVideoImageDisplayType( SCREEN_TYPE_ORIGINAL);
 
                 break;
         }
@@ -76,7 +82,7 @@ public class ActivityApiRotationVideoSize extends AppCompatActivity implements V
     protected void onPause() {
         super.onPause();
         Player.releaseAllVideos();
-        Player.setVideoImageDisplayType(Player.SCREEN_TYPE_ADAPTER);
+        Player.setVideoImageDisplayType( SCREEN_TYPE_ADAPTER);
     }
 
     @Override

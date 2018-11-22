@@ -11,6 +11,8 @@ import com.bumptech.glide.Glide;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.IPlayer;
 
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_LIST;
+
 /**
  * Created by Nathen
  * On 2016/02/07 01:20
@@ -62,7 +64,7 @@ public class AdapterVideoList extends BaseAdapter {
         viewHolder.jzvdStd = convertView.findViewById(R.id.videoplayer);
         viewHolder.jzvdStd.setDataSource(
                 videoUrls[position],
-                videoTitles[position], Player.CONTAINER_MODE_LIST);
+                videoTitles[position],  CONTAINER_MODE_LIST);
         Glide.with(convertView.getContext())
                 .load(videoThumbs[position])
                 .into(viewHolder.jzvdStd.iv_thumb);

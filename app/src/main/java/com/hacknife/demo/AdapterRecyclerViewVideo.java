@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.IPlayer;
 
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_LIST;
+
 public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecyclerViewVideo.MyViewHolder> {
 
     public static final String TAG = "AdapterRecyclerViewVideo";
@@ -38,7 +40,7 @@ public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecycl
 
         holder.jzvdStd.setDataSource(
                 VideoConstant.videoUrls[0][position],
-                VideoConstant.videoTitles[0][position], Player.CONTAINER_MODE_LIST);
+                VideoConstant.videoTitles[0][position],  CONTAINER_MODE_LIST);
         Glide.with(holder.jzvdStd.getContext()).load(VideoConstant.videoThumbs[0][position]).into(holder.jzvdStd.iv_thumb);
     }
 

@@ -8,6 +8,8 @@ import android.view.View;
 import com.hacknife.iplayer.IPlayer;
 import com.hacknife.demo.R;
 
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+
 /**
  * 这里可以监听到视频播放的生命周期和播放状态
  * 所有关于视频的逻辑都应该写在这里
@@ -32,7 +34,7 @@ public class IplayerCustom extends IPlayer {
         super.onClick(v);
         int i = v.getId();
         if (i ==  R.id.fullscreen) {
-            if (currentScreen == CONTAINER_MODE_FULLSCREEN) {
+            if (containerMode == CONTAINER_MODE_FULLSCREEN) {
                 //click quit fullscreen
             } else {
                 //click goto fullscreen

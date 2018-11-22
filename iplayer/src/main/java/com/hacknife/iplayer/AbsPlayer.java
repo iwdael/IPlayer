@@ -20,6 +20,16 @@ import android.widget.Toast;
 import java.lang.reflect.Constructor;
 import java.util.Timer;
 
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_TINY;
+import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_AUTO_COMPLETE;
+import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_ERROR;
+import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_NORMAL;
+import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PAUSE;
+import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PLAYING;
+import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PREPARING;
+import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PREPARING_CHANGING_URL;
+
 /**
  * Created by Hacknife on 2018/11/19.
  */
@@ -74,11 +84,11 @@ public abstract class AbsPlayer extends Player {
         this.event = event;
     }
 
-    public void setDataSource(String url, String title, int screen) {
-        setDataSource(new DataSource(url, title), screen);
+    public void setDataSource(String url, String title, ContainerMode containerMode) {
+        setDataSource(new DataSource(url, title), containerMode);
     }
 
-    public void setDataSource(DataSource dataSource, int screen) {
+    public void setDataSource(DataSource dataSource, ContainerMode containerMode) {
         if (this.dataSource != null && dataSource.getCurrentUrl() != null && this.dataSource.containsTheUrl(dataSource.getCurrentUrl())) {
             return;//数据源一致直接跳过
         }
@@ -97,14 +107,14 @@ public abstract class AbsPlayer extends Player {
         } else if (isCurrentVideo() && !dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
             startWindowTiny();
         } else if (!isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-            if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().currentScreen == Player.CONTAINER_MODE_TINY) {
+            if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode ==  CONTAINER_MODE_TINY) {
                 //需要退出小窗退到我这里，我这里是第一层级
                 tmp_test_back = true;
             }
         } else if (!isCurrentVideo() && !dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
         }
         this.dataSource = dataSource;
-        this.currentScreen = screen;
+        this.containerMode = containerMode;
         onStateNormal();
 
     }
@@ -117,7 +127,7 @@ public abstract class AbsPlayer extends Player {
                 Toast.makeText(getContext(), getResources().getString(R.string.no_url), Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (currentState == PLAYER_STATE_NORMAL) {//网络播放，且非WIFI
+            if (playerState == PLAYER_STATE_NORMAL) {//网络播放，且非WIFI
                 if (!dataSource.getCurrentUrl().toString().startsWith("file") &&
                         !dataSource.getCurrentUrl().toString().startsWith("/") &&
                         !PlayerUtils.isWifiConnected(getContext()) &&
@@ -127,21 +137,21 @@ public abstract class AbsPlayer extends Player {
                 }
                 startVideo();
                 onEvent(Event.ON_CLICK_START_ICON);//开始的事件应该在播放之后，此处特殊
-            } else if (currentState == PLAYER_STATE_PLAYING) {
+            } else if (playerState == PLAYER_STATE_PLAYING) {
                 onEvent(Event.ON_CLICK_PAUSE);
                 MediaManager.pause();
                 onStatePause();
-            } else if (currentState == PLAYER_STATE_PAUSE) {
+            } else if (playerState == PLAYER_STATE_PAUSE) {
                 onEvent(Event.ON_CLICK_RESUME);
                 MediaManager.start();
                 onStatePlaying();
-            } else if (currentState == PLAYER_STATE_AUTO_COMPLETE) {
+            } else if (playerState == PLAYER_STATE_AUTO_COMPLETE) {
                 onEvent(Event.ON_CLICK_START_AUTO_COMPLETE);
                 startVideo();
             }
         } else if (i == R.id.iplayer_iv_fullscreen) {
-            if (currentState == PLAYER_STATE_AUTO_COMPLETE) return;
-            if (currentScreen == CONTAINER_MODE_FULLSCREEN) {
+            if (playerState == PLAYER_STATE_AUTO_COMPLETE) return;
+            if (containerMode == CONTAINER_MODE_FULLSCREEN) {
                 backPress();
             } else {
                 onEvent(Event.ON_ENTER_FULLSCREEN);
@@ -170,14 +180,14 @@ public abstract class AbsPlayer extends Player {
                     float deltaY = y - mDownY;
                     float absDeltaX = Math.abs(deltaX);
                     float absDeltaY = Math.abs(deltaY);
-                    if (currentScreen == CONTAINER_MODE_FULLSCREEN) {
+                    if (containerMode == CONTAINER_MODE_FULLSCREEN) {
                         if (!mChangePosition && !mChangeVolume && !mChangeBrightness) {
                             if (absDeltaX > THRESHOLD || absDeltaY > THRESHOLD) {
                                 cancelProgressTimer();
                                 if (absDeltaX >= THRESHOLD) {
                                     // 全屏模式下的PLAYER_STATE_ERROR状态下,不响应进度拖动事件.
                                     // 否则会因为mediaplayer的状态非法导致App Crash
-                                    if (currentState != PLAYER_STATE_ERROR) {
+                                    if (playerState != PLAYER_STATE_ERROR) {
                                         mChangePosition = true;
                                         mGestureDownPosition = getCurrentPositionWhenPlaying();
                                     }
@@ -280,11 +290,11 @@ public abstract class AbsPlayer extends Player {
         onStatePlaying();
     }
 
-    public void setState(int state) {
+    public void setState(PlayerState state) {
         setState(state, 0, 0);
     }
 
-    public void setState(int state, int urlMapIndex, int seekToInAdvance) {
+    public void setState(PlayerState state, int urlMapIndex, int seekToInAdvance) {
         switch (state) {
             case PLAYER_STATE_NORMAL:
                 onStateNormal();
@@ -311,17 +321,17 @@ public abstract class AbsPlayer extends Player {
     }
 
     public void onStateNormal() {
-        currentState = PLAYER_STATE_NORMAL;
+        playerState = PLAYER_STATE_NORMAL;
         cancelProgressTimer();
     }
 
     public void onStatePreparing() {
-        currentState = PLAYER_STATE_PREPARING;
+        playerState = PLAYER_STATE_PREPARING;
         resetProgressAndTime();
     }
 
     protected void changeUrl(int urlMapIndex, long seekToInAdvance) {
-        currentState = PLAYER_STATE_PREPARING_CHANGING_URL;
+        playerState = PLAYER_STATE_PREPARING_CHANGING_URL;
         this.seekToInAdvance = seekToInAdvance;
         dataSource.setIndex (urlMapIndex);
         MediaManager.setDataSource(dataSource);
@@ -329,7 +339,7 @@ public abstract class AbsPlayer extends Player {
     }
 
     protected void changeUrl(DataSource dataSource, long seekToInAdvance) {
-        currentState = PLAYER_STATE_PREPARING_CHANGING_URL;
+        playerState = PLAYER_STATE_PREPARING_CHANGING_URL;
         this.seekToInAdvance = seekToInAdvance;
         this.dataSource = dataSource;
         if (PlayerManager.getSecondFloor() != null && PlayerManager.getFirstFloor() != null) {
@@ -356,22 +366,22 @@ public abstract class AbsPlayer extends Player {
     }
 
     protected void onStatePlaying() {
-        currentState = PLAYER_STATE_PLAYING;
+        playerState = PLAYER_STATE_PLAYING;
         startProgressTimer();
     }
 
     protected void onStatePause() {
-        currentState = PLAYER_STATE_PAUSE;
+        playerState = PLAYER_STATE_PAUSE;
         startProgressTimer();
     }
 
     protected void onStateError() {
-        currentState = PLAYER_STATE_ERROR;
+        playerState = PLAYER_STATE_ERROR;
         cancelProgressTimer();
     }
 
     protected void onStateAutoComplete() {
-        currentState = PLAYER_STATE_AUTO_COMPLETE;
+        playerState = PLAYER_STATE_AUTO_COMPLETE;
         cancelProgressTimer();
         sb_bottom.setProgress(100);
         tv_current_time.setText(tv_total_time.getText());
@@ -391,7 +401,7 @@ public abstract class AbsPlayer extends Player {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (currentScreen == CONTAINER_MODE_FULLSCREEN || currentScreen == CONTAINER_MODE_TINY) {
+        if (containerMode == CONTAINER_MODE_FULLSCREEN || containerMode == CONTAINER_MODE_TINY) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             return;
         }
@@ -416,7 +426,7 @@ public abstract class AbsPlayer extends Player {
         dismissProgressDialog();
         dismissBrightnessDialog();
         onStateAutoComplete();
-        if (currentScreen == CONTAINER_MODE_FULLSCREEN || currentScreen == CONTAINER_MODE_TINY) {
+        if (containerMode == CONTAINER_MODE_FULLSCREEN || containerMode == CONTAINER_MODE_TINY) {
             backPress();
         }
         MediaManager.instance().releaseMediaPlayer();
@@ -424,7 +434,7 @@ public abstract class AbsPlayer extends Player {
     }
 
     public void onCompletion() {
-        if (currentState == PLAYER_STATE_PLAYING || currentState == PLAYER_STATE_PAUSE) {
+        if (playerState == PLAYER_STATE_PLAYING || playerState == PLAYER_STATE_PAUSE) {
             long position = getCurrentPositionWhenPlaying();
             PlayerUtils.saveProgress(getContext(), dataSource.getCurrentUrl(), position);
         }
@@ -455,9 +465,9 @@ public abstract class AbsPlayer extends Player {
                 (System.currentTimeMillis() - CLICK_QUIT_FULLSCREEN_TIME) > FULL_SCREEN_NORMAL_DELAY) {
             //在非全屏的情况下只能backPress()
             if (PlayerManager.getSecondFloor() != null &&
-                    PlayerManager.getSecondFloor().currentScreen == CONTAINER_MODE_FULLSCREEN) {//点击全屏
+                    PlayerManager.getSecondFloor().containerMode == CONTAINER_MODE_FULLSCREEN) {//点击全屏
             } else if (PlayerManager.getSecondFloor() == null && PlayerManager.getFirstFloor() != null &&
-                    PlayerManager.getFirstFloor().currentScreen == CONTAINER_MODE_FULLSCREEN) {//直接全屏
+                    PlayerManager.getFirstFloor().containerMode == CONTAINER_MODE_FULLSCREEN) {//直接全屏
             } else {
                 releaseAllVideos();
             }
@@ -575,7 +585,7 @@ public abstract class AbsPlayer extends Player {
 
     public long getCurrentPositionWhenPlaying() {
         long position = 0;
-        if (currentState == PLAYER_STATE_PLAYING || currentState == PLAYER_STATE_PAUSE) {
+        if (playerState == PLAYER_STATE_PLAYING || playerState == PLAYER_STATE_PAUSE) {
             try {
                 position = MediaManager.getCurrentPosition();
             } catch (IllegalStateException e) {
@@ -616,8 +626,8 @@ public abstract class AbsPlayer extends Player {
             vpup.requestDisallowInterceptTouchEvent(false);
             vpup = vpup.getParent();
         }
-        if (currentState != PLAYER_STATE_PLAYING &&
-                currentState != PLAYER_STATE_PAUSE) return;
+        if (playerState != PLAYER_STATE_PLAYING &&
+                playerState != PLAYER_STATE_PAUSE) return;
         long time = seekBar.getProgress() * getDuration() / 100;
         seekToManulPosition = seekBar.getProgress();
         MediaManager.seekTo(time);
@@ -652,8 +662,8 @@ public abstract class AbsPlayer extends Player {
             vp.addView(iplayer, lp);
             iplayer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN);
-            iplayer.setDataSource(dataSource, IPlayer.CONTAINER_MODE_FULLSCREEN);
-            iplayer.setState(currentState);
+            iplayer.setDataSource(dataSource,  CONTAINER_MODE_FULLSCREEN);
+            iplayer.setState(playerState);
             iplayer.addTextureView();
             PlayerManager.setSecondFloor(iplayer);
             PlayerUtils.setRequestedOrientation(getContext(), FULLSCREEN_ORIENTATION);
@@ -669,7 +679,7 @@ public abstract class AbsPlayer extends Player {
 
     public void startWindowTiny() {
         onEvent(Event.ON_ENTER_TINYSCREEN);
-        if (currentState == PLAYER_STATE_NORMAL || currentState == PLAYER_STATE_ERROR || currentState == PLAYER_STATE_AUTO_COMPLETE)
+        if (playerState == PLAYER_STATE_NORMAL || playerState == PLAYER_STATE_ERROR || playerState == PLAYER_STATE_AUTO_COMPLETE)
             return;
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
                 .findViewById(Window.ID_ANDROID_CONTENT);
@@ -686,8 +696,8 @@ public abstract class AbsPlayer extends Player {
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(400, 400);
             lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
             vp.addView(iplayer, lp);
-            iplayer.setDataSource(dataSource, IPlayer.CONTAINER_MODE_TINY);
-            iplayer.setState(currentState);
+            iplayer.setDataSource(dataSource,  CONTAINER_MODE_TINY);
+            iplayer.setState(playerState);
             iplayer.addTextureView();
             PlayerManager.setSecondFloor(iplayer);
             onStateNormal();
@@ -709,19 +719,19 @@ public abstract class AbsPlayer extends Player {
     //退出全屏和小窗的方法
     public void playOnThisVideo() {
         //1.清空全屏和小窗的jzvd
-        currentState = PlayerManager.getSecondFloor().currentState;
+        playerState = PlayerManager.getSecondFloor().playerState;
         clearFloatScreen();
         //2.在本jzvd上播放
-        setState(currentState);
+        setState(playerState);
         addTextureView();
     }
 
     //重力感应的时候调用的函数，
     protected void autoFullscreen(float x) {
         if (isCurrentPlay()
-                && (currentState == PLAYER_STATE_PLAYING || currentState == PLAYER_STATE_PAUSE)
-                && currentScreen != CONTAINER_MODE_FULLSCREEN
-                && currentScreen != CONTAINER_MODE_TINY) {
+                && (playerState == PLAYER_STATE_PLAYING || playerState == PLAYER_STATE_PAUSE)
+                && containerMode != CONTAINER_MODE_FULLSCREEN
+                && containerMode != CONTAINER_MODE_TINY) {
             if (x > 0) {
                 PlayerUtils.setRequestedOrientation(getContext(), ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             } else {
@@ -735,8 +745,8 @@ public abstract class AbsPlayer extends Player {
     public void autoQuitFullscreen() {
         if ((System.currentTimeMillis() - lastAutoFullscreenTime) > 2000
                 && isCurrentPlay()
-                && currentState == PLAYER_STATE_PLAYING
-                && currentScreen == CONTAINER_MODE_FULLSCREEN) {
+                && playerState == PLAYER_STATE_PLAYING
+                && containerMode == CONTAINER_MODE_FULLSCREEN) {
             lastAutoFullscreenTime = System.currentTimeMillis();
             backPress();
         }
@@ -744,7 +754,7 @@ public abstract class AbsPlayer extends Player {
 
     public void onEvent(int type) {
         if (event != null && isCurrentPlay() && !dataSource.urlsMap().isEmpty()) {
-            event.onEvent(type, dataSource.getCurrentUrl(), currentScreen);
+            event.onEvent(type, dataSource.getCurrentUrl(), containerMode);
         }
     }
 

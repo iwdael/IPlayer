@@ -10,6 +10,8 @@ import com.hacknife.iplayer.MediaManager;
 import com.hacknife.iplayer.PlayerUtils;
 import com.hacknife.iplayer.IPlayer;
 
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+
 /**
  * 全屏状态播放完成，不退出全屏
  * Created by Nathen on 2016/11/26.
@@ -25,7 +27,7 @@ public class IplayerAutoCompleteAfterFullscreen extends IPlayer {
 
     @Override
     public void startVideo() {
-        if (currentScreen == CONTAINER_MODE_FULLSCREEN) {
+        if (containerMode == CONTAINER_MODE_FULLSCREEN) {
             Log.d(TAG, "startVideo [" + this.hashCode() + "] ");
             initTextureView();
             addTextureView();
@@ -43,7 +45,7 @@ public class IplayerAutoCompleteAfterFullscreen extends IPlayer {
 
     @Override
     public void onAutoCompletion() {
-        if (currentScreen == CONTAINER_MODE_FULLSCREEN) {
+        if (containerMode == CONTAINER_MODE_FULLSCREEN) {
             onStateAutoComplete();
         } else {
             super.onAutoCompletion();

@@ -21,6 +21,8 @@ import com.hacknife.iplayer.MediaEngine;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.IPlayer;
 
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_NORMAL;
+
 /**
  * Created by Nathen on 2017/11/23.
  */
@@ -55,7 +57,7 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
         } catch (IOException e) {
             e.printStackTrace();
         }
-        jzvdStd.setDataSource(jzDataSource, IPlayer.CONTAINER_MODE_NORMAL);
+        jzvdStd.setDataSource(jzDataSource, CONTAINER_MODE_NORMAL);
         Glide.with(this)
                 .load("http://jzvd-pic.nathen.cn/jzvd-pic/1bb2ebbe-140d-4e2e-abd2-9e7e564f71ac.png")
                 .into(jzvdStd.iv_thumb);

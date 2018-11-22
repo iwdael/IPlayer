@@ -4,8 +4,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.hacknife.iplayer.ContainerMode;
 import com.hacknife.iplayer.DataSource;
 import com.hacknife.iplayer.IPlayer;
+
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_FULLSCREEN;
 
 /**
  * Created by Nathen
@@ -21,9 +24,9 @@ public class IplayerShowTitleAfterFullscreen extends IPlayer {
     }
 
     @Override
-    public void setDataSource(DataSource jzDataSource, int screen) {
+    public void setDataSource(DataSource jzDataSource, ContainerMode screen) {
         super.setDataSource(jzDataSource, screen);
-        if (currentScreen == CONTAINER_MODE_FULLSCREEN) {
+        if (containerMode == CONTAINER_MODE_FULLSCREEN) {
             tv_title.setVisibility(View.VISIBLE);
         } else {
             tv_title.setVisibility(View.INVISIBLE);

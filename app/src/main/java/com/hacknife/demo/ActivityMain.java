@@ -11,9 +11,12 @@ import android.widget.Button;
 import com.bumptech.glide.Glide;
 import com.hacknife.demo.CustomView.IplayerCustom;
 
+import com.hacknife.iplayer.ContainerMode;
 import com.hacknife.iplayer.Event;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.IPlayer;
+
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_NORMAL;
 
 /**
  * Created by Nathen on 16/7/22.
@@ -44,7 +47,7 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
 
         myJzvdStd = findViewById(R.id.jz_video);
         myJzvdStd.setDataSource("http://jzvd.nathen.cn/342a5f7ef6124a4a8faf00e738b8bee4/cf6d9db0bd4d41f59d09ea0a81e918fd-5287d2089db37e62345123a1be272f8b.mp4"
-                , "饺子快长大", IPlayer.CONTAINER_MODE_NORMAL);
+                , "饺子快长大", CONTAINER_MODE_NORMAL);
         Glide.with(this).load("http://jzvd-pic.nathen.cn/jzvd-pic/1bb2ebbe-140d-4e2e-abd2-9e7e564f71ac.png").into(myJzvdStd.iv_thumb);
         myJzvdStd.setEvent(new MyUserActionStd());
 
@@ -91,7 +94,7 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
     class MyUserActionStd implements Event {
 
         @Override
-        public void onEvent(int type, Object url, int screen, Object... objects) {
+        public void onEvent(int type, Object url, ContainerMode screen, Object... objects) {
             switch (type) {
                 case Event.ON_CLICK_START_ICON:
                     Log.i("USER_EVENT", "ON_CLICK_START_ICON" + " title is : " + (objects.length == 0 ? "" : objects[0]) + " url is : " + url + " screen is : " + screen);

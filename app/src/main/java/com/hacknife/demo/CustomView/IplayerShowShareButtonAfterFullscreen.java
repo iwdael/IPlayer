@@ -6,9 +6,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.hacknife.iplayer.ContainerMode;
 import com.hacknife.iplayer.DataSource;
 import com.hacknife.iplayer.IPlayer;
 import com.hacknife.demo.R;
+
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_FULLSCREEN;
 
 /**
  * Created by Nathen
@@ -48,9 +51,9 @@ public class IplayerShowShareButtonAfterFullscreen extends IPlayer {
     }
 
     @Override
-    public void setDataSource(DataSource jzDataSource, int screen) {
+    public void setDataSource(DataSource jzDataSource, ContainerMode screen) {
         super.setDataSource(jzDataSource, screen);
-        if (currentScreen == CONTAINER_MODE_FULLSCREEN) {
+        if (containerMode == CONTAINER_MODE_FULLSCREEN) {
             shareButton.setVisibility(View.VISIBLE);
         } else {
             shareButton.setVisibility(View.INVISIBLE);

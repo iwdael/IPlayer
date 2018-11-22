@@ -7,6 +7,9 @@ import android.view.Surface;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PREPARING;
+import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PREPARING_CHANGING_URL;
+
 /**
  * Created by Nathen on 2017/11/8.
  * 实现系统的播放引擎
@@ -168,7 +171,7 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
                     if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                        if (PlayerManager.getCurrentVideo().currentState == Player.PLAYER_STATE_PREPARING || PlayerManager.getCurrentVideo().currentState == Player.PLAYER_STATE_PREPARING_CHANGING_URL) {
+                        if (PlayerManager.getCurrentVideo().playerState == PLAYER_STATE_PREPARING || PlayerManager.getCurrentVideo().playerState == PLAYER_STATE_PREPARING_CHANGING_URL) {
                             PlayerManager.getCurrentVideo().onPrepared();
                         }
                     } else {

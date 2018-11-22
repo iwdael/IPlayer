@@ -24,6 +24,8 @@ import com.hacknife.iplayer.DataSource;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.IPlayer;
 
+import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_NORMAL;
+
 /**
  * Created by Nathen on 16/7/31.
  */
@@ -73,7 +75,7 @@ public class ActivityApi extends AppCompatActivity implements View.OnClickListen
                 .index(2)
                 .build();
         mJzvdStd.setDataSource(dataSource
-                , IPlayer.CONTAINER_MODE_NORMAL);
+                , CONTAINER_MODE_NORMAL);
         Glide.with(this).load(VideoConstant.videoThumbList[0]).into(mJzvdStd.iv_thumb);
         mJzvdStd.seekToInAdvance = 20000;
         //JZVideoPlayer.SAVE_PROGRESS = false;

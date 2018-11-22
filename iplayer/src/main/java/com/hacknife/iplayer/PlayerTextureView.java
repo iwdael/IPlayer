@@ -5,6 +5,10 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_FILL_PARENT;
+import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_FILL_SCROP;
+import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_ORIGINAL;
+
 /**
  * <p>参照Android系统的VideoView的onMeasure方法
  * <br>注意!relativelayout中无法全屏，要嵌套一个linearlayout</p>
@@ -58,7 +62,7 @@ public class PlayerTextureView extends android.view.TextureView {
         int parentHeight = ((View) getParent()).getMeasuredHeight();
         int parentWidth = ((View) getParent()).getMeasuredWidth();
         if (parentWidth != 0 && parentHeight != 0 && videoWidth != 0 && videoHeight != 0) {
-            if (Player.SCREEN_TYPE == Player.SCREEN_TYPE_FILL_PARENT) {
+            if (Player.SCREEN_TYPE == SCREEN_TYPE_FILL_PARENT) {
                 if (viewRotation == 90 || viewRotation == 270) {
                     int tempSize = parentWidth;
                     parentWidth = parentHeight;
@@ -135,11 +139,11 @@ public class PlayerTextureView extends android.view.TextureView {
             // no size yet, just adopt the given spec sizes
         }
         if (parentWidth != 0 && parentHeight != 0 && videoWidth != 0 && videoHeight != 0) {
-            if (Player.SCREEN_TYPE == Player.SCREEN_TYPE_ORIGINAL) {
+            if (Player.SCREEN_TYPE == SCREEN_TYPE_ORIGINAL) {
                 /**原图**/
                 height = videoHeight;
                 width = videoWidth;
-            } else if (Player.SCREEN_TYPE == Player.SCREEN_TYPE_FILL_SCROP) {
+            } else if (Player.SCREEN_TYPE == SCREEN_TYPE_FILL_SCROP) {
                 if (viewRotation == 90 || viewRotation == 270) {
                     int tempSize = parentWidth;
                     parentWidth = parentHeight;
