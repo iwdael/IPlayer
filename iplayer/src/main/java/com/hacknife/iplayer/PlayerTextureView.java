@@ -9,16 +9,8 @@ import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_FILL_PARENT;
 import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_FILL_SCROP;
 import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_ORIGINAL;
 
-/**
- * <p>参照Android系统的VideoView的onMeasure方法
- * <br>注意!relativelayout中无法全屏，要嵌套一个linearlayout</p>
- * <p>Referring Android system Video View of onMeasure method
- * <br>NOTE! Can not fullscreen relativelayout, to nest a linearlayout</p>
- * Created by Nathen
- * On 2016/06/02 00:01
- */
+
 public class PlayerTextureView extends android.view.TextureView {
-    protected static final String TAG = "JZResizeTextureView";
 
     public int currentVideoWidth = 0;
     public int currentVideoHeight = 0;
@@ -58,7 +50,6 @@ public class PlayerTextureView extends android.view.TextureView {
         int videoWidth = currentVideoWidth;
         int videoHeight = currentVideoHeight;
 
-
         int parentHeight = ((View) getParent()).getMeasuredHeight();
         int parentWidth = ((View) getParent()).getMeasuredWidth();
         if (parentWidth != 0 && parentHeight != 0 && videoWidth != 0 && videoHeight != 0) {
@@ -68,12 +59,10 @@ public class PlayerTextureView extends android.view.TextureView {
                     parentWidth = parentHeight;
                     parentHeight = tempSize;
                 }
-                /**强制充满**/
                 videoHeight = videoWidth * parentHeight / parentWidth;
             }
         }
 
-        // 如果判断成立，则说明显示的TextureView和本身的位置是有90度的旋转的，所以需要交换宽高参数。
         if (viewRotation == 90 || viewRotation == 270) {
             int tempMeasureSpec = widthMeasureSpec;
             widthMeasureSpec = heightMeasureSpec;
@@ -89,8 +78,6 @@ public class PlayerTextureView extends android.view.TextureView {
             int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
             int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
 
-            Log.i(TAG, "widthMeasureSpec  [" + MeasureSpec.toString(widthMeasureSpec) + "]");
-            Log.i(TAG, "heightMeasureSpec [" + MeasureSpec.toString(heightMeasureSpec) + "]");
 
             if (widthSpecMode == MeasureSpec.EXACTLY && heightSpecMode == MeasureSpec.EXACTLY) {
                 // the size is fixed

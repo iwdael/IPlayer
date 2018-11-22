@@ -96,14 +96,14 @@ public class PlayerUtils {
         }
         SharedPreferences spn = context.getSharedPreferences(PRE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = spn.edit();
-        editor.putLong("newVersion:" + url.toString(), progress).apply();
+        editor.putLong(  url.toString(), progress).apply();
     }
 
     public static long getSavedProgress(Context context, Object url) {
         if (!Player.SAVE_PROGRESS) return 0;
         SharedPreferences spn = context.getSharedPreferences(PRE_NAME,
                 Context.MODE_PRIVATE);
-        return spn.getLong("newVersion:" + url.toString(), 0);
+        return spn.getLong(  url.toString(), 0);
     }
 
 
@@ -115,7 +115,7 @@ public class PlayerUtils {
         } else {
             SharedPreferences spn = context.getSharedPreferences(PRE_NAME,
                     Context.MODE_PRIVATE);
-            spn.edit().putLong("newVersion:" + url.toString(), 0).apply();
+            spn.edit().putLong( url.toString(), 0).apply();
         }
     }
 

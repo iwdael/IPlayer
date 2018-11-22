@@ -110,8 +110,7 @@ public class ActivityTinyWindowRecycleViewMultiHolder extends AppCompatActivity 
                 VideoHolder videoHolder = (VideoHolder) holder;
                 videoHolder.jzvdStd.setDataSource(
                         VideoConstant.videoUrls[0][position],
-                        VideoConstant.videoTitles[0][position], CONTAINER_MODE_LIST);
-                videoHolder.jzvdStd.positionInList = position;
+                        VideoConstant.videoTitles[0][position], CONTAINER_MODE_LIST, position);
                 Glide.with(ActivityTinyWindowRecycleViewMultiHolder.this).load(VideoConstant.videoThumbs[0][position]).into(videoHolder.jzvdStd.iv_thumb);
             }
         }

@@ -289,12 +289,12 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
                     break;
                 case MotionEvent.ACTION_UP:
                     startDismissControlViewTimer();
-                    if (mChangePosition) {
+                    if (changePosition) {
                         long duration = getDuration();
-                        int progress = (int) (mSeekTimePosition * 100 / (duration == 0 ? 1 : duration));
+                        int progress = (int) (seekTimePosition * 100 / (duration == 0 ? 1 : duration));
                         pro_bottom.setProgress(progress);
                     }
-                    if (!mChangePosition && !mChangeVolume) {
+                    if (!changePosition && !changeVolume) {
                         onEvent(Event.ON_CLICK_BLANK);
                         onClickUiToggle();
                     }

@@ -74,10 +74,9 @@ public class ActivityApi extends AppCompatActivity implements View.OnClickListen
                 .loop(true)
                 .index(2)
                 .build();
-        mJzvdStd.setDataSource(dataSource
-                , CONTAINER_MODE_NORMAL);
+        mJzvdStd.setDataSource(dataSource, CONTAINER_MODE_NORMAL);
         Glide.with(this).load(VideoConstant.videoThumbList[0]).into(mJzvdStd.iv_thumb);
-        mJzvdStd.seekToInAdvance = 20000;
+        mJzvdStd.setSeekToProgress(2000);
         //JZVideoPlayer.SAVE_PROGRESS = false;
 
         /** Play video in local path, eg:record by system camera **/

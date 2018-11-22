@@ -64,12 +64,11 @@ public class AdapterVideoList extends BaseAdapter {
         viewHolder.jzvdStd = convertView.findViewById(R.id.videoplayer);
         viewHolder.jzvdStd.setDataSource(
                 videoUrls[position],
-                videoTitles[position],  CONTAINER_MODE_LIST);
+                videoTitles[position], CONTAINER_MODE_LIST,position);
         Glide.with(convertView.getContext())
                 .load(videoThumbs[position])
                 .into(viewHolder.jzvdStd.iv_thumb);
-        viewHolder.jzvdStd.positionInList = position;
-        return convertView;
+         return convertView;
     }
 
     class ViewHolder {

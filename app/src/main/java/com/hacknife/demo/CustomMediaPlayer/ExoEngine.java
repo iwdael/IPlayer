@@ -155,7 +155,7 @@ public class ExoEngine extends PlayerEngine implements Player.EventListener, Vid
         if (time != previousSeek) {
             simpleExoPlayer.seekTo(time);
             previousSeek = time;
-            PlayerManager.getCurrentVideo().seekToInAdvance = time;
+            PlayerManager.getCurrentVideo().setSeekToProgress(time);
         }
     }
 

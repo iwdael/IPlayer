@@ -10,7 +10,6 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.support.v7.app.ActionBar;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -42,7 +41,7 @@ import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PLAYING;
  */
 public abstract class Player extends FrameLayout implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, View.OnTouchListener {
 
-    public static final String TAG = "iplayer";
+    public static final String TAG = "IPlayer";
     public static final int THRESHOLD = 80;
     public static final int FULL_SCREEN_NORMAL_DELAY = 300;
 
@@ -52,65 +51,44 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     public static int NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
     public static boolean SAVE_PROGRESS = true;
-    public static boolean WIFI_TIP_DIALOG_SHOWED = false;
-    public static ScreenType SCREEN_TYPE = ScreenType.SCREEN_TYPE_ADAPTER;
-    public static long CLICK_QUIT_FULLSCREEN_TIME = 0;
-    public static long lastAutoFullscreenTime = 0;
-    public static AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {//是否新建个class，代码更规矩，并且变量的位置也很尴尬
-        @Override
-        public void onAudioFocusChange(int focusChange) {
-            switch (focusChange) {
-                case AudioManager.AUDIOFOCUS_GAIN:
-                    break;
-                case AudioManager.AUDIOFOCUS_LOSS:
-                    releaseAllVideos();
-                    break;
-                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                    try {
-                        Player player = PlayerManager.getCurrentVideo();
-                        if (player != null && player.playerState == PLAYER_STATE_PLAYING) {
-                            player.iv_play.performClick();
-                        }
-                    } catch (IllegalStateException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                    break;
-            }
-        }
-    };
+    protected static boolean WIFI_TIP_DIALOG_SHOWED = false;
+    protected static ScreenType SCREEN_TYPE = ScreenType.SCREEN_TYPE_ADAPTER;
+    protected static long CLICK_QUIT_FULLSCREEN_TIME = 0;
+    protected static long lastAutoFullscreenTime = 0;
+
     protected Event event;
-    protected Timer pProgressTimer;
-    public PlayerState playerState = PlayerState.PLAYER_STATE_ORIGINAL;
-    public ContainerMode containerMode = ContainerMode.CONTAINER_MODE_ORIGINAL;
-    public long seekToInAdvance = 0;
+    protected Timer progressTimer;
+    protected PlayerState playerState = PlayerState.PLAYER_STATE_ORIGINAL;
+    protected ContainerMode containerMode = ContainerMode.CONTAINER_MODE_ORIGINAL;
+    protected long seekToProgress = 0;
     protected ImageView iv_play;
     protected SeekBar sb_bottom;
     protected ImageView iv_fullscreen;
     protected TextView tv_current_time, tv_total_time;
     protected ViewGroup fl_surface;
     protected ViewGroup ll_top, ll_bottom;
-    public int widthRatio = 0;
-    public int heightRatio = 0;
-    public DataSource dataSource;
-    public int positionInList = -1;
-    public int videoRotation = 0;
-    protected int mScreenWidth;
-    protected int mScreenHeight;
-    protected AudioManager mAudioManager;
-    protected ProgressTimerTask mProgressTimerTask;
-    protected boolean mTouchingsb_bottom;
-    protected float mDownX;
-    protected float mDownY;
-    protected boolean mChangeVolume;
-    protected boolean mChangePosition;
-    protected boolean mChangeBrightness;
-    protected long mGestureDownPosition;
-    protected int mGestureDownVolume;
-    protected float mGestureDownBrightness;
-    protected long mSeekTimePosition;
+    protected int widthRatio = 0;
+    protected int heightRatio = 0;
+    protected DataSource dataSource;
+    protected int positionInList = -1;
+    protected int screenRotation = 0;
+    protected int screenWidth;
+    protected int screenHeight;
+    protected AudioManager audioManager;
+    protected ProgressTimerTask progressTimerTask;
+    protected boolean touchingSeekBar;
+    protected float downX;
+    protected float downY;
+    protected boolean changeVolume;
+    protected boolean changePosition;
+    protected boolean changeBrightness;
+    protected long gestureDownPosition;
+    protected int gestureDownVolume;
+    protected float gestureDownBrightness;
+    protected long seekTimePosition;
     protected boolean tmp_test_back = false;
+
+    protected static OnAudioFocusChangeListener onAudioFocusChangeListener = new OnAudioFocusChangeListener();
 
     public Player(Context context) {
         super(context);
@@ -368,6 +346,38 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
                 });
             }
         }
+    }
+
+    public void setSeekToProgress(long seekToProgress) {
+        this.seekToProgress = seekToProgress;
+    }
+
+
+    public void setScreenRotation(int screenRotation) {
+        this.screenRotation = screenRotation;
+    }
+
+
+
+    public void setWidthRatio(int widthRatio) {
+        this.widthRatio = widthRatio;
+    }
+
+
+
+    public void setHeightRatio(int heightRatio) {
+        this.heightRatio = heightRatio;
+    }
+
+
+
+    public DataSource getDataSource() {
+        return dataSource;
+    }
+
+
+    public ContainerMode getContainerMode() {
+        return containerMode;
     }
 
     protected abstract void init(Context context, AttributeSet attrs);

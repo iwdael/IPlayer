@@ -66,10 +66,9 @@ public abstract class AbsPlayer extends Player {
         ll_bottom.setOnClickListener(this);
         fl_surface.setOnClickListener(this);
         fl_surface.setOnTouchListener(this);
-
-        mScreenWidth = getContext().getResources().getDisplayMetrics().widthPixels;
-        mScreenHeight = getContext().getResources().getDisplayMetrics().heightPixels;
-        mAudioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+        screenWidth = getContext().getResources().getDisplayMetrics().widthPixels;
+        screenHeight = getContext().getResources().getDisplayMetrics().heightPixels;
+        audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
 
         try {
             if (isCurrentPlay()) {
@@ -84,9 +83,15 @@ public abstract class AbsPlayer extends Player {
         this.event = event;
     }
 
+    public void setDataSource(String url, String title, ContainerMode containerMode, int position) {
+        setDataSource(url, title, containerMode);
+        positionInList = position;
+    }
+
     public void setDataSource(String url, String title, ContainerMode containerMode) {
         setDataSource(new DataSource(url, title), containerMode);
     }
+
 
     public void setDataSource(DataSource dataSource, ContainerMode containerMode) {
         if (this.dataSource != null && dataSource.getCurrentUrl() != null && this.dataSource.containsTheUrl(dataSource.getCurrentUrl())) {
@@ -107,7 +112,7 @@ public abstract class AbsPlayer extends Player {
         } else if (isCurrentVideo() && !dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
             startWindowTiny();
         } else if (!isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-            if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode ==  CONTAINER_MODE_TINY) {
+            if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
                 //需要退出小窗退到我这里，我这里是第一层级
                 tmp_test_back = true;
             }
@@ -168,101 +173,101 @@ public abstract class AbsPlayer extends Player {
         if (id == R.id.iplayer_fl_surface) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    mTouchingsb_bottom = true;
-                    mDownX = x;
-                    mDownY = y;
-                    mChangeVolume = false;
-                    mChangePosition = false;
-                    mChangeBrightness = false;
+                    touchingSeekBar = true;
+                    downX = x;
+                    downY = y;
+                    changeVolume = false;
+                    changePosition = false;
+                    changeBrightness = false;
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    float deltaX = x - mDownX;
-                    float deltaY = y - mDownY;
+                    float deltaX = x - downX;
+                    float deltaY = y - downY;
                     float absDeltaX = Math.abs(deltaX);
                     float absDeltaY = Math.abs(deltaY);
                     if (containerMode == CONTAINER_MODE_FULLSCREEN) {
-                        if (!mChangePosition && !mChangeVolume && !mChangeBrightness) {
+                        if (!changePosition && !changeVolume && !changeBrightness) {
                             if (absDeltaX > THRESHOLD || absDeltaY > THRESHOLD) {
                                 cancelProgressTimer();
                                 if (absDeltaX >= THRESHOLD) {
                                     // 全屏模式下的PLAYER_STATE_ERROR状态下,不响应进度拖动事件.
                                     // 否则会因为mediaplayer的状态非法导致App Crash
                                     if (playerState != PLAYER_STATE_ERROR) {
-                                        mChangePosition = true;
-                                        mGestureDownPosition = getCurrentPositionWhenPlaying();
+                                        changePosition = true;
+                                        gestureDownPosition = getCurrentPositionWhenPlaying();
                                     }
                                 } else {
                                     //如果y轴滑动距离超过设置的处理范围，那么进行滑动事件处理
-                                    if (mDownX < mScreenWidth * 0.5f) {//左侧改变亮度
-                                        mChangeBrightness = true;
+                                    if (downX < screenWidth * 0.5f) {//左侧改变亮度
+                                        changeBrightness = true;
                                         WindowManager.LayoutParams lp = PlayerUtils.getWindow(getContext()).getAttributes();
                                         if (lp.screenBrightness < 0) {
                                             try {
-                                                mGestureDownBrightness = Settings.System.getInt(getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
+                                                gestureDownBrightness = Settings.System.getInt(getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
                                             } catch (Settings.SettingNotFoundException e) {
                                                 e.printStackTrace();
                                             }
                                         } else {
-                                            mGestureDownBrightness = lp.screenBrightness * 255;
+                                            gestureDownBrightness = lp.screenBrightness * 255;
                                         }
                                     } else {//右侧改变声音
-                                        mChangeVolume = true;
-                                        mGestureDownVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                                        changeVolume = true;
+                                        gestureDownVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                                     }
                                 }
                             }
                         }
                     }
-                    if (mChangePosition) {
+                    if (changePosition) {
                         long totalTimeDuration = getDuration();
-                        mSeekTimePosition = (int) (mGestureDownPosition + deltaX * totalTimeDuration / mScreenWidth);
-                        if (mSeekTimePosition > totalTimeDuration)
-                            mSeekTimePosition = totalTimeDuration;
-                        String seekTime = PlayerUtils.stringForTime(mSeekTimePosition);
+                        seekTimePosition = (int) (gestureDownPosition + deltaX * totalTimeDuration / screenWidth);
+                        if (seekTimePosition > totalTimeDuration)
+                            seekTimePosition = totalTimeDuration;
+                        String seekTime = PlayerUtils.stringForTime(seekTimePosition);
                         String totalTime = PlayerUtils.stringForTime(totalTimeDuration);
 
-                        showProgressDialog(deltaX, seekTime, mSeekTimePosition, totalTime, totalTimeDuration);
+                        showProgressDialog(deltaX, seekTime, seekTimePosition, totalTime, totalTimeDuration);
                     }
-                    if (mChangeVolume) {
+                    if (changeVolume) {
                         deltaY = -deltaY;
-                        int max = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-                        int deltaV = (int) (max * deltaY * 3 / mScreenHeight);
-                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mGestureDownVolume + deltaV, 0);
+                        int max = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                        int deltaV = (int) (max * deltaY * 3 / screenHeight);
+                        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, gestureDownVolume + deltaV, 0);
                         //dialog中显示百分比
-                        int volumePercent = (int) (mGestureDownVolume * 100 / max + deltaY * 3 * 100 / mScreenHeight);
+                        int volumePercent = (int) (gestureDownVolume * 100 / max + deltaY * 3 * 100 / screenHeight);
                         showVolumeDialog(-deltaY, volumePercent);
                     }
 
-                    if (mChangeBrightness) {
+                    if (changeBrightness) {
                         deltaY = -deltaY;
-                        int deltaV = (int) (255 * deltaY * 3 / mScreenHeight);
+                        int deltaV = (int) (255 * deltaY * 3 / screenHeight);
                         WindowManager.LayoutParams params = PlayerUtils.getWindow(getContext()).getAttributes();
-                        if (((mGestureDownBrightness + deltaV) / 255) >= 1) {//这和声音有区别，必须自己过滤一下负值
+                        if (((gestureDownBrightness + deltaV) / 255) >= 1) {//这和声音有区别，必须自己过滤一下负值
                             params.screenBrightness = 1;
-                        } else if (((mGestureDownBrightness + deltaV) / 255) <= 0) {
+                        } else if (((gestureDownBrightness + deltaV) / 255) <= 0) {
                             params.screenBrightness = 0.01f;
                         } else {
-                            params.screenBrightness = (mGestureDownBrightness + deltaV) / 255;
+                            params.screenBrightness = (gestureDownBrightness + deltaV) / 255;
                         }
                         PlayerUtils.getWindow(getContext()).setAttributes(params);
                         //dialog中显示百分比
-                        int brightnessPercent = (int) (mGestureDownBrightness * 100 / 255 + deltaY * 3 * 100 / mScreenHeight);
+                        int brightnessPercent = (int) (gestureDownBrightness * 100 / 255 + deltaY * 3 * 100 / screenHeight);
                         showBrightnessDialog(brightnessPercent);
                     }
                     break;
                 case MotionEvent.ACTION_UP:
-                    mTouchingsb_bottom = false;
+                    touchingSeekBar = false;
                     dismissProgressDialog();
                     dismissVolumeDialog();
                     dismissBrightnessDialog();
-                    if (mChangePosition) {
+                    if (changePosition) {
                         onEvent(Event.ON_TOUCH_SCREEN_SEEK_POSITION);
-                        MediaManager.seekTo(mSeekTimePosition);
+                        MediaManager.seekTo(seekTimePosition);
                         long duration = getDuration();
-                        int progress = (int) (mSeekTimePosition * 100 / (duration == 0 ? 1 : duration));
+                        int progress = (int) (seekTimePosition * 100 / (duration == 0 ? 1 : duration));
                         sb_bottom.setProgress(progress);
                     }
-                    if (mChangeVolume) {
+                    if (changeVolume) {
                         onEvent(Event.ON_TOUCH_SCREEN_SEEK_VOLUME);
                     }
                     startProgressTimer();
@@ -276,8 +281,8 @@ public abstract class AbsPlayer extends Player {
         PlayerManager.completeAll();
         initTextureView();
         addTextureView();
-        AudioManager mAudioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
-        mAudioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+        AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+        audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
         PlayerUtils.scanForActivity(getContext()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//屏幕常亮
         MediaManager.setDataSource(dataSource);//设置数据源
         MediaManager.instance().positionInList = positionInList;//todo
@@ -294,7 +299,7 @@ public abstract class AbsPlayer extends Player {
         setState(state, 0, 0);
     }
 
-    public void setState(PlayerState state, int urlMapIndex, int seekToInAdvance) {
+    public void setState(PlayerState state, int urlMapIndex, int seekToProgress) {
         switch (state) {
             case PLAYER_STATE_NORMAL:
                 onStateNormal();
@@ -303,7 +308,7 @@ public abstract class AbsPlayer extends Player {
                 onStatePreparing();
                 break;
             case PLAYER_STATE_PREPARING_CHANGING_URL:
-                changeUrl(urlMapIndex, seekToInAdvance);
+                changeUrl(urlMapIndex, seekToProgress);
                 break;
             case PLAYER_STATE_PLAYING:
                 onStatePlaying();
@@ -330,17 +335,17 @@ public abstract class AbsPlayer extends Player {
         resetProgressAndTime();
     }
 
-    protected void changeUrl(int urlMapIndex, long seekToInAdvance) {
+    protected void changeUrl(int urlMapIndex, long seekToProgress) {
         playerState = PLAYER_STATE_PREPARING_CHANGING_URL;
-        this.seekToInAdvance = seekToInAdvance;
-        dataSource.setIndex (urlMapIndex);
+        this.seekToProgress = seekToProgress;
+        dataSource.setIndex(urlMapIndex);
         MediaManager.setDataSource(dataSource);
         MediaManager.instance().prepare();
     }
 
-    protected void changeUrl(DataSource dataSource, long seekToInAdvance) {
+    protected void changeUrl(DataSource dataSource, long seekToProgress) {
         playerState = PLAYER_STATE_PREPARING_CHANGING_URL;
-        this.seekToInAdvance = seekToInAdvance;
+        this.seekToProgress = seekToProgress;
         this.dataSource = dataSource;
         if (PlayerManager.getSecondFloor() != null && PlayerManager.getFirstFloor() != null) {
             PlayerManager.getFirstFloor().dataSource = dataSource;
@@ -349,14 +354,14 @@ public abstract class AbsPlayer extends Player {
         MediaManager.instance().prepare();
     }
 
-    public void changeUrl(String url, String title, long seekToInAdvance) {
-        changeUrl(new DataSource(url, title), seekToInAdvance);
+    public void changeUrl(String url, String title, long seekToProgress) {
+        changeUrl(new DataSource(url, title), seekToProgress);
     }
 
     protected void onStatePrepared() {//因为这个紧接着就会进入播放状态，所以不设置state
-        if (seekToInAdvance != 0) {
-            MediaManager.seekTo(seekToInAdvance);
-            seekToInAdvance = 0;
+        if (seekToProgress != 0) {
+            MediaManager.seekTo(seekToProgress);
+            seekToProgress = 0;
         } else {
             long position = PlayerUtils.getSavedProgress(getContext(), dataSource.getCurrentUrl());
             if (position != 0) {
@@ -447,8 +452,8 @@ public abstract class AbsPlayer extends Player {
         MediaManager.instance().currentVideoWidth = 0;
         MediaManager.instance().currentVideoHeight = 0;
 
-        AudioManager mAudioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
-        mAudioManager.abandonAudioFocus(onAudioFocusChangeListener);
+        AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+        audioManager.abandonAudioFocus(onAudioFocusChangeListener);
         PlayerUtils.scanForActivity(getContext()).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         clearFullscreenLayout();
         PlayerUtils.setRequestedOrientation(getContext(), NORMAL_ORIENTATION);
@@ -497,8 +502,7 @@ public abstract class AbsPlayer extends Player {
     }
 
     protected void clearFullscreenLayout() {
-        ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))
-                .findViewById(Window.ID_ANDROID_CONTENT);
+        ViewGroup vp = (PlayerUtils.scanForActivity(getContext())).findViewById(Window.ID_ANDROID_CONTENT);
         View oldF = vp.findViewById(R.id.iplayer_fullscreen_id);
         View oldT = vp.findViewById(R.id.iplayer_tiny_id);
         if (oldF != null) {
@@ -533,8 +537,8 @@ public abstract class AbsPlayer extends Player {
 
     public void onVideoSizeChanged() {
         if (MediaManager.textureView != null) {
-            if (videoRotation != 0) {
-                MediaManager.textureView.setRotation(videoRotation);
+            if (screenRotation != 0) {
+                MediaManager.textureView.setRotation(screenRotation);
             }
             MediaManager.textureView.setVideoSize(MediaManager.instance().currentVideoWidth, MediaManager.instance().currentVideoHeight);
         }
@@ -542,22 +546,22 @@ public abstract class AbsPlayer extends Player {
 
     public void startProgressTimer() {
         cancelProgressTimer();
-        pProgressTimer = new Timer();
-        mProgressTimerTask = new ProgressTimerTask();
-        pProgressTimer.schedule(mProgressTimerTask, 0, 300);
+        progressTimer = new Timer();
+        progressTimerTask = new ProgressTimerTask();
+        progressTimer.schedule(progressTimerTask, 0, 300);
     }
 
     public void cancelProgressTimer() {
-        if (pProgressTimer != null) {
-            pProgressTimer.cancel();
+        if (progressTimer != null) {
+            progressTimer.cancel();
         }
-        if (mProgressTimerTask != null) {
-            mProgressTimerTask.cancel();
+        if (progressTimerTask != null) {
+            progressTimerTask.cancel();
         }
     }
 
     public void onProgress(int progress, long position, long duration) {
-        if (!mTouchingsb_bottom) {
+        if (!touchingSeekBar) {
             if (seekToManulPosition != -1) {
                 if (seekToManulPosition > progress) {
                     return;
@@ -633,7 +637,7 @@ public abstract class AbsPlayer extends Player {
         MediaManager.seekTo(time);
     }
 
-    public int seekToManulPosition = -1;
+    protected int seekToManulPosition = -1;
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -645,7 +649,6 @@ public abstract class AbsPlayer extends Player {
 
     public void startWindowFullscreen() {
         hideSupportActionBar(getContext());
-
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
                 .findViewById(Window.ID_ANDROID_CONTENT);
         View old = vp.findViewById(R.id.iplayer_fullscreen_id);
@@ -662,7 +665,7 @@ public abstract class AbsPlayer extends Player {
             vp.addView(iplayer, lp);
             iplayer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN);
-            iplayer.setDataSource(dataSource,  CONTAINER_MODE_FULLSCREEN);
+            iplayer.setDataSource(dataSource, CONTAINER_MODE_FULLSCREEN);
             iplayer.setState(playerState);
             iplayer.addTextureView();
             PlayerManager.setSecondFloor(iplayer);
@@ -696,7 +699,7 @@ public abstract class AbsPlayer extends Player {
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(400, 400);
             lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
             vp.addView(iplayer, lp);
-            iplayer.setDataSource(dataSource,  CONTAINER_MODE_TINY);
+            iplayer.setDataSource(dataSource, CONTAINER_MODE_TINY);
             iplayer.setState(playerState);
             iplayer.addTextureView();
             PlayerManager.setSecondFloor(iplayer);
@@ -757,8 +760,6 @@ public abstract class AbsPlayer extends Player {
             event.onEvent(type, dataSource.getCurrentUrl(), containerMode);
         }
     }
-
-
 
 
     public void onSeekComplete() {

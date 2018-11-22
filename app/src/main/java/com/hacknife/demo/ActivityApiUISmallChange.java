@@ -76,8 +76,8 @@ public class ActivityApiUISmallChange extends AppCompatActivity {
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][1])
                 .into(jzvdStd_1_1.iv_thumb);
-        jzvdStd_1_1.widthRatio = 1;
-        jzvdStd_1_1.heightRatio = 1;
+        jzvdStd_1_1.setWidthRatio(1);
+        jzvdStd_1_1.setHeightRatio(1);
 
         jzvdStd_16_9 = findViewById(R.id.jz_videoplayer_16_9);
         jzvdStd_16_9.setDataSource(VideoConstant.videoUrls[0][1], "饺子来不了", CONTAINER_MODE_NORMAL
@@ -85,8 +85,8 @@ public class ActivityApiUISmallChange extends AppCompatActivity {
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][1])
                 .into(jzvdStd_16_9.iv_thumb);
-        jzvdStd_16_9.widthRatio = 16;
-        jzvdStd_16_9.heightRatio = 9;
+        jzvdStd_16_9.setWidthRatio(16);
+        jzvdStd_16_9.setHeightRatio(9);
 
         jzvdStdVolumeAfterFullscreen = findViewById(R.id.jz_videoplayer_volume);
         jzvdStdVolumeAfterFullscreen.setDataSource(VideoConstant.videoUrls[0][1], "饺子摇摆",  CONTAINER_MODE_NORMAL
