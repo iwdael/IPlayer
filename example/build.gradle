@@ -1,0 +1,34 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+
+
+
+    defaultConfig {
+        applicationId "com.hacknife.example"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+
+    }
+
+
+
+}
+
+dependencies {
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.hacknife.briefness:briefness:1.9.1'
+    annotationProcessor 'com.hacknife.briefness:briefness-compiler:1.9.1'
+    implementation 'com.google.dagger:dagger:2.14.1'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.14.1'
+    implementation 'com.android.support:design:26.1.0'
+    implementation project(':iplayer')
+    implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.4'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.4'
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+
+}
