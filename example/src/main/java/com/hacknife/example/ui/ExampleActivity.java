@@ -2,6 +2,7 @@ package com.hacknife.example.ui;
 
 
 import com.hacknife.example.R;
+import com.hacknife.example.bean.VideoSource;
 import com.hacknife.example.ui.base.BaseActivity;
 import com.hacknife.example.ui.injector.modules.ExampleModule;
 
@@ -13,6 +14,8 @@ import com.hacknife.example.ui.viewmodel.ExampleViewModel;
 import com.hacknife.briefness.BindLayout;
 import com.hacknife.example.ui.injector.components.DaggerExampleActivityComponent;
 import com.hacknife.example.ui.viewmodel.i.IExampleViewModel;
+
+import java.util.List;
 
 /**
  * author  : hacknife
@@ -28,5 +31,15 @@ public class ExampleActivity extends BaseActivity<IExampleViewModel, ExampleActi
         DaggerExampleActivityComponent.builder()
                 .exampleModule(new ExampleModule(this, briefnessor))
                 .build().inject(this);
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    public void callbackVideo(List<VideoSource> dataSources) {
+
     }
 }

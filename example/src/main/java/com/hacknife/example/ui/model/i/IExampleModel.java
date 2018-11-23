@@ -9,4 +9,5 @@ import com.hacknife.example.ui.base.IBaseModel;
  * project : MVVM
  */
 public interface IExampleModel extends IBaseModel {
+    void loadVideo();
 }

@@ -1,6 +1,9 @@
 package com.hacknife.example.ui.view;
 
+import com.hacknife.example.bean.VideoSource;
 import com.hacknife.example.ui.base.IBaseView;
+
+import java.util.List;
 
 /**
  * author  : hacknife
@@ -9,5 +12,7 @@ import com.hacknife.example.ui.base.IBaseView;
  * project : MVVM
  */
 public interface IExampleView extends IBaseView {
+
+    void callbackVideo(List<VideoSource> dataSources);
 
 }
