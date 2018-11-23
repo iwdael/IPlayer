@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.hacknife.iplayer.state.ContainerMode;
 import com.hacknife.iplayer.state.PlayerState;
+import com.hacknife.iplayer.state.ScreenType;
 import com.hacknife.iplayer.util.PlayerUtils;
 import com.hacknife.iplayer.util.PreferenceHelper;
 import com.hacknife.iplayer.widget.PlayerTextureView;
@@ -62,6 +63,7 @@ public abstract class AbsPlayer extends Player {
         View.inflate(context, getLayoutResId(), this);
         orientationNormal = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         orientationFullScreen = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
+        screenType= ScreenType.SCREEN_TYPE_ADAPTER;
         iv_play = findViewById(R.id.iplayer_iv_play);
         iv_fullscreen = findViewById(R.id.iplayer_iv_fullscreen);
         sb_bottom = findViewById(R.id.iplayer_sb_bottom);

@@ -902,7 +902,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
 
     @Override
     public void onRatate(int angle) {
-        Player.setTextureViewRotation(angle);
+        Player.setTexttureRotation(angle);
     }
 
     @Override

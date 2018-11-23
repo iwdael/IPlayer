@@ -49,10 +49,6 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     public static final String TAG = "IPlayer";
     public static final int THRESHOLD = 80;
     public static final int FULL_SCREEN_NORMAL_DELAY = 300;
-
-
-    public static ScreenType SCREEN_TYPE = ScreenType.SCREEN_TYPE_ADAPTER;
-
     protected static boolean WIFI_TIP_DIALOG_SHOWED = false;
     protected static long CLICK_QUIT_FULLSCREEN_TIME = 0;
     protected static long lastAutoFullscreenTime = 0;
@@ -64,7 +60,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     protected DataSource dataSource;
     protected AudioManager audioManager;
     protected ProgressTimerTask progressTimerTask;
-
+    protected ScreenType screenType;
     protected ImageView iv_play;
     protected SeekBar sb_bottom;
     protected ImageView iv_fullscreen;
@@ -243,18 +239,12 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         }
     }
 
-    public static void setTextureViewRotation(int rotation) {
+    public static void setTexttureRotation(int rotation) {
         if (MediaManager.textureView != null) {
             MediaManager.textureView.setRotation(rotation);
         }
     }
 
-    public static void setScreenType(ScreenType type) {
-        Player.SCREEN_TYPE = type;
-        if (MediaManager.textureView != null) {
-            MediaManager.textureView.requestLayout();
-        }
-    }
 
     public static void resume() {
         if (PlayerManager.getCurrentVideo() != null) {
@@ -285,6 +275,8 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             }
         }
     }
+
+
 
     public static class AutoFullscreenListener implements SensorEventListener {
         @Override
@@ -348,7 +340,15 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     public void setOrientationNormal(int orientationNormal) {
         this.orientationNormal = orientationNormal;
     }
-
+    public void setScreenType(ScreenType type) {
+        screenType = type;
+        if (MediaManager.textureView != null) {
+            MediaManager.textureView.requestLayout();
+        }
+    }
+    public ScreenType getScreenType() {
+        return screenType;
+    }
     public DataSource getDataSource() {
         return dataSource;
     }

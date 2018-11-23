@@ -24,7 +24,7 @@ import static com.hacknife.iplayer.state.ScreenType.SCREEN_TYPE_ORIGINAL;
 
 public class ActivityApiRotationVideoSize extends AppCompatActivity implements View.OnClickListener {
 
-    IPlayer myJzvdStd;
+    IPlayer iPlayer;
     Button mBtnRotation, mBtnFillParent, mBtnFillCrop, mBtnOriginal;
 
     @Override
@@ -37,14 +37,14 @@ public class ActivityApiRotationVideoSize extends AppCompatActivity implements V
         getSupportActionBar().setTitle("RotationAndVideoSize");
         setContentView(R.layout.activity_api_rotation_videosize);
 
-        myJzvdStd = findViewById(R.id.jz_video);
-        myJzvdStd.setDataSource(VideoConstant.videoUrls[0][7], VideoConstant.videoTitles[0][7]
+        iPlayer = findViewById(R.id.jz_video);
+        iPlayer.setDataSource(VideoConstant.videoUrls[0][7], VideoConstant.videoTitles[0][7]
                 , CONTAINER_MODE_NORMAL);
         Glide.with(this)
                 .load(VideoConstant.videoThumbs[0][7])
-                .into(myJzvdStd.iv_thumb);
+                .into(iPlayer.iv_thumb);
         // The Point IS
-        myJzvdStd.setScreenRotation(180);
+        iPlayer.setScreenRotation(180);
 
         mBtnRotation = findViewById(R.id.rotation_to_90);
         mBtnFillParent = findViewById(R.id.video_image_display_fill_parent);
@@ -60,19 +60,19 @@ public class ActivityApiRotationVideoSize extends AppCompatActivity implements V
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rotation_to_90:
-                Player.setTextureViewRotation(90);
+                Player.setTexttureRotation(90);
 
                 break;
             case R.id.video_image_display_fill_parent:
-                Player.setScreenType(SCREEN_TYPE_FILL_PARENT);
+                iPlayer.setScreenType(SCREEN_TYPE_FILL_PARENT);
 
                 break;
             case R.id.video_image_display_fill_crop:
-                Player.setScreenType(SCREEN_TYPE_FILL_SCROP);
+                iPlayer.setScreenType(SCREEN_TYPE_FILL_SCROP);
 
                 break;
             case R.id.video_image_diaplay_original:
-                Player.setScreenType(SCREEN_TYPE_ORIGINAL);
+                iPlayer.setScreenType(SCREEN_TYPE_ORIGINAL);
 
                 break;
         }
@@ -82,8 +82,7 @@ public class ActivityApiRotationVideoSize extends AppCompatActivity implements V
     protected void onPause() {
         super.onPause();
         Player.releaseAllPlayer();
-        Player.setScreenType(SCREEN_TYPE_ADAPTER);
-    }
+     }
 
     @Override
     public void onBackPressed() {
