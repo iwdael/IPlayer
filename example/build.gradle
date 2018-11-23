@@ -6,7 +6,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.hacknife.example"
+        applicationId "com.hacknife.iplayer.example"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
