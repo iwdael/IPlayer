@@ -40,7 +40,7 @@ public class ActivityDirectPlay extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fullscreen:
-                IPlayer.startFullscreen(this, IPlayer.class, VideoConstant.videoUrlList[6], "饺子辛苦了");
+                IPlayer.openFullscreenPlayer(this, IPlayer.class, VideoConstant.videoUrlList[6], "饺子辛苦了");
                 break;
             case R.id.tiny_window:
                 Toast.makeText(ActivityDirectPlay.this, "Comming Soon", Toast.LENGTH_SHORT).show();
@@ -59,7 +59,7 @@ public class ActivityDirectPlay extends AppCompatActivity implements View.OnClic
     @Override
     protected void onPause() {
         super.onPause();
-        Player.releaseAllVideos();
+        Player.releaseAllPlayer();
     }
 
     @Override

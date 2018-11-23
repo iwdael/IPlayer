@@ -58,7 +58,7 @@ public class ActivityTinyWindowRecycleView extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Player.releaseAllVideos();
+        Player.releaseAllPlayer();
     }
 
     @Override

@@ -7,10 +7,10 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.hacknife.iplayer.MediaManager;
-import com.hacknife.iplayer.PlayerUtils;
+import com.hacknife.iplayer.util.PlayerUtils;
 import com.hacknife.iplayer.IPlayer;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_FULLSCREEN;
 
 /**
  * 全屏状态播放完成，不退出全屏
@@ -36,7 +36,7 @@ public class IplayerAutoCompleteAfterFullscreen extends IPlayer {
             PlayerUtils.scanForActivity(getContext()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
             MediaManager.setDataSource(dataSource);
-            MediaManager.instance().positionInList = positionInList;
+            MediaManager.get().positionInList = positionInList;
             onStatePreparing();
         } else {
             super.startVideo();

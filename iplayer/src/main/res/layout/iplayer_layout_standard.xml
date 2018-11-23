@@ -241,7 +241,7 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-    <com.hacknife.iplayer.SettingView
+    <com.hacknife.iplayer.widget.SettingView
         android:id="@id/iplayer_setting"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

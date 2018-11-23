@@ -1,14 +1,17 @@
-package com.hacknife.iplayer;
+package com.hacknife.iplayer.engine;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.view.Surface;
 
+import com.hacknife.iplayer.MediaManager;
+import com.hacknife.iplayer.PlayerManager;
+
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PREPARING;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PREPARING_CHANGING_URL;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PREPARING;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PREPARING_CHANGING_URL;
 
 /**
  * Created by Nathen on 2017/11/8.
@@ -104,7 +107,7 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
         mediaPlayer.start();
         if (dataSource.getCurrentUrl().toString().toLowerCase().contains("mp3") ||
                 dataSource.getCurrentUrl().toString().toLowerCase().contains("wav")) {
-            MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+            MediaManager.get().pMainThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (PlayerManager.getCurrentVideo() != null) {
@@ -117,7 +120,7 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -129,7 +132,7 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
 
     @Override
     public void onBufferingUpdate(MediaPlayer mediaPlayer, final int percent) {
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -141,7 +144,7 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
 
     @Override
     public void onSeekComplete(MediaPlayer mediaPlayer) {
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -153,7 +156,7 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
 
     @Override
     public boolean onError(MediaPlayer mediaPlayer, final int what, final int extra) {
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -166,12 +169,12 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
 
     @Override
     public boolean onInfo(MediaPlayer mediaPlayer, final int what, final int extra) {
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
                     if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                        if (PlayerManager.getCurrentVideo().playerState == PLAYER_STATE_PREPARING || PlayerManager.getCurrentVideo().playerState == PLAYER_STATE_PREPARING_CHANGING_URL) {
+                        if (PlayerManager.getCurrentVideo().getPlayerState() == PLAYER_STATE_PREPARING || PlayerManager.getCurrentVideo().getPlayerState() == PLAYER_STATE_PREPARING_CHANGING_URL) {
                             PlayerManager.getCurrentVideo().onPrepared();
                         }
                     } else {
@@ -185,9 +188,9 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
 
     @Override
     public void onVideoSizeChanged(MediaPlayer mediaPlayer, int width, int height) {
-        MediaManager.instance().currentVideoWidth = width;
-        MediaManager.instance().currentVideoHeight = height;
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().currentVideoWidth = width;
+        MediaManager.get().currentVideoHeight = height;
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {

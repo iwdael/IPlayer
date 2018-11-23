@@ -18,13 +18,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.LinkedHashMap;
 
 import com.hacknife.iplayer.DataSource;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.IPlayer;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_NORMAL;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_NORMAL;
 
 /**
  * Created by Nathen on 16/7/31.
@@ -122,7 +121,7 @@ public class ActivityApi extends AppCompatActivity implements View.OnClickListen
         Sensor accelerometerSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(mSensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
         //home back
-        Player.goOnPlayOnResume();
+        Player.resume();
     }
 
     @Override
@@ -131,7 +130,7 @@ public class ActivityApi extends AppCompatActivity implements View.OnClickListen
         mSensorManager.unregisterListener(mSensorEventListener);
         Player.clearSavedProgress(this, null);
         //home back
-        Player.goOnPlayOnPause();
+        Player.pause();
     }
 
     @Override

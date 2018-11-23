@@ -7,8 +7,8 @@ import android.view.View;
 import com.hacknife.iplayer.IPlayer;
 import com.hacknife.demo.R;
 
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PAUSE;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PLAYING;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PAUSE;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PLAYING;
 
 public class IplayerMp3 extends IPlayer {
 

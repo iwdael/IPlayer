@@ -25,21 +25,25 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hacknife.iplayer.state.ContainerMode;
+import com.hacknife.iplayer.util.PlayerUtils;
+import com.hacknife.iplayer.widget.SettingView;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_FULLSCREEN;
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_LIST;
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_NORMAL;
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_TINY;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_AUTO_COMPLETE;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_ERROR;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_NORMAL;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PAUSE;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PLAYING;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PREPARING;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_LIST;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_NORMAL;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_TINY;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_AUTO_COMPLETE;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_ERROR;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_NORMAL;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PAUSE;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PLAYING;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PREPARING;
 
 /**
  * Created by Nathen

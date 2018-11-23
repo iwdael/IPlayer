@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.IPlayer;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_LIST;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_LIST;
 
 /**
  * Created by Nathen
@@ -66,7 +66,7 @@ public class ActivityListViewMultiHolder extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Player.releaseAllVideos();
+        Player.releaseAllPlayer();
     }
 
     @Override
@@ -119,7 +119,7 @@ public class ActivityListViewMultiHolder extends AppCompatActivity {
                     convertView.setTag(viewHolder);
                 }
 
-                viewHolder.jzvdStd.setDataSource( VideoConstant.videoUrls[0][position], VideoConstant.videoTitles[0][position], CONTAINER_MODE_LIST,position);
+                viewHolder.jzvdStd.setDataSource(VideoConstant.videoUrls[0][position], VideoConstant.videoTitles[0][position], CONTAINER_MODE_LIST, position);
 
                 Glide.with(ActivityListViewMultiHolder.this)
                         .load(VideoConstant.videoThumbs[0][position])

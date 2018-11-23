@@ -17,18 +17,26 @@ import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.hacknife.iplayer.state.ContainerMode;
+import com.hacknife.iplayer.state.PlayerState;
+import com.hacknife.iplayer.util.PlayerUtils;
+import com.hacknife.iplayer.util.PreferenceHelper;
+import com.hacknife.iplayer.widget.PlayerTextureView;
+
 import java.lang.reflect.Constructor;
 import java.util.Timer;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_FULLSCREEN;
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_TINY;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_AUTO_COMPLETE;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_ERROR;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_NORMAL;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PAUSE;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PLAYING;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PREPARING;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PREPARING_CHANGING_URL;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_TINY;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_AUTO_COMPLETE;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_ERROR;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_NORMAL;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PAUSE;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PLAYING;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PREPARING;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PREPARING_CHANGING_URL;
+import static com.hacknife.iplayer.util.ToolbarHelper.hideSupportActionBar;
+import static com.hacknife.iplayer.util.ToolbarHelper.showSupportActionBar;
 
 /**
  * Created by Hacknife on 2018/11/19.
@@ -52,6 +60,8 @@ public abstract class AbsPlayer extends Player {
 
     public void init(Context context, AttributeSet attrs) {
         View.inflate(context, getLayoutResId(), this);
+        orientationNormal = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        orientationFullScreen = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
         iv_play = findViewById(R.id.iplayer_iv_play);
         iv_fullscreen = findViewById(R.id.iplayer_iv_fullscreen);
         sb_bottom = findViewById(R.id.iplayer_sb_bottom);
@@ -72,7 +82,7 @@ public abstract class AbsPlayer extends Player {
 
         try {
             if (isCurrentPlay()) {
-                NORMAL_ORIENTATION = ((AppCompatActivity) context).getRequestedOrientation();
+                orientationNormal = ((AppCompatActivity) context).getRequestedOrientation();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,9 +116,9 @@ public abstract class AbsPlayer extends Player {
                 e.printStackTrace();
             }
             if (position != 0) {
-                PlayerUtils.saveProgress(getContext(), MediaManager.getCurrentUrl(), position);
+                PreferenceHelper.saveProgress(getContext(), MediaManager.getCurrentUrl(), position, saveProgress);
             }
-            MediaManager.instance().releaseMediaPlayer();
+            MediaManager.get().releaseMediaPlayer();
         } else if (isCurrentVideo() && !dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
             startWindowTiny();
         } else if (!isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
@@ -285,7 +295,7 @@ public abstract class AbsPlayer extends Player {
         audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
         PlayerUtils.scanForActivity(getContext()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//屏幕常亮
         MediaManager.setDataSource(dataSource);//设置数据源
-        MediaManager.instance().positionInList = positionInList;//todo
+        MediaManager.get().positionInList = positionInList;//todo
         onStatePreparing();//准备播放
         PlayerManager.setFirstFloor(this);
     }
@@ -340,7 +350,7 @@ public abstract class AbsPlayer extends Player {
         this.seekToProgress = seekToProgress;
         dataSource.setIndex(urlMapIndex);
         MediaManager.setDataSource(dataSource);
-        MediaManager.instance().prepare();
+        MediaManager.get().prepare();
     }
 
     protected void changeUrl(DataSource dataSource, long seekToProgress) {
@@ -351,7 +361,7 @@ public abstract class AbsPlayer extends Player {
             PlayerManager.getFirstFloor().dataSource = dataSource;
         }
         MediaManager.setDataSource(dataSource);
-        MediaManager.instance().prepare();
+        MediaManager.get().prepare();
     }
 
     public void changeUrl(String url, String title, long seekToProgress) {
@@ -363,7 +373,7 @@ public abstract class AbsPlayer extends Player {
             MediaManager.seekTo(seekToProgress);
             seekToProgress = 0;
         } else {
-            long position = PlayerUtils.getSavedProgress(getContext(), dataSource.getCurrentUrl());
+            long position = PreferenceHelper.getSavedProgress(getContext(), dataSource.getCurrentUrl());
             if (position != 0) {
                 MediaManager.seekTo(position);
             }
@@ -399,7 +409,7 @@ public abstract class AbsPlayer extends Player {
         if (what != 38 && extra != -38 && what != -38 && extra != 38 && extra != -19) {
             onStateError();
             if (isCurrentPlay()) {
-                MediaManager.instance().releaseMediaPlayer();
+                MediaManager.get().releaseMediaPlayer();
             }
         }
     }
@@ -434,14 +444,14 @@ public abstract class AbsPlayer extends Player {
         if (containerMode == CONTAINER_MODE_FULLSCREEN || containerMode == CONTAINER_MODE_TINY) {
             backPress();
         }
-        MediaManager.instance().releaseMediaPlayer();
-        PlayerUtils.saveProgress(getContext(), dataSource.getCurrentUrl(), 0);
+        MediaManager.get().releaseMediaPlayer();
+        PreferenceHelper.saveProgress(getContext(), dataSource.getCurrentUrl(), 0, saveProgress);
     }
 
     public void onCompletion() {
         if (playerState == PLAYER_STATE_PLAYING || playerState == PLAYER_STATE_PAUSE) {
             long position = getCurrentPositionWhenPlaying();
-            PlayerUtils.saveProgress(getContext(), dataSource.getCurrentUrl(), position);
+            PreferenceHelper.saveProgress(getContext(), dataSource.getCurrentUrl(), position, saveProgress);
         }
         cancelProgressTimer();
         dismissBrightnessDialog();
@@ -449,14 +459,13 @@ public abstract class AbsPlayer extends Player {
         dismissVolumeDialog();
         onStateNormal();
         fl_surface.removeView(MediaManager.textureView);
-        MediaManager.instance().currentVideoWidth = 0;
-        MediaManager.instance().currentVideoHeight = 0;
-
+        MediaManager.get().currentVideoWidth = 0;
+        MediaManager.get().currentVideoHeight = 0;
         AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
         audioManager.abandonAudioFocus(onAudioFocusChangeListener);
         PlayerUtils.scanForActivity(getContext()).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         clearFullscreenLayout();
-        PlayerUtils.setRequestedOrientation(getContext(), NORMAL_ORIENTATION);
+        PlayerUtils.setRequestedOrientation(getContext(), orientationNormal);
 
         if (MediaManager.surface != null) MediaManager.surface.release();
         if (MediaManager.savedSurfaceTexture != null)
@@ -474,7 +483,7 @@ public abstract class AbsPlayer extends Player {
             } else if (PlayerManager.getSecondFloor() == null && PlayerManager.getFirstFloor() != null &&
                     PlayerManager.getFirstFloor().containerMode == CONTAINER_MODE_FULLSCREEN) {//直接全屏
             } else {
-                releaseAllVideos();
+                releaseAllPlayer();
             }
         }
     }
@@ -482,7 +491,7 @@ public abstract class AbsPlayer extends Player {
     protected void initTextureView() {
         removeTextureView();
         MediaManager.textureView = new PlayerTextureView(getContext());
-        MediaManager.textureView.setSurfaceTextureListener(MediaManager.instance());
+        MediaManager.textureView.setSurfaceTextureListener(MediaManager.get());
     }
 
     protected void addTextureView() {
@@ -515,7 +524,7 @@ public abstract class AbsPlayer extends Player {
     }
 
     protected void clearFloatScreen() {
-        PlayerUtils.setRequestedOrientation(getContext(), NORMAL_ORIENTATION);
+        PlayerUtils.setRequestedOrientation(getContext(), orientationNormal);
         showSupportActionBar(getContext());
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))
                 .findViewById(Window.ID_ANDROID_CONTENT);
@@ -540,7 +549,7 @@ public abstract class AbsPlayer extends Player {
             if (screenRotation != 0) {
                 MediaManager.textureView.setRotation(screenRotation);
             }
-            MediaManager.textureView.setVideoSize(MediaManager.instance().currentVideoWidth, MediaManager.instance().currentVideoHeight);
+            MediaManager.textureView.setVideoSize(MediaManager.get().currentVideoWidth, MediaManager.get().currentVideoHeight);
         }
     }
 
@@ -647,7 +656,7 @@ public abstract class AbsPlayer extends Player {
         }
     }
 
-    public void startWindowFullscreen() {
+    protected void startWindowFullscreen() {
         hideSupportActionBar(getContext());
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
                 .findViewById(Window.ID_ANDROID_CONTENT);
@@ -669,7 +678,7 @@ public abstract class AbsPlayer extends Player {
             iplayer.setState(playerState);
             iplayer.addTextureView();
             PlayerManager.setSecondFloor(iplayer);
-            PlayerUtils.setRequestedOrientation(getContext(), FULLSCREEN_ORIENTATION);
+            PlayerUtils.setRequestedOrientation(getContext(), orientationFullScreen);
             onStateNormal();
             iplayer.sb_bottom.setSecondaryProgress(sb_bottom.getSecondaryProgress());
             iplayer.startProgressTimer();
@@ -694,15 +703,15 @@ public abstract class AbsPlayer extends Player {
 
         try {
             Constructor<AbsPlayer> constructor = (Constructor<AbsPlayer>) AbsPlayer.this.getClass().getConstructor(Context.class);
-            AbsPlayer iplayer = constructor.newInstance(getContext());
-            iplayer.setId(R.id.iplayer_tiny_id);
+            AbsPlayer player = constructor.newInstance(getContext());
+            player.setId(R.id.iplayer_tiny_id);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(400, 400);
             lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
-            vp.addView(iplayer, lp);
-            iplayer.setDataSource(dataSource, CONTAINER_MODE_TINY);
-            iplayer.setState(playerState);
-            iplayer.addTextureView();
-            PlayerManager.setSecondFloor(iplayer);
+            vp.addView(player, lp);
+            player.setDataSource(dataSource, CONTAINER_MODE_TINY);
+            player.setState(playerState);
+            player.addTextureView();
+            PlayerManager.setSecondFloor(player);
             onStateNormal();
         } catch (InstantiationException e) {
             e.printStackTrace();

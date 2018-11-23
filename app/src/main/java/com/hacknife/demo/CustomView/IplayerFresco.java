@@ -4,14 +4,14 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.hacknife.iplayer.ContainerMode;
+import com.hacknife.iplayer.state.ContainerMode;
 import com.hacknife.iplayer.DataSource;
 import com.hacknife.iplayer.IPlayer;
 import com.hacknife.demo.R;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_FULLSCREEN;
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_LIST;
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_TINY;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_LIST;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_TINY;
 
 //import com.facebook.drawee.view.SimpleDraweeView;
 

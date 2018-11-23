@@ -8,6 +8,10 @@ import android.os.Message;
 import android.view.Surface;
 import android.view.TextureView;
 
+import com.hacknife.iplayer.engine.MediaEngine;
+import com.hacknife.iplayer.engine.PlayerEngine;
+import com.hacknife.iplayer.widget.PlayerTextureView;
+
 
 public class MediaManager implements TextureView.SurfaceTextureListener {
 
@@ -24,20 +28,20 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
     public int currentVideoWidth = 0;
     public int currentVideoHeight = 0;
 
-    public HandlerThread pMediaHandlerThread;
+    protected HandlerThread thread;
     public MediaHandler pMediaHandler;
     public Handler pMainThreadHandler;
 
     public MediaManager() {
-        pMediaHandlerThread = new HandlerThread(TAG);
-        pMediaHandlerThread.start();
-        pMediaHandler = new MediaHandler(pMediaHandlerThread.getLooper());
+        thread = new HandlerThread(TAG);
+        thread.start();
+        pMediaHandler = new MediaHandler(thread.getLooper());
         pMainThreadHandler = new Handler();
         if (engine == null)
             engine = new MediaEngine();
     }
 
-    public static MediaManager instance() {
+    public static MediaManager get() {
         if (sMediaManager == null) {
             synchronized (MediaManager.class) {
                 if (sMediaManager == null) {
@@ -48,44 +52,43 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
         return sMediaManager;
     }
 
-    //这几个方法是不是多余了，为了不让其他地方动MediaInterface的方法
     public static void setDataSource(DataSource dataSource) {
-        instance().engine.dataSource = dataSource;
+        get().engine.dataSource = dataSource;
     }
 
     public static DataSource getDataSource() {
-        return instance().engine.dataSource;
+        return get().engine.dataSource;
     }
 
 
     //    //正在播放的url或者uri
     public static Object getCurrentUrl() {
-        return instance().engine.dataSource == null ? null : instance().engine.dataSource.getCurrentUrl();
+        return get().engine.dataSource == null ? null : get().engine.dataSource.getCurrentUrl();
     }
 
 
     public static long getCurrentPosition() {
-        return instance().engine.getCurrentPosition();
+        return get().engine.getCurrentPosition();
     }
 
     public static long getDuration() {
-        return instance().engine.getDuration();
+        return get().engine.getDuration();
     }
 
     public static void seekTo(long time) {
-        instance().engine.seekTo(time);
+        get().engine.seekTo(time);
     }
 
     public static void pause() {
-        instance().engine.pause();
+        get().engine.pause();
     }
 
     public static void start() {
-        instance().engine.start();
+        get().engine.start();
     }
 
     public static boolean isPlaying() {
-        return instance().engine.isPlaying();
+        return get().engine.isPlaying();
     }
 
     public void releaseMediaPlayer() {

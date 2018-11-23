@@ -16,7 +16,7 @@ import com.hacknife.demo.CustomView.IplayerMp3;
 import com.hacknife.demo.CustomView.IplayerShowShareButtonAfterFullscreen;
 import com.hacknife.demo.CustomView.IplayerVolumeAfterFullscreen;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_NORMAL;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_NORMAL;
 
 /**
  * Created by Nathen on 16/7/31.
@@ -117,7 +117,7 @@ public class ActivityApiUISmallChange extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Player.releaseAllVideos();
+        Player.releaseAllPlayer();
     }
 
     @Override

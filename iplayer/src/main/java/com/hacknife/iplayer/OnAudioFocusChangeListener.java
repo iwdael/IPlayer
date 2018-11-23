@@ -2,8 +2,9 @@ package com.hacknife.iplayer;
 
 import android.media.AudioManager;
 
-import static com.hacknife.iplayer.Player.releaseAllVideos;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PLAYING;
+
+import static com.hacknife.iplayer.Player.releaseAllPlayer;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PLAYING;
 
 /**
  * Created by Hacknife on 2018/11/22.
@@ -16,7 +17,7 @@ public class OnAudioFocusChangeListener implements AudioManager.OnAudioFocusChan
             case AudioManager.AUDIOFOCUS_GAIN:
                 break;
             case AudioManager.AUDIOFOCUS_LOSS:
-                releaseAllVideos();
+                releaseAllPlayer();
                 break;
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                 try {

@@ -43,7 +43,7 @@ public class ActivityListViewFragmentViewPager extends AppCompatActivity impleme
     @Override
     protected void onPause() {
         super.onPause();
-        Player.releaseAllVideos();
+        Player.releaseAllPlayer();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ActivityListViewFragmentViewPager extends AppCompatActivity impleme
 
     @Override
     public void onPageSelected(int position) {
-        Player.releaseAllVideos();
+        Player.releaseAllPlayer();
     }
 
     @Override

@@ -6,7 +6,7 @@ import android.view.Surface;
 
 import java.io.IOException;
 
-import com.hacknife.iplayer.PlayerEngine;
+import com.hacknife.iplayer.engine.PlayerEngine;
 import com.hacknife.iplayer.MediaManager;
 import com.hacknife.iplayer.PlayerManager;
 
@@ -93,7 +93,7 @@ public class IjkEngine extends PlayerEngine implements IMediaPlayer.OnPreparedLi
     public void onPrepared(IMediaPlayer iMediaPlayer) {
         ijkMediaPlayer.start();
         if (dataSource.getCurrentUrl().toString().toLowerCase().contains("mp3")) {
-            MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+            MediaManager.get().pMainThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (PlayerManager.getCurrentVideo() != null) {
@@ -106,9 +106,9 @@ public class IjkEngine extends PlayerEngine implements IMediaPlayer.OnPreparedLi
 
     @Override
     public void onVideoSizeChanged(IMediaPlayer iMediaPlayer, int i, int i1, int i2, int i3) {
-        MediaManager.instance().currentVideoWidth = iMediaPlayer.getVideoWidth();
-        MediaManager.instance().currentVideoHeight = iMediaPlayer.getVideoHeight();
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().currentVideoWidth = iMediaPlayer.getVideoWidth();
+        MediaManager.get().currentVideoHeight = iMediaPlayer.getVideoHeight();
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -120,7 +120,7 @@ public class IjkEngine extends PlayerEngine implements IMediaPlayer.OnPreparedLi
 
     @Override
     public void onCompletion(IMediaPlayer iMediaPlayer) {
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -132,7 +132,7 @@ public class IjkEngine extends PlayerEngine implements IMediaPlayer.OnPreparedLi
 
     @Override
     public boolean onError(IMediaPlayer iMediaPlayer, final int what, final int extra) {
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -145,7 +145,7 @@ public class IjkEngine extends PlayerEngine implements IMediaPlayer.OnPreparedLi
 
     @Override
     public boolean onInfo(IMediaPlayer iMediaPlayer, final int what, final int extra) {
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -162,7 +162,7 @@ public class IjkEngine extends PlayerEngine implements IMediaPlayer.OnPreparedLi
 
     @Override
     public void onBufferingUpdate(IMediaPlayer iMediaPlayer, final int percent) {
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -174,7 +174,7 @@ public class IjkEngine extends PlayerEngine implements IMediaPlayer.OnPreparedLi
 
     @Override
     public void onSeekComplete(IMediaPlayer iMediaPlayer) {
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {

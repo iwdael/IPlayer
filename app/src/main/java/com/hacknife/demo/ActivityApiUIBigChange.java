@@ -34,7 +34,7 @@ public class ActivityApiUIBigChange extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Player.releaseAllVideos();
+        Player.releaseAllPlayer();
     }
 
     @Override

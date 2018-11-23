@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.IPlayer;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_LIST;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_LIST;
 
 /**
  * Created by Nathen on 2017/10/31.
@@ -66,7 +66,7 @@ public class ActivityTinyWindowListViewMultiHolder extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Player.releaseAllVideos();
+        Player.releaseAllPlayer();
     }
 
     @Override

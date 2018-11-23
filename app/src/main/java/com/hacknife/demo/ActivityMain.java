@@ -9,14 +9,13 @@ import android.view.View;
 import android.widget.Button;
 
 import com.bumptech.glide.Glide;
-import com.hacknife.demo.CustomView.IplayerCustom;
 
-import com.hacknife.iplayer.ContainerMode;
+import com.hacknife.iplayer.state.ContainerMode;
 import com.hacknife.iplayer.Event;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.IPlayer;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_NORMAL;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_NORMAL;
 
 /**
  * Created by Nathen on 16/7/22.
@@ -56,7 +55,7 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
-        Player.releaseAllVideos();
+        Player.releaseAllPlayer();
     }
 
     @Override

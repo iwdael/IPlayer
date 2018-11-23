@@ -1,13 +1,14 @@
-package com.hacknife.iplayer;
+package com.hacknife.iplayer.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
-import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_FILL_PARENT;
-import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_FILL_SCROP;
-import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_ORIGINAL;
+import com.hacknife.iplayer.Player;
+
+import static com.hacknife.iplayer.state.ScreenType.SCREEN_TYPE_FILL_PARENT;
+import static com.hacknife.iplayer.state.ScreenType.SCREEN_TYPE_FILL_SCROP;
+import static com.hacknife.iplayer.state.ScreenType.SCREEN_TYPE_ORIGINAL;
 
 
 public class PlayerTextureView extends android.view.TextureView {
@@ -45,7 +46,6 @@ public class PlayerTextureView extends android.view.TextureView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
         int viewRotation = (int) getRotation();
         int videoWidth = currentVideoWidth;
         int videoHeight = currentVideoHeight;

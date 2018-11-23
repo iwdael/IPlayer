@@ -12,11 +12,11 @@ import com.bumptech.glide.Glide;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.IPlayer;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_NORMAL;
-import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_ADAPTER;
-import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_FILL_PARENT;
-import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_FILL_SCROP;
-import static com.hacknife.iplayer.ScreenType.SCREEN_TYPE_ORIGINAL;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_NORMAL;
+import static com.hacknife.iplayer.state.ScreenType.SCREEN_TYPE_ADAPTER;
+import static com.hacknife.iplayer.state.ScreenType.SCREEN_TYPE_FILL_PARENT;
+import static com.hacknife.iplayer.state.ScreenType.SCREEN_TYPE_FILL_SCROP;
+import static com.hacknife.iplayer.state.ScreenType.SCREEN_TYPE_ORIGINAL;
 
 /**
  * Created by Nathen on 2017/11/2.
@@ -64,15 +64,15 @@ public class ActivityApiRotationVideoSize extends AppCompatActivity implements V
 
                 break;
             case R.id.video_image_display_fill_parent:
-                Player.setVideoImageDisplayType(SCREEN_TYPE_FILL_PARENT);
+                Player.setScreenType(SCREEN_TYPE_FILL_PARENT);
 
                 break;
             case R.id.video_image_display_fill_crop:
-                Player.setVideoImageDisplayType(SCREEN_TYPE_FILL_SCROP);
+                Player.setScreenType(SCREEN_TYPE_FILL_SCROP);
 
                 break;
             case R.id.video_image_diaplay_original:
-                Player.setVideoImageDisplayType(SCREEN_TYPE_ORIGINAL);
+                Player.setScreenType(SCREEN_TYPE_ORIGINAL);
 
                 break;
         }
@@ -81,8 +81,8 @@ public class ActivityApiRotationVideoSize extends AppCompatActivity implements V
     @Override
     protected void onPause() {
         super.onPause();
-        Player.releaseAllVideos();
-        Player.setVideoImageDisplayType(SCREEN_TYPE_ADAPTER);
+        Player.releaseAllPlayer();
+        Player.setScreenType(SCREEN_TYPE_ADAPTER);
     }
 
     @Override

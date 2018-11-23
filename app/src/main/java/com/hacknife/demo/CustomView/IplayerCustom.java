@@ -8,7 +8,7 @@ import android.view.View;
 import com.hacknife.iplayer.IPlayer;
 import com.hacknife.demo.R;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_FULLSCREEN;
 
 /**
  * 这里可以监听到视频播放的生命周期和播放状态

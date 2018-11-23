@@ -7,7 +7,6 @@ import java.util.Map;
 public class DataSource {
 
     private static final String URL_KEY_DEFAULT = "URL_KEY_DEFAULT";
-
     private int index;
     private Map<String, Object> urlsMap = new HashMap<>();
     private String title = "";

@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 
-import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.IPlayer;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_LIST;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_LIST;
 
 public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecyclerViewVideo.MyViewHolder> {
 

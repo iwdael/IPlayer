@@ -5,7 +5,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.view.Surface;
 
-import com.hacknife.iplayer.PlayerEngine;
+import com.hacknife.iplayer.engine.PlayerEngine;
 import com.hacknife.iplayer.MediaManager;
 import com.hacknife.iplayer.PlayerManager;
 
@@ -97,7 +97,7 @@ public class CustomEngine extends PlayerEngine implements MediaPlayer.OnPrepared
     public void onPrepared(MediaPlayer mediaPlayer) {
         mediaPlayer.start();
         if (dataSource.getCurrentUrl().toString().toLowerCase().contains("mp3")) {
-            MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+            MediaManager.get().pMainThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (PlayerManager.getCurrentVideo() != null) {
@@ -110,7 +110,7 @@ public class CustomEngine extends PlayerEngine implements MediaPlayer.OnPrepared
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -122,7 +122,7 @@ public class CustomEngine extends PlayerEngine implements MediaPlayer.OnPrepared
 
     @Override
     public void onBufferingUpdate(MediaPlayer mediaPlayer, final int percent) {
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -134,7 +134,7 @@ public class CustomEngine extends PlayerEngine implements MediaPlayer.OnPrepared
 
     @Override
     public void onSeekComplete(MediaPlayer mediaPlayer) {
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -146,7 +146,7 @@ public class CustomEngine extends PlayerEngine implements MediaPlayer.OnPrepared
 
     @Override
     public boolean onError(MediaPlayer mediaPlayer, final int what, final int extra) {
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -159,7 +159,7 @@ public class CustomEngine extends PlayerEngine implements MediaPlayer.OnPrepared
 
     @Override
     public boolean onInfo(MediaPlayer mediaPlayer, final int what, final int extra) {
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -176,9 +176,9 @@ public class CustomEngine extends PlayerEngine implements MediaPlayer.OnPrepared
 
     @Override
     public void onVideoSizeChanged(MediaPlayer mediaPlayer, int width, int height) {
-        MediaManager.instance().currentVideoWidth = width;
-        MediaManager.instance().currentVideoHeight = height;
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().currentVideoWidth = width;
+        MediaManager.get().currentVideoHeight = height;
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {

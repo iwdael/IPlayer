@@ -34,7 +34,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoListener;
 
-import com.hacknife.iplayer.PlayerEngine;
+import com.hacknife.iplayer.engine.PlayerEngine;
 import com.hacknife.iplayer.MediaManager;
 import com.hacknife.iplayer.PlayerManager;
 import com.hacknife.demo.R;
@@ -103,9 +103,9 @@ public class ExoEngine extends PlayerEngine implements Player.EventListener, Vid
 
     @Override
     public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
-        MediaManager.instance().currentVideoWidth = width;
-        MediaManager.instance().currentVideoHeight = height;
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().currentVideoWidth = width;
+        MediaManager.get().currentVideoHeight = height;
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -124,7 +124,7 @@ public class ExoEngine extends PlayerEngine implements Player.EventListener, Vid
         @Override
         public void run() {
             final int percent = simpleExoPlayer.getBufferedPercentage();
-            MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+            MediaManager.get().pMainThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (PlayerManager.getCurrentVideo() != null) {
@@ -197,7 +197,7 @@ public class ExoEngine extends PlayerEngine implements Player.EventListener, Vid
     @Override
     public void onTimelineChanged(final Timeline timeline, Object manifest, final int reason) {
         Log.e(TAG, "onTimelineChanged");
-//        MediaManager.instance().mainThreadHandler.post(new Runnable() {
+//        MediaManager.get().mainThreadHandler.post(new Runnable() {
 //
 //            @Override
 //            public void run() {
@@ -222,7 +222,7 @@ public class ExoEngine extends PlayerEngine implements Player.EventListener, Vid
     @Override
     public void onPlayerStateChanged(final boolean playWhenReady, final int playbackState) {
         Log.e(TAG, "onPlayerStateChanged" + playbackState + "/ready=" + String.valueOf(playWhenReady));
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -264,7 +264,7 @@ public class ExoEngine extends PlayerEngine implements Player.EventListener, Vid
     @Override
     public void onPlayerError(ExoPlaybackException error) {
         Log.e(TAG, "onPlayerError" + error.toString());
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
@@ -286,7 +286,7 @@ public class ExoEngine extends PlayerEngine implements Player.EventListener, Vid
 
     @Override
     public void onSeekProcessed() {
-        MediaManager.instance().pMainThreadHandler.post(new Runnable() {
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {

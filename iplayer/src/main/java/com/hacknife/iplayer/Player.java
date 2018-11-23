@@ -1,6 +1,5 @@
 package com.hacknife.iplayer;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
@@ -8,12 +7,10 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
-import android.support.v7.app.ActionBar;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -21,17 +18,25 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 
+import com.hacknife.iplayer.engine.PlayerEngine;
+import com.hacknife.iplayer.state.ContainerMode;
+import com.hacknife.iplayer.state.PlayerState;
+import com.hacknife.iplayer.state.ScreenType;
+import com.hacknife.iplayer.util.PlayerUtils;
+import com.hacknife.iplayer.util.PreferenceHelper;
+
 import java.lang.reflect.Constructor;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_FULLSCREEN;
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_TINY;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_AUTO_COMPLETE;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_ERROR;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_NORMAL;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PAUSE;
-import static com.hacknife.iplayer.PlayerState.PLAYER_STATE_PLAYING;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_TINY;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_AUTO_COMPLETE;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_ERROR;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_NORMAL;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PAUSE;
+import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PLAYING;
+import static com.hacknife.iplayer.util.ToolbarHelper.hideSupportActionBar;
 
 /**
  * author  : hacknife
@@ -45,14 +50,10 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     public static final int THRESHOLD = 80;
     public static final int FULL_SCREEN_NORMAL_DELAY = 300;
 
-    public static boolean ACTION_BAR_EXIST = true;
-    public static boolean TOOL_BAR_EXIST = true;
-    public static int FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
-    public static int NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
-    public static boolean SAVE_PROGRESS = true;
+    public static ScreenType SCREEN_TYPE = ScreenType.SCREEN_TYPE_ADAPTER;
+
     protected static boolean WIFI_TIP_DIALOG_SHOWED = false;
-    protected static ScreenType SCREEN_TYPE = ScreenType.SCREEN_TYPE_ADAPTER;
     protected static long CLICK_QUIT_FULLSCREEN_TIME = 0;
     protected static long lastAutoFullscreenTime = 0;
 
@@ -60,22 +61,20 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     protected Timer progressTimer;
     protected PlayerState playerState = PlayerState.PLAYER_STATE_ORIGINAL;
     protected ContainerMode containerMode = ContainerMode.CONTAINER_MODE_ORIGINAL;
-    protected long seekToProgress = 0;
+    protected DataSource dataSource;
+    protected AudioManager audioManager;
+    protected ProgressTimerTask progressTimerTask;
+
     protected ImageView iv_play;
     protected SeekBar sb_bottom;
     protected ImageView iv_fullscreen;
-    protected TextView tv_current_time, tv_total_time;
+    protected TextView tv_current_time;
+    protected TextView tv_total_time;
     protected ViewGroup fl_surface;
-    protected ViewGroup ll_top, ll_bottom;
-    protected int widthRatio = 0;
-    protected int heightRatio = 0;
-    protected DataSource dataSource;
-    protected int positionInList = -1;
-    protected int screenRotation = 0;
-    protected int screenWidth;
-    protected int screenHeight;
-    protected AudioManager audioManager;
-    protected ProgressTimerTask progressTimerTask;
+    protected ViewGroup ll_top;
+    protected ViewGroup ll_bottom;
+
+
     protected boolean touchingSeekBar;
     protected float downX;
     protected float downY;
@@ -86,6 +85,16 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     protected int gestureDownVolume;
     protected float gestureDownBrightness;
     protected long seekTimePosition;
+    protected int positionInList = -1;
+    protected int screenRotation = 0;
+    protected int screenWidth;
+    protected int screenHeight;
+    protected int widthRatio = 0;
+    protected int heightRatio = 0;
+    protected long seekToProgress = 0;
+    protected boolean saveProgress;
+    protected int orientationFullScreen;
+    protected int orientationNormal;
     protected boolean tmp_test_back = false;
 
     protected static OnAudioFocusChangeListener onAudioFocusChangeListener = new OnAudioFocusChangeListener();
@@ -101,24 +110,28 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     }
 
     public static void setPlayerEngine(PlayerEngine engine) {
-        MediaManager.instance().engine = engine;
+        MediaManager.get().engine = engine;
     }
 
-    public static void releaseAllVideos() {
+    public static void releaseAllPlayer() {
         if ((System.currentTimeMillis() - CLICK_QUIT_FULLSCREEN_TIME) > FULL_SCREEN_NORMAL_DELAY) {
             PlayerManager.completeAll();
-            MediaManager.instance().positionInList = -1;
-            MediaManager.instance().releaseMediaPlayer();
+            MediaManager.get().positionInList = -1;
+            MediaManager.get().releaseMediaPlayer();
         }
     }
 
-    public static void startFullscreen(Context context, Class _class, String url, String title) {
-        startFullscreen(context, _class, new DataSource(url, title));
+    public static void openFullscreenPlayer(Context context, Class _class, String url, String title, int orientation) {
+        openFullscreenPlayer(context, _class, new DataSource(url, title), orientation);
     }
 
-    public static void startFullscreen(Context context, Class _class, DataSource dataSource) {
+    public static void openFullscreenPlayer(Context context, Class _class, String url, String title) {
+        openFullscreenPlayer(context, _class, url, title, ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+    }
+
+    public static void openFullscreenPlayer(Context context, Class _class, DataSource dataSource, int orientation) {
         hideSupportActionBar(context);
-        PlayerUtils.setRequestedOrientation(context, FULLSCREEN_ORIENTATION);
+        PlayerUtils.setRequestedOrientation(context, orientation);
         ViewGroup vp = (PlayerUtils.scanForActivity(context))
                 .findViewById(Window.ID_ANDROID_CONTENT);
         View old = vp.findViewById(R.id.iplayer_fullscreen_id);
@@ -149,17 +162,14 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
             if (PlayerManager.getFirstFloor().dataSource.containsTheUrl(MediaManager.getDataSource().getCurrentUrl())) {
                 AbsPlayer video = PlayerManager.getSecondFloor();
-                video.onEvent(video.containerMode == CONTAINER_MODE_FULLSCREEN ?
-                        Event.ON_QUIT_FULLSCREEN :
-                        Event.ON_QUIT_TINYSCREEN);
+                video.onEvent(video.containerMode == CONTAINER_MODE_FULLSCREEN ? Event.ON_QUIT_FULLSCREEN : Event.ON_QUIT_TINYSCREEN);
                 PlayerManager.getFirstFloor().playOnThisVideo();
             } else {
                 quitFullscreenOrTinyWindow();
             }
             return true;
         } else if (PlayerManager.getFirstFloor() != null &&
-                (PlayerManager.getFirstFloor().containerMode == CONTAINER_MODE_FULLSCREEN ||
-                        PlayerManager.getFirstFloor().containerMode == CONTAINER_MODE_TINY)) {//以前我总想把这两个判断写到一起，这分明是两个独立是逻辑
+                (PlayerManager.getFirstFloor().containerMode == CONTAINER_MODE_FULLSCREEN || PlayerManager.getFirstFloor().containerMode == CONTAINER_MODE_TINY)) {
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
             quitFullscreenOrTinyWindow();
             return true;
@@ -167,107 +177,45 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         return false;
     }
 
-    public static void quitFullscreenOrTinyWindow() {
+    protected static void quitFullscreenOrTinyWindow() {
         //直接退出全屏和小窗
         PlayerManager.getFirstFloor().clearFloatScreen();
-        MediaManager.instance().releaseMediaPlayer();
+        MediaManager.get().releaseMediaPlayer();
         PlayerManager.completeAll();
     }
 
-    @SuppressLint("RestrictedApi")
-    public static void showSupportActionBar(Context context) {
-        if (ACTION_BAR_EXIST && PlayerUtils.getAppCompActivity(context) != null) {
-            ActionBar ab = PlayerUtils.getAppCompActivity(context).getSupportActionBar();
-            if (ab != null) {
-                ab.setShowHideAnimationEnabled(false);
-                ab.show();
-            }
-        }
-        if (TOOL_BAR_EXIST) {
-            PlayerUtils.getWindow(context).clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
-    }
-
-    @SuppressLint("RestrictedApi")
-    public static void hideSupportActionBar(Context context) {
-        if (ACTION_BAR_EXIST && PlayerUtils.getAppCompActivity(context) != null) {
-            ActionBar ab = PlayerUtils.getAppCompActivity(context).getSupportActionBar();
-            if (ab != null) {
-                ab.setShowHideAnimationEnabled(false);
-                ab.hide();
-            }
-        }
-        if (TOOL_BAR_EXIST) {
-            PlayerUtils.getWindow(context).setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
-    }
-
     public static void clearSavedProgress(Context context, String url) {
-        PlayerUtils.clearSavedProgress(context, url);
-    }
-
-
-    public static void goOnPlayOnResume() {
-        if (PlayerManager.getCurrentVideo() != null) {
-            AbsPlayer player = PlayerManager.getCurrentVideo();
-            if (player.playerState == PLAYER_STATE_PAUSE) {
-                if (ON_PLAY_PAUSE_TMP_STATE == PLAYER_STATE_PAUSE) {
-                    player.onStatePause();
-                    MediaManager.pause();
-                } else {
-                    player.onStatePlaying();
-                    MediaManager.start();
-                }
-                ON_PLAY_PAUSE_TMP_STATE = PLAYER_STATE_NORMAL;
-            }
-        }
-    }
-
-    public static PlayerState ON_PLAY_PAUSE_TMP_STATE = PlayerState.PLAYER_STATE_NORMAL;
-
-    public static void goOnPlayOnPause() {
-        if (PlayerManager.getCurrentVideo() != null) {
-            AbsPlayer video = PlayerManager.getCurrentVideo();
-            if (video.playerState == PLAYER_STATE_AUTO_COMPLETE || video.playerState == PLAYER_STATE_NORMAL || video.playerState == PLAYER_STATE_ERROR) {
-            } else {
-                ON_PLAY_PAUSE_TMP_STATE = video.playerState;
-                video.onStatePause();
-                MediaManager.pause();
-            }
-        }
+        PreferenceHelper.clearSavedProgress(context, url);
     }
 
     public static void onScrollAutoTiny(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         int lastVisibleItem = firstVisibleItem + visibleItemCount;
-        int currentPlayPosition = MediaManager.instance().positionInList;
+        int currentPlayPosition = MediaManager.get().positionInList;
         if (currentPlayPosition >= 0) {
             if ((currentPlayPosition < firstVisibleItem || currentPlayPosition > (lastVisibleItem - 1))) {
                 if (PlayerManager.getCurrentVideo() != null &&
                         PlayerManager.getCurrentVideo().containerMode != CONTAINER_MODE_TINY &&
                         PlayerManager.getCurrentVideo().containerMode != CONTAINER_MODE_FULLSCREEN) {
                     if (PlayerManager.getCurrentVideo().playerState == PLAYER_STATE_PAUSE) {
-                        Player.releaseAllVideos();
+                        Player.releaseAllPlayer();
                     } else {
-
                         PlayerManager.getCurrentVideo().startWindowTiny();
                     }
                 }
-            } else {
-                if (PlayerManager.getCurrentVideo() != null &&
-                        PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
-                    Player.backPress();
-                }
+            } else if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
+                Player.backPress();
             }
+
         }
     }
 
     public static void onScrollReleaseAllVideos(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         int lastVisibleItem = firstVisibleItem + visibleItemCount;
-        int currentPlayPosition = MediaManager.instance().positionInList;
+        int currentPlayPosition = MediaManager.get().positionInList;
         if (currentPlayPosition >= 0) {
             if ((currentPlayPosition < firstVisibleItem || currentPlayPosition > (lastVisibleItem - 1))) {
                 if (PlayerManager.getCurrentVideo().containerMode != CONTAINER_MODE_FULLSCREEN) {
-                    Player.releaseAllVideos();//为什么最后一个视频横屏会调用这个，其他地方不会
+                    Player.releaseAllPlayer();//为什么最后一个视频横屏会调用这个，其他地方不会
                 }
             }
         }
@@ -287,7 +235,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             AbsPlayer video = PlayerManager.getCurrentVideo();
             if (((ViewGroup) view).indexOfChild(video) != -1) {
                 if (video.playerState == PLAYER_STATE_PAUSE) {
-                    Player.releaseAllVideos();
+                    Player.releaseAllPlayer();
                 } else {
                     video.startWindowTiny();
                 }
@@ -301,10 +249,40 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         }
     }
 
-    public static void setVideoImageDisplayType(ScreenType type) {
+    public static void setScreenType(ScreenType type) {
         Player.SCREEN_TYPE = type;
         if (MediaManager.textureView != null) {
             MediaManager.textureView.requestLayout();
+        }
+    }
+
+    public static void resume() {
+        if (PlayerManager.getCurrentVideo() != null) {
+            AbsPlayer player = PlayerManager.getCurrentVideo();
+            if (player.playerState == PLAYER_STATE_PAUSE) {
+                if (ON_PLAY_PAUSE_TMP_STATE == PLAYER_STATE_PAUSE) {
+                    player.onStatePause();
+                    MediaManager.pause();
+                } else {
+                    player.onStatePlaying();
+                    MediaManager.start();
+                }
+                ON_PLAY_PAUSE_TMP_STATE = PLAYER_STATE_NORMAL;
+            }
+        }
+    }
+
+    protected static PlayerState ON_PLAY_PAUSE_TMP_STATE = PlayerState.PLAYER_STATE_NORMAL;
+
+    public static void pause() {
+        if (PlayerManager.getCurrentVideo() != null) {
+            AbsPlayer video = PlayerManager.getCurrentVideo();
+            if (video.playerState == PLAYER_STATE_AUTO_COMPLETE || video.playerState == PLAYER_STATE_NORMAL || video.playerState == PLAYER_STATE_ERROR) {
+            } else {
+                ON_PLAY_PAUSE_TMP_STATE = video.playerState;
+                video.onStatePause();
+                MediaManager.pause();
+            }
         }
     }
 
@@ -363,10 +341,21 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         this.heightRatio = heightRatio;
     }
 
+    public void setOrientationFullScreen(int orientationFullScreen) {
+        this.orientationFullScreen = orientationFullScreen;
+    }
+
+    public void setOrientationNormal(int orientationNormal) {
+        this.orientationNormal = orientationNormal;
+    }
+
     public DataSource getDataSource() {
         return dataSource;
     }
 
+    public PlayerState getPlayerState() {
+        return playerState;
+    }
 
     public ContainerMode getContainerMode() {
         return containerMode;

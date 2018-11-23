@@ -12,7 +12,7 @@ import com.hacknife.iplayer.MediaManager;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.PlayerManager;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_FULLSCREEN;
 
 /**
  * Created by yujunkui on 16/8/29.
@@ -48,7 +48,7 @@ public class ActivityListViewRecyclerView extends AppCompatActivity {
                 if (video != null && video.getDataSource().containsTheUrl(MediaManager.getCurrentUrl())) {
                     Player currentJzvd = PlayerManager.getCurrentVideo();
                     if (currentJzvd != null && currentJzvd.getContainerMode() !=  CONTAINER_MODE_FULLSCREEN) {
-                        Player.releaseAllVideos();
+                        Player.releaseAllPlayer();
                     }
                 }
             }
@@ -66,7 +66,7 @@ public class ActivityListViewRecyclerView extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Player.releaseAllVideos();
+        Player.releaseAllPlayer();
     }
 
     @Override

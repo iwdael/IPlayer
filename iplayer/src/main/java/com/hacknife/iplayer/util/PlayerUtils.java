@@ -1,9 +1,8 @@
-package com.hacknife.iplayer;
+package com.hacknife.iplayer.util;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -89,35 +88,7 @@ public class PlayerUtils {
         return (int) (dpValue * scale + 0.5f);
     }
 
-    public static void saveProgress(Context context, Object url, long progress) {
-        if (!Player.SAVE_PROGRESS) return;
-        if (progress < 5000) {
-            progress = 0;
-        }
-        SharedPreferences spn = context.getSharedPreferences(PRE_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = spn.edit();
-        editor.putLong(  url.toString(), progress).apply();
-    }
 
-    public static long getSavedProgress(Context context, Object url) {
-        if (!Player.SAVE_PROGRESS) return 0;
-        SharedPreferences spn = context.getSharedPreferences(PRE_NAME,
-                Context.MODE_PRIVATE);
-        return spn.getLong(  url.toString(), 0);
-    }
-
-
-    public static void clearSavedProgress(Context context, Object url) {
-        if (url == null) {
-            SharedPreferences spn = context.getSharedPreferences(PRE_NAME,
-                    Context.MODE_PRIVATE);
-            spn.edit().clear().apply();
-        } else {
-            SharedPreferences spn = context.getSharedPreferences(PRE_NAME,
-                    Context.MODE_PRIVATE);
-            spn.edit().putLong( url.toString(), 0).apply();
-        }
-    }
 
 
 }

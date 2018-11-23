@@ -17,11 +17,11 @@ import com.hacknife.demo.CustomMediaPlayer.IjkEngine;
 import java.io.IOException;
 
 import com.hacknife.iplayer.DataSource;
-import com.hacknife.iplayer.MediaEngine;
+import com.hacknife.iplayer.engine.MediaEngine;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.IPlayer;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_NORMAL;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_NORMAL;
 
 /**
  * Created by Nathen on 2017/11/23.
@@ -69,7 +69,7 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.change_to_ijkplayer:
-                Player.releaseAllVideos();
+                Player.releaseAllPlayer();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -80,7 +80,7 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
                 finish();
                 break;
             case R.id.change_to_system_mediaplayer:
-                Player.releaseAllVideos();
+                Player.releaseAllPlayer();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -91,7 +91,7 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
                 finish();
                 break;
             case R.id.change_to_exo:
-                Player.releaseAllVideos();
+                Player.releaseAllPlayer();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -109,7 +109,7 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
         if (Player.backPress()) {
             return;
         }
-        Player.releaseAllVideos();
+        Player.releaseAllPlayer();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -122,14 +122,14 @@ public class ActivityApiCustomMediaPlayer extends AppCompatActivity implements V
     @Override
     protected void onPause() {
         super.onPause();
-        Player.releaseAllVideos();
+        Player.releaseAllPlayer();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Player.releaseAllVideos();
+                Player.releaseAllPlayer();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {

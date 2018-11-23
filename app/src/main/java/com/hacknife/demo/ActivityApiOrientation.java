@@ -11,13 +11,13 @@ import com.bumptech.glide.Glide;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.IPlayer;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_NORMAL;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_NORMAL;
 
 /**
  * Created by Nathen on 2016/12/30.
  */
 public class ActivityApiOrientation extends AppCompatActivity {
-    IPlayer mJzvdStd;
+    IPlayer iPlayer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,15 +28,14 @@ public class ActivityApiOrientation extends AppCompatActivity {
         getSupportActionBar().setDisplayUseLogoEnabled(false);
         getSupportActionBar().setTitle("Orientation");
         setContentView(R.layout.activity_orientation);
-        mJzvdStd = findViewById(R.id.jz_video);
-        mJzvdStd.setDataSource(VideoConstant.videoUrlList[0], "饺子不信"
+        iPlayer = findViewById(R.id.jz_video);
+        iPlayer.setDataSource(VideoConstant.videoUrlList[0], "饺子不信"
                 , CONTAINER_MODE_NORMAL);
         Glide.with(this)
                 .load(VideoConstant.videoThumbList[0])
-                .into(mJzvdStd.iv_thumb);
-
-        Player.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-        Player.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+                .into(iPlayer.iv_thumb);
+        iPlayer.setOrientationNormal(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        iPlayer.setOrientationFullScreen(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
     }
 
@@ -51,11 +50,7 @@ public class ActivityApiOrientation extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Player.releaseAllVideos();
-
-        //Change these two variables back
-        Player.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
-        Player.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        Player.releaseAllPlayer();
     }
 
     @Override

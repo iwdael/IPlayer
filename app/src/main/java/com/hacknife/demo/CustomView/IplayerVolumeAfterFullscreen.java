@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import com.hacknife.iplayer.MediaManager;
 import com.hacknife.iplayer.IPlayer;
 
-import static com.hacknife.iplayer.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_FULLSCREEN;
 
 /**
  * Created by pc on 2018/1/17.
@@ -25,9 +25,9 @@ public class IplayerVolumeAfterFullscreen extends IPlayer {
     public void onPrepared() {
         super.onPrepared();
         if (containerMode == CONTAINER_MODE_FULLSCREEN) {
-            MediaManager.instance().engine.setVolume(1f, 1f);
+            MediaManager.get().engine.setVolume(1f, 1f);
         } else {
-            MediaManager.instance().engine.setVolume(0f, 0f);
+            MediaManager.get().engine.setVolume(0f, 0f);
         }
     }
 
@@ -37,7 +37,7 @@ public class IplayerVolumeAfterFullscreen extends IPlayer {
     @Override
     public void startWindowFullscreen() {
         super.startWindowFullscreen();
-        MediaManager.instance().engine.setVolume(1f, 1f);
+        MediaManager.get().engine.setVolume(1f, 1f);
     }
 
     /**
@@ -46,6 +46,6 @@ public class IplayerVolumeAfterFullscreen extends IPlayer {
     @Override
     public void playOnThisVideo() {
         super.playOnThisVideo();
-        MediaManager.instance().engine.setVolume(0f, 0f);
+        MediaManager.get().engine.setVolume(0f, 0f);
     }
 }
