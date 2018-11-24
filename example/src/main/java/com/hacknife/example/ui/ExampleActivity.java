@@ -71,6 +71,7 @@ public class ExampleActivity extends BaseActivity<IExampleViewModel, ExampleActi
                 }
             }
         });
+        viewModel.initView();
     }
 
     @Override

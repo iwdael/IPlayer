@@ -136,6 +136,7 @@ public abstract class AbsPlayer extends Player {
         }
         this.dataSource = dataSource;
         this.containerMode = containerMode;
+        MediaManager.getImageLoader().onLoadCover(iv_thumb, dataSource.getCover());
         onStateNormal();
 
     }

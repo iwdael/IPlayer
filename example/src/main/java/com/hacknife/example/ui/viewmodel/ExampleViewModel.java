@@ -24,7 +24,7 @@ public class ExampleViewModel extends BaseViewModel<IExampleView, IExampleModel,
         super(view, briefnessor);
     }
 
-    @Override
+
     protected void initView() {
         model.loadVideo();
     }

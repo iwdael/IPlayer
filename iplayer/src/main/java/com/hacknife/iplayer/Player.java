@@ -69,6 +69,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     protected ViewGroup fl_surface;
     protected ViewGroup ll_top;
     protected ViewGroup ll_bottom;
+    protected ImageView iv_thumb;
 
 
     protected boolean touchingSeekBar;

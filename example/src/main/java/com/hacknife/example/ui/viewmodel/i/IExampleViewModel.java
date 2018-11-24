@@ -16,4 +16,5 @@ public interface IExampleViewModel extends IBaseViewModel {
 
     void callBackVideo(List<VideoSource> dataSources);
 
+    void initView();
 }

@@ -23,8 +23,7 @@ public abstract class BaseViewModel<V extends IBaseView, M extends IBaseModel, B
         this.view = getView();
         this.briefnessor = (B) getBriefnessor();
         model = createModel();
-        initView();
-    }
+     }
 
     protected abstract void initView();
 

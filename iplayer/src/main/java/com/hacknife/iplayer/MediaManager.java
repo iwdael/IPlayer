@@ -57,6 +57,10 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
         get().engine.dataSource = dataSource;
     }
 
+    public static ImageLoader getImageLoader() {
+        return get().loader;
+    }
+
     public static void setImageLoader(ImageLoader loader) {
         get().loader = loader;
     }

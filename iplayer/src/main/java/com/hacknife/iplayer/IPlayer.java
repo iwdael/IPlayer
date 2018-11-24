@@ -55,7 +55,6 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     protected ImageView iv_back;
     protected ProgressBar pro_bottom, pro_loading;
     protected TextView tv_title;
-    public ImageView iv_thumb;
     protected ImageView iv_back_tiny;
     protected LinearLayout ll_battery_time;
     protected ImageView setting;
