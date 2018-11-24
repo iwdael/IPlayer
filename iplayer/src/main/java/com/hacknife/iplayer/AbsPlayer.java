@@ -111,7 +111,7 @@ public abstract class AbsPlayer extends Player {
 
     public void setDataSource(DataSource dataSource, ContainerMode containerMode) {
         if (this.dataSource != null && dataSource.getCurrentUrl() != null && this.dataSource.containsTheUrl(dataSource.getCurrentUrl())) {
-            return;//数据源一致直接跳过
+            return;//重复设置数据源，跳过
         }
         if (isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
             //当前是正在播放的Video且播放链接相等
@@ -126,7 +126,7 @@ public abstract class AbsPlayer extends Player {
             }
             MediaManager.get().releaseMediaPlayer();
         } else if (isCurrentVideo() && !dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-            startWindowTiny();
+            startFloatPlayer();
         } else if (!isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
             if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
                 //需要退出小窗退到我这里，我这里是第一层级
@@ -176,7 +176,7 @@ public abstract class AbsPlayer extends Player {
                 backPress();
             } else {
                 onEvent(Event.ON_ENTER_FULLSCREEN);
-                startWindowFullscreen();
+                startFullscreenPlayer();
             }
         }
     }
@@ -529,7 +529,7 @@ public abstract class AbsPlayer extends Player {
         showSupportActionBar(getContext());
     }
 
-    protected void clearFloatScreen() {
+    protected void clearSecondPlayer() {
         PlayerUtils.setRequestedOrientation(getContext(), orientationNormal);
         showSupportActionBar(getContext());
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))
@@ -662,7 +662,7 @@ public abstract class AbsPlayer extends Player {
         }
     }
 
-    protected void startWindowFullscreen() {
+    protected void startFullscreenPlayer() {
         hideSupportActionBar(getContext());
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
                 .findViewById(Window.ID_ANDROID_CONTENT);
@@ -695,7 +695,7 @@ public abstract class AbsPlayer extends Player {
 
     }
 
-    public void startWindowTiny() {
+    public void startFloatPlayer() {
         onEvent(Event.ON_ENTER_TINYSCREEN);
         if (playerState == PLAYER_STATE_NORMAL || playerState == PLAYER_STATE_ERROR || playerState == PLAYER_STATE_AUTO_COMPLETE)
             return;
@@ -734,12 +734,9 @@ public abstract class AbsPlayer extends Player {
         return PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo() == this;
     }
 
-    //退出全屏和小窗的方法
     public void playOnThisVideo() {
-        //1.清空全屏和小窗的jzvd
         playerState = PlayerManager.getSecondFloor().playerState;
-        clearFloatScreen();
-        //2.在本jzvd上播放
+        clearSecondPlayer();
         setState(playerState);
         addTextureView();
     }
@@ -756,7 +753,7 @@ public abstract class AbsPlayer extends Player {
                 PlayerUtils.setRequestedOrientation(getContext(), ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
             }
             onEvent(Event.ON_ENTER_FULLSCREEN);
-            startWindowFullscreen();
+            startFullscreenPlayer();
         }
     }
 

@@ -168,21 +168,21 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
                 video.onEvent(video.containerMode == CONTAINER_MODE_FULLSCREEN ? Event.ON_QUIT_FULLSCREEN : Event.ON_QUIT_TINYSCREEN);
                 PlayerManager.getFirstFloor().playOnThisVideo();
             } else {
-                quitFullscreenOrTinyWindow();
+                quitFullscreenOrFloatWindow();
             }
             return true;
         } else if (PlayerManager.getFirstFloor() != null &&
                 (PlayerManager.getFirstFloor().containerMode == CONTAINER_MODE_FULLSCREEN || PlayerManager.getFirstFloor().containerMode == CONTAINER_MODE_TINY)) {
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
-            quitFullscreenOrTinyWindow();
+            quitFullscreenOrFloatWindow();
             return true;
         }
         return false;
     }
 
-    protected static void quitFullscreenOrTinyWindow() {
+    protected static void quitFullscreenOrFloatWindow() {
         //直接退出全屏和小窗
-        PlayerManager.getFirstFloor().clearFloatScreen();
+        PlayerManager.getFirstFloor().clearSecondPlayer();
         MediaManager.get().releaseMediaPlayer();
         PlayerManager.completeAll();
     }
@@ -202,7 +202,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
                     if (PlayerManager.getCurrentVideo().playerState == PLAYER_STATE_PAUSE) {
                         Player.releaseAllPlayer();
                     } else {
-                        PlayerManager.getCurrentVideo().startWindowTiny();
+                        PlayerManager.getCurrentVideo().startFloatPlayer();
                     }
                 }
             } else if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
@@ -240,7 +240,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
                 if (video.playerState == PLAYER_STATE_PAUSE) {
                     Player.releaseAllPlayer();
                 } else {
-                    video.startWindowTiny();
+                    video.startFloatPlayer();
                 }
             }
         }
