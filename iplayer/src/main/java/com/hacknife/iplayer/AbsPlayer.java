@@ -63,7 +63,7 @@ public abstract class AbsPlayer extends Player {
         View.inflate(context, getLayoutResId(), this);
         orientationNormal = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         orientationFullScreen = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
-        screenType= ScreenType.SCREEN_TYPE_ADAPTER;
+        screenType = ScreenType.SCREEN_TYPE_ADAPTER;
         iv_play = findViewById(R.id.iplayer_iv_play);
         iv_fullscreen = findViewById(R.id.iplayer_iv_fullscreen);
         sb_bottom = findViewById(R.id.iplayer_sb_bottom);
@@ -95,15 +95,19 @@ public abstract class AbsPlayer extends Player {
         this.event = event;
     }
 
-    public void setDataSource(String url, String title, ContainerMode containerMode, int position) {
-        setDataSource(url, title, containerMode);
+    public void setDataSource(String url, String title, String cover, ContainerMode containerMode, int position) {
+        setDataSource(url, title, cover, containerMode);
         positionInList = position;
     }
 
-    public void setDataSource(String url, String title, ContainerMode containerMode) {
-        setDataSource(new DataSource(url, title), containerMode);
+    public void setDataSource(String url, String title, String cover, ContainerMode containerMode) {
+        setDataSource(new DataSource(url, title, cover), containerMode);
     }
 
+    public void setDataSource(DataSource dataSource, ContainerMode containerMode, int position) {
+        setDataSource(dataSource, containerMode);
+        positionInList = position;
+    }
 
     public void setDataSource(DataSource dataSource, ContainerMode containerMode) {
         if (this.dataSource != null && dataSource.getCurrentUrl() != null && this.dataSource.containsTheUrl(dataSource.getCurrentUrl())) {
@@ -366,8 +370,8 @@ public abstract class AbsPlayer extends Player {
         MediaManager.get().prepare();
     }
 
-    public void changeUrl(String url, String title, long seekToProgress) {
-        changeUrl(new DataSource(url, title), seekToProgress);
+    public void changeUrl(String url, String title, String cover, long seekToProgress) {
+        changeUrl(new DataSource(url, title, cover), seekToProgress);
     }
 
     protected void onStatePrepared() {//因为这个紧接着就会进入播放状态，所以不设置state

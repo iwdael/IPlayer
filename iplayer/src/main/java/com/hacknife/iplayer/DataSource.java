@@ -12,15 +12,16 @@ public class DataSource {
     private String title = "";
     private HashMap<String, String> headerMap = new HashMap<>();
     private boolean loop = false;
-
+    private String cover;
 
     public DataSource() {
     }
 
-    public DataSource(Object url, String title) {
+    public DataSource(Object url, String title, String cover) {
         urlsMap.put(URL_KEY_DEFAULT, url);
         this.title = title;
         index = 0;
+        this.cover = cover;
     }
 
     public int index() {
@@ -85,6 +86,10 @@ public class DataSource {
         this.index = index;
     }
 
+    public String getCover() {
+        return cover;
+    }
+
     public static class Builder {
         DataSource dataSource;
 
@@ -105,6 +110,11 @@ public class DataSource {
 
         public Builder title(String title) {
             dataSource.title = title;
+            return this;
+        }
+
+        public Builder cover(String cover) {
+            dataSource.cover = cover;
             return this;
         }
 

@@ -31,6 +31,7 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
     protected HandlerThread thread;
     public MediaHandler pMediaHandler;
     public Handler pMainThreadHandler;
+    public ImageLoader loader;
 
     public MediaManager() {
         thread = new HandlerThread(TAG);
@@ -54,6 +55,10 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
 
     public static void setDataSource(DataSource dataSource) {
         get().engine.dataSource = dataSource;
+    }
+
+    public static void setImageLoader(ImageLoader loader) {
+        get().loader = loader;
     }
 
     public static DataSource getDataSource() {

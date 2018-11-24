@@ -4,6 +4,7 @@ package com.hacknife.example.ui;
 import com.hacknife.example.R;
 import com.hacknife.example.adapter.VideoAdapter;
 import com.hacknife.example.bean.VideoSource;
+import com.hacknife.example.engine.CoverLoader;
 import com.hacknife.example.engine.IjkEngine;
 import com.hacknife.example.ui.base.BaseActivity;
 import com.hacknife.example.ui.injector.modules.ExampleModule;
@@ -50,6 +51,7 @@ public class ExampleActivity extends BaseActivity<IExampleViewModel, ExampleActi
     @Override
     protected void initView() {
         Player.setPlayerEngine(new IjkEngine());
+        Player.setImageLoader(new CoverLoader());
         briefnessor.rc_view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         briefnessor.rc_view.setAdapter(adapter);
         briefnessor.rc_view.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {

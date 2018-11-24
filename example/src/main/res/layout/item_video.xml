@@ -12,5 +12,5 @@
         android:id="@+id/iplayer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:bind="$video.dataSource$|$video.cover$" />
+        app:bind="$video.dataSource$" />
 </LinearLayout>

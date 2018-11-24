@@ -24,7 +24,7 @@ public class VideoAdapter extends BaseRecyclerViewAdapter<VideoSource, VideoView
 
     @Override
     public VideoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new VideoViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video, null));
+        return new VideoViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video, parent, false));
     }
 
 }

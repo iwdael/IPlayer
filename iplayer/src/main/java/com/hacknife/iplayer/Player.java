@@ -117,13 +117,14 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         }
     }
 
-    public static void openFullscreenPlayer(Context context, Class _class, String url, String title, int orientation) {
-        openFullscreenPlayer(context, _class, new DataSource(url, title), orientation);
+    public static void openFullscreenPlayer(Context context, Class _class, String url, String title, String cover, int orientation) {
+        openFullscreenPlayer(context, _class, new DataSource(url, title, cover), orientation);
     }
 
-    public static void openFullscreenPlayer(Context context, Class _class, String url, String title) {
-        openFullscreenPlayer(context, _class, url, title, ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+    public static void openFullscreenPlayer(Context context, Class _class, String url, String title, String cover) {
+        openFullscreenPlayer(context, _class, url, title, cover, ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
+
 
     public static void openFullscreenPlayer(Context context, Class _class, DataSource dataSource, int orientation) {
         hideSupportActionBar(context);
@@ -245,6 +246,9 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         }
     }
 
+    public static void setImageLoader(ImageLoader loader) {
+        MediaManager.setImageLoader(loader);
+    }
 
     public static void resume() {
         if (PlayerManager.getCurrentVideo() != null) {
@@ -275,7 +279,6 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             }
         }
     }
-
 
 
     public static class AutoFullscreenListener implements SensorEventListener {
@@ -340,15 +343,18 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     public void setOrientationNormal(int orientationNormal) {
         this.orientationNormal = orientationNormal;
     }
+
     public void setScreenType(ScreenType type) {
         screenType = type;
         if (MediaManager.textureView != null) {
             MediaManager.textureView.requestLayout();
         }
     }
+
     public ScreenType getScreenType() {
         return screenType;
     }
+
     public DataSource getDataSource() {
         return dataSource;
     }
