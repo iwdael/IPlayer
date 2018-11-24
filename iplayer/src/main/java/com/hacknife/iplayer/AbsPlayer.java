@@ -111,10 +111,10 @@ public abstract class AbsPlayer extends Player {
 
     public void setDataSource(DataSource dataSource, ContainerMode containerMode) {
         if (this.dataSource != null && dataSource.getCurrentUrl() != null && this.dataSource.containsTheUrl(dataSource.getCurrentUrl())) {
-            return;//重复设置数据源，跳过
+            return;//重复设置播放源，跳过
         }
         if (isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-            //当前是正在播放的Video且播放链接相等
+            //当前是正在播放的Video,切换播放源，index不一致
             long position = 0;
             try {
                 position = MediaManager.getCurrentPosition();
