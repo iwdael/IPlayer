@@ -7,5 +7,6 @@
         <attr name="enableBottomProgressBar" format="boolean"/>
         <attr name="enableEnlarge" format="boolean"/>
         <attr name="enableClarity" format="boolean"/>
+        <attr name="enableShowWifiDialog" format="boolean"/>
     </declare-styleable>
 </resources>

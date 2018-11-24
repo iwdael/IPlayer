@@ -152,12 +152,11 @@ public abstract class AbsPlayer extends Player {
             if (playerState == PLAYER_STATE_NORMAL) {//网络播放，且非WIFI
                 if (!dataSource.getCurrentUrl().toString().startsWith("file") &&
                         !dataSource.getCurrentUrl().toString().startsWith("/") &&
-                        !PlayerUtils.isWifiConnected(getContext()) &&
-                        !WIFI_TIP_DIALOG_SHOWED) {
+                        !PlayerUtils.isWifiConnected(getContext()) && enableShowWifiDialog) {
                     showWifiDialog();
                     return;
                 }
-                startVideo();
+                startPlayer();
                 onEvent(Event.ON_CLICK_START_ICON);//开始的事件应该在播放之后，此处特殊
             } else if (playerState == PLAYER_STATE_PLAYING) {
                 onEvent(Event.ON_CLICK_PAUSE);
@@ -169,7 +168,7 @@ public abstract class AbsPlayer extends Player {
                 onStatePlaying();
             } else if (playerState == PLAYER_STATE_AUTO_COMPLETE) {
                 onEvent(Event.ON_CLICK_START_AUTO_COMPLETE);
-                startVideo();
+                startPlayer();
             }
         } else if (i == R.id.iplayer_iv_fullscreen) {
             if (playerState == PLAYER_STATE_AUTO_COMPLETE) return;
@@ -294,7 +293,7 @@ public abstract class AbsPlayer extends Player {
         return false;
     }
 
-    public void startVideo() {
+    protected void startPlayer() {
         PlayerManager.completeAll();
         initTextureView();
         addTextureView();

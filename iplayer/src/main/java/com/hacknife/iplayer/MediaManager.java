@@ -70,7 +70,6 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
     }
 
 
-    //    //正在播放的url或者uri
     public static Object getCurrentUrl() {
         return get().engine.dataSource == null ? null : get().engine.dataSource.getCurrentUrl();
     }

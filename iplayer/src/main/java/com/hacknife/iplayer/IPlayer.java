@@ -85,11 +85,6 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     protected long lastGetBatteryTime = 0;
     protected int lastGetBatteryPercent = 70;
 
-    protected boolean enableTitleBar;
-    protected boolean enableBottomBar;
-    protected boolean enableBottomProgressBar;
-    protected boolean enableEnlarge;
-    protected boolean enableClarity;
 
     private BroadcastReceiver battertReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -123,6 +118,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             enableBottomBar = ta.getBoolean(R.styleable.IPlayer_enableBottomBar, true);
             enableClarity = ta.getBoolean(R.styleable.IPlayer_enableClarity, true);
             enableEnlarge = ta.getBoolean(R.styleable.IPlayer_enableEnlarge, true);
+            enableShowWifiDialog = ta.getBoolean(R.styleable.IPlayer_enableShowWifiDialog, true);
             ta.recycle();
         } else {
             enableBottomProgressBar = true;
@@ -130,6 +126,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             enableBottomBar = true;
             enableClarity = true;
             enableEnlarge = true;
+            enableShowWifiDialog = true;
         }
         ll_battery_time = findViewById(R.id.iplayer_ll_battery_time);
         setting = findViewById(R.id.iplayer_iv_setting);
@@ -328,11 +325,11 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             if (playerState == PLAYER_STATE_NORMAL) {
                 if (!dataSource.getCurrentUrl().toString().startsWith("file") &&
                         !dataSource.getCurrentUrl().toString().startsWith("/") &&
-                        !PlayerUtils.isWifiConnected(getContext()) && !WIFI_TIP_DIALOG_SHOWED) {
+                        !PlayerUtils.isWifiConnected(getContext()) && enableShowWifiDialog) {
                     showWifiDialog();
                     return;
                 }
-                startVideo();
+                startPlayer();
                 onEvent(Event.ON_CLICK_START_THUMB);//开始的事件应该在播放之后，此处特殊
             } else if (playerState == PLAYER_STATE_AUTO_COMPLETE) {
                 onClickUiToggle();
@@ -359,9 +356,9 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
                     tv_clarity.setText(dataSource.getCurrentKey());
                     for (int j = 0; j < layout.getChildCount(); j++) {//设置点击之后的颜色
                         if (j == dataSource.index()) {
-                            ((TextView) layout.getChildAt(j)).setTextColor(Color.parseColor("#fff85959"));
+                            ((TextView) layout.getChildAt(j)).setTextColor(getResources().getColor(R.color.iplayer_setting_text_color_selected));
                         } else {
-                            ((TextView) layout.getChildAt(j)).setTextColor(Color.parseColor("#ffffff"));
+                            ((TextView) layout.getChildAt(j)).setTextColor(getResources().getColor(R.color.iplayer_setting_text_color));
                         }
                     }
                     if (tv_clarityPopWindow != null) {
@@ -396,7 +393,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             }
             if (!dataSource.getCurrentUrl().toString().startsWith("file") && !
                     dataSource.getCurrentUrl().toString().startsWith("/") &&
-                    !PlayerUtils.isWifiConnected(getContext()) && !WIFI_TIP_DIALOG_SHOWED) {
+                    !PlayerUtils.isWifiConnected(getContext()) && enableShowWifiDialog) {
                 showWifiDialog();
                 return;
             }
@@ -424,8 +421,8 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 onEvent(Event.ON_CLICK_START_WIFIDIALOG);
-                startVideo();
-                WIFI_TIP_DIALOG_SHOWED = true;
+                startPlayer();
+                enableShowWifiDialog = false;
             }
         });
         builder.setNegativeButton(getResources().getString(R.string.tips_not_wifi_cancel), new DialogInterface.OnClickListener() {

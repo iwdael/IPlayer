@@ -49,7 +49,6 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     public static final String TAG = "IPlayer";
     public static final int THRESHOLD = 80;
     public static final int FULL_SCREEN_NORMAL_DELAY = 300;
-    protected static boolean WIFI_TIP_DIALOG_SHOWED = false;
     protected static long CLICK_QUIT_FULLSCREEN_TIME = 0;
     protected static long lastAutoFullscreenTime = 0;
 
@@ -93,6 +92,12 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     protected int orientationFullScreen;
     protected int orientationNormal;
     protected boolean tmp_test_back = false;
+    protected boolean enableTitleBar;
+    protected boolean enableBottomBar;
+    protected boolean enableBottomProgressBar;
+    protected boolean enableEnlarge;
+    protected boolean enableClarity;
+    protected boolean enableShowWifiDialog;
 
     protected static OnAudioFocusChangeListener onAudioFocusChangeListener = new OnAudioFocusChangeListener();
 
