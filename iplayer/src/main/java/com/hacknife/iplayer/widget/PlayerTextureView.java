@@ -8,7 +8,7 @@ import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.PlayerManager;
 
 import static com.hacknife.iplayer.state.ScreenType.SCREEN_TYPE_FILL_PARENT;
-import static com.hacknife.iplayer.state.ScreenType.SCREEN_TYPE_FILL_SCROP;
+import static com.hacknife.iplayer.state.ScreenType.SCREEN_TYPE_FILL_CROP;
 import static com.hacknife.iplayer.state.ScreenType.SCREEN_TYPE_ORIGINAL;
 
 
@@ -131,7 +131,7 @@ public class PlayerTextureView extends android.view.TextureView {
                 /**原图**/
                 height = videoHeight;
                 width = videoWidth;
-            } else if (PlayerManager.getCurrentVideo().getScreenType() == SCREEN_TYPE_FILL_SCROP) {
+            } else if (PlayerManager.getCurrentVideo().getScreenType() == SCREEN_TYPE_FILL_CROP) {
                 if (viewRotation == 90 || viewRotation == 270) {
                     int tempSize = parentWidth;
                     parentWidth = parentHeight;

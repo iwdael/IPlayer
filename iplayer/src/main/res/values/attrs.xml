@@ -2,11 +2,28 @@
 <resources>
     <attr name="iplayer_primary_color" format="color" />
     <declare-styleable name="IPlayer">
-        <attr name="enableTitleBar" format="boolean"/>
-        <attr name="enableBottomBar" format="boolean"/>
-        <attr name="enableBottomProgressBar" format="boolean"/>
-        <attr name="enableEnlarge" format="boolean"/>
-        <attr name="enableClarity" format="boolean"/>
-        <attr name="enableShowWifiDialog" format="boolean"/>
+        <attr name="enableTitleBar" format="boolean" />
+        <attr name="enableBottomBar" format="boolean" />
+        <attr name="enableBottomProgressBar" format="boolean" />
+        <attr name="enableEnlarge" format="boolean" />
+        <attr name="enableClarity" format="boolean" />
+        <attr name="enableShowWifiDialog" format="boolean" />
+        <attr name="enableCache" format="boolean" />
+        <attr name="screenType" format="enum">
+            <enum name="adapter" value="1" />
+            <enum name="fillParent" value="2" />
+            <enum name="fillCrop" value="3" />
+            <enum name="original" value="4" />
+        </attr>
+        <attr name="fullScreenType" format="enum">
+            <enum name="adapter" value="1" />
+            <enum name="fillParent" value="2" />
+            <enum name="fillCrop" value="3" />
+            <enum name="original" value="4" />
+        </attr>
+        <attr name="fullScreenOrientation" format="enum">
+            <enum name="vertical" value="1" />
+            <enum name="horizontal" value="2" />
+        </attr>
     </declare-styleable>
 </resources>

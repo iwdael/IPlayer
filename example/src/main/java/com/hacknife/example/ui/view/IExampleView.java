@@ -13,6 +13,6 @@ import java.util.List;
  */
 public interface IExampleView extends IBaseView {
 
-    void callbackVideo(List<VideoSource> dataSources);
+    void callbackVideo(List<VideoSource> dataSources, int refresh);
 
 }

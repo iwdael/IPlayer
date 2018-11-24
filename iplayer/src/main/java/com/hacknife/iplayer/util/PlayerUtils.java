@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.view.Window;
 
+import com.hacknife.iplayer.state.ScreenType;
+
 import java.util.Formatter;
 import java.util.Locale;
 
@@ -89,6 +91,15 @@ public class PlayerUtils {
     }
 
 
-
-
+    public static ScreenType integer2ScreenType(int type) {
+        if (type == 1) {
+            return ScreenType.SCREEN_TYPE_ADAPTER;
+        } else if (type == 2) {
+            return ScreenType.SCREEN_TYPE_FILL_PARENT;
+        } else if (type == 3) {
+            return ScreenType.SCREEN_TYPE_FILL_CROP;
+        } else {
+            return ScreenType.SCREEN_TYPE_ORIGINAL;
+        }
+    }
 }

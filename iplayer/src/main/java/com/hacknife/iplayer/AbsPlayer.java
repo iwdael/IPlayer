@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -53,12 +54,6 @@ public abstract class AbsPlayer extends Player {
         super(context, attrs);
     }
 
-    public String getCurrentUrl() {
-        return String.valueOf(dataSource.getCurrentUrl());
-    }
-
-    public abstract int getLayoutResId();
-
     public void init(Context context, AttributeSet attrs) {
         View.inflate(context, getLayoutResId(), this);
         orientationNormal = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
@@ -89,24 +84,6 @@ public abstract class AbsPlayer extends Player {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
-    public void setDataSource(String url, String title, String cover, ContainerMode containerMode, int position) {
-        setDataSource(url, title, cover, containerMode);
-        positionInList = position;
-    }
-
-    public void setDataSource(String url, String title, String cover, ContainerMode containerMode) {
-        setDataSource(new DataSource(url, title, cover), containerMode);
-    }
-
-    public void setDataSource(DataSource dataSource, ContainerMode containerMode, int position) {
-        setDataSource(dataSource, containerMode);
-        positionInList = position;
     }
 
     public void setDataSource(DataSource dataSource, ContainerMode containerMode) {
@@ -304,11 +281,7 @@ public abstract class AbsPlayer extends Player {
         MediaManager.get().positionInList = positionInList;//todo
         onStatePreparing();//准备播放
         PlayerManager.setFirstFloor(this);
-    }
-
-    public void onPrepared() {
-        onStatePrepared();
-        onStatePlaying();
+        Log.v("TAG","startPlayer");
     }
 
     public void setState(PlayerState state) {
@@ -341,17 +314,7 @@ public abstract class AbsPlayer extends Player {
         }
     }
 
-    public void onStateNormal() {
-        playerState = PLAYER_STATE_NORMAL;
-        cancelProgressTimer();
-    }
-
-    public void onStatePreparing() {
-        playerState = PLAYER_STATE_PREPARING;
-        resetProgressAndTime();
-    }
-
-    protected void changeUrl(int urlMapIndex, long seekToProgress) {
+    public void changeUrl(int urlMapIndex, long seekToProgress) {
         playerState = PLAYER_STATE_PREPARING_CHANGING_URL;
         this.seekToProgress = seekToProgress;
         dataSource.setIndex(urlMapIndex);
@@ -359,7 +322,7 @@ public abstract class AbsPlayer extends Player {
         MediaManager.get().prepare();
     }
 
-    protected void changeUrl(DataSource dataSource, long seekToProgress) {
+    public void changeUrl(DataSource dataSource, long seekToProgress) {
         playerState = PLAYER_STATE_PREPARING_CHANGING_URL;
         this.seekToProgress = seekToProgress;
         this.dataSource = dataSource;
@@ -372,6 +335,24 @@ public abstract class AbsPlayer extends Player {
 
     public void changeUrl(String url, String title, String cover, long seekToProgress) {
         changeUrl(new DataSource(url, title, cover), seekToProgress);
+    }
+
+    /**
+     * 播放引擎整备完毕后回调
+     */
+    public void onPrepared() {
+        onStatePrepared();
+        onStatePlaying();
+    }
+
+    protected void onStateNormal() {
+        playerState = PLAYER_STATE_NORMAL;
+        cancelProgressTimer();
+    }
+
+    protected void onStatePreparing() {
+        playerState = PLAYER_STATE_PREPARING;
+        resetProgressAndTime();
     }
 
     protected void onStatePrepared() {//因为这个紧接着就会进入播放状态，所以不设置state
@@ -559,14 +540,14 @@ public abstract class AbsPlayer extends Player {
         }
     }
 
-    public void startProgressTimer() {
+    protected void startProgressTimer() {
         cancelProgressTimer();
         progressTimer = new Timer();
         progressTimerTask = new ProgressTimerTask();
         progressTimer.schedule(progressTimerTask, 0, 300);
     }
 
-    public void cancelProgressTimer() {
+    protected void cancelProgressTimer() {
         if (progressTimer != null) {
             progressTimer.cancel();
         }
@@ -575,7 +556,7 @@ public abstract class AbsPlayer extends Player {
         }
     }
 
-    public void onProgress(int progress, long position, long duration) {
+    protected void onProgress(int progress, long position, long duration) {
         if (!touchingSeekBar) {
             if (seekToManulPosition != -1) {
                 if (seekToManulPosition > progress) {
@@ -595,14 +576,14 @@ public abstract class AbsPlayer extends Player {
         if (bufferProgress != 0) sb_bottom.setSecondaryProgress(bufferProgress);
     }
 
-    public void resetProgressAndTime() {
+    protected void resetProgressAndTime() {
         sb_bottom.setProgress(0);
         sb_bottom.setSecondaryProgress(0);
         tv_current_time.setText(PlayerUtils.stringForTime(0));
         tv_total_time.setText(PlayerUtils.stringForTime(0));
     }
 
-    public long getCurrentPositionWhenPlaying() {
+    protected long getCurrentPositionWhenPlaying() {
         long position = 0;
         if (playerState == PLAYER_STATE_PLAYING || playerState == PLAYER_STATE_PAUSE) {
             try {
@@ -645,8 +626,7 @@ public abstract class AbsPlayer extends Player {
             vpup.requestDisallowInterceptTouchEvent(false);
             vpup = vpup.getParent();
         }
-        if (playerState != PLAYER_STATE_PLAYING &&
-                playerState != PLAYER_STATE_PAUSE) return;
+        if (playerState != PLAYER_STATE_PLAYING && playerState != PLAYER_STATE_PAUSE) return;
         long time = seekBar.getProgress() * getDuration() / 100;
         seekToManulPosition = seekBar.getProgress();
         MediaManager.seekTo(time);
@@ -674,6 +654,10 @@ public abstract class AbsPlayer extends Player {
         try {
             Constructor<AbsPlayer> constructor = (Constructor<AbsPlayer>) AbsPlayer.this.getClass().getConstructor(Context.class);
             AbsPlayer iplayer = constructor.newInstance(getContext());
+            iplayer.setOrientationNormal(orientationNormal);
+            iplayer.screenTypeFull = screenTypeFull;
+            iplayer.screenTypeNormal = screenTypeNormal;
+            iplayer.setScreenType(screenTypeFull);
             iplayer.setId(R.id.iplayer_fullscreen_id);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -706,7 +690,6 @@ public abstract class AbsPlayer extends Player {
             vp.removeView(old);
         }
         fl_surface.removeView(MediaManager.textureView);
-
         try {
             Constructor<AbsPlayer> constructor = (Constructor<AbsPlayer>) AbsPlayer.this.getClass().getConstructor(Context.class);
             AbsPlayer player = constructor.newInstance(getContext());
@@ -737,6 +720,7 @@ public abstract class AbsPlayer extends Player {
     public void playOnThisVideo() {
         playerState = PlayerManager.getSecondFloor().playerState;
         clearSecondPlayer();
+        screenType = screenTypeNormal;
         setState(playerState);
         addTextureView();
     }
@@ -778,6 +762,29 @@ public abstract class AbsPlayer extends Player {
 
     }
 
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    public String getCurrentUrl() {
+        return String.valueOf(dataSource.getCurrentUrl());
+    }
+
+    public void setDataSource(String url, String title, String cover, ContainerMode containerMode, int position) {
+        setDataSource(url, title, cover, containerMode);
+        positionInList = position;
+    }
+
+    public void setDataSource(String url, String title, String cover, ContainerMode containerMode) {
+        setDataSource(new DataSource(url, title, cover), containerMode);
+    }
+
+    public void setDataSource(DataSource dataSource, ContainerMode containerMode, int position) {
+        setDataSource(dataSource, containerMode);
+        positionInList = position;
+    }
+
     public void showWifiDialog() {
     }
 
@@ -804,4 +811,5 @@ public abstract class AbsPlayer extends Player {
 
     }
 
+    public abstract int getLayoutResId();
 }

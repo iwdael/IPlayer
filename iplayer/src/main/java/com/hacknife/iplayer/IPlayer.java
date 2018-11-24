@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hacknife.iplayer.state.ContainerMode;
+import com.hacknife.iplayer.state.ScreenType;
 import com.hacknife.iplayer.util.PlayerUtils;
 import com.hacknife.iplayer.widget.SettingView;
 
@@ -119,6 +121,11 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             enableClarity = ta.getBoolean(R.styleable.IPlayer_enableClarity, true);
             enableEnlarge = ta.getBoolean(R.styleable.IPlayer_enableEnlarge, true);
             enableShowWifiDialog = ta.getBoolean(R.styleable.IPlayer_enableShowWifiDialog, true);
+            enableCache = ta.getBoolean(R.styleable.IPlayer_enableCache, true);
+            screenTypeNormal = PlayerUtils.integer2ScreenType(ta.getInt(R.styleable.IPlayer_screenType, 1));
+            screenTypeFull = PlayerUtils.integer2ScreenType(ta.getInt(R.styleable.IPlayer_fullScreenType, 1));
+            orientationFullScreen = ta.getInt(R.styleable.IPlayer_fullScreenOrientation, 1) == 1 ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+            screenType = screenTypeNormal;
             ta.recycle();
         } else {
             enableBottomProgressBar = true;
@@ -127,6 +134,10 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             enableClarity = true;
             enableEnlarge = true;
             enableShowWifiDialog = true;
+            enableCache = false;
+            screenTypeNormal = ScreenType.SCREEN_TYPE_ADAPTER;
+            screenTypeFull = ScreenType.SCREEN_TYPE_ADAPTER;
+            orientationFullScreen = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
         }
         ll_battery_time = findViewById(R.id.iplayer_ll_battery_time);
         setting = findViewById(R.id.iplayer_iv_setting);

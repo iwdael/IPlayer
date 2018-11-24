@@ -25,7 +25,6 @@ public abstract class BaseViewModel<V extends IBaseView, M extends IBaseModel, B
         model = createModel();
      }
 
-    protected abstract void initView();
 
     protected abstract M createModel();
 

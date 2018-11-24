@@ -12,5 +12,7 @@
         android:id="@+id/iplayer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:bind="$video.dataSource$" />
+        app:bind="$video.dataSource$"
+        app:enableBottomBar="false"
+        app:enableEnlarge="false" />
 </LinearLayout>

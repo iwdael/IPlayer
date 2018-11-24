@@ -14,11 +14,37 @@ import com.hacknife.briefness.Briefnessor;
  */
 public abstract class BaseRecyclerViewHolder<T, B extends Briefnessor> extends RecyclerView.ViewHolder {
     protected B briefnessor;
+    protected T entity;
+    protected int position;
+    protected int size;
+    protected BaseRecyclerViewAdapter.OnRecyclerViewListener onRecyclerViewListener;
 
     public BaseRecyclerViewHolder(View itemView) {
         super(itemView);
         briefnessor = (B) Briefness.bind(this, itemView);
+
+    }
+
+    public void bindData(T t, int size, int position) {
+        entity = t;
+        this.size = size;
+        this.position = position;
+        if (t != null)
+            bindData(t);
     }
 
     public abstract void bindData(T t);
+
+    public void setOnRecyclerViewListener(BaseRecyclerViewAdapter.OnRecyclerViewListener onRecyclerViewListener) {
+        this.onRecyclerViewListener = onRecyclerViewListener;
+        if (onRecyclerViewListener != null) {
+            itemView.setOnClickListener(v -> {
+                onRecyclerViewListener.onItemClick(entity, position);
+            });
+            itemView.setOnLongClickListener(v -> {
+                onRecyclerViewListener.onItemLongClick(entity, position);
+                return false;
+            });
+        }
+    }
 }

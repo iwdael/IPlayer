@@ -1,10 +1,8 @@
 package com.hacknife.example.ui.viewmodel.i;
 
 
-import com.hacknife.example.bean.VideoSource;
+import com.hacknife.example.bean.JsonRootBean;
 import com.hacknife.example.ui.base.IBaseViewModel;
-
-import java.util.List;
 
 /**
  * author  : hacknife
@@ -14,7 +12,7 @@ import java.util.List;
  */
 public interface IExampleViewModel extends IBaseViewModel {
 
-    void callBackVideo(List<VideoSource> dataSources);
+    void loadVideo(int refresh);
 
-    void initView();
+    void callbackVideoList(JsonRootBean jsonRootBean, int refresh);
 }

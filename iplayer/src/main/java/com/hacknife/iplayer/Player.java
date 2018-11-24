@@ -51,6 +51,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     public static final int FULL_SCREEN_NORMAL_DELAY = 300;
     protected static long CLICK_QUIT_FULLSCREEN_TIME = 0;
     protected static long lastAutoFullscreenTime = 0;
+    protected static OnAudioFocusChangeListener onAudioFocusChangeListener = new OnAudioFocusChangeListener();
 
     protected Event event;
     protected Timer progressTimer;
@@ -92,14 +93,16 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     protected int orientationFullScreen;
     protected int orientationNormal;
     protected boolean tmp_test_back = false;
+    //自定义属性
     protected boolean enableTitleBar;
     protected boolean enableBottomBar;
     protected boolean enableBottomProgressBar;
     protected boolean enableEnlarge;
     protected boolean enableClarity;
     protected boolean enableShowWifiDialog;
-
-    protected static OnAudioFocusChangeListener onAudioFocusChangeListener = new OnAudioFocusChangeListener();
+    protected boolean enableCache;
+    protected ScreenType screenTypeFull;
+    protected ScreenType screenTypeNormal;
 
     public Player(Context context) {
         super(context);
@@ -130,7 +133,6 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     public static void openFullscreenPlayer(Context context, Class _class, String url, String title, String cover) {
         openFullscreenPlayer(context, _class, url, title, cover, ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
-
 
     public static void openFullscreenPlayer(Context context, Class _class, DataSource dataSource, int orientation) {
         hideSupportActionBar(context);

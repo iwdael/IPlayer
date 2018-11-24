@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 
@@ -115,6 +116,7 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
+        Log.v("TAG", "-------onSurfaceTextureAvailable-------");
         if (PlayerManager.getCurrentVideo() == null) return;
         if (savedSurfaceTexture == null) {
             savedSurfaceTexture = surfaceTexture;

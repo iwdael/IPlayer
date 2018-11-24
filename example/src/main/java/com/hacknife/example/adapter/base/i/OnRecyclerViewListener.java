@@ -6,8 +6,15 @@ package com.hacknife.example.adapter.base.i;
  * github  : http://github.com/hacknife
  * project : MVVM
  */
-public interface OnRecyclerViewListener<T> {
-    void onClickPostion(int postion, T t);
+public class OnRecyclerViewListener<T> implements BaseRecyclerViewAdapter.OnRecyclerViewListener<T> {
 
-    void onLongClickPostion(int postion, T t);
+    @Override
+    public void onItemClick(T entity, int position) {
+
+    }
+
+    @Override
+    public void onItemLongClick(T entity, int position) {
+
+    }
 }

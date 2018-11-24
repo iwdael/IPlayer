@@ -12,7 +12,16 @@ import java.util.List;
  * project : MVVM
  */
 public abstract class BaseRecyclerViewAdapter<V, T extends BaseRecyclerViewHolder> extends RecyclerView.Adapter<T> {
-    protected List<V> mData = new ArrayList<>();
+    protected List<V> mData;
+    protected OnRecyclerViewListener onRecyclerViewListener;
+
+    public void setOnRecyclerViewListener(OnRecyclerViewListener onRecyclerViewListener) {
+        this.onRecyclerViewListener = onRecyclerViewListener;
+    }
+
+    public BaseRecyclerViewAdapter() {
+        mData = new ArrayList<>();
+    }
 
     public List<V> getData() {
         return mData;
@@ -20,9 +29,33 @@ public abstract class BaseRecyclerViewAdapter<V, T extends BaseRecyclerViewHolde
 
     public void bindData(List<V> data) {
         if (data != null) {
+            mData.clear();
             mData.addAll(data);
+            notifyDataSetChanged();
         }
-        notifyDataSetChanged();
+
+    }
+
+    public void insertData(List<V> data) {
+        if (data != null) {
+            int start = mData.size();
+            mData.addAll(data);
+            notifyItemRangeInserted(start, data.size());
+        }
+    }
+
+    public void insertData(List<V> data, int position) {
+        if (data != null) {
+            mData.addAll(position, data);
+            notifyItemRangeInserted(position, data.size());
+        }
+    }
+
+    public void insertDataBefore(List<V> data) {
+        if (data != null) {
+            mData.addAll(0, data);
+            notifyItemRangeInserted(0, data.size());
+        }
     }
 
     public void clear() {
@@ -30,12 +63,20 @@ public abstract class BaseRecyclerViewAdapter<V, T extends BaseRecyclerViewHolde
     }
 
     @Override
+    public void onBindViewHolder(T holder, int position) {
+        holder.setOnRecyclerViewListener(onRecyclerViewListener);
+        holder.bindData(mData.get(position), mData.size(), position);
+    }
+
+    @Override
     public int getItemCount() {
         return mData.size();
     }
 
-    @Override
-    public void onBindViewHolder(T holder, int position) {
-        holder.bindData(mData.get(position));
+
+    public interface OnRecyclerViewListener<T> {
+        void onItemClick(T entity, int position);
+
+        void onItemLongClick(T entity, int position);
     }
 }

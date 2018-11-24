@@ -9,20 +9,21 @@ import com.hacknife.example.engine.IjkEngine;
 import com.hacknife.example.ui.base.BaseActivity;
 import com.hacknife.example.ui.injector.modules.ExampleModule;
 
-import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 
 import com.hacknife.example.ui.view.IExampleView;
-import com.hacknife.example.ui.viewmodel.ExampleViewModel;
 import com.hacknife.briefness.BindLayout;
 import com.hacknife.example.ui.injector.components.DaggerExampleActivityComponent;
 import com.hacknife.example.ui.viewmodel.i.IExampleViewModel;
 import com.hacknife.iplayer.MediaManager;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.PlayerManager;
+import com.hacknife.refresh.core.api.Refresh;
+import com.hacknife.refresh.core.listener.OnRefreshLoadMoreListener;
 
 import java.util.List;
 
@@ -55,8 +56,6 @@ public class ExampleActivity extends BaseActivity<IExampleViewModel, ExampleActi
 
     @Override
     protected void initView() {
-        Player.setPlayerEngine(new IjkEngine());
-        Player.setImageLoader(new CoverLoader());
         briefnessor.rc_view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         briefnessor.rc_view.setAdapter(adapter);
         briefnessor.rc_view.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
@@ -68,6 +67,7 @@ public class ExampleActivity extends BaseActivity<IExampleViewModel, ExampleActi
             @Override
             public void onChildViewDetachedFromWindow(View view) {
                 Player video = view.findViewById(R.id.iplayer);
+
                 if (video != null && video.getDataSource().containsTheUrl(MediaManager.getCurrentUrl())) {
                     Player player = PlayerManager.getCurrentVideo();
                     if (player != null && player.getContainerMode() != CONTAINER_MODE_FULLSCREEN) {
@@ -76,11 +76,47 @@ public class ExampleActivity extends BaseActivity<IExampleViewModel, ExampleActi
                 }
             }
         });
-        viewModel.initView();
+        briefnessor.refresh.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull Refresh refreshLayout) {
+                viewModel.loadVideo(0);
+            }
+
+            @Override
+            public void onRefresh(@NonNull Refresh refreshLayout) {
+                viewModel.loadVideo(1);
+            }
+        });
+        viewModel.loadVideo(1);
+
     }
 
     @Override
-    public void callbackVideo(List<VideoSource> dataSources) {
-        adapter.bindData(dataSources);
+    public void callbackVideo(List<VideoSource> dataSources, int refresh) {
+        if (refresh == 0) {
+            adapter.insertData(dataSources);
+        } else {
+            adapter.insertDataBefore(dataSources);
+        }
+        briefnessor.refresh.finishRefresh(500);
+        briefnessor.refresh.finishLoadMore(500);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Player.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Player.resume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Player.releaseAllPlayer();
     }
 }
