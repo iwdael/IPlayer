@@ -42,6 +42,11 @@ public class ExampleActivity extends BaseActivity<IExampleViewModel, ExampleActi
     VideoAdapter adapter;
 
     @Override
+    protected int attachLayoutRes() {
+        return R.layout.activity_example;
+    }
+
+    @Override
     protected void injector() {
         DaggerExampleActivityComponent.builder()
                 .exampleModule(new ExampleModule(this, briefnessor))

@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 
 import com.hacknife.briefness.Briefness;
 import com.hacknife.briefness.Briefnessor;
+import com.hacknife.example.R;
+import com.hacknife.immersive.Immersive;
 
 import javax.inject.Inject;
 
@@ -26,11 +28,14 @@ public abstract class BaseActivity<T extends IBaseViewModel, B extends Briefness
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Immersive.setContentView(this, attachLayoutRes(), R.color.black, R.color.black, true, true);
         briefnessor = (B) Briefness.bind(this);
         injector();
         briefnessor.bindViewModel(viewModel);
         initView();
     }
+
+    protected abstract int attachLayoutRes();
 
     @Override
     protected void onDestroy() {

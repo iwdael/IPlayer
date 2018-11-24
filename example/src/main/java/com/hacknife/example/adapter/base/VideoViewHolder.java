@@ -24,6 +24,7 @@ public class VideoViewHolder extends BaseRecyclerViewHolder<VideoSource, VideoVi
 
     @Override
     public void bindData(VideoSource entity) {
+        briefnessor.setVideo(entity);
     }
 
 
