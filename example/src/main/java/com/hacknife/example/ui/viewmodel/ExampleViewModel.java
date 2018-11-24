@@ -25,7 +25,7 @@ public class ExampleViewModel extends BaseViewModel<IExampleView, IExampleModel,
     }
 
 
-    protected void initView() {
+    public void initView() {
         model.loadVideo();
     }
 
