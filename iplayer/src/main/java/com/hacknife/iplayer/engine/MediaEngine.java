@@ -14,8 +14,10 @@ import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PREPARING;
 import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PREPARING_CHANGING_URL;
 
 /**
- * Created by Nathen on 2017/11/8.
- * 实现系统的播放引擎
+ * author  : hacknife
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/hacknife
+ * project : IPlayer
  */
 public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener, MediaPlayer.OnVideoSizeChangedListener {
 

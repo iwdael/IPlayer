@@ -48,8 +48,10 @@ import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PLAYING;
 import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PREPARING;
 
 /**
- * Created by Nathen
- * On 2016/04/18 16:15
+ * author  : hacknife
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/hacknife
+ * project : IPlayer
  */
 public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener {
 
@@ -123,8 +125,8 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             enableShowWifiDialog = ta.getBoolean(R.styleable.IPlayer_enableShowWifiDialog, true);
             enableCache = ta.getBoolean(R.styleable.IPlayer_enableCache, true);
             screenTypeNormal = PlayerUtils.integer2ScreenType(ta.getInt(R.styleable.IPlayer_screenType, 1));
-            screenTypeFull = PlayerUtils.integer2ScreenType(ta.getInt(R.styleable.IPlayer_fullScreenType, 1));
-            orientationFullScreen = ta.getInt(R.styleable.IPlayer_fullScreenOrientation, 1) == 1 ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+            screenTypeFull = PlayerUtils.integer2ScreenType(ta.getInt(R.styleable.IPlayer_screenTypeFull, 1));
+            orientationFullScreen = ta.getInt(R.styleable.IPlayer_orientationFullScreen, 1) == 1 ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
             screenType = screenTypeNormal;
             ta.recycle();
         } else {
@@ -183,7 +185,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             iv_back.setVisibility(View.VISIBLE);
             iv_back_tiny.setVisibility(View.INVISIBLE);
             ll_battery_time.setVisibility(View.VISIBLE);
-            setting.setVisibility(View.VISIBLE);
+//            setting.setVisibility(View.VISIBLE);
             if (dataSource.urlsMap().size() == 1) {
                 tv_clarity.setVisibility(GONE);
             } else {
@@ -207,7 +209,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             }
         } else if (containerMode == CONTAINER_MODE_TINY) {
             iv_back_tiny.setVisibility(View.VISIBLE);
-            setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+            setControlVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                     View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
             ll_battery_time.setVisibility(View.GONE);
             setting.setVisibility(View.GONE);
@@ -476,7 +478,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
                 setSystemTimeAndBattery();
             }
         } else if (playerState == PLAYER_STATE_PLAYING) {
-            if (ll_bottom.getVisibility() == View.VISIBLE) {
+            if (iv_play.getVisibility() == View.VISIBLE) {
                 changeUiToPlayingClear();
             } else {
                 changeUiToPlayingShow();
@@ -522,7 +524,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         }
     }
 
-    public void onCLickUiToggleToClear() {
+    public void onClickUiToggleToClear() {
         if (playerState == PLAYER_STATE_PREPARING) {
             if (ll_bottom.getVisibility() == View.VISIBLE) {
                 changeUiToPreparing();
@@ -569,12 +571,12 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         switch (containerMode) {
             case CONTAINER_MODE_NORMAL:
             case CONTAINER_MODE_LIST:
-                setAllControlsVisiblity(View.VISIBLE, View.INVISIBLE, View.VISIBLE,
+                setControlVisiblity(View.VISIBLE, View.INVISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
             case CONTAINER_MODE_FULLSCREEN:
-                setAllControlsVisiblity(View.VISIBLE, View.INVISIBLE, View.VISIBLE,
+                setControlVisiblity(View.VISIBLE, View.INVISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
@@ -587,12 +589,12 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         switch (containerMode) {
             case CONTAINER_MODE_NORMAL:
             case CONTAINER_MODE_LIST:
-                setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+                setControlVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                         View.VISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
             case CONTAINER_MODE_FULLSCREEN:
-                setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+                setControlVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                         View.VISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
@@ -606,12 +608,12 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         switch (containerMode) {
             case CONTAINER_MODE_NORMAL:
             case CONTAINER_MODE_LIST:
-                setAllControlsVisiblity(View.VISIBLE, View.VISIBLE, View.VISIBLE,
+                setControlVisiblity(View.VISIBLE, View.VISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
             case CONTAINER_MODE_FULLSCREEN:
-                setAllControlsVisiblity(View.VISIBLE, View.VISIBLE, View.VISIBLE,
+                setControlVisiblity(View.VISIBLE, View.VISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
@@ -625,11 +627,11 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         switch (containerMode) {
             case CONTAINER_MODE_NORMAL:
             case CONTAINER_MODE_LIST:
-                setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+                setControlVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.VISIBLE, View.INVISIBLE);
                 break;
             case CONTAINER_MODE_FULLSCREEN:
-                setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+                setControlVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.VISIBLE, View.INVISIBLE);
                 break;
             case CONTAINER_MODE_TINY:
@@ -642,12 +644,12 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         switch (containerMode) {
             case CONTAINER_MODE_NORMAL:
             case CONTAINER_MODE_LIST:
-                setAllControlsVisiblity(View.VISIBLE, View.VISIBLE, View.VISIBLE,
+                setControlVisiblity(View.VISIBLE, View.VISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
             case CONTAINER_MODE_FULLSCREEN:
-                setAllControlsVisiblity(View.VISIBLE, View.VISIBLE, View.VISIBLE,
+                setControlVisiblity(View.VISIBLE, View.VISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
@@ -660,11 +662,11 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         switch (containerMode) {
             case CONTAINER_MODE_NORMAL:
             case CONTAINER_MODE_LIST:
-                setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+                setControlVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.VISIBLE, View.INVISIBLE);
                 break;
             case CONTAINER_MODE_FULLSCREEN:
-                setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
+                setControlVisiblity(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.VISIBLE, View.INVISIBLE);
                 break;
             case CONTAINER_MODE_TINY:
@@ -677,12 +679,12 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         switch (containerMode) {
             case CONTAINER_MODE_NORMAL:
             case CONTAINER_MODE_LIST:
-                setAllControlsVisiblity(View.VISIBLE, View.INVISIBLE, View.VISIBLE,
+                setControlVisiblity(View.VISIBLE, View.INVISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
             case CONTAINER_MODE_FULLSCREEN:
-                setAllControlsVisiblity(View.VISIBLE, View.INVISIBLE, View.VISIBLE,
+                setControlVisiblity(View.VISIBLE, View.INVISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE);
                 updateStartImage();
                 break;
@@ -696,12 +698,12 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         switch (containerMode) {
             case CONTAINER_MODE_NORMAL:
             case CONTAINER_MODE_LIST:
-                setAllControlsVisiblity(View.INVISIBLE, View.INVISIBLE, View.VISIBLE,
+                setControlVisiblity(View.INVISIBLE, View.INVISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.VISIBLE);
                 updateStartImage();
                 break;
             case CONTAINER_MODE_FULLSCREEN:
-                setAllControlsVisiblity(View.VISIBLE, View.INVISIBLE, View.VISIBLE,
+                setControlVisiblity(View.VISIBLE, View.INVISIBLE, View.VISIBLE,
                         View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.VISIBLE);
                 updateStartImage();
                 break;
@@ -711,8 +713,8 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
 
     }
 
-    public void setAllControlsVisiblity(int topCon, int bottomCon, int startBtn, int loadingPro,
-                                        int thumbImg, int bottomPro, int retryLayout) {
+    public void setControlVisiblity(int topCon, int bottomCon, int startBtn, int loadingPro,
+                                    int thumbImg, int bottomPro, int retryLayout) {
         ll_top.setVisibility(enableTitleBar ? topCon : INVISIBLE);
         ll_bottom.setVisibility(enableBottomBar ? bottomCon : INVISIBLE);
         iv_play.setVisibility(startBtn);
@@ -763,7 +765,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         } else {
             dialogIcon.setBackgroundResource(R.drawable.iplayer_backward_icon);
         }
-        onCLickUiToggleToClear();
+        onClickUiToggleToClear();
     }
 
     @Override
@@ -799,7 +801,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         }
         dialogVolumeTextView.setText(volumePercent + "%");
         dialogVolumeProgressBar.setProgress(volumePercent);
-        onCLickUiToggleToClear();
+        onClickUiToggleToClear();
     }
 
     @Override
@@ -829,7 +831,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         }
         dialogBrightnessTextView.setText(brightnessPercent + "%");
         dialogBrightnessProgressBar.setProgress(brightnessPercent);
-        onCLickUiToggleToClear();
+        onClickUiToggleToClear();
     }
 
     @Override
@@ -840,7 +842,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         }
     }
 
-    public Dialog createDialogWithView(View localView) {
+    protected Dialog createDialogWithView(View localView) {
         Dialog dialog = new Dialog(getContext(), R.style.iplayer_style_dialog_progress);
         dialog.setContentView(localView);
         Window window = dialog.getWindow();
@@ -854,14 +856,14 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         return dialog;
     }
 
-    public void startDismissControlViewTimer() {
+    protected void startDismissControlViewTimer() {
         cancelDismissControlViewTimer();
         dismissControlViewTimer = new Timer();
         mDismissControlViewTimerTask = new DismissControlViewTimerTask();
         dismissControlViewTimer.schedule(mDismissControlViewTimerTask, 2500);
     }
 
-    public void cancelDismissControlViewTimer() {
+    protected void cancelDismissControlViewTimer() {
         if (dismissControlViewTimer != null) {
             dismissControlViewTimer.cancel();
         }

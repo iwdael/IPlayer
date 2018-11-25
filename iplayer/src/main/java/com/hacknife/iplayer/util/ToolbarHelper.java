@@ -6,9 +6,11 @@ import android.support.v7.app.ActionBar;
 import android.view.WindowManager;
 
 /**
- * Created by Hacknife on 2018/11/23.
+ * author  : hacknife
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/hacknife
+ * project : IPlayer
  */
-
 public class ToolbarHelper {
 
 

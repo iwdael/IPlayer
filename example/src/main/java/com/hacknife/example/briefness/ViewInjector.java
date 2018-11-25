@@ -17,7 +17,7 @@ import com.hacknife.iplayer.state.ContainerMode;
 public class ViewInjector {
     public static boolean injector(View view, Object value) {
         if (view instanceof IPlayer && value instanceof DataSource) {
-            ((IPlayer) view).setDataSource((DataSource) value, ContainerMode.CONTAINER_MODE_LIST);
+            ((IPlayer) view).setDataSource((DataSource) value);
         }
         return false;
     }

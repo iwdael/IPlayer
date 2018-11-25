@@ -3,8 +3,10 @@ package com.hacknife.iplayer;
 import com.hacknife.iplayer.state.ContainerMode;
 
 /**
- * Created by Nathen
- * On 2016/04/04 22:13
+ * author  : hacknife
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/hacknife
+ * project : IPlayer
  */
 public interface Event {
 

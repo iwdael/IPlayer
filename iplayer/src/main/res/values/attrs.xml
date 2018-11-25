@@ -15,13 +15,13 @@
             <enum name="fillCrop" value="3" />
             <enum name="original" value="4" />
         </attr>
-        <attr name="fullScreenType" format="enum">
+        <attr name="screenTypeFull" format="enum">
             <enum name="adapter" value="1" />
             <enum name="fillParent" value="2" />
             <enum name="fillCrop" value="3" />
             <enum name="original" value="4" />
         </attr>
-        <attr name="fullScreenOrientation" format="enum">
+        <attr name="orientationFullScreen" format="enum">
             <enum name="vertical" value="1" />
             <enum name="horizontal" value="2" />
         </attr>

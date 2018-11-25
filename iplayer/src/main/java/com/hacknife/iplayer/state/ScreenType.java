@@ -1,9 +1,11 @@
 package com.hacknife.iplayer.state;
 
 /**
- * Created by Hacknife on 2018/11/22.
+ * author  : hacknife
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/hacknife
+ * project : IPlayer
  */
-
 public enum ScreenType {
     SCREEN_TYPE_ADAPTER,//default
     SCREEN_TYPE_FILL_PARENT, //拉伸铺满全屏

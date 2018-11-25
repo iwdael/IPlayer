@@ -22,12 +22,15 @@ android {
 
 dependencies {
     compileOnly 'com.android.support:appcompat-v7:26.0.0'
+    compileOnly 'com.android.support:recyclerview-v7:26.0.0'
+
 }
-publish{
+publish {
     userOrg = 'hacknife'
     groupId = 'com.hacknife'
     artifactId = 'iplayer'
-    publishVersion = '1.2.2'
+    publishVersion = '1.2.2-beta1'
     desc = ''
     website = 'https://github.com/hacknife/iplayer'
 }
+//gradlew clean build bintrayUpload -PbintrayUser=hacknife -PbintrayKey=BINTRAY_KEY -PdryRun=false

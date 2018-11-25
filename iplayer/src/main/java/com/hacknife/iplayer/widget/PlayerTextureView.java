@@ -4,14 +4,18 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.PlayerManager;
 
 import static com.hacknife.iplayer.state.ScreenType.SCREEN_TYPE_FILL_PARENT;
 import static com.hacknife.iplayer.state.ScreenType.SCREEN_TYPE_FILL_CROP;
 import static com.hacknife.iplayer.state.ScreenType.SCREEN_TYPE_ORIGINAL;
 
-
+/**
+ * author  : hacknife
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/hacknife
+ * project : IPlayer
+ */
 public class PlayerTextureView extends android.view.TextureView {
 
     public int currentVideoWidth = 0;

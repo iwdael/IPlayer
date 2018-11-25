@@ -4,7 +4,7 @@ package com.hacknife.iplayer;
  * author  : hacknife
  * e-mail  : 4884280@qq.com
  * github  : http://github.com/hacknife
- * desc    : PlayerManager
+ * project : IPlayer
  */
 public class PlayerManager {
 

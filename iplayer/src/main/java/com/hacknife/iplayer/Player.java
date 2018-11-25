@@ -42,7 +42,7 @@ import static com.hacknife.iplayer.util.ToolbarHelper.hideSupportActionBar;
  * author  : hacknife
  * e-mail  : 4884280@qq.com
  * github  : http://github.com/hacknife
- * desc    : Video
+ * project : IPlayer
  */
 public abstract class Player extends FrameLayout implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, View.OnTouchListener {
 

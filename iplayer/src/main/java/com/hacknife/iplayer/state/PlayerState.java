@@ -1,9 +1,11 @@
 package com.hacknife.iplayer.state;
 
 /**
- * Created by Hacknife on 2018/11/22.
+ * author  : hacknife
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/hacknife
+ * project : IPlayer
  */
-
 public enum PlayerState {
 
     PLAYER_STATE_ORIGINAL ,

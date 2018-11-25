@@ -14,7 +14,7 @@ import com.hacknife.iplayer.R;
  * author  : hacknife
  * e-mail  : 4884280@qq.com
  * github  : http://github.com/hacknife
- * project : iplayer
+ * project : IPlayer
  */
 public class SettingView extends FrameLayout implements View.OnClickListener {
     TextView rotate90;

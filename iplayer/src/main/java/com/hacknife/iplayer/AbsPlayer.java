@@ -29,6 +29,7 @@ import java.lang.reflect.Constructor;
 import java.util.Timer;
 
 import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_NORMAL;
 import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_TINY;
 import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_AUTO_COMPLETE;
 import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_ERROR;
@@ -41,7 +42,10 @@ import static com.hacknife.iplayer.util.ToolbarHelper.hideSupportActionBar;
 import static com.hacknife.iplayer.util.ToolbarHelper.showSupportActionBar;
 
 /**
- * Created by Hacknife on 2018/11/19.
+ * author  : hacknife
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/hacknife
+ * project : IPlayer
  */
 
 public abstract class AbsPlayer extends Player {
@@ -281,7 +285,6 @@ public abstract class AbsPlayer extends Player {
         MediaManager.get().positionInList = positionInList;//todo
         onStatePreparing();//准备播放
         PlayerManager.setFirstFloor(this);
-        Log.v("TAG","startPlayer");
     }
 
     public void setState(PlayerState state) {
@@ -771,13 +774,31 @@ public abstract class AbsPlayer extends Player {
         return String.valueOf(dataSource.getCurrentUrl());
     }
 
+    public void setDataSource(String url, String title, String cover, int position) {
+        setDataSource(url, title, cover, CONTAINER_MODE_NORMAL);
+        positionInList = position;
+    }
+
     public void setDataSource(String url, String title, String cover, ContainerMode containerMode, int position) {
         setDataSource(url, title, cover, containerMode);
         positionInList = position;
     }
 
+    public void setDataSource(String url, String title, String cover) {
+        setDataSource(new DataSource(url, title, cover), CONTAINER_MODE_NORMAL);
+    }
+
     public void setDataSource(String url, String title, String cover, ContainerMode containerMode) {
         setDataSource(new DataSource(url, title, cover), containerMode);
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        setDataSource(dataSource, CONTAINER_MODE_NORMAL);
+    }
+
+    public void setDataSource(DataSource dataSource, int position) {
+        setDataSource(dataSource, CONTAINER_MODE_NORMAL);
+        positionInList = position;
     }
 
     public void setDataSource(DataSource dataSource, ContainerMode containerMode, int position) {

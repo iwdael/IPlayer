@@ -7,16 +7,21 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 
+import com.hacknife.iplayer.AbsPlayer;
 import com.hacknife.iplayer.state.ScreenType;
 
 import java.util.Formatter;
 import java.util.Locale;
 
 /**
- * Created by Nathen
- * On 2016/02/21 12:25
+ * author  : hacknife
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/hacknife
+ * project : IPlayer
  */
 public class PlayerUtils {
     public static final String PRE_NAME = "PROGRESS";
@@ -100,6 +105,24 @@ public class PlayerUtils {
             return ScreenType.SCREEN_TYPE_FILL_CROP;
         } else {
             return ScreenType.SCREEN_TYPE_ORIGINAL;
+        }
+    }
+
+
+    public static AbsPlayer findPlayer(View view) {
+        if (view instanceof AbsPlayer) {
+            return (AbsPlayer) view;
+        } else if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) view;
+            int count = group.getChildCount();
+            for (int i = 0; i < count; i++) {
+                AbsPlayer player = findPlayer(group.getChildAt(i));
+                if (player != null)
+                    return player;
+            }
+            return null;
+        } else {
+            return null;
         }
     }
 }

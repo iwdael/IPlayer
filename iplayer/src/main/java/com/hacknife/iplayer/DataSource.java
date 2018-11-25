@@ -1,9 +1,14 @@
 package com.hacknife.iplayer;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
+import java.util.Map;
+/**
+ * author  : hacknife
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/hacknife
+ * project : IPlayer
+ */
 public class DataSource {
 
     private static final String URL_KEY_DEFAULT = "URL_KEY_DEFAULT";

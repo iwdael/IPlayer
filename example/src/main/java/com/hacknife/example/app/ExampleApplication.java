@@ -1,9 +1,13 @@
 package com.hacknife.example.app;
 
+import android.app.Activity;
 import android.app.Application;
+import android.os.Bundle;
+
 import com.hacknife.example.engine.CoverLoader;
 import com.hacknife.example.engine.IjkEngine;
 import com.hacknife.iplayer.Player;
+import com.hacknife.iplayer.PlayerLifecycleCallbacks;
 import com.hacknife.refresh.core.RefreshLayout;
 import com.hacknife.refresh.core.footer.ClassicsFooter;
 import com.hacknife.refresh.core.header.ClassicsHeader;
@@ -22,5 +26,6 @@ public class ExampleApplication extends Application {
         Player.setImageLoader(new CoverLoader());
         RefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> new ClassicsHeader(context));
         RefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> new ClassicsFooter(context));
+        registerActivityLifecycleCallbacks(new PlayerLifecycleCallbacks());
     }
 }

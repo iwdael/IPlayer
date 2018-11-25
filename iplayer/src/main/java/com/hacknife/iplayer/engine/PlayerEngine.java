@@ -5,8 +5,10 @@ import android.view.Surface;
 import com.hacknife.iplayer.DataSource;
 
 /**
- * Created by Nathen on 2017/11/7.
- * 自定义播放器
+ * author  : hacknife
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/hacknife
+ * project : IPlayer
  */
 public abstract class PlayerEngine {
 

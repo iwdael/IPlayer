@@ -28,14 +28,12 @@ public abstract class BaseActivity<T extends IBaseViewModel, B extends Briefness
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Immersive.setContentView(this, attachLayoutRes(), R.color.black, R.color.black, true, true);
         briefnessor = (B) Briefness.bind(this);
         injector();
         briefnessor.bindViewModel(viewModel);
         initView();
     }
 
-    protected abstract int attachLayoutRes();
 
     @Override
     protected void onDestroy() {
