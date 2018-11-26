@@ -7,6 +7,7 @@ import android.media.AudioManager;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -454,7 +455,6 @@ public abstract class AbsPlayer extends Player {
         dismissBrightnessDialog();
         dismissProgressDialog();
         dismissVolumeDialog();
-
         onStateNormal();
         fl_surface.removeView(MediaManager.textureView);
         MediaManager.get().currentVideoWidth = 0;
@@ -510,34 +510,37 @@ public abstract class AbsPlayer extends Player {
     protected void clearFullscreenLayout() {
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext())).findViewById(Window.ID_ANDROID_CONTENT);
         View oldF = vp.findViewById(R.id.iplayer_fullscreen_id);
-        View oldT = vp.findViewById(R.id.iplayer_tiny_id);
         if (oldF != null) {
             vp.removeView(oldF);
-        }
-        if (oldT != null) {
-            vp.removeView(oldT);
         }
         showSupportActionBar(getContext());
     }
 
-    protected void clearSecondPlayer() {
-        PlayerUtils.setRequestedOrientation(getContext(), orientationNormal);
-        showSupportActionBar(getContext());
+    protected void quitFullScreenPlayer() {
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext())).findViewById(Window.ID_ANDROID_CONTENT);
-        Player fullVideo = vp.findViewById(R.id.iplayer_fullscreen_id);
-        Player tinyVideo = vp.findViewById(R.id.iplayer_tiny_id);
+        Player player = vp.findViewById(R.id.iplayer_fullscreen_id);
+        if (player != null) {
+            PlayerUtils.setRequestedOrientation(getContext(), orientationNormal);
+            showSupportActionBar(getContext());
+            vp.removeView(player);
+            if (player.fl_surface != null)
+                player.fl_surface.removeView(MediaManager.textureView);
+            PlayerManager.setSecondFloor(null);
+        }
+    }
 
-        if (fullVideo != null) {
-            vp.removeView(fullVideo);
-            if (fullVideo.fl_surface != null)
-                fullVideo.fl_surface.removeView(MediaManager.textureView);
+    protected void quitTinyPlayer() {
+        if (PlayerUtils.isServiceRunning(getContext(), TinyPlayer.class.getName())) {
+            Log.v("TAG", "Service 正在运行");
+            if (PlayerManager.getCurrentVideo().getContainerMode() == CONTAINER_MODE_TINY) {
+                AbsPlayer player = PlayerManager.getCurrentVideo();
+                if (player.fl_surface != null) {
+                    player.fl_surface.removeView(MediaManager.textureView);
+                    Log.v("TAG", "已经移除textureView");
+                }
+                PlayerManager.setSecondFloor(null);
+            }
         }
-        if (tinyVideo != null) {
-            vp.removeView(tinyVideo);
-            if (tinyVideo.fl_surface != null)
-                tinyVideo.fl_surface.removeView(MediaManager.textureView);
-        }
-        PlayerManager.setSecondFloor(null);
     }
 
     public void onVideoSizeChanged() {
@@ -692,16 +695,9 @@ public abstract class AbsPlayer extends Player {
         onEvent(Event.ON_ENTER_TINYSCREEN);
         if (playerState == PLAYER_STATE_NORMAL || playerState == PLAYER_STATE_ERROR || playerState == PLAYER_STATE_AUTO_COMPLETE)
             return;
-        ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
-                .findViewById(Window.ID_ANDROID_CONTENT);
-        View old = vp.findViewById(R.id.iplayer_tiny_id);
-        if (old != null) {
-            vp.removeView(old);
-        }
         fl_surface.removeView(MediaManager.textureView);
         getContext().startService(new Intent(getContext(), TinyPlayer.class));
         onStateNormal();
-
     }
 
     public boolean isCurrentPlayer() {
@@ -714,7 +710,8 @@ public abstract class AbsPlayer extends Player {
 
     public void playOnSelfPlayer() {
         playerState = PlayerManager.getSecondFloor().playerState;
-        clearSecondPlayer();
+        quitFullScreenPlayer();
+        quitTinyPlayer();
         screenType = screenTypeNormal;
         setState(playerState);
         addTextureView();

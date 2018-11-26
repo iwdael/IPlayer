@@ -1,6 +1,7 @@
 package com.hacknife.iplayer.util;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.net.ConnectivityManager;
@@ -15,6 +16,7 @@ import com.hacknife.iplayer.AbsPlayer;
 import com.hacknife.iplayer.state.ScreenType;
 
 import java.util.Formatter;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -124,5 +126,17 @@ public class PlayerUtils {
         } else {
             return null;
         }
+    }
+
+
+    public static boolean isServiceRunning(Context context, String serviceName) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> infos = am.getRunningServices(Integer.MAX_VALUE);
+        for (ActivityManager.RunningServiceInfo info : infos) {
+            String className = info.service.getClassName();
+            if (serviceName.equals(className))
+                return true;
+        }
+        return false;
     }
 }

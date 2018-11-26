@@ -169,13 +169,9 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             return false;
         if (PlayerManager.getSecondFloor() != null) {
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
-            if (PlayerManager.getFirstFloor().dataSource.containsTheUrl(MediaManager.getDataSource().getCurrentUrl())) {
-                AbsPlayer video = PlayerManager.getSecondFloor();
-                video.onEvent(video.containerMode == CONTAINER_MODE_FULLSCREEN ? Event.ON_QUIT_FULLSCREEN : Event.ON_QUIT_TINYSCREEN);
-                PlayerManager.getFirstFloor().playOnSelfPlayer();
-            } else {
-                quitFullscreenOrFloatWindow();
-            }
+            AbsPlayer video = PlayerManager.getSecondFloor();
+            video.onEvent(video.containerMode == CONTAINER_MODE_FULLSCREEN ? Event.ON_QUIT_FULLSCREEN : Event.ON_QUIT_TINYSCREEN);
+            PlayerManager.getFirstFloor().playOnSelfPlayer();
             return true;
         } else if (PlayerManager.getFirstFloor() != null &&
                 (PlayerManager.getFirstFloor().containerMode == CONTAINER_MODE_FULLSCREEN || PlayerManager.getFirstFloor().containerMode == CONTAINER_MODE_TINY)) {
@@ -187,8 +183,9 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     }
 
     protected static void quitFullscreenOrFloatWindow() {
-        //直接退出全屏和小窗
-        PlayerManager.getFirstFloor().clearSecondPlayer();
+        //退出全屏
+        PlayerManager.getFirstFloor().quitFullScreenPlayer();
+        PlayerManager.getFirstFloor().quitTinyPlayer();
         MediaManager.get().releasePlayerEngine();
         PlayerManager.releaseAllPlayer();
     }

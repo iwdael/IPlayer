@@ -355,11 +355,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         } else if (i == R.id.iplayer_iv_back) {
             backPress();
         } else if (i == R.id.iplayer_iv_back_tiny) {
-            if (PlayerManager.getFirstFloor().containerMode == CONTAINER_MODE_LIST) {
-                quitFullscreenOrFloatWindow();
-            } else {
-                backPress();
-            }
+            backPress();
         } else if (i == R.id.iplayer_tv_clarity) {
             LayoutInflater inflater = (LayoutInflater) getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -446,7 +442,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                clearSecondPlayer();
+                quitFullScreenPlayer();
             }
         });
         builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
