@@ -540,6 +540,7 @@ public abstract class AbsPlayer extends Player {
                 }
                 PlayerManager.setSecondFloor(null);
             }
+            getContext().stopService(new Intent(getContext(), TinyPlayer.class));
         }
     }
 
