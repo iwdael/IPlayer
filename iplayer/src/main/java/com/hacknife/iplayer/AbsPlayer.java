@@ -94,26 +94,33 @@ public abstract class AbsPlayer extends Player {
         if (this.dataSource != null && dataSource.getCurrentUrl() != null && this.dataSource.containsTheUrl(dataSource.getCurrentUrl())) {
             return;//recyclerView listView 中复用的问题 ，数据源一致 跳过
         }
-        if (isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-            long position = 0;
-            try {
-                position = MediaManager.getCurrentPosition();
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-            }
-            if (position != 0) {
-                PreferenceHelper.saveProgress(getContext(), MediaManager.getCurrentUrl(), position, saveProgress);
-            }
-            MediaManager.get().releaseMediaPlayer();
-        } else if (isCurrentVideo() && !dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-            startFloatPlayer();
-        } else if (!isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-            if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
-                //需要退出小窗退到我这里，我这里是第一层级
-                tmp_test_back = true;
-            }
-        } else if (!isCurrentVideo() && !dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-        }
+//        if (isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
+//            //列表复用中,
+//            long position = 0;
+//            try {
+//                position = MediaManager.getCurrentPosition();
+//            } catch (IllegalStateException e) {
+//                e.printStackTrace();
+//            }
+//            if (position != 0) {
+//                PreferenceHelper.saveProgress(getContext(), MediaManager.getCurrentUrl(), position, saveProgress);
+//            }
+//            MediaManager.get().releaseMediaPlayer();
+//        }
+
+
+//        else if (isCurrentVideo() && !dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
+//            startFloatPlayer();
+//        }else
+
+
+//        if (!isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
+//            if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
+//                //需要退出小窗退到我这里，我这里是第一层级
+//                tmp_test_back = true;
+//            }
+//        } else if (!isCurrentVideo() && !dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
+//        }
         this.dataSource = dataSource;
         this.containerMode = containerMode;
         MediaManager.getImageLoader().onLoadCover(iv_thumb, dataSource.getCover());
