@@ -1,6 +1,7 @@
 package com.hacknife.iplayer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.provider.Settings;
@@ -446,7 +447,7 @@ public abstract class AbsPlayer extends Player {
             long position = getCurrentPositionWhenPlaying();
             PreferenceHelper.saveProgress(getContext(), dataSource.getCurrentUrl(), position, saveProgress);
         }
-        if (onStateChangeListener!=null){
+        if (onStateChangeListener != null) {
             onStateChangeListener.onStateRelease();
         }
         cancelProgressTimer();
@@ -698,23 +699,9 @@ public abstract class AbsPlayer extends Player {
             vp.removeView(old);
         }
         fl_surface.removeView(MediaManager.textureView);
-        try {
-            Constructor<AbsPlayer> constructor = (Constructor<AbsPlayer>) AbsPlayer.this.getClass().getConstructor(Context.class);
-            AbsPlayer player = constructor.newInstance(getContext());
-            player.setId(R.id.iplayer_tiny_id);
-            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(400, 400);
-            lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
-            vp.addView(player, lp);
-            player.setDataSource(dataSource, CONTAINER_MODE_TINY);
-            player.setState(playerState);
-            player.addTextureView();
-            PlayerManager.setSecondFloor(player);
-            onStateNormal();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        getContext().startService(new Intent(getContext(), TinyPlayer.class));
+        onStateNormal();
+
     }
 
     public boolean isCurrentPlayer() {
