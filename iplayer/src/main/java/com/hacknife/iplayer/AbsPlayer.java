@@ -6,7 +6,6 @@ import android.media.AudioManager;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.hacknife.iplayer.interfaces.Event;
 import com.hacknife.iplayer.state.ContainerMode;
 import com.hacknife.iplayer.state.PlayerState;
 import com.hacknife.iplayer.state.ScreenType;
@@ -82,7 +82,7 @@ public abstract class AbsPlayer extends Player {
         audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
 
         try {
-            if (isCurrentPlay()) {
+            if (isCurrentPlayer()) {
                 orientationNormal = ((AppCompatActivity) context).getRequestedOrientation();
             }
         } catch (Exception e) {
@@ -92,10 +92,9 @@ public abstract class AbsPlayer extends Player {
 
     public void setDataSource(DataSource dataSource, ContainerMode containerMode) {
         if (this.dataSource != null && dataSource.getCurrentUrl() != null && this.dataSource.containsTheUrl(dataSource.getCurrentUrl())) {
-            return;//重复设置播放源，跳过
+            return;//recyclerView listView 中复用的问题 ，数据源一致 跳过
         }
         if (isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-            //当前是正在播放的Video,切换播放源，index不一致
             long position = 0;
             try {
                 position = MediaManager.getCurrentPosition();
@@ -398,7 +397,7 @@ public abstract class AbsPlayer extends Player {
     public void onError(int what, int extra) {
         if (what != 38 && extra != -38 && what != -38 && extra != 38 && extra != -19) {
             onStateError();
-            if (isCurrentPlay()) {
+            if (isCurrentPlayer()) {
                 MediaManager.get().releaseMediaPlayer();
             }
         }
@@ -712,8 +711,8 @@ public abstract class AbsPlayer extends Player {
         }
     }
 
-    public boolean isCurrentPlay() {
-        return isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl());//不仅正在播放的url不能一样，并且各个清晰度也不能一样
+    public boolean isCurrentPlayer() {
+        return isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl());//数据源一致
     }
 
     public boolean isCurrentVideo() {
@@ -730,7 +729,7 @@ public abstract class AbsPlayer extends Player {
 
     //重力感应的时候调用的函数，
     protected void autoFullscreen(float x) {
-        if (isCurrentPlay()
+        if (isCurrentPlayer()
                 && (playerState == PLAYER_STATE_PLAYING || playerState == PLAYER_STATE_PAUSE)
                 && containerMode != CONTAINER_MODE_FULLSCREEN
                 && containerMode != CONTAINER_MODE_TINY) {
@@ -746,7 +745,7 @@ public abstract class AbsPlayer extends Player {
 
     public void autoQuitFullscreen() {
         if ((System.currentTimeMillis() - lastAutoFullscreenTime) > 2000
-                && isCurrentPlay()
+                && isCurrentPlayer()
                 && playerState == PLAYER_STATE_PLAYING
                 && containerMode == CONTAINER_MODE_FULLSCREEN) {
             lastAutoFullscreenTime = System.currentTimeMillis();
@@ -755,7 +754,7 @@ public abstract class AbsPlayer extends Player {
     }
 
     public void onEvent(int type) {
-        if (event != null && isCurrentPlay() && !dataSource.urlsMap().isEmpty()) {
+        if (event != null && isCurrentPlayer() && !dataSource.urlsMap().isEmpty()) {
             event.onEvent(type, dataSource.getCurrentUrl(), containerMode);
         }
     }

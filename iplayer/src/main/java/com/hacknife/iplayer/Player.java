@@ -19,11 +19,13 @@ import android.widget.TextView;
 
 
 import com.hacknife.iplayer.engine.PlayerEngine;
+import com.hacknife.iplayer.interfaces.*;
 import com.hacknife.iplayer.state.ContainerMode;
 import com.hacknife.iplayer.state.PlayerState;
 import com.hacknife.iplayer.state.ScreenType;
 import com.hacknife.iplayer.util.PlayerUtils;
 import com.hacknife.iplayer.util.PreferenceHelper;
+import com.hacknife.iplayer.interfaces.OnStateChangeListener;
 
 import java.lang.reflect.Constructor;
 import java.util.Timer;
@@ -52,7 +54,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     protected static long CLICK_QUIT_FULLSCREEN_TIME = 0;
     protected static long lastAutoFullscreenTime = 0;
     protected static OnAudioFocusChangeListener onAudioFocusChangeListener = new OnAudioFocusChangeListener();
-
+    protected OnStateChangeListener onStateChangeListener;
     protected Event event;
     protected Timer progressTimer;
     protected PlayerState playerState = PlayerState.PLAYER_STATE_ORIGINAL;
@@ -248,7 +250,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         }
     }
 
-    public static void setTexttureRotation(int rotation) {
+    public static void setTextureRotation(int rotation) {
         if (MediaManager.textureView != null) {
             MediaManager.textureView.setRotation(rotation);
         }
@@ -357,6 +359,10 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         if (MediaManager.textureView != null) {
             MediaManager.textureView.requestLayout();
         }
+    }
+
+    public void setOnStateChangeListener(OnStateChangeListener onStateChangeListener) {
+        this.onStateChangeListener = onStateChangeListener;
     }
 
     public ScreenType getScreenType() {

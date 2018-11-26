@@ -5,12 +5,12 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 
 import com.hacknife.iplayer.engine.MediaEngine;
 import com.hacknife.iplayer.engine.PlayerEngine;
+import com.hacknife.iplayer.interfaces.ImageLoader;
 import com.hacknife.iplayer.widget.PlayerTextureView;
 
 
@@ -96,9 +96,6 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
         get().engine.start();
     }
 
-    public static boolean isPlaying() {
-        return get().engine.isPlaying();
-    }
 
     public void releaseMediaPlayer() {
         pMediaHandler.removeCallbacksAndMessages(null);
@@ -141,7 +138,7 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
     }
 
 
-    public class MediaHandler extends Handler {
+    private class MediaHandler extends Handler {
         public MediaHandler(Looper looper) {
             super(looper);
         }

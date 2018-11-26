@@ -1,4 +1,4 @@
-package com.hacknife.iplayer;
+package com.hacknife.iplayer.interfaces;
 
 import android.widget.ImageView;
 

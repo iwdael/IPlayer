@@ -26,6 +26,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hacknife.iplayer.interfaces.Event;
 import com.hacknife.iplayer.state.ContainerMode;
 import com.hacknife.iplayer.state.ScreenType;
 import com.hacknife.iplayer.util.PlayerUtils;
@@ -911,7 +912,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
 
     @Override
     public void onRatate(int angle) {
-        Player.setTexttureRotation(angle);
+        Player.setTextureRotation(angle);
     }
 
     @Override

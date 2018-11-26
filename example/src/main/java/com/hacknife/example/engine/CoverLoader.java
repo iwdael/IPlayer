@@ -3,7 +3,7 @@ package com.hacknife.example.engine;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.hacknife.iplayer.ImageLoader;
+import com.hacknife.iplayer.interfaces.ImageLoader;
 
 /**
  * Created by Hacknife on 2018/11/24.
