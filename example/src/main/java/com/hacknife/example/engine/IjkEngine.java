@@ -124,7 +124,7 @@ public class IjkEngine extends PlayerEngine implements IMediaPlayer.OnPreparedLi
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
-                    PlayerManager.getCurrentVideo().onAutoCompletion();
+                    PlayerManager.getCurrentVideo().onPlayCompletion();
                 }
             }
         });

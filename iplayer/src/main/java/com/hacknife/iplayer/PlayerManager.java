@@ -34,13 +34,13 @@ public class PlayerManager {
         return getFirstFloor();
     }
 
-    public static void completeAll() {
+    public static void releaseAllPlayer() {
         if (pSecendVideo != null) {
-            pSecendVideo.onCompletion();
+            pSecendVideo.releasePlayer();
             pSecendVideo = null;
         }
         if (pFirstVideo != null) {
-            pFirstVideo.onCompletion();
+            pFirstVideo.releasePlayer();
             pFirstVideo = null;
         }
     }

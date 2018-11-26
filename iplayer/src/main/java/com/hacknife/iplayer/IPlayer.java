@@ -71,8 +71,8 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     protected TextView tv_retry;
     protected LinearLayout ll_retry;
 
-    protected DismissControlViewTimerTask mDismissControlViewTimerTask;
-    protected Timer dismissControlViewTimer;
+    protected controlViewTimerTask controlViewTimerTask;
+    protected Timer controlViewTimer;
 
     protected Dialog progressDialog;
     protected ProgressBar dialogProgressBar;
@@ -217,11 +217,6 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             tv_clarity.setVisibility(View.GONE);
         }
         setSystemTimeAndBattery();
-        if (tmp_test_back) {
-            tmp_test_back = false;
-            PlayerManager.setFirstFloor(this);
-            backPress();
-        }
     }
 
     public void changePlaySize(int size) {
@@ -234,7 +229,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     }
 
     @Override
-    public int getLayoutResId() {
+    public int attachLayoutRes() {
         return R.layout.iplayer_layout_standard;
     }
 
@@ -249,6 +244,35 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         super.onStatePreparing();
         changeUiToPreparing();
     }
+
+
+    @Override
+    public void onStatePlaying() {
+        super.onStatePlaying();
+        changeUiToPlayingClear();
+    }
+
+    @Override
+    public void onStatePause() {
+        super.onStatePause();
+        changeUiToPauseShow();
+        cancelControlViewTimer();
+    }
+
+    @Override
+    public void onStateError() {
+        super.onStateError();
+        changeUiToError();
+    }
+
+    @Override
+    public void onStatePlayComplete() {
+        super.onStatePlayComplete();
+        changeUiToComplete();
+        cancelControlViewTimer();
+        pro_bottom.setProgress(100);
+    }
+
 
     @Override
     public void changeUrl(int urlMapIndex, long seekToInAdvance) {
@@ -265,32 +289,6 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         iv_play.setVisibility(INVISIBLE);
     }
 
-    @Override
-    public void onStatePlaying() {
-        super.onStatePlaying();
-        changeUiToPlayingClear();
-    }
-
-    @Override
-    public void onStatePause() {
-        super.onStatePause();
-        changeUiToPauseShow();
-        cancelDismissControlViewTimer();
-    }
-
-    @Override
-    public void onStateError() {
-        super.onStateError();
-        changeUiToError();
-    }
-
-    @Override
-    public void onStateAutoComplete() {
-        super.onStateAutoComplete();
-        changeUiToComplete();
-        cancelDismissControlViewTimer();
-        pro_bottom.setProgress(100);
-    }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -302,7 +300,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
                 case MotionEvent.ACTION_MOVE:
                     break;
                 case MotionEvent.ACTION_UP:
-                    startDismissControlViewTimer();
+                    startControlViewTimer();
                     if (changePosition) {
                         long duration = getDuration();
                         int progress = (int) (seekTimePosition * 100 / (duration == 0 ? 1 : duration));
@@ -317,10 +315,10 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         } else if (id == R.id.iplayer_sb_bottom) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    cancelDismissControlViewTimer();
+                    cancelControlViewTimer();
                     break;
                 case MotionEvent.ACTION_UP:
-                    startDismissControlViewTimer();
+                    startControlViewTimer();
                     break;
             }
         }
@@ -349,7 +347,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
                 onClickUiToggle();
             }
         } else if (i == R.id.iplayer_fl_surface) {
-            startDismissControlViewTimer();
+            startControlViewTimer();
         } else if (i == R.id.iplayer_iv_back) {
             backPress();
         } else if (i == R.id.iplayer_iv_back_tiny) {
@@ -389,7 +387,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
                 layout.addView(tv_clarityItem, j);
                 tv_clarityItem.setOnClickListener(mQualityListener);
                 if (j == dataSource.index()) {
-                    tv_clarityItem.setTextColor(Color.parseColor("#fff85959"));
+                    tv_clarityItem.setTextColor(getResources().getColor(R.color.iplayer_setting_text_color_selected));
                 }
             }
 
@@ -414,6 +412,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             initTextureView();//和开始播放的代码重复
             addTextureView();
             MediaManager.setDataSource(dataSource);
+            onStateRePlay();
             onStatePreparing();
             onEvent(Event.ON_CLICK_START_ERROR);
         } else if (R.id.iplayer_iv_setting == v.getId()) {
@@ -458,23 +457,23 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
         super.onStartTrackingTouch(seekBar);
-        cancelDismissControlViewTimer();
+        cancelControlViewTimer();
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         super.onStopTrackingTouch(seekBar);
-        startDismissControlViewTimer();
+        startControlViewTimer();
     }
 
     public void onClickUiToggle() {
-        if (ll_bottom.getVisibility() != View.VISIBLE) {
+        if (iv_play.getVisibility() != View.VISIBLE) {
             setSystemTimeAndBattery();
             tv_clarity.setText(dataSource.getCurrentKey().toString());
         }
         if (playerState == PLAYER_STATE_PREPARING) {
             changeUiToPreparing();
-            if (ll_bottom.getVisibility() == View.VISIBLE) {
+            if (iv_play.getVisibility() == View.VISIBLE) {
             } else {
                 setSystemTimeAndBattery();
             }
@@ -485,7 +484,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
                 changeUiToPlayingShow();
             }
         } else if (playerState == PLAYER_STATE_PAUSE) {
-            if (ll_bottom.getVisibility() == View.VISIBLE) {
+            if (iv_play.getVisibility() == View.VISIBLE) {
                 changeUiToPauseClear();
             } else {
                 changeUiToPauseShow();
@@ -527,22 +526,22 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
 
     public void onClickUiToggleToClear() {
         if (playerState == PLAYER_STATE_PREPARING) {
-            if (ll_bottom.getVisibility() == View.VISIBLE) {
+            if (iv_play.getVisibility() == View.VISIBLE) {
                 changeUiToPreparing();
             } else {
             }
         } else if (playerState == PLAYER_STATE_PLAYING) {
-            if (ll_bottom.getVisibility() == View.VISIBLE) {
+            if (iv_play.getVisibility() == View.VISIBLE) {
                 changeUiToPlayingClear();
             } else {
             }
         } else if (playerState == PLAYER_STATE_PAUSE) {
-            if (ll_bottom.getVisibility() == View.VISIBLE) {
+            if (iv_play.getVisibility() == View.VISIBLE) {
                 changeUiToPauseClear();
             } else {
             }
         } else if (playerState == PLAYER_STATE_AUTO_COMPLETE) {
-            if (ll_bottom.getVisibility() == View.VISIBLE) {
+            if (iv_play.getVisibility() == View.VISIBLE) {
                 changeUiToComplete();
             } else {
             }
@@ -714,15 +713,15 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
 
     }
 
-    public void setControlVisiblity(int topCon, int bottomCon, int startBtn, int loadingPro,
-                                    int thumbImg, int bottomPro, int retryLayout) {
-        ll_top.setVisibility(enableTitleBar ? topCon : INVISIBLE);
-        ll_bottom.setVisibility(enableBottomBar ? bottomCon : INVISIBLE);
-        iv_play.setVisibility(startBtn);
-        pro_loading.setVisibility(loadingPro);
-        iv_thumb.setVisibility(thumbImg);
-        pro_bottom.setVisibility(enableBottomProgressBar ? bottomPro : INVISIBLE);
-        ll_retry.setVisibility(retryLayout);
+    public void setControlVisiblity(int ll_top, int ll_bottom, int iv_play, int pro_loading,
+                                    int iv_thumb, int pro_bottom, int ll_retry) {
+        this.ll_top.setVisibility(enableTitleBar ? ll_top : INVISIBLE);
+        this.ll_bottom.setVisibility(enableBottomBar ? ll_bottom : INVISIBLE);
+        this.iv_play.setVisibility(iv_play);
+        this.pro_loading.setVisibility(pro_loading);
+        this.iv_thumb.setVisibility(iv_thumb);
+        this.pro_bottom.setVisibility(enableBottomProgressBar ? pro_bottom : INVISIBLE);
+        this.ll_retry.setVisibility(ll_retry);
     }
 
     public void updateStartImage() {
@@ -857,33 +856,33 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         return dialog;
     }
 
-    protected void startDismissControlViewTimer() {
-        cancelDismissControlViewTimer();
-        dismissControlViewTimer = new Timer();
-        mDismissControlViewTimerTask = new DismissControlViewTimerTask();
-        dismissControlViewTimer.schedule(mDismissControlViewTimerTask, 2500);
+    protected void startControlViewTimer() {
+        cancelControlViewTimer();
+        controlViewTimer = new Timer();
+        controlViewTimerTask = new controlViewTimerTask();
+        controlViewTimer.schedule(controlViewTimerTask, 2500);
     }
 
-    protected void cancelDismissControlViewTimer() {
-        if (dismissControlViewTimer != null) {
-            dismissControlViewTimer.cancel();
+    protected void cancelControlViewTimer() {
+        if (controlViewTimer != null) {
+            controlViewTimer.cancel();
         }
-        if (mDismissControlViewTimerTask != null) {
-            mDismissControlViewTimerTask.cancel();
+        if (controlViewTimerTask != null) {
+            controlViewTimerTask.cancel();
         }
 
     }
 
     @Override
-    public void onAutoCompletion() {
-        super.onAutoCompletion();
-        cancelDismissControlViewTimer();
+    public void onPlayCompletion() {
+        super.onPlayCompletion();
+        cancelControlViewTimer();
     }
 
     @Override
-    public void onCompletion() {
-        super.onCompletion();
-        cancelDismissControlViewTimer();
+    public void releasePlayer() {
+        super.releasePlayer();
+        cancelControlViewTimer();
         if (tv_clarityPopWindow != null) {
             tv_clarityPopWindow.dismiss();
         }
@@ -920,7 +919,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
 
     }
 
-    public class DismissControlViewTimerTask extends TimerTask {
+    public class controlViewTimerTask extends TimerTask {
         @Override
         public void run() {
             dissmissControlView();

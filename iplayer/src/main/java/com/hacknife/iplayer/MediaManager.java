@@ -97,7 +97,7 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
     }
 
 
-    public void releaseMediaPlayer() {
+    public void releasePlayerEngine() {
         pMediaHandler.removeCallbacksAndMessages(null);
         Message msg = new Message();
         msg.what = HANDLER_RELEASE;
@@ -105,7 +105,7 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
     }
 
     public void prepare() {
-        releaseMediaPlayer();
+        releasePlayerEngine();
         Message msg = new Message();
         msg.what = HANDLER_PREPARE;
         pMediaHandler.sendMessage(msg);

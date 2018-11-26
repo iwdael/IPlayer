@@ -94,7 +94,6 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     protected boolean saveProgress;
     protected int orientationFullScreen;
     protected int orientationNormal;
-    protected boolean tmp_test_back = false;
     //自定义属性
     protected boolean enableTitleBar;
     protected boolean enableBottomBar;
@@ -122,9 +121,9 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
 
     public static void releaseAllPlayer() {
         if ((System.currentTimeMillis() - CLICK_QUIT_FULLSCREEN_TIME) > FULL_SCREEN_NORMAL_DELAY) {
-            PlayerManager.completeAll();
+            PlayerManager.releaseAllPlayer();
             MediaManager.get().positionInList = -1;
-            MediaManager.get().releaseMediaPlayer();
+            MediaManager.get().releasePlayerEngine();
         }
     }
 
@@ -170,7 +169,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             if (PlayerManager.getFirstFloor().dataSource.containsTheUrl(MediaManager.getDataSource().getCurrentUrl())) {
                 AbsPlayer video = PlayerManager.getSecondFloor();
                 video.onEvent(video.containerMode == CONTAINER_MODE_FULLSCREEN ? Event.ON_QUIT_FULLSCREEN : Event.ON_QUIT_TINYSCREEN);
-                PlayerManager.getFirstFloor().playOnThisVideo();
+                PlayerManager.getFirstFloor().playOnSelfPlayer();
             } else {
                 quitFullscreenOrFloatWindow();
             }
@@ -187,8 +186,8 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     protected static void quitFullscreenOrFloatWindow() {
         //直接退出全屏和小窗
         PlayerManager.getFirstFloor().clearSecondPlayer();
-        MediaManager.get().releaseMediaPlayer();
-        PlayerManager.completeAll();
+        MediaManager.get().releasePlayerEngine();
+        PlayerManager.releaseAllPlayer();
     }
 
     public static void clearSavedProgress(Context context, String url) {
@@ -268,7 +267,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
                     player.onStatePause();
                     MediaManager.pause();
                 } else {
-                    player.onStatePlaying();
+                    player.onStatePlay();
                     MediaManager.start();
                 }
                 ON_PLAY_PAUSE_TMP_STATE = PLAYER_STATE_NORMAL;

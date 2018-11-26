@@ -43,4 +43,9 @@ public class OnStateChangeListener implements com.hacknife.iplayer.interfaces.On
     public void onStateError() {
 
     }
+
+    @Override
+    public void onStateNormal() {
+
+    }
 }

@@ -126,7 +126,7 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
             @Override
             public void run() {
                 if (PlayerManager.getCurrentVideo() != null) {
-                    PlayerManager.getCurrentVideo().onAutoCompletion();
+                    PlayerManager.getCurrentVideo().onPlayCompletion();
                 }
             }
         });

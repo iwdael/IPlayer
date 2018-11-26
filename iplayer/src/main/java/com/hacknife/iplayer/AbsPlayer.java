@@ -59,7 +59,7 @@ public abstract class AbsPlayer extends Player {
     }
 
     public void init(Context context, AttributeSet attrs) {
-        View.inflate(context, getLayoutResId(), this);
+        View.inflate(context, attachLayoutRes(), this);
         orientationNormal = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         orientationFullScreen = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
         screenType = ScreenType.SCREEN_TYPE_ADAPTER;
@@ -94,38 +94,10 @@ public abstract class AbsPlayer extends Player {
         if (this.dataSource != null && dataSource.getCurrentUrl() != null && this.dataSource.containsTheUrl(dataSource.getCurrentUrl())) {
             return;//recyclerView listView 中复用的问题 ，数据源一致 跳过
         }
-//        if (isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-//            //列表复用中,
-//            long position = 0;
-//            try {
-//                position = MediaManager.getCurrentPosition();
-//            } catch (IllegalStateException e) {
-//                e.printStackTrace();
-//            }
-//            if (position != 0) {
-//                PreferenceHelper.saveProgress(getContext(), MediaManager.getCurrentUrl(), position, saveProgress);
-//            }
-//            MediaManager.get().releaseMediaPlayer();
-//        }
-
-
-//        else if (isCurrentVideo() && !dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-//            startFloatPlayer();
-//        }else
-
-
-//        if (!isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-//            if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
-//                //需要退出小窗退到我这里，我这里是第一层级
-//                tmp_test_back = true;
-//            }
-//        } else if (!isCurrentVideo() && !dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-//        }
         this.dataSource = dataSource;
         this.containerMode = containerMode;
         MediaManager.getImageLoader().onLoadCover(iv_thumb, dataSource.getCover());
         onStateNormal();
-
     }
 
     @Override
@@ -281,7 +253,7 @@ public abstract class AbsPlayer extends Player {
     }
 
     protected void startPlayer() {
-        PlayerManager.completeAll();
+        PlayerManager.releaseAllPlayer();
         initTextureView();
         addTextureView();
         AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
@@ -318,7 +290,7 @@ public abstract class AbsPlayer extends Player {
                 onStateError();
                 break;
             case PLAYER_STATE_AUTO_COMPLETE:
-                onStateAutoComplete();
+                onStatePlayComplete();
                 break;
         }
     }
@@ -355,16 +327,34 @@ public abstract class AbsPlayer extends Player {
     }
 
     protected void onStateNormal() {
+        if (onStateChangeListener != null)
+            onStateChangeListener.onStateNormal();
         playerState = PLAYER_STATE_NORMAL;
         cancelProgressTimer();
     }
 
+    protected void onStateRePlay() {
+        if (onStateChangeListener != null)
+            onStateChangeListener.onStateRePlay();
+    }
+
+    protected void onStatePlay() {
+        if (onStateChangeListener != null)
+            onStateChangeListener.onStatePlay();
+    }
+
     protected void onStatePreparing() {
+        onStatePlay();
+        if (onStateChangeListener != null)
+            onStateChangeListener.onStatePreparing();
         playerState = PLAYER_STATE_PREPARING;
         resetProgressAndTime();
     }
 
+
     protected void onStatePrepared() {//因为这个紧接着就会进入播放状态，所以不设置state
+        if (onStateChangeListener != null)
+            onStateChangeListener.onStatePrepared();
         if (seekToProgress != 0) {
             MediaManager.seekTo(seekToProgress);
             seekToProgress = 0;
@@ -377,21 +367,29 @@ public abstract class AbsPlayer extends Player {
     }
 
     protected void onStatePlaying() {
+        if (onStateChangeListener != null)
+            onStateChangeListener.onStatePlaying();
         playerState = PLAYER_STATE_PLAYING;
         startProgressTimer();
     }
 
     protected void onStatePause() {
+        if (onStateChangeListener != null)
+            onStateChangeListener.onStatePause();
         playerState = PLAYER_STATE_PAUSE;
         startProgressTimer();
     }
 
     protected void onStateError() {
+        if (onStateChangeListener != null)
+            onStateChangeListener.onStateError();
         playerState = PLAYER_STATE_ERROR;
         cancelProgressTimer();
     }
 
-    protected void onStateAutoComplete() {
+    protected void onStatePlayComplete() {
+        if (onStateChangeListener != null)
+            onStateChangeListener.onStatePlayComplete();
         playerState = PLAYER_STATE_AUTO_COMPLETE;
         cancelProgressTimer();
         sb_bottom.setProgress(100);
@@ -405,7 +403,7 @@ public abstract class AbsPlayer extends Player {
         if (what != 38 && extra != -38 && what != -38 && extra != 38 && extra != -19) {
             onStateError();
             if (isCurrentPlayer()) {
-                MediaManager.get().releaseMediaPlayer();
+                MediaManager.get().releasePlayerEngine();
             }
         }
     }
@@ -420,7 +418,6 @@ public abstract class AbsPlayer extends Player {
             int specWidth = MeasureSpec.getSize(widthMeasureSpec);
             int specHeight = (int) ((specWidth * (float) heightRatio) / widthRatio);
             setMeasuredDimension(specWidth, specHeight);
-
             int childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(specWidth, MeasureSpec.EXACTLY);
             int childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(specHeight, MeasureSpec.EXACTLY);
             getChildAt(0).measure(childWidthMeasureSpec, childHeightMeasureSpec);
@@ -430,21 +427,21 @@ public abstract class AbsPlayer extends Player {
 
     }
 
-    public void onAutoCompletion() {
+    public void onPlayCompletion() {
         Runtime.getRuntime().gc();
         onEvent(Event.ON_AUTO_COMPLETE);
         dismissVolumeDialog();
         dismissProgressDialog();
         dismissBrightnessDialog();
-        onStateAutoComplete();
+        onStatePlayComplete();
         if (containerMode == CONTAINER_MODE_FULLSCREEN || containerMode == CONTAINER_MODE_TINY) {
             backPress();
         }
-        MediaManager.get().releaseMediaPlayer();
+        MediaManager.get().releasePlayerEngine();
         PreferenceHelper.saveProgress(getContext(), dataSource.getCurrentUrl(), 0, saveProgress);
     }
 
-    public void onCompletion() {
+    public void releasePlayer() {
         if (playerState == PLAYER_STATE_PLAYING || playerState == PLAYER_STATE_PAUSE) {
             long position = getCurrentPositionWhenPlaying();
             PreferenceHelper.saveProgress(getContext(), dataSource.getCurrentUrl(), position, saveProgress);
@@ -462,7 +459,6 @@ public abstract class AbsPlayer extends Player {
         PlayerUtils.scanForActivity(getContext()).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         clearFullscreenLayout();
         PlayerUtils.setRequestedOrientation(getContext(), orientationNormal);
-
         if (MediaManager.surface != null) MediaManager.surface.release();
         if (MediaManager.savedSurfaceTexture != null)
             MediaManager.savedSurfaceTexture.release();
@@ -522,8 +518,7 @@ public abstract class AbsPlayer extends Player {
     protected void clearSecondPlayer() {
         PlayerUtils.setRequestedOrientation(getContext(), orientationNormal);
         showSupportActionBar(getContext());
-        ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))
-                .findViewById(Window.ID_ANDROID_CONTENT);
+        ViewGroup vp = (PlayerUtils.scanForActivity(getContext())).findViewById(Window.ID_ANDROID_CONTENT);
         Player fullVideo = vp.findViewById(R.id.iplayer_fullscreen_id);
         Player tinyVideo = vp.findViewById(R.id.iplayer_tiny_id);
 
@@ -726,7 +721,7 @@ public abstract class AbsPlayer extends Player {
         return PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo() == this;
     }
 
-    public void playOnThisVideo() {
+    public void playOnSelfPlayer() {
         playerState = PlayerManager.getSecondFloor().playerState;
         clearSecondPlayer();
         screenType = screenTypeNormal;
@@ -838,5 +833,5 @@ public abstract class AbsPlayer extends Player {
 
     }
 
-    public abstract int getLayoutResId();
+    public abstract int attachLayoutRes();
 }
