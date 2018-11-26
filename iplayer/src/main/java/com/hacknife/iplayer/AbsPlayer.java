@@ -461,7 +461,7 @@ public abstract class AbsPlayer extends Player {
         MediaManager.get().currentVideoHeight = 0;
         AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
         audioManager.abandonAudioFocus(onAudioFocusChangeListener);
-        PlayerUtils.scanForActivity(getContext()).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        PlayerUtils.clearFlags(getContext(), WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         clearFullscreenLayout();
         PlayerUtils.setRequestedOrientation(getContext(), orientationNormal);
         if (MediaManager.surface != null) MediaManager.surface.release();
@@ -508,6 +508,7 @@ public abstract class AbsPlayer extends Player {
     }
 
     protected void clearFullscreenLayout() {
+        if (PlayerUtils.scanForActivity(getContext()) == null) return;
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext())).findViewById(Window.ID_ANDROID_CONTENT);
         View oldF = vp.findViewById(R.id.iplayer_fullscreen_id);
         if (oldF != null) {

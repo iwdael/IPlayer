@@ -11,6 +11,7 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.hacknife.iplayer.AbsPlayer;
 import com.hacknife.iplayer.state.ScreenType;
@@ -78,7 +79,7 @@ public class PlayerUtils {
         if (PlayerUtils.getAppCompActivity(context) != null) {
             PlayerUtils.getAppCompActivity(context).setRequestedOrientation(
                     orientation);
-        } else {
+        } else if (PlayerUtils.scanForActivity(context) != null) {
             PlayerUtils.scanForActivity(context).setRequestedOrientation(
                     orientation);
         }
@@ -138,5 +139,13 @@ public class PlayerUtils {
                 return true;
         }
         return false;
+    }
+
+    public static void clearFlags(Context context, int flag) {
+        try {
+            PlayerUtils.scanForActivity(context).getWindow().clearFlags(flag);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
