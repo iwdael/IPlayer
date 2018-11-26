@@ -355,7 +355,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
         } else if (i == R.id.iplayer_iv_back) {
             backPress();
         } else if (i == R.id.iplayer_iv_back_tiny) {
-            backPress();
+            quitFullscreenOrFloatWindow();
         } else if (i == R.id.iplayer_tv_clarity) {
             LayoutInflater inflater = (LayoutInflater) getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);

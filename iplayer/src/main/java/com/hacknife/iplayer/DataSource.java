@@ -3,6 +3,8 @@ package com.hacknife.iplayer;
 import java.util.HashMap;
 
 import java.util.Map;
+import java.util.UUID;
+
 /**
  * author  : hacknife
  * e-mail  : 4884280@qq.com
@@ -10,7 +12,7 @@ import java.util.Map;
  * project : IPlayer
  */
 public class DataSource {
-
+    private String uuid;
     private static final String URL_KEY_DEFAULT = "URL_KEY_DEFAULT";
     private int index;
     private Map<String, Object> urlsMap = new HashMap<>();
@@ -20,6 +22,7 @@ public class DataSource {
     private String cover;
 
     public DataSource() {
+        uuid = UUID.randomUUID().toString();
     }
 
     public DataSource(Object url, String title, String cover) {
@@ -27,6 +30,7 @@ public class DataSource {
         this.title = title;
         index = 0;
         this.cover = cover;
+        uuid = UUID.randomUUID().toString();
     }
 
     public int index() {
@@ -93,6 +97,19 @@ public class DataSource {
 
     public String getCover() {
         return cover;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof DataSource) {
+            if (this.uuid.equalsIgnoreCase(((DataSource) obj).uuid))
+                return true;
+            else
+                return false;
+        } else {
+            return false;
+        }
+
     }
 
     public static class Builder {

@@ -7,6 +7,7 @@ import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +28,7 @@ public class TinyPlayer extends Service {
     public static final String DATASOURCE = "BUNLDE_DATASOURCE";
     WindowManager windowManager;
     WindowManager.LayoutParams layoutParams;
+    AbsPlayer player;
 
     @Override
     public void onCreate() {
@@ -71,7 +73,7 @@ public class TinyPlayer extends Service {
         } else {
             try {
                 Constructor<AbsPlayer> constructor = (Constructor<AbsPlayer>) PlayerManager.getCurrentVideo().getClass().getConstructor(Context.class);
-                AbsPlayer player = constructor.newInstance(getApplicationContext());
+                player = constructor.newInstance(getApplicationContext());
                 player.setId(R.id.iplayer_tiny_id);
                 windowManager.addView(player, layoutParams);
                 player.setOnTouchListener(new OnTouchListener());
@@ -81,6 +83,7 @@ public class TinyPlayer extends Service {
                 player.setOnStateChangeListener(new OnStateChangeListener() {
                     @Override
                     public void onStatePlayComplete() {
+                        Player.quitFullscreenOrFloatWindow();
                         TinyPlayer.this.stopSelf();
                     }
 
@@ -132,5 +135,12 @@ public class TinyPlayer extends Service {
             }
             return false;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        windowManager.removeView(player);
+        Log.v("TAG", "Service 销毁了");
     }
 }

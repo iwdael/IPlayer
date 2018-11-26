@@ -17,13 +17,16 @@ import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_FULLSCREEN
 public class OnPlayerAttachStateChangeListener implements RecyclerView.OnChildAttachStateChangeListener {
     @Override
     public void onChildViewAttachedToWindow(View view) {
-
+        AbsPlayer player = PlayerUtils.findPlayer(view);
+        if (player != null && player.getDataSource().equals(MediaManager.getDataSource()) && player.enableTinyWindow && PlayerManager.getSecondFloor() != null) {
+            Player.backPress();
+        }
     }
 
     @Override
     public void onChildViewDetachedFromWindow(View view) {
         AbsPlayer video = PlayerUtils.findPlayer(view);
-        if (video != null && video.getDataSource().containsTheUrl(MediaManager.getCurrentUrl())) {
+        if (video != null && video.getDataSource().equals(MediaManager.getDataSource())) {
             AbsPlayer player = PlayerManager.getCurrentVideo();
             if (player != null && player.enableTinyWindow && player.getPlayerState() == PlayerState.PLAYER_STATE_PLAYING) {
                 player.startFloatPlayer();
