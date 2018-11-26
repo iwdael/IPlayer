@@ -23,8 +23,10 @@ public class OnPlayerAttachStateChangeListener implements RecyclerView.OnChildAt
     public void onChildViewDetachedFromWindow(View view) {
         AbsPlayer video = PlayerUtils.findPlayer(view);
         if (video != null && video.getDataSource().containsTheUrl(MediaManager.getCurrentUrl())) {
-            Player player = PlayerManager.getCurrentVideo();
-            if (player != null && player.getContainerMode() != CONTAINER_MODE_FULLSCREEN) {
+            AbsPlayer player = PlayerManager.getCurrentVideo();
+            if (player != null && player.enableTinyWindow) {
+                player.startFloatPlayer();
+            } else if (player != null) {
                 Player.releaseAllPlayer();
             }
         }

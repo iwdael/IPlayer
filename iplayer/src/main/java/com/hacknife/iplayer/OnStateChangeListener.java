@@ -45,6 +45,16 @@ public class OnStateChangeListener implements com.hacknife.iplayer.interfaces.On
     }
 
     @Override
+    public void onStatePlaying() {
+
+    }
+
+    @Override
+    public void onStateRelease() {
+
+    }
+
+    @Override
     public void onStateNormal() {
 
     }

@@ -9,6 +9,9 @@
         <attr name="enableClarity" format="boolean" />
         <attr name="enableShowWifiDialog" format="boolean" />
         <attr name="enableCache" format="boolean" />
+        <attr name="enableTinyWindow" format="boolean" />
+        <attr name="tinyWindowWidth" format="dimension"/>
+        <attr name="tinyWindowHeight" format="dimension"/>
         <attr name="screenType" format="enum">
             <enum name="adapter" value="1" />
             <enum name="fillParent" value="2" />

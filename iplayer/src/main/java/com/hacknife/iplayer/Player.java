@@ -102,6 +102,9 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     protected boolean enableClarity;
     protected boolean enableShowWifiDialog;
     protected boolean enableCache;
+    protected boolean enableTinyWindow;
+    protected int tinyWindowWidth;
+    protected int tinyWindowHeight;
     protected ScreenType screenTypeFull;
     protected ScreenType screenTypeNormal;
 

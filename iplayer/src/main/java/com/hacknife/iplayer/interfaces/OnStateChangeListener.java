@@ -26,4 +26,6 @@ public interface OnStateChangeListener {
 
 
     void onStatePlaying();
+
+    void onStateRelease();
 }

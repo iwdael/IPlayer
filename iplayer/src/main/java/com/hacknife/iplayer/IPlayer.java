@@ -128,6 +128,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             screenTypeNormal = PlayerUtils.integer2ScreenType(ta.getInt(R.styleable.IPlayer_screenType, 1));
             screenTypeFull = PlayerUtils.integer2ScreenType(ta.getInt(R.styleable.IPlayer_screenTypeFull, 1));
             orientationFullScreen = ta.getInt(R.styleable.IPlayer_orientationFullScreen, 1) == 1 ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+            enableTinyWindow = ta.getBoolean(R.styleable.IPlayer_enableTinyWindow, false);
             screenType = screenTypeNormal;
             ta.recycle();
         } else {
@@ -141,6 +142,9 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             screenTypeNormal = ScreenType.SCREEN_TYPE_ADAPTER;
             screenTypeFull = ScreenType.SCREEN_TYPE_ADAPTER;
             orientationFullScreen = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
+            enableTinyWindow = false;
+            tinyWindowHeight = 0;
+            tinyWindowHeight = 0;
         }
         ll_battery_time = findViewById(R.id.iplayer_ll_battery_time);
         setting = findViewById(R.id.iplayer_iv_setting);

@@ -446,10 +446,14 @@ public abstract class AbsPlayer extends Player {
             long position = getCurrentPositionWhenPlaying();
             PreferenceHelper.saveProgress(getContext(), dataSource.getCurrentUrl(), position, saveProgress);
         }
+        if (onStateChangeListener!=null){
+            onStateChangeListener.onStateRelease();
+        }
         cancelProgressTimer();
         dismissBrightnessDialog();
         dismissProgressDialog();
         dismissVolumeDialog();
+
         onStateNormal();
         fl_surface.removeView(MediaManager.textureView);
         MediaManager.get().currentVideoWidth = 0;
