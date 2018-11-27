@@ -52,6 +52,7 @@ import static com.hacknife.iplayer.util.ToolbarHelper.showSupportActionBar;
 
 public abstract class AbsPlayer extends Player {
 
+
     public AbsPlayer(Context context) {
         super(context);
     }
@@ -144,7 +145,29 @@ public abstract class AbsPlayer extends Player {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-
+        if (containerMode == CONTAINER_MODE_TINY) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    moveX = (int) event.getRawX();
+                    moveY = (int) event.getRawY();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    int nowX = (int) event.getRawX();
+                    int nowY = (int) event.getRawY();
+                    int movedX = nowX - moveX;
+                    int movedY = nowY - moveY;
+                    moveX = nowX;
+                    moveY = nowY;
+                    ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
+                            .findViewById(Window.ID_ANDROID_CONTENT);
+                    tinyLp.leftMargin = tinyLp.leftMargin + movedX;
+                    tinyLp.topMargin = tinyLp.topMargin + movedY;
+                    vp.updateViewLayout(this, tinyLp);
+                    break;
+                default:
+                    break;
+            }
+        }
         float x = event.getX();
         float y = event.getY();
         int id = v.getId();
@@ -152,15 +175,15 @@ public abstract class AbsPlayer extends Player {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     touchingSeekBar = true;
-                    downX = x;
-                    downY = y;
+                    changeX = x;
+                    changeY = y;
                     changeVolume = false;
                     changePosition = false;
                     changeBrightness = false;
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    float deltaX = x - downX;
-                    float deltaY = y - downY;
+                    float deltaX = x - changeX;
+                    float deltaY = y - changeY;
                     float absDeltaX = Math.abs(deltaX);
                     float absDeltaY = Math.abs(deltaY);
                     if (containerMode == CONTAINER_MODE_FULLSCREEN) {
@@ -176,7 +199,7 @@ public abstract class AbsPlayer extends Player {
                                     }
                                 } else {
                                     //如果y轴滑动距离超过设置的处理范围，那么进行滑动事件处理
-                                    if (downX < screenWidth * 0.5f) {//左侧改变亮度
+                                    if (changeX < screenWidth * 0.5f) {//左侧改变亮度
                                         changeBrightness = true;
                                         WindowManager.LayoutParams lp = PlayerUtils.getWindow(getContext()).getAttributes();
                                         if (lp.screenBrightness < 0) {
@@ -710,14 +733,15 @@ public abstract class AbsPlayer extends Player {
             Constructor<AbsPlayer> constructor = (Constructor<AbsPlayer>) AbsPlayer.this.getClass().getConstructor(Context.class);
             AbsPlayer player = constructor.newInstance(getContext());
             player.setId(R.id.iplayer_tiny_id);
-            FrameLayout.LayoutParams lp;
+
             if (tinyWindowWidth == 0 || tinyWindowHeight == 0) {
-                lp = new FrameLayout.LayoutParams((int) (getWidth() * (2 / 5f)), (int) (getHeight() * (2 / 5f)));
+                tinyLp = new FrameLayout.LayoutParams((int) (getWidth() * (2 / 5f)), (int) (getHeight() * (2 / 5f)));
             } else {
-                lp = new FrameLayout.LayoutParams(tinyWindowWidth, tinyWindowHeight);
+                tinyLp = new FrameLayout.LayoutParams(tinyWindowWidth, tinyWindowHeight);
             }
-            lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
-            vp.addView(player, lp);
+            tinyLp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
+            vp.addView(player, tinyLp);
+
             player.setScreenType(screenTypeTiny);
             player.setDataSource(dataSource, CONTAINER_MODE_TINY);
             player.setState(playerState);

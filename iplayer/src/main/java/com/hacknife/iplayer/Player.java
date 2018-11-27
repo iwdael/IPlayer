@@ -63,6 +63,8 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     protected AudioManager audioManager;
     protected ProgressTimerTask progressTimerTask;
     protected ScreenType screenType;
+    protected LayoutParams tinyLp;
+
     protected ImageView iv_play;
     protected SeekBar sb_bottom;
     protected ImageView iv_fullscreen;
@@ -75,8 +77,10 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
 
 
     protected boolean touchingSeekBar;
-    protected float downX;
-    protected float downY;
+    protected float changeX;
+    protected float changeY;
+    protected int moveX;
+    protected int moveY;
     protected boolean changeVolume;
     protected boolean changePosition;
     protected boolean changeBrightness;
