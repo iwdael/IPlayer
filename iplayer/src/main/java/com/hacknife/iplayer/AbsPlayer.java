@@ -462,7 +462,7 @@ public abstract class AbsPlayer extends Player {
         AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
         audioManager.abandonAudioFocus(onAudioFocusChangeListener);
         PlayerUtils.clearFlags(getContext(), WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        clearFullscreenLayout();
+        clearSecondLayout();
         PlayerUtils.setRequestedOrientation(getContext(), orientationNormal);
         if (MediaManager.surface != null) MediaManager.surface.release();
         if (MediaManager.savedSurfaceTexture != null)
@@ -507,12 +507,16 @@ public abstract class AbsPlayer extends Player {
         }
     }
 
-    protected void clearFullscreenLayout() {
+    protected void clearSecondLayout() {
         if (PlayerUtils.scanForActivity(getContext()) == null) return;
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext())).findViewById(Window.ID_ANDROID_CONTENT);
-        View oldF = vp.findViewById(R.id.iplayer_fullscreen_id);
-        if (oldF != null) {
-            vp.removeView(oldF);
+        View full = vp.findViewById(R.id.iplayer_fullscreen_id);
+        if (full != null) {
+            vp.removeView(full);
+        }
+        View tiny = vp.findViewById(R.id.iplayer_tiny_id);
+        if (tiny != null) {
+            vp.removeView(tiny);
         }
         showSupportActionBar(getContext());
     }
@@ -531,17 +535,25 @@ public abstract class AbsPlayer extends Player {
     }
 
     protected void quitTinyPlayer() {
-        if (PlayerUtils.isServiceRunning(getContext(), TinyPlayer.class.getName())) {
-            Log.v("TAG", "Service 正在运行");
-            if (PlayerManager.getCurrentVideo().getContainerMode() == CONTAINER_MODE_TINY) {
-                AbsPlayer player = PlayerManager.getCurrentVideo();
-                if (player.fl_surface != null) {
-                    player.fl_surface.removeView(MediaManager.textureView);
-                    Log.v("TAG", "已经移除textureView");
-                }
-                PlayerManager.setSecondFloor(null);
-            }
-            getContext().stopService(new Intent(getContext(), TinyPlayer.class));
+//        if (PlayerUtils.isServiceRunning(getContext(), TinyPlayer.class.getName())) {
+//            Log.v("TAG", "Service 正在运行");
+//            if (PlayerManager.getCurrentVideo().getContainerMode() == CONTAINER_MODE_TINY) {
+//                AbsPlayer player = PlayerManager.getCurrentVideo();
+//                if (player.fl_surface != null) {
+//                    player.fl_surface.removeView(MediaManager.textureView);
+//                    Log.v("TAG", "已经移除textureView");
+//                }
+//                PlayerManager.setSecondFloor(null);
+//            }
+//            getContext().stopService(new Intent(getContext(), TinyPlayer.class));
+//        }
+        ViewGroup vp = (PlayerUtils.scanForActivity(getContext())).findViewById(Window.ID_ANDROID_CONTENT);
+        Player player = vp.findViewById(R.id.iplayer_tiny_id);
+        if (player != null) {
+            vp.removeView(player);
+            if (player.fl_surface != null)
+                player.fl_surface.removeView(MediaManager.textureView);
+            PlayerManager.setSecondFloor(null);
         }
     }
 
@@ -694,12 +706,42 @@ public abstract class AbsPlayer extends Player {
     }
 
     public void startFloatPlayer() {
-        onEvent(Event.ON_ENTER_TINYSCREEN);
+//        onEvent(Event.ON_ENTER_TINYSCREEN);
+//        if (playerState == PLAYER_STATE_NORMAL || playerState == PLAYER_STATE_ERROR || playerState == PLAYER_STATE_AUTO_COMPLETE)
+//            return;
+//        fl_surface.removeView(MediaManager.textureView);
+//        getContext().startService(new Intent(getContext(), TinyPlayer.class));
+//        onStateNormal();
+
+
+        onEvent(event.ON_ENTER_TINYSCREEN);
         if (playerState == PLAYER_STATE_NORMAL || playerState == PLAYER_STATE_ERROR || playerState == PLAYER_STATE_AUTO_COMPLETE)
             return;
+        ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
+                .findViewById(Window.ID_ANDROID_CONTENT);
+        View old = vp.findViewById(R.id.iplayer_tiny_id);
+        if (old != null) {
+            vp.removeView(old);
+        }
+
         fl_surface.removeView(MediaManager.textureView);
-        getContext().startService(new Intent(getContext(), TinyPlayer.class));
-        onStateNormal();
+        try {
+            Constructor<AbsPlayer> constructor = (Constructor<AbsPlayer>) AbsPlayer.this.getClass().getConstructor(Context.class);
+            AbsPlayer player = constructor.newInstance(getContext());
+            player.setId(R.id.iplayer_tiny_id);
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(400, 400);
+            lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
+            vp.addView(player, lp);
+            player.setDataSource(dataSource, CONTAINER_MODE_TINY);
+            player.setState(playerState);
+            player.addTextureView();
+            PlayerManager.setSecondFloor(player);
+            onStateNormal();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean isCurrentPlayer() {
