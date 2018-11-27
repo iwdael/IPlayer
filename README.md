@@ -9,3 +9,10 @@
 * 自定义主题颜色
 * 窗口播放
 * 拖动调节音量、亮度
+## 属性说明
+|属性|功能|值|默认状态|
+|:------:|:------:|:------:|:------:|
+|enableTitleBar|是否启用标题栏|boolean|是| 
+|enableBottomBar|是否启用控制栏|boolean|是| 
+|enableEnlarge|是否启用全屏按钮|boolean|是| 
+|enableBottomProgressBar|是否启用底部进度条|boolean|是| 
