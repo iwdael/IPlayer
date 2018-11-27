@@ -7,3 +7,4 @@
 * 自定义播放引擎(ijkPlayer/ExoPlayer/MediaPlayer)
 * 视频列表播放(ListView/RecyclerView)
 * 自定义主题颜色
+* 窗口播放
