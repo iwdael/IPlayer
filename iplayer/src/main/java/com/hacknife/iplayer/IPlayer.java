@@ -124,13 +124,14 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             enableClarity = ta.getBoolean(R.styleable.IPlayer_enableClarity, true);
             enableEnlarge = ta.getBoolean(R.styleable.IPlayer_enableEnlarge, true);
             enableShowWifiDialog = ta.getBoolean(R.styleable.IPlayer_enableShowWifiDialog, true);
-            enableCache = ta.getBoolean(R.styleable.IPlayer_enableCache, true);
+            enableCache = ta.getBoolean(R.styleable.IPlayer_enableCache, false);
             screenTypeNormal = PlayerUtils.integer2ScreenType(ta.getInt(R.styleable.IPlayer_screenType, 1));
             screenTypeFull = PlayerUtils.integer2ScreenType(ta.getInt(R.styleable.IPlayer_screenTypeFull, 1));
             screenTypeTiny = PlayerUtils.integer2ScreenType(ta.getInt(R.styleable.IPlayer_screenTypeTiny, 1));
-
             orientationFullScreen = ta.getInt(R.styleable.IPlayer_orientationFullScreen, 1) == 1 ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
             enableTinyWindow = ta.getBoolean(R.styleable.IPlayer_enableTinyWindow, false);
+            tinyWindowWidth = ta.getDimensionPixelSize(R.styleable.IPlayer_tinyWindowWidth, 0);
+            tinyWindowHeight = ta.getDimensionPixelSize(R.styleable.IPlayer_tinyWindowHeight, 0);
             screenType = screenTypeNormal;
             ta.recycle();
         } else {

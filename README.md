@@ -7,12 +7,23 @@
 * 自定义播放引擎(ijkPlayer/ExoPlayer/MediaPlayer)
 * 视频列表播放(ListView/RecyclerView)
 * 自定义主题颜色
-* 窗口播放
+* 可拖动窗口播放
 * 拖动调节音量、亮度
 ## 属性说明
 |属性|功能|值|默认状态|
 |:------:|:------:|:------:|:------:|
-|enableTitleBar|是否启用标题栏|boolean|是| 
-|enableBottomBar|是否启用控制栏|boolean|是| 
+|enableTitleBar|是否启用标题栏|boolean|是|
+|enableBottomBar|是否启用控制栏|boolean|是|
+|enableBottomProgressBar|是否启用底部进度条|boolean|是|
 |enableEnlarge|是否启用全屏按钮|boolean|是| 
-|enableBottomProgressBar|是否启用底部进度条|boolean|是| 
+|enableClarity|非全屏模式下是否启用播放源切换|boolean|是|
+|enableShowWifiDialog|非wifi条件下播放视频是否提示用户|boolean|是|
+|enableCache|是否启用缓存|boolean|否|
+|enableTinyWindow|视频列表中是否启用小窗口播放|boolean|否|
+|tinyWindowWidth|小窗口宽度|dimension|默认为普通窗口的2/5|
+|tinyWindowHeight|小窗口高度|dimension|默认为普通窗口的2/5|
+|screenType|普通窗口中，视频内容显示的方式|adapter/fillCrop/fillParent/original|adapter|
+|screenTypeFull|全屏窗口中，视频内容显示的方式|adapter/fillCrop/fillParent/original|adapter|
+|screenTypeTiny|小窗口中，视频内容显示的方式|adapter/fillCrop/fillParent/original|adapter|
+|orientationFullScreen|全屏模式中，Activity的方向|vertical/horizontal|重力感应自动旋转|
+
