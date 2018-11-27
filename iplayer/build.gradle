@@ -29,7 +29,7 @@ publish {
     userOrg = 'hacknife'
     groupId = 'com.hacknife'
     artifactId = 'iplayer'
-    publishVersion = '1.2.2-beta2'
+    publishVersion = '1.2.2-beta3'
     desc = ''
     website = 'https://github.com/hacknife/iplayer'
 }

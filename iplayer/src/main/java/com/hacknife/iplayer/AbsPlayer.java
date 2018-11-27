@@ -278,7 +278,7 @@ public abstract class AbsPlayer extends Player {
         return false;
     }
 
-    protected void startPlayer() {
+    public void startPlayer() {
         PlayerManager.releaseAllPlayer();
         initTextureView();
         addTextureView();

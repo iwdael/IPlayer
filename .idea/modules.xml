@@ -3,15 +3,12 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/IPlayer.iml" filepath="$PROJECT_DIR$/IPlayer.iml" />
-      <module fileurl="file://C:\Users\Hacknife\Desktop\IPlayer\IPlayer.iml" filepath="C:\Users\Hacknife\Desktop\IPlayer\IPlayer.iml" />
       <module fileurl="file://D:\Android Project\iplayer\JiaoZiVideoPlayer.iml" filepath="D:\Android Project\iplayer\JiaoZiVideoPlayer.iml" />
       <module fileurl="file://D:\Android Project\iplayer\app\app.iml" filepath="D:\Android Project\iplayer\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/example/example.iml" filepath="$PROJECT_DIR$/example/example.iml" />
-      <module fileurl="file://C:\Users\Hacknife\Desktop\IPlayer\example\example.iml" filepath="C:\Users\Hacknife\Desktop\IPlayer\example\example.iml" />
       <module fileurl="file://$PROJECT_DIR$/iplayer/iplayer.iml" filepath="$PROJECT_DIR$/iplayer/iplayer.iml" />
       <module fileurl="file://D:\Android Project\iplayer\iplayer\iplayer.iml" filepath="D:\Android Project\iplayer\iplayer\iplayer.iml" />
       <module fileurl="file://D:\Android Project\iplayer\iplayer.iml" filepath="D:\Android Project\iplayer\iplayer.iml" />
-      <module fileurl="file://C:\Users\Hacknife\Desktop\IPlayer\iplayer\iplayer.iml" filepath="C:\Users\Hacknife\Desktop\IPlayer\iplayer\iplayer.iml" />
       <module fileurl="file://D:\Android Project\iplayer\iplayer\iplayer-iplayer.iml" filepath="D:\Android Project\iplayer\iplayer\iplayer-iplayer.iml" />
       <module fileurl="file://C:\Users\Hacknife\Desktop\IPlayer\iplayer\iplayer-iplayer.iml" filepath="C:\Users\Hacknife\Desktop\IPlayer\iplayer\iplayer-iplayer.iml" />
     </modules>
