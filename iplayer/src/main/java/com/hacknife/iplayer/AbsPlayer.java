@@ -729,7 +729,12 @@ public abstract class AbsPlayer extends Player {
             Constructor<AbsPlayer> constructor = (Constructor<AbsPlayer>) AbsPlayer.this.getClass().getConstructor(Context.class);
             AbsPlayer player = constructor.newInstance(getContext());
             player.setId(R.id.iplayer_tiny_id);
-            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(400, 400);
+            FrameLayout.LayoutParams lp;
+            if (tinyWindowWidth == 0 || tinyWindowHeight == 0) {
+                lp = new FrameLayout.LayoutParams((int) (getWidth() * (2 / 5f)), (int) (getHeight() * (2 / 5f)));
+            } else {
+                lp = new FrameLayout.LayoutParams(tinyWindowWidth, tinyWindowHeight);
+            }
             lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
             vp.addView(player, lp);
             player.setDataSource(dataSource, CONTAINER_MODE_TINY);
