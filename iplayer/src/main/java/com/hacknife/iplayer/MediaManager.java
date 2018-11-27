@@ -74,9 +74,6 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
     public static Object getCurrentUrl() {
         return get().engine.dataSource == null ? null : get().engine.dataSource.getCurrentUrl();
     }
-
-
-
     public static long getCurrentPosition() {
         return get().engine.getCurrentPosition();
     }

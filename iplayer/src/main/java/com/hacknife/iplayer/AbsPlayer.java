@@ -163,8 +163,8 @@ public abstract class AbsPlayer extends Player {
                     int movedY = nowY - moveY;
                     moveX = nowX;
                     moveY = nowY;
-                    tinyLp.rightMargin = tinyLp.rightMargin + movedX;
-                    tinyLp.bottomMargin = tinyLp.bottomMargin + movedY;
+                    tinyLp.rightMargin = tinyLp.rightMargin - movedX;
+                    tinyLp.bottomMargin = tinyLp.bottomMargin - movedY;
                     contentAndroid.updateViewLayout(this, tinyLp);
                     break;
                 default:

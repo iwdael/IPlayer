@@ -27,3 +27,22 @@
 |screenTypeTiny|小窗口中，视频内容显示的方式|adapter/fillCrop/fillParent/original|adapter|
 |orientationFullScreen|全屏模式中，Activity的方向|vertical/horizontal|重力感应自动旋转|
 
+## 使用说明
+### Step1.配置播放器主题色
+在APP主题中添加如下属性
+```
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="iplayer_primary_color">#00aeff</item>
+    </style>
+```
+### Step2.设置封面加载器
+实现ImageLoader中的方法
+```
+public class CoverLoader implements ImageLoader {
+    @Override
+    public void onLoadCover(ImageView cover, String coverUrl) {
+        Glide.with(cover).load(coverUrl).into(cover);
+    }
+}
+```
+### Step1
