@@ -11,6 +11,7 @@
         android:id="@+id/iplayer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:enableTinyWindow="true" />
+        app:enableTinyWindow="true"
+        app:screenTypeTiny="fillCrop" />
 
 </LinearLayout>
