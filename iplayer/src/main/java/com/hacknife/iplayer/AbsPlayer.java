@@ -144,6 +144,7 @@ public abstract class AbsPlayer extends Player {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+
         float x = event.getX();
         float y = event.getY();
         int id = v.getId();
@@ -535,18 +536,6 @@ public abstract class AbsPlayer extends Player {
     }
 
     protected void quitTinyPlayer() {
-//        if (PlayerUtils.isServiceRunning(getContext(), TinyPlayer.class.getName())) {
-//            Log.v("TAG", "Service 正在运行");
-//            if (PlayerManager.getCurrentVideo().getContainerMode() == CONTAINER_MODE_TINY) {
-//                AbsPlayer player = PlayerManager.getCurrentVideo();
-//                if (player.fl_surface != null) {
-//                    player.fl_surface.removeView(MediaManager.textureView);
-//                    Log.v("TAG", "已经移除textureView");
-//                }
-//                PlayerManager.setSecondFloor(null);
-//            }
-//            getContext().stopService(new Intent(getContext(), TinyPlayer.class));
-//        }
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext())).findViewById(Window.ID_ANDROID_CONTENT);
         Player player = vp.findViewById(R.id.iplayer_tiny_id);
         if (player != null) {
@@ -706,14 +695,6 @@ public abstract class AbsPlayer extends Player {
     }
 
     public void startFloatPlayer() {
-//        onEvent(Event.ON_ENTER_TINYSCREEN);
-//        if (playerState == PLAYER_STATE_NORMAL || playerState == PLAYER_STATE_ERROR || playerState == PLAYER_STATE_AUTO_COMPLETE)
-//            return;
-//        fl_surface.removeView(MediaManager.textureView);
-//        getContext().startService(new Intent(getContext(), TinyPlayer.class));
-//        onStateNormal();
-
-
         onEvent(event.ON_ENTER_TINYSCREEN);
         if (playerState == PLAYER_STATE_NORMAL || playerState == PLAYER_STATE_ERROR || playerState == PLAYER_STATE_AUTO_COMPLETE)
             return;
@@ -737,6 +718,7 @@ public abstract class AbsPlayer extends Player {
             }
             lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
             vp.addView(player, lp);
+            player.setScreenType(screenTypeTiny);
             player.setDataSource(dataSource, CONTAINER_MODE_TINY);
             player.setState(playerState);
             player.addTextureView();

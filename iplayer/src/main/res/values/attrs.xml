@@ -24,6 +24,12 @@
             <enum name="fillCrop" value="3" />
             <enum name="original" value="4" />
         </attr>
+        <attr name="screenTypeTiny" format="enum">
+            <enum name="adapter" value="1" />
+            <enum name="fillParent" value="2" />
+            <enum name="fillCrop" value="3" />
+            <enum name="original" value="4" />
+        </attr>
         <attr name="orientationFullScreen" format="enum">
             <enum name="vertical" value="1" />
             <enum name="horizontal" value="2" />

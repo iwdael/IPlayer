@@ -127,6 +127,8 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             enableCache = ta.getBoolean(R.styleable.IPlayer_enableCache, true);
             screenTypeNormal = PlayerUtils.integer2ScreenType(ta.getInt(R.styleable.IPlayer_screenType, 1));
             screenTypeFull = PlayerUtils.integer2ScreenType(ta.getInt(R.styleable.IPlayer_screenTypeFull, 1));
+            screenTypeTiny = PlayerUtils.integer2ScreenType(ta.getInt(R.styleable.IPlayer_screenTypeTiny, 1));
+
             orientationFullScreen = ta.getInt(R.styleable.IPlayer_orientationFullScreen, 1) == 1 ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
             enableTinyWindow = ta.getBoolean(R.styleable.IPlayer_enableTinyWindow, false);
             screenType = screenTypeNormal;
@@ -141,6 +143,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
             enableCache = false;
             screenTypeNormal = ScreenType.SCREEN_TYPE_ADAPTER;
             screenTypeFull = ScreenType.SCREEN_TYPE_ADAPTER;
+            screenTypeTiny = ScreenType.SCREEN_TYPE_ADAPTER;
             orientationFullScreen = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
             enableTinyWindow = false;
             tinyWindowHeight = 0;

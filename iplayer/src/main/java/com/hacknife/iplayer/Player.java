@@ -107,6 +107,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     protected int tinyWindowHeight;
     protected ScreenType screenTypeFull;
     protected ScreenType screenTypeNormal;
+    protected ScreenType screenTypeTiny;
 
     public Player(Context context) {
         super(context);
