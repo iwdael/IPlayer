@@ -145,9 +145,14 @@ public abstract class AbsPlayer extends Player {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        float x = event.getX();
+        float y = event.getY();
+        int id = v.getId();
         if (containerMode == CONTAINER_MODE_TINY) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    tinyLp = (LayoutParams) this.getLayoutParams();
+                    contentAndroid = (PlayerUtils.scanForActivity(getContext())).findViewById(Window.ID_ANDROID_CONTENT);
                     moveX = (int) event.getRawX();
                     moveY = (int) event.getRawY();
                     break;
@@ -158,19 +163,14 @@ public abstract class AbsPlayer extends Player {
                     int movedY = nowY - moveY;
                     moveX = nowX;
                     moveY = nowY;
-                    ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
-                            .findViewById(Window.ID_ANDROID_CONTENT);
-                    tinyLp.leftMargin = tinyLp.leftMargin + movedX;
-                    tinyLp.topMargin = tinyLp.topMargin + movedY;
-                    vp.updateViewLayout(this, tinyLp);
+                    tinyLp.rightMargin = tinyLp.rightMargin + movedX;
+                    tinyLp.bottomMargin = tinyLp.bottomMargin + movedY;
+                    contentAndroid.updateViewLayout(this, tinyLp);
                     break;
                 default:
                     break;
             }
         }
-        float x = event.getX();
-        float y = event.getY();
-        int id = v.getId();
         if (id == R.id.iplayer_fl_surface) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:

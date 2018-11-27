@@ -64,7 +64,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     protected ProgressTimerTask progressTimerTask;
     protected ScreenType screenType;
     protected LayoutParams tinyLp;
-
+    protected ViewGroup contentAndroid; //根布局
     protected ImageView iv_play;
     protected SeekBar sb_bottom;
     protected ImageView iv_fullscreen;
