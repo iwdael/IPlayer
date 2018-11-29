@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -54,7 +53,7 @@ import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PREPARING;
  * github  : http://github.com/hacknife
  * project : IPlayer
  */
-public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener {
+public class IPlayer extends BasePlayer implements SettingView.OnSettingListener {
 
 
     protected ImageView iv_back;
@@ -222,7 +221,6 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
                     View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
             ll_battery_time.setVisibility(View.GONE);
             setting.setVisibility(View.GONE);
-            iv_back.setVisibility(View.VISIBLE);
             tv_clarity.setVisibility(View.GONE);
         }
         setSystemTimeAndBattery();

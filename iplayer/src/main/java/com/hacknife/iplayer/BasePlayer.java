@@ -1,13 +1,11 @@
 package com.hacknife.iplayer;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -50,14 +48,14 @@ import static com.hacknife.iplayer.util.ToolbarHelper.showSupportActionBar;
  * project : IPlayer
  */
 
-public abstract class AbsPlayer extends Player {
+public abstract class BasePlayer extends Player {
 
 
-    public AbsPlayer(Context context) {
+    public BasePlayer(Context context) {
         super(context);
     }
 
-    public AbsPlayer(Context context, AttributeSet attrs) {
+    public BasePlayer(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -690,8 +688,8 @@ public abstract class AbsPlayer extends Player {
         }
         fl_surface.removeView(MediaManager.textureView);
         try {
-            Constructor<AbsPlayer> constructor = (Constructor<AbsPlayer>) AbsPlayer.this.getClass().getConstructor(Context.class);
-            AbsPlayer iplayer = constructor.newInstance(getContext());
+            Constructor<BasePlayer> constructor = (Constructor<BasePlayer>) BasePlayer.this.getClass().getConstructor(Context.class);
+            BasePlayer iplayer = constructor.newInstance(getContext());
             iplayer.setOrientationNormal(orientationNormal);
             iplayer.screenTypeFull = screenTypeFull;
             iplayer.screenTypeNormal = screenTypeNormal;
@@ -730,8 +728,8 @@ public abstract class AbsPlayer extends Player {
 
         fl_surface.removeView(MediaManager.textureView);
         try {
-            Constructor<AbsPlayer> constructor = (Constructor<AbsPlayer>) AbsPlayer.this.getClass().getConstructor(Context.class);
-            AbsPlayer player = constructor.newInstance(getContext());
+            Constructor<BasePlayer> constructor = (Constructor<BasePlayer>) BasePlayer.this.getClass().getConstructor(Context.class);
+            BasePlayer player = constructor.newInstance(getContext());
             player.setId(R.id.iplayer_tiny_id);
 
             if (tinyWindowWidth == 0 || tinyWindowHeight == 0) {

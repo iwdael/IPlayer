@@ -11,9 +11,8 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 
-import com.hacknife.iplayer.AbsPlayer;
+import com.hacknife.iplayer.BasePlayer;
 import com.hacknife.iplayer.state.ScreenType;
 
 import java.util.Formatter;
@@ -112,14 +111,14 @@ public class PlayerUtils {
     }
 
 
-    public static AbsPlayer findPlayer(View view) {
-        if (view instanceof AbsPlayer) {
-            return (AbsPlayer) view;
+    public static BasePlayer findPlayer(View view) {
+        if (view instanceof BasePlayer) {
+            return (BasePlayer) view;
         } else if (view instanceof ViewGroup) {
             ViewGroup group = (ViewGroup) view;
             int count = group.getChildCount();
             for (int i = 0; i < count; i++) {
-                AbsPlayer player = findPlayer(group.getChildAt(i));
+                BasePlayer player = findPlayer(group.getChildAt(i));
                 if (player != null)
                     return player;
             }

@@ -132,23 +132,23 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         }
     }
 
-    public static AbsPlayer openFullPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover, int orientation, ScreenType type) {
+    public static BasePlayer openFullPlayer(Context context, Class<? extends BasePlayer> _class, String url, String title, String cover, int orientation, ScreenType type) {
         return openFullPlayer(context, _class, new DataSource(url, title, cover), orientation, type);
     }
 
-    public static AbsPlayer openFullPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover, int orientation) {
+    public static BasePlayer openFullPlayer(Context context, Class<? extends BasePlayer> _class, String url, String title, String cover, int orientation) {
         return openFullPlayer(context, _class, new DataSource(url, title, cover), orientation);
     }
 
-    public static AbsPlayer openFullPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover) {
+    public static BasePlayer openFullPlayer(Context context, Class<? extends BasePlayer> _class, String url, String title, String cover) {
         return openFullPlayer(context, _class, url, title, cover, ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
 
-    public static AbsPlayer openFullPlayer(Context context, Class<? extends AbsPlayer> _class, DataSource dataSource, int orientation) {
+    public static BasePlayer openFullPlayer(Context context, Class<? extends BasePlayer> _class, DataSource dataSource, int orientation) {
         return openFullPlayer(context, _class, dataSource, orientation, ScreenType.SCREEN_TYPE_ADAPTER);
     }
 
-    public static AbsPlayer openFullPlayer(Context context, Class<? extends AbsPlayer> _class, DataSource dataSource, int orientation, ScreenType type) {
+    public static BasePlayer openFullPlayer(Context context, Class<? extends BasePlayer> _class, DataSource dataSource, int orientation, ScreenType type) {
         hideSupportActionBar(context);
         PlayerUtils.setRequestedOrientation(context, orientation);
         ViewGroup vp = (PlayerUtils.scanForActivity(context))
@@ -158,8 +158,8 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             vp.removeView(old);
         }
         try {
-            Constructor<AbsPlayer> constructor = (Constructor<AbsPlayer>) _class.getConstructor(Context.class);
-            final AbsPlayer player = constructor.newInstance(context);
+            Constructor<BasePlayer> constructor = (Constructor<BasePlayer>) _class.getConstructor(Context.class);
+            final BasePlayer player = constructor.newInstance(context);
             player.setId(R.id.iplayer_fullscreen_id);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -167,6 +167,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             player.setDataSource(dataSource, CONTAINER_MODE_FULLSCREEN);
             player.setScreenType(type);
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
+            player.iv_play.performClick();
             return player;
         } catch (InstantiationException e) {
             e.printStackTrace();
@@ -176,15 +177,15 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         return null;
     }
 
-    public static AbsPlayer openTinyPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover) {
+    public static BasePlayer openTinyPlayer(Context context, Class<? extends BasePlayer> _class, String url, String title, String cover) {
         return openTinyPlayer(context, _class, url, title, cover, ScreenType.SCREEN_TYPE_ADAPTER);
     }
 
-    public static AbsPlayer openTinyPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover, ScreenType type) {
+    public static BasePlayer openTinyPlayer(Context context, Class<? extends BasePlayer> _class, String url, String title, String cover, ScreenType type) {
         return openTinyPlayer(context, _class, url, title, cover, type, 0, 0);
     }
 
-    public static AbsPlayer openTinyPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover, ScreenType type, int tinyWindowWidth, int tinyWindowHeight) {
+    public static BasePlayer openTinyPlayer(Context context, Class<? extends BasePlayer> _class, String url, String title, String cover, ScreenType type, int tinyWindowWidth, int tinyWindowHeight) {
         ViewGroup vp = (PlayerUtils.scanForActivity(context))//.getWindow().getDecorView();
                 .findViewById(Window.ID_ANDROID_CONTENT);
         View old = vp.findViewById(R.id.iplayer_tiny_id);
@@ -193,8 +194,8 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         }
 
         try {
-            Constructor<AbsPlayer> constructor = (Constructor<AbsPlayer>) _class.getConstructor(Context.class);
-            AbsPlayer player = constructor.newInstance(context);
+            Constructor<BasePlayer> constructor = (Constructor<BasePlayer>) _class.getConstructor(Context.class);
+            BasePlayer player = constructor.newInstance(context);
             player.setId(R.id.iplayer_tiny_id);
             FrameLayout.LayoutParams tinyLp;
             if (tinyWindowWidth == 0 || tinyWindowHeight == 0) {
@@ -206,6 +207,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             vp.addView(player, tinyLp);
             player.setScreenType(type);
             player.setDataSource(new DataSource(url, title, cover), CONTAINER_MODE_TINY);
+            player.iv_play.performClick();
             return player;
         } catch (InstantiationException e) {
             e.printStackTrace();
@@ -220,7 +222,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             return false;
         if (PlayerManager.getSecondFloor() != null) {
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
-            AbsPlayer video = PlayerManager.getSecondFloor();
+            BasePlayer video = PlayerManager.getSecondFloor();
             video.onEvent(video.containerMode == CONTAINER_MODE_FULLSCREEN ? Event.ON_QUIT_FULLSCREEN : Event.ON_QUIT_TINYSCREEN);
             PlayerManager.getFirstFloor().playOnSelfPlayer();
             return true;
@@ -290,7 +292,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
 
     public static void resume() {
         if (PlayerManager.getCurrentVideo() != null) {
-            AbsPlayer player = PlayerManager.getCurrentVideo();
+            BasePlayer player = PlayerManager.getCurrentVideo();
             if (player.playerState == PLAYER_STATE_PAUSE) {
                 if (ON_PLAY_PAUSE_TMP_STATE == PLAYER_STATE_PAUSE) {
                     player.onStatePause();
@@ -308,7 +310,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
 
     public static void pause() {
         if (PlayerManager.getCurrentVideo() != null) {
-            AbsPlayer video = PlayerManager.getCurrentVideo();
+            BasePlayer video = PlayerManager.getCurrentVideo();
             if (video.playerState == PLAYER_STATE_AUTO_COMPLETE || video.playerState == PLAYER_STATE_NORMAL || video.playerState == PLAYER_STATE_ERROR) {
             } else {
                 ON_PLAY_PAUSE_TMP_STATE = video.playerState;
