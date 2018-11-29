@@ -237,11 +237,11 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
 
     protected static void quitFullscreenOrFloatWindow() {
         //退出全屏
-        PlayerManager.releaseAllPlayer();
         PlayerManager.getFirstFloor().quitFullScreenPlayer();
         PlayerManager.getFirstFloor().quitTinyPlayer();
         PlayerManager.setFirstFloor(null);
         MediaManager.get().releasePlayerEngine();
+        PlayerManager.releaseAllPlayer();
     }
 
     public static void clearSavedProgress(Context context, String url) {
