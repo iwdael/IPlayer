@@ -171,7 +171,6 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             video.setDataSource(dataSource, CONTAINER_MODE_FULLSCREEN);
             video.setScreenType(type);
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
-            video.iv_play.performClick();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -211,6 +210,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             player.setDataSource(new DataSource(url, title, cover), CONTAINER_MODE_TINY);
             PlayerManager.setFirstFloor(player);
             player.onStateNormal();
+            player.iv_play.performClick();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (Exception e) {
