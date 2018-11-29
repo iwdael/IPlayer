@@ -9,5 +9,5 @@ import android.widget.ImageView;
  * project : IPlayer
  */
 public interface ImageLoader {
-    void onLoadCover(ImageView cover, String coverUrl);
+    void onLoadCover(ImageView cover, Object coverUrl);
 }

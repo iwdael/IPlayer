@@ -19,13 +19,13 @@ public class DataSource {
     private String title = "";
     private HashMap<String, String> headerMap = new HashMap<>();
     private boolean loop = false;
-    private String cover;
+    private Object cover;
 
     public DataSource() {
         uuid = UUID.randomUUID().toString();
     }
 
-    public DataSource(Object url, String title, String cover) {
+    public DataSource(Object url, String title, Object cover) {
         urlsMap.put(URL_KEY_DEFAULT, url);
         this.title = title;
         index = 0;
@@ -95,7 +95,7 @@ public class DataSource {
         this.index = index;
     }
 
-    public String getCover() {
+    public Object getCover() {
         return cover;
     }
 
@@ -135,7 +135,7 @@ public class DataSource {
             return this;
         }
 
-        public Builder cover(String cover) {
+        public Builder cover(Object cover) {
             dataSource.cover = cover;
             return this;
         }

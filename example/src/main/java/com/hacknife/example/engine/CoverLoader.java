@@ -11,7 +11,7 @@ import com.hacknife.iplayer.interfaces.ImageLoader;
 
 public class CoverLoader implements ImageLoader {
     @Override
-    public void onLoadCover(ImageView cover, String coverUrl) {
+    public void onLoadCover(ImageView cover, Object coverUrl) {
         Glide.with(cover).load(coverUrl).into(cover);
     }
 }

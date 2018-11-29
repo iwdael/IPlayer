@@ -222,6 +222,7 @@ public class IPlayer extends AbsPlayer implements SettingView.OnSettingListener 
                     View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
             ll_battery_time.setVisibility(View.GONE);
             setting.setVisibility(View.GONE);
+            iv_back.setVisibility(View.VISIBLE);
             tv_clarity.setVisibility(View.GONE);
         }
         setSystemTimeAndBattery();
