@@ -26,7 +26,21 @@
 |screenTypeFull|全屏窗口中，视频内容显示的方式|adapter/fillCrop/fillParent/original|adapter|
 |screenTypeTiny|小窗口中，视频内容显示的方式|adapter/fillCrop/fillParent/original|adapter|
 |orientationFullScreen|全屏模式中，Activity的方向|vertical/horizontal|重力感应自动旋转|
-
+## 快速引入项目
+需要使用的module中添加引用
+```
+dependencies {
+    implementation 'com.hacknife:iplayer:1.2.2-bate3'
+    //optional
+    implementation 'com.hacknife.ijkplayer:ijkplayer-java:0.8.8'
+    implementation 'com.hacknife.ijkplayer:ijkplayer-exo:0.8.8'
+    implementation 'com.hacknife.ijkplayer:ijkplayer-armv7a:0.8.8'
+    implementation 'com.hacknife.ijkplayer:ijkplayer-armv5:0.8.8'
+    implementation 'com.hacknife.ijkplayer:ijkplayer-arm64:0.8.8'
+    implementation 'com.hacknife.ijkplayer:ijkplayer-86:0.8.8'
+    implementation 'com.hacknife.ijkplayer:ijkplayer-86_64:0.8.8'
+}
+```
 ## 使用说明
 ### Step1.配置播放器主题色
 在APP主题中添加如下属性
@@ -45,4 +59,10 @@ public class CoverLoader implements ImageLoader {
     }
 }
 ```
-### Step1
+### Step3
+设置图片加载器和添加爱播生命周期管理器，播放引擎可选，如果不设置默认使用系统自带的MediaPlayer
+```
+    Player.setPlayerEngine(new IjkEngine());
+    Player.setImageLoader(new CoverLoader());
+    registerActivityLifecycleCallbacks(new PlayerLifecycleCallbacks());
+```
