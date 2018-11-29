@@ -50,11 +50,11 @@ public class DemoActivity extends BaseActivity<IDemoViewModel, DemoActivityBrief
 
 
     public void onListViewClick() {
-
+        startActivity(new Intent(this, ListViewActivity.class));
     }
 
     public void onRecyclerViewMultiHolderClick() {
-
+        startActivity(new Intent(this, RecyclerViewMultiHolderActivity.class));
     }
 
     public void onListViewMultiHolderClick() {

@@ -31,7 +31,7 @@
 ```
 dependencies {
     implementation 'com.hacknife:iplayer:1.2.2-bate3'
-    //optional
+    //可选
     implementation 'com.hacknife.ijkplayer:ijkplayer-java:0.8.8'
     implementation 'com.hacknife.ijkplayer:ijkplayer-exo:0.8.8'
     implementation 'com.hacknife.ijkplayer:ijkplayer-armv7a:0.8.8'

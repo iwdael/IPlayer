@@ -21,10 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.RecyclerViewActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity android:name=".ui.RecyclerViewMultiHolderActivity" />
+        <activity android:name=".ui.ListViewActivity"></activity>
     </application>
 
 </manifest>

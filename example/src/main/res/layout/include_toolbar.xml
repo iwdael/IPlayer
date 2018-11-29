@@ -4,13 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
+    android:gravity="center"
     android:orientation="vertical">
+
 
     <TextView
         android:id="@+id/toolBar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:textColor="#FFF"
-        android:textSize="14sp"
+        android:textSize="18sp"
         tools:text="爱播" />
+
+
 </android.support.v7.widget.Toolbar>
