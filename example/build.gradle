@@ -26,8 +26,8 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.14.1'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.14.1'
     implementation project(':iplayer')
-    implementation 'com.hacknife.ijkplayer:ijkplayer-java:0.8.4'
-    implementation 'com.hacknife.ijkplayer:ijkplayer-armv7a:0.8.4'
+    implementation 'com.hacknife.ijkplayer:ijkplayer-java:0.8.8'
+    implementation 'com.hacknife.ijkplayer:ijkplayer-armv7a:0.8.8'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation 'com.hacknife:immersive:1.1.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.0'
