@@ -2,10 +2,6 @@ package com.hacknife.iplayer;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -136,23 +132,23 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         }
     }
 
-    public static void openFullPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover, int orientation, ScreenType type) {
-        openFullPlayer(context, _class, new DataSource(url, title, cover), orientation, type);
+    public static AbsPlayer openFullPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover, int orientation, ScreenType type) {
+        return openFullPlayer(context, _class, new DataSource(url, title, cover), orientation, type);
     }
 
-    public static void openFullPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover, int orientation) {
-        openFullPlayer(context, _class, new DataSource(url, title, cover), orientation);
+    public static AbsPlayer openFullPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover, int orientation) {
+        return openFullPlayer(context, _class, new DataSource(url, title, cover), orientation);
     }
 
-    public static void openFullPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover) {
-        openFullPlayer(context, _class, url, title, cover, ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+    public static AbsPlayer openFullPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover) {
+        return openFullPlayer(context, _class, url, title, cover, ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
 
-    public static void openFullPlayer(Context context, Class<? extends AbsPlayer> _class, DataSource dataSource, int orientation) {
-        openFullPlayer(context, _class, dataSource, orientation, ScreenType.SCREEN_TYPE_ADAPTER);
+    public static AbsPlayer openFullPlayer(Context context, Class<? extends AbsPlayer> _class, DataSource dataSource, int orientation) {
+        return openFullPlayer(context, _class, dataSource, orientation, ScreenType.SCREEN_TYPE_ADAPTER);
     }
 
-    public static void openFullPlayer(Context context, Class<? extends AbsPlayer> _class, DataSource dataSource, int orientation, ScreenType type) {
+    public static AbsPlayer openFullPlayer(Context context, Class<? extends AbsPlayer> _class, DataSource dataSource, int orientation, ScreenType type) {
         hideSupportActionBar(context);
         PlayerUtils.setRequestedOrientation(context, orientation);
         ViewGroup vp = (PlayerUtils.scanForActivity(context))
@@ -163,30 +159,32 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         }
         try {
             Constructor<AbsPlayer> constructor = (Constructor<AbsPlayer>) _class.getConstructor(Context.class);
-            final AbsPlayer video = constructor.newInstance(context);
-            video.setId(R.id.iplayer_fullscreen_id);
+            final AbsPlayer player = constructor.newInstance(context);
+            player.setId(R.id.iplayer_fullscreen_id);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            vp.addView(video, lp);
-            video.setDataSource(dataSource, CONTAINER_MODE_FULLSCREEN);
-            video.setScreenType(type);
+            vp.addView(player, lp);
+            player.setDataSource(dataSource, CONTAINER_MODE_FULLSCREEN);
+            player.setScreenType(type);
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
+            return player;
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
-    public static void openTinyPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover) {
-        openTinyPlayer(context, _class, url, title, cover, ScreenType.SCREEN_TYPE_ADAPTER);
+    public static AbsPlayer openTinyPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover) {
+        return openTinyPlayer(context, _class, url, title, cover, ScreenType.SCREEN_TYPE_ADAPTER);
     }
 
-    public static void openTinyPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover, ScreenType type) {
-        openTinyPlayer(context, _class, url, title, cover, type, 0, 0);
+    public static AbsPlayer openTinyPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover, ScreenType type) {
+        return openTinyPlayer(context, _class, url, title, cover, type, 0, 0);
     }
 
-    public static void openTinyPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover, ScreenType type, int tinyWindowWidth, int tinyWindowHeight) {
+    public static AbsPlayer openTinyPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover, ScreenType type, int tinyWindowWidth, int tinyWindowHeight) {
         ViewGroup vp = (PlayerUtils.scanForActivity(context))//.getWindow().getDecorView();
                 .findViewById(Window.ID_ANDROID_CONTENT);
         View old = vp.findViewById(R.id.iplayer_tiny_id);
@@ -208,14 +206,13 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             vp.addView(player, tinyLp);
             player.setScreenType(type);
             player.setDataSource(new DataSource(url, title, cover), CONTAINER_MODE_TINY);
-            PlayerManager.setFirstFloor(player);
-            player.onStateNormal();
-            player.iv_play.performClick();
+            return player;
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public static boolean backPress() {
