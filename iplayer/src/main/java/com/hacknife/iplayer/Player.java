@@ -164,8 +164,8 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             vp.addView(player, lp);
-            player.setDataSource(dataSource, CONTAINER_MODE_FULLSCREEN);
             player.setScreenType(type);
+            player.setDataSource(dataSource, CONTAINER_MODE_FULLSCREEN);
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
             player.iv_play.performClick();
             return player;
