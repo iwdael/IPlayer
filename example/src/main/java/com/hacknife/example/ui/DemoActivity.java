@@ -12,6 +12,7 @@ import com.hacknife.example.ui.viewmodel.i.IDemoViewModel;
 import com.hacknife.example.ui.view.IDemoView;
 import com.hacknife.briefness.BindLayout;
 import com.hacknife.example.ui.injector.components.DaggerDemoActivityComponent;
+import com.hacknife.iplayer.IPlayer;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.state.ContainerMode;
 
@@ -42,26 +43,30 @@ public class DemoActivity extends BaseActivity<IDemoViewModel, DemoActivityBrief
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Player.resume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Player.pause();
-    }
-
-    @Override
     public void onBackPressed() {
         if (Player.backPress()) return;
         super.onBackPressed();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Player.releaseAllPlayer();
+
+    public void onListViewClick() {
+
+    }
+
+    public void onRecyclerViewMultiHolderClick() {
+
+    }
+
+    public void onListViewMultiHolderClick() {
+
+
+    }
+
+    public void onTinyPlayClick() {
+        Player.openTinyPlayer(this, IPlayer.class, Constant.url[0], Constant.title[0], Constant.img[0]);
+    }
+
+    public void onFullPlayClick() {
+        Player.openFullPlayer(this, IPlayer.class, Constant.url[0], Constant.title[0], Constant.img[0]);
     }
 }

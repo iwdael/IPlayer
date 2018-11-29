@@ -717,7 +717,7 @@ public abstract class AbsPlayer extends Player {
 
     }
 
-    public void startFloatPlayer() {
+    public void startTinyPlayer() {
         onEvent(event.ON_ENTER_TINYSCREEN);
         if (playerState == PLAYER_STATE_NORMAL || playerState == PLAYER_STATE_ERROR || playerState == PLAYER_STATE_AUTO_COMPLETE)
             return;

@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -135,15 +136,23 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         }
     }
 
-    public static void openFullscreenPlayer(Context context, Class _class, String url, String title, String cover, int orientation) {
-        openFullscreenPlayer(context, _class, new DataSource(url, title, cover), orientation);
+    public static void openFullPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover, int orientation, ScreenType type) {
+        openFullPlayer(context, _class, new DataSource(url, title, cover), orientation, type);
     }
 
-    public static void openFullscreenPlayer(Context context, Class _class, String url, String title, String cover) {
-        openFullscreenPlayer(context, _class, url, title, cover, ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+    public static void openFullPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover, int orientation) {
+        openFullPlayer(context, _class, new DataSource(url, title, cover), orientation);
     }
 
-    public static void openFullscreenPlayer(Context context, Class _class, DataSource dataSource, int orientation) {
+    public static void openFullPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover) {
+        openFullPlayer(context, _class, url, title, cover, ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+    }
+
+    public static void openFullPlayer(Context context, Class<? extends AbsPlayer> _class, DataSource dataSource, int orientation) {
+        openFullPlayer(context, _class, dataSource, orientation, ScreenType.SCREEN_TYPE_ADAPTER);
+    }
+
+    public static void openFullPlayer(Context context, Class<? extends AbsPlayer> _class, DataSource dataSource, int orientation, ScreenType type) {
         hideSupportActionBar(context);
         PlayerUtils.setRequestedOrientation(context, orientation);
         ViewGroup vp = (PlayerUtils.scanForActivity(context))
@@ -153,15 +162,55 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             vp.removeView(old);
         }
         try {
-            Constructor<AbsPlayer> constructor = _class.getConstructor(Context.class);
+            Constructor<AbsPlayer> constructor = (Constructor<AbsPlayer>) _class.getConstructor(Context.class);
             final AbsPlayer video = constructor.newInstance(context);
             video.setId(R.id.iplayer_fullscreen_id);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             vp.addView(video, lp);
             video.setDataSource(dataSource, CONTAINER_MODE_FULLSCREEN);
+            video.setScreenType(type);
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
             video.iv_play.performClick();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void openTinyPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover) {
+        openTinyPlayer(context, _class, url, title, cover, ScreenType.SCREEN_TYPE_ADAPTER);
+    }
+
+    public static void openTinyPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover, ScreenType type) {
+        openTinyPlayer(context, _class, url, title, cover, type, 0, 0);
+    }
+
+    public static void openTinyPlayer(Context context, Class<? extends AbsPlayer> _class, String url, String title, String cover, ScreenType type, int tinyWindowWidth, int tinyWindowHeight) {
+        ViewGroup vp = (PlayerUtils.scanForActivity(context))//.getWindow().getDecorView();
+                .findViewById(Window.ID_ANDROID_CONTENT);
+        View old = vp.findViewById(R.id.iplayer_tiny_id);
+        if (old != null) {
+            vp.removeView(old);
+        }
+
+        try {
+            Constructor<AbsPlayer> constructor = (Constructor<AbsPlayer>) _class.getConstructor(Context.class);
+            AbsPlayer player = constructor.newInstance(context);
+            player.setId(R.id.iplayer_tiny_id);
+            FrameLayout.LayoutParams tinyLp;
+            if (tinyWindowWidth == 0 || tinyWindowHeight == 0) {
+                tinyLp = new FrameLayout.LayoutParams(480, 270);
+            } else {
+                tinyLp = new FrameLayout.LayoutParams(tinyWindowWidth, tinyWindowHeight);
+            }
+            tinyLp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
+            vp.addView(player, tinyLp);
+            player.setScreenType(type);
+            player.setDataSource(new DataSource(url, title, cover), CONTAINER_MODE_TINY);
+            PlayerManager.setFirstFloor(player);
+            player.onStateNormal();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -210,13 +259,12 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
                     if (PlayerManager.getCurrentVideo().playerState == PLAYER_STATE_PAUSE) {
                         Player.releaseAllPlayer();
                     } else {
-                        PlayerManager.getCurrentVideo().startFloatPlayer();
+                        PlayerManager.getCurrentVideo().startTinyPlayer();
                     }
                 }
             } else if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
                 Player.backPress();
             }
-
         }
     }
 
@@ -232,27 +280,6 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         }
     }
 
-    public static void onChildViewAttachedToWindow(View view, int playerId) {
-        if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
-            Player player = view.findViewById(playerId);
-            if (player != null && player.dataSource.containsTheUrl(MediaManager.getCurrentUrl())) {
-                Player.backPress();
-            }
-        }
-    }
-
-    public static void onChildViewDetachedFromWindow(View view) {
-        if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode != CONTAINER_MODE_TINY) {
-            AbsPlayer video = PlayerManager.getCurrentVideo();
-            if (((ViewGroup) view).indexOfChild(video) != -1) {
-                if (video.playerState == PLAYER_STATE_PAUSE) {
-                    Player.releaseAllPlayer();
-                } else {
-                    video.startFloatPlayer();
-                }
-            }
-        }
-    }
 
     public static void setTextureRotation(int rotation) {
         if (MediaManager.textureView != null) {
@@ -294,28 +321,6 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         }
     }
 
-
-    public static class AutoFullscreenListener implements SensorEventListener {
-        @Override
-        public void onSensorChanged(SensorEvent event) {//可以得到传感器实时测量出来的变化值
-            final float x = event.values[SensorManager.DATA_X];
-            float y = event.values[SensorManager.DATA_Y];
-            float z = event.values[SensorManager.DATA_Z];
-            //过滤掉用力过猛会有一个反向的大数值
-            if (x < -12 || x > 12) {
-                if ((System.currentTimeMillis() - lastAutoFullscreenTime) > 2000) {
-                    if (PlayerManager.getCurrentVideo() != null) {
-                        PlayerManager.getCurrentVideo().autoFullscreen(x);
-                    }
-                    lastAutoFullscreenTime = System.currentTimeMillis();
-                }
-            }
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        }
-    }
 
     public class ProgressTimerTask extends TimerTask {
         @Override
