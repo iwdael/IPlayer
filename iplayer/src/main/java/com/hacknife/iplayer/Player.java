@@ -158,6 +158,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         if (old != null) {
             vp.removeView(old);
         }
+        releaseAllPlayer();
         try {
             Constructor<BasePlayer> constructor = (Constructor<BasePlayer>) _class.getConstructor(Context.class);
             final BasePlayer player = constructor.newInstance(context);
@@ -193,7 +194,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         if (old != null) {
             vp.removeView(old);
         }
-
+        releaseAllPlayer();
         try {
             Constructor<BasePlayer> constructor = (Constructor<BasePlayer>) _class.getConstructor(Context.class);
             BasePlayer player = constructor.newInstance(context);
