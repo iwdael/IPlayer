@@ -6,6 +6,7 @@ import com.hacknife.briefness.BindLayout;
 import com.hacknife.example.R;
 import com.hacknife.example.adapter.base.i.BaseListViewHolder;
 import com.hacknife.iplayer.DataSource;
+import com.hacknife.iplayer.state.ContainerMode;
 
 /**
  * author  : hacknife
@@ -22,7 +23,7 @@ public class ListViewHolder extends BaseListViewHolder<DataSource, ListViewHolde
 
     @Override
     protected void bindData(DataSource dataSource) {
-        briefnessor.iplayer.setDataSource(dataSource);
+        briefnessor.iplayer.setDataSource(dataSource, ContainerMode.CONTAINER_MODE_LIST);
     }
 
 }

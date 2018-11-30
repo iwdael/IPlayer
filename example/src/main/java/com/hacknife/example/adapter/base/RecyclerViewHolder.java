@@ -7,6 +7,7 @@ import com.hacknife.briefness.BindLayout;
 import com.hacknife.example.R;
 import com.hacknife.example.adapter.base.i.BaseRecyclerViewHolder;
 import com.hacknife.iplayer.DataSource;
+import com.hacknife.iplayer.state.ContainerMode;
 
 /**
  * author  : hacknife
@@ -24,7 +25,7 @@ public class RecyclerViewHolder extends BaseRecyclerViewHolder<DataSource, Recyc
 
     @Override
     public void bindData(DataSource entity) {
-        briefnessor.iplayer.setDataSource(entity);
+        briefnessor.iplayer.setDataSource(entity, ContainerMode.CONTAINER_MODE_LIST);
     }
 
 
