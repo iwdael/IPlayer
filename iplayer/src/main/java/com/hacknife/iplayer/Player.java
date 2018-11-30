@@ -29,6 +29,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_NORMAL;
 import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_TINY;
 import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_AUTO_COMPLETE;
 import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_ERROR;
@@ -222,9 +223,13 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             return false;
         if (PlayerManager.getSecondFloor() != null) {
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
-            BasePlayer video = PlayerManager.getSecondFloor();
-            video.onEvent(video.containerMode == CONTAINER_MODE_FULLSCREEN ? Event.ON_QUIT_FULLSCREEN : Event.ON_QUIT_TINYSCREEN);
-            PlayerManager.getFirstFloor().playOnSelfPlayer();
+            BasePlayer player = PlayerManager.getSecondFloor();
+            player.onEvent(player.containerMode == CONTAINER_MODE_FULLSCREEN ? Event.ON_QUIT_FULLSCREEN : Event.ON_QUIT_TINYSCREEN);
+            if (PlayerManager.getFirstFloor().getContainerMode() == CONTAINER_MODE_NORMAL) {
+                PlayerManager.getFirstFloor().playOnSelfPlayer();
+            } else {
+                quitFullscreenOrFloatWindow();
+            }
             return true;
         } else if (PlayerManager.getFirstFloor() != null &&
                 (PlayerManager.getFirstFloor().containerMode == CONTAINER_MODE_FULLSCREEN || PlayerManager.getFirstFloor().containerMode == CONTAINER_MODE_TINY)) {
