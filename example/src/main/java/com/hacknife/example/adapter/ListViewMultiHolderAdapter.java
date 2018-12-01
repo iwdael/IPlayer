@@ -37,4 +37,9 @@ public class ListViewMultiHolderAdapter extends BaseListViewAdapter<DataSource, 
     public int getItemViewType(int position) {
         return position % 2;
     }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
 }
