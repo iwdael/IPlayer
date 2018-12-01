@@ -50,7 +50,7 @@ public abstract class BaseListViewAdapter<T, V extends BaseListViewHolder> exten
         } else {
             viewHolder = (V) convertView.getTag(R.id.id_list_view_item);
         }
-        viewHolder.bindData(data.get(position));
+        viewHolder.bindData(data.get(position),position);
         return convertView;
     }
 

@@ -22,8 +22,8 @@ public class ListViewHolder extends BaseListViewHolder<DataSource, ListViewHolde
     }
 
     @Override
-    protected void bindData(DataSource dataSource) {
-        briefnessor.iplayer.setDataSource(dataSource, ContainerMode.CONTAINER_MODE_LIST);
+    protected void bindData(DataSource dataSource, int position) {
+        briefnessor.iplayer.setDataSource(dataSource, ContainerMode.CONTAINER_MODE_LIST, position);
     }
 
 }

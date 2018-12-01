@@ -7,24 +7,34 @@ package com.hacknife.iplayer;
  * project : IPlayer
  */
 public class PlayerManager {
+    private static PlayerManager sPlayerManager;
+    private BasePlayer pFirstPlayer;
+    private BasePlayer pSecondPlayer;
 
-    private static BasePlayer pFirstVideo;
-    private static BasePlayer pSecendVideo;
+    private static PlayerManager get() {
+        if (sPlayerManager == null) {
+            synchronized (PlayerManager.class) {
+                if (sPlayerManager == null)
+                    sPlayerManager = new PlayerManager();
+            }
+        }
+        return sPlayerManager;
+    }
 
     static BasePlayer getFirstFloor() {
-        return pFirstVideo;
+        return get().pFirstPlayer;
     }
 
     static void setFirstFloor(BasePlayer video) {
-        pFirstVideo = video;
+        get().pFirstPlayer = video;
     }
 
     static BasePlayer getSecondFloor() {
-        return pSecendVideo;
+        return get().pSecondPlayer;
     }
 
     static void setSecondFloor(BasePlayer video) {
-        pSecendVideo = video;
+        get().pSecondPlayer = video;
     }
 
     public static BasePlayer getCurrentVideo() {
@@ -35,13 +45,13 @@ public class PlayerManager {
     }
 
     public static void releaseAllPlayer() {
-        if (pSecendVideo != null) {
-            pSecendVideo.releasePlayer();
-            pSecendVideo = null;
+        if (get().pSecondPlayer != null) {
+            get().pSecondPlayer.releasePlayer();
+            get().pSecondPlayer = null;
         }
-        if (pFirstVideo != null) {
-            pFirstVideo.releasePlayer();
-            pFirstVideo = null;
+        if (get().pFirstPlayer != null) {
+            get().pFirstPlayer.releasePlayer();
+            get().pFirstPlayer = null;
         }
     }
 }

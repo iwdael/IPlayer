@@ -47,7 +47,7 @@ public class ListViewActivity extends BaseActivity<IListViewViewModel, ListViewA
         briefnessor.toolBar_title.setText("爱播-ListView");
 
 
-//        briefnessor.listView.setOnScrollListener(new OnPlayerAttachStateChangeListener());
+        briefnessor.listView.setOnScrollListener(new OnPlayerAttachStateChangeListener());
         briefnessor.listView.setAdapter(adapter);
         viewModel.loadDataSource();
     }

@@ -20,7 +20,7 @@ public abstract class BaseListViewHolder<T, B extends Briefnessor> {
         briefnessor = (B) Briefness.bind(this, view);
     }
 
-    protected abstract void bindData(T t);
+    protected abstract void bindData(T t, int position);
 
     public View getView() {
         return view;

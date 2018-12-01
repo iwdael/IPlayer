@@ -2,9 +2,8 @@ package com.hacknife.example.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
+
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
 import com.hacknife.example.R;
 import com.hacknife.example.adapter.base.ListViewHolder;

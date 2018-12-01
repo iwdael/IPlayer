@@ -29,6 +29,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_LIST;
 import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_NORMAL;
 import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_TINY;
 import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_AUTO_COMPLETE;
@@ -226,7 +227,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
             BasePlayer player = PlayerManager.getSecondFloor();
             player.onEvent(player.containerMode == CONTAINER_MODE_FULLSCREEN ? Event.ON_QUIT_FULLSCREEN : Event.ON_QUIT_TINYSCREEN);
-            if (PlayerManager.getFirstFloor().getContainerMode() == CONTAINER_MODE_NORMAL) {
+            if (PlayerManager.getFirstFloor().getContainerMode() == CONTAINER_MODE_NORMAL || (PlayerManager.getFirstFloor().getContainerMode() == CONTAINER_MODE_LIST && PlayerManager.getFirstFloor().dataSource.equals(PlayerManager.getCurrentVideo().dataSource))) {
                 PlayerManager.getFirstFloor().playOnSelfPlayer();
             } else {
                 quitFullscreenOrFloatWindow();
@@ -255,35 +256,35 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     }
 
     public static void onScrollAutoTiny(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        int lastVisibleItem = firstVisibleItem + visibleItemCount;
-        int currentPlayPosition = MediaManager.get().positionInList;
-        if (currentPlayPosition >= 0) {
-            if ((currentPlayPosition < firstVisibleItem || currentPlayPosition > (lastVisibleItem - 1))) {
-                if (PlayerManager.getCurrentVideo() != null &&
-                        PlayerManager.getCurrentVideo().containerMode != CONTAINER_MODE_TINY &&
-                        PlayerManager.getCurrentVideo().containerMode != CONTAINER_MODE_FULLSCREEN) {
-                    if (PlayerManager.getCurrentVideo().playerState == PLAYER_STATE_PAUSE) {
-                        Player.releaseAllPlayer();
-                    } else {
-                        PlayerManager.getCurrentVideo().startTinyPlayer();
-                    }
-                }
-            } else if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
-                Player.backPress();
-            }
-        }
+//        int lastVisibleItem = firstVisibleItem + visibleItemCount;
+//        int currentPlayPosition = MediaManager.get().positionInList;
+//        if (currentPlayPosition >= 0) {
+//            if ((currentPlayPosition < firstVisibleItem || currentPlayPosition > (lastVisibleItem - 1))) {
+//                if (PlayerManager.getCurrentVideo() != null &&
+//                        PlayerManager.getCurrentVideo().containerMode != CONTAINER_MODE_TINY &&
+//                        PlayerManager.getCurrentVideo().containerMode != CONTAINER_MODE_FULLSCREEN) {
+//                    if (PlayerManager.getCurrentVideo().playerState == PLAYER_STATE_PAUSE) {
+//                        Player.releaseAllPlayer();
+//                    } else {
+//                        PlayerManager.getCurrentVideo().startTinyPlayer();
+//                    }
+//                }
+//            } else if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
+//                Player.backPress();
+//            }
+//        }
     }
 
     public static void onScrollReleaseAllVideos(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        int lastVisibleItem = firstVisibleItem + visibleItemCount;
-        int currentPlayPosition = MediaManager.get().positionInList;
-        if (currentPlayPosition >= 0) {
-            if ((currentPlayPosition < firstVisibleItem || currentPlayPosition > (lastVisibleItem - 1))) {
-                if (PlayerManager.getCurrentVideo().containerMode != CONTAINER_MODE_FULLSCREEN) {
-                    Player.releaseAllPlayer();//为什么最后一个视频横屏会调用这个，其他地方不会
-                }
-            }
-        }
+//        int lastVisibleItem = firstVisibleItem + visibleItemCount;
+//        int currentPlayPosition = MediaManager.get().positionInList;
+//        if (currentPlayPosition >= 0) {
+//            if ((currentPlayPosition < firstVisibleItem || currentPlayPosition > (lastVisibleItem - 1))) {
+//                if (PlayerManager.getCurrentVideo().containerMode != CONTAINER_MODE_FULLSCREEN) {
+//                    Player.releaseAllPlayer();//为什么最后一个视频横屏会调用这个，其他地方不会
+//                }
+//            }
+//        }
     }
 
 

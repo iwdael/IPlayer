@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +30,7 @@ import java.lang.reflect.Constructor;
 import java.util.Timer;
 
 import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_FULLSCREEN;
+import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_LIST;
 import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_NORMAL;
 import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_TINY;
 import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_AUTO_COMPLETE;
@@ -92,13 +94,35 @@ public abstract class BasePlayer extends Player {
     }
 
     public void setDataSource(DataSource dataSource, ContainerMode containerMode) {
-        if (this.dataSource != null && dataSource.getCurrentUrl() != null && this.dataSource.containsTheUrl(dataSource.getCurrentUrl())) {
+        if (this.dataSource != null && dataSource.getCurrentUrl() != null && this.dataSource.equals(dataSource)) {
             return;//recyclerView listView 中复用的问题 ，数据源一致 跳过
+        }
+        if (isCurrentPlayer() && dataSource.equals(MediaManager.getDataSource())) {
+            long position = 0;
+            try {
+                position = MediaManager.getCurrentPosition();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            }
+            if (position != 0) {
+                PreferenceHelper.saveProgress(getContext(), MediaManager.getCurrentUrl(), position, saveProgress);
+            }
+
+            MediaManager.get().releasePlayerEngine();
+        } else if (isCurrentPlayer() && !dataSource.equals(MediaManager.getDataSource())) {
+            startTinyPlayer();
         }
         this.dataSource = dataSource;
         this.containerMode = containerMode;
         MediaManager.getImageLoader().onLoadCover(iv_thumb, dataSource.getCover());
         onStateNormal();
+        //ListView中，滚动回退
+        if (!isCurrentPlayer() && dataSource.equals(MediaManager.getDataSource())) {
+            if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY && enableTinyWindow && containerMode == CONTAINER_MODE_LIST ) {
+                PlayerManager.setFirstFloor(this);
+                PlayerManager.getFirstFloor().playOnSelfPlayer();
+            }
+        }
     }
 
     @Override
@@ -461,6 +485,7 @@ public abstract class BasePlayer extends Player {
         if (containerMode == CONTAINER_MODE_FULLSCREEN || containerMode == CONTAINER_MODE_TINY) {
             backPress();
         }
+        MediaManager.get().positionInList = -1;
         MediaManager.get().releasePlayerEngine();
         PreferenceHelper.saveProgress(getContext(), dataSource.getCurrentUrl(), 0, saveProgress);
     }

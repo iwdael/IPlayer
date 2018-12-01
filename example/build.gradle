@@ -29,6 +29,8 @@ dependencies {
     //optional
     implementation 'com.hacknife.ijkplayer:ijkplayer-java:0.8.8'
     implementation 'com.hacknife.ijkplayer:ijkplayer-armv7a:0.8.8'
+    implementation 'com.hacknife.ijkplayer:ijkplayer-x86:0.8.8'
+    implementation 'com.hacknife.ijkplayer:ijkplayer-x86_64:0.8.8'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation 'com.hacknife:immersive:1.1.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.0'

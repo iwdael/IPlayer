@@ -3,6 +3,7 @@ package com.hacknife.iplayer;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 
 /**
  * author  : hacknife
@@ -11,6 +12,8 @@ import android.os.Bundle;
  * project : IPlayer
  */
 public class PlayerLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
+    protected int hashCode;
+
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
 
@@ -23,12 +26,15 @@ public class PlayerLifecycleCallbacks implements Application.ActivityLifecycleCa
 
     @Override
     public void onActivityResumed(Activity activity) {
-        Player.resume();
+        if (hashCode == activity.hashCode())
+            Player.resume();
+
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
         Player.pause();
+        hashCode = activity.hashCode();
     }
 
     @Override
