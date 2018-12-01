@@ -58,7 +58,7 @@ public class DemoActivity extends BaseActivity<IDemoViewModel, DemoActivityBrief
     }
 
     public void onListViewMultiHolderClick() {
-
+        startActivity(new Intent(this, ListViewMultiHolderActivity.class));
 
     }
 

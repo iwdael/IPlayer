@@ -25,7 +25,7 @@ public class ListViewAdapter extends BaseListViewAdapter<DataSource, ListViewHol
     }
 
     @Override
-    protected ListViewHolder onCreateViewHolder(Context context, ViewGroup parent) {
+    protected ListViewHolder onCreateViewHolder(Context context, ViewGroup parent, int itemType) {
         return new ListViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_view, parent, false));
     }
 }

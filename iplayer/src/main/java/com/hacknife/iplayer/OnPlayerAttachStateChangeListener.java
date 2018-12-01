@@ -71,7 +71,7 @@ public class OnPlayerAttachStateChangeListener implements RecyclerView.OnChildAt
                     Player.releaseAllPlayer();
                 }
             }
-        } else if (PlayerManager.getFirstFloor().enableTinyWindow && PlayerManager.getSecondFloor() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
+        } else if (PlayerManager.getFirstFloor()!=null&&PlayerManager.getFirstFloor().enableTinyWindow && PlayerManager.getSecondFloor() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
             PlayerManager.getFirstFloor().playOnSelfPlayer();
         }
         this.firstVisibleItem = firstVisibleItem;

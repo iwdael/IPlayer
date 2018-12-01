@@ -44,13 +44,13 @@ public abstract class BaseListViewAdapter<T, V extends BaseListViewHolder> exten
     public View getView(int position, View convertView, ViewGroup parent) {
         V viewHolder;
         if (convertView == null) {
-            viewHolder = onCreateViewHolder(parent.getContext(), parent);
+            viewHolder = onCreateViewHolder(parent.getContext(), parent, getItemViewType(position));
             convertView = viewHolder.getView();
             convertView.setTag(R.id.id_list_view_item, viewHolder);
         } else {
             viewHolder = (V) convertView.getTag(R.id.id_list_view_item);
         }
-        viewHolder.bindData(data.get(position),position);
+        viewHolder.bindData(data.get(position), position);
         return convertView;
     }
 
@@ -59,5 +59,7 @@ public abstract class BaseListViewAdapter<T, V extends BaseListViewHolder> exten
         notifyDataSetChanged();
     }
 
-    protected abstract V onCreateViewHolder(Context context, ViewGroup parent);
+
+
+    protected abstract V onCreateViewHolder(Context context, ViewGroup parent, int itemType);
 }

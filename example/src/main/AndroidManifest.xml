@@ -25,7 +25,8 @@
             android:name=".ui.RecyclerViewActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity android:name=".ui.RecyclerViewMultiHolderActivity" />
-        <activity android:name=".ui.ListViewActivity"></activity>
+        <activity android:name=".ui.ListViewActivity" />
+        <activity android:name=".ui.ListViewMultiHolderActivity"></activity>
     </application>
 
 </manifest>
