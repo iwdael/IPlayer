@@ -62,6 +62,9 @@ public class DemoActivity extends BaseActivity<IDemoViewModel, DemoActivityBrief
 
     }
 
+    public void onRecyclerViewFragmentClick() {
+        startActivity(new Intent(this, RecyclerFragmentActivity.class));
+    }
     public void onTinyPlayClick() {
         Player.openTinyPlayer(this, IPlayer.class, Constant.url[0], Constant.title[0], Constant.img[0]);
     }
@@ -69,4 +72,5 @@ public class DemoActivity extends BaseActivity<IDemoViewModel, DemoActivityBrief
     public void onFullPlayClick() {
         Player.openFullPlayer(this, IPlayer.class, Constant.url[0], Constant.title[0], Constant.img[0]);
     }
+
 }

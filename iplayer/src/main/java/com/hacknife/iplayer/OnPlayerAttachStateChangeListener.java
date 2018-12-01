@@ -1,5 +1,6 @@
 package com.hacknife.iplayer;
 
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +25,7 @@ import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PLAYING;
  * github  : http://github.com/hacknife
  * project : IPlayer
  */
-public class OnPlayerAttachStateChangeListener implements RecyclerView.OnChildAttachStateChangeListener, AbsListView.OnScrollListener {
+public class OnPlayerAttachStateChangeListener implements RecyclerView.OnChildAttachStateChangeListener, AbsListView.OnScrollListener, ViewPager.OnPageChangeListener {
 
 
     private int firstVisibleItem;
@@ -71,7 +72,7 @@ public class OnPlayerAttachStateChangeListener implements RecyclerView.OnChildAt
                     Player.releaseAllPlayer();
                 }
             }
-        } else if (PlayerManager.getFirstFloor()!=null&&PlayerManager.getFirstFloor().enableTinyWindow && PlayerManager.getSecondFloor() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
+        } else if (PlayerManager.getFirstFloor() != null && PlayerManager.getFirstFloor().enableTinyWindow && PlayerManager.getSecondFloor() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
             PlayerManager.getFirstFloor().playOnSelfPlayer();
         }
         this.firstVisibleItem = firstVisibleItem;
@@ -79,4 +80,18 @@ public class OnPlayerAttachStateChangeListener implements RecyclerView.OnChildAt
     }
 
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        Player.releaseAllPlayer();
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
 }
