@@ -30,7 +30,8 @@
         <activity android:name=".ui.RecyclerFragmentActivity" />
         <activity android:name=".ui.ListVieFragmentActivity" />
         <activity android:name=".ui.ChangeEngineActivity" />
-        <activity android:name=".ui.RotateActivity"></activity>
+        <activity android:name=".ui.RotateActivity" />
+        <activity android:name=".ui.SecondPlayerActivity"></activity>
     </application>
 
 </manifest>

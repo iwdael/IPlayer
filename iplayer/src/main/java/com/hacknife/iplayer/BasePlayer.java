@@ -690,6 +690,9 @@ public abstract class BasePlayer extends Player {
     }
 
     public void startFullscreenPlayer() {
+        onEvent(event.ON_ENTER_TINYSCREEN);
+        if (playerState == PLAYER_STATE_NORMAL || playerState == PLAYER_STATE_ERROR || playerState == PLAYER_STATE_AUTO_COMPLETE || PlayerManager.getSecondPlayer() != null)
+            return;
         hideSupportActionBar(getContext());
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
                 .findViewById(Window.ID_ANDROID_CONTENT);
@@ -728,7 +731,7 @@ public abstract class BasePlayer extends Player {
 
     public void startTinyPlayer() {
         onEvent(event.ON_ENTER_TINYSCREEN);
-        if (playerState == PLAYER_STATE_NORMAL || playerState == PLAYER_STATE_ERROR || playerState == PLAYER_STATE_AUTO_COMPLETE)
+        if (playerState == PLAYER_STATE_NORMAL || playerState == PLAYER_STATE_ERROR || playerState == PLAYER_STATE_AUTO_COMPLETE || PlayerManager.getSecondPlayer() != null)
             return;
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
                 .findViewById(Window.ID_ANDROID_CONTENT);
@@ -744,7 +747,8 @@ public abstract class BasePlayer extends Player {
             player.setId(R.id.iplayer_tiny_id);
 
             if (tinyWindowWidth == 0 || tinyWindowHeight == 0) {
-                tinyLp = new FrameLayout.LayoutParams((int) (getWidth() * (2 / 5f)), (int) (getHeight() * (2 / 5f)));
+                float rat = MediaManager.get().currentVideoHeight / (float) MediaManager.get().currentVideoWidth;
+                tinyLp = new FrameLayout.LayoutParams((int) (screenWidth * (2 / 5f)), (int) (screenWidth * (2 / 5f) * rat));
             } else {
                 tinyLp = new FrameLayout.LayoutParams(tinyWindowWidth, tinyWindowHeight);
             }

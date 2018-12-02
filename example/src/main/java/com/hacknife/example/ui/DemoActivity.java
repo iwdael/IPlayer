@@ -89,4 +89,9 @@ public class DemoActivity extends BaseActivity<IDemoViewModel, DemoActivityBrief
     public void onRotateClick() {
         startActivity(new Intent(this, RotateActivity.class));
     }
+
+    public void onSecondClick() {
+        startActivity(new Intent(this, SecondPlayerActivity.class));
+
+    }
 }

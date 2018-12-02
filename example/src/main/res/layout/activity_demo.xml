@@ -85,7 +85,7 @@
                 android:layout_height="40dp"
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginVertical="10dp"
-                android:text="TinyPlay"
+                android:text="Direct TinyPlay"
                 app:click="onTinyPlayClick" />
 
             <Button
@@ -94,7 +94,7 @@
                 android:layout_height="40dp"
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginVertical="10dp"
-                android:text="FullPlay"
+                android:text="Direct FullPlay"
                 app:click="onFullPlayClick" />
 
             <Button
@@ -115,6 +115,14 @@
                 android:text="Change Rotate"
                 app:click="onRotateClick" />
 
+            <Button
+                android:id="@+id/btn_second"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginVertical="10dp"
+                android:text="Launch TinyPlayer FullScreenPlayer"
+                app:click="onSecondClick" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
