@@ -733,7 +733,7 @@ public abstract class BasePlayer extends Player {
         onEvent(event.ON_ENTER_TINYSCREEN);
         if (playerState == PLAYER_STATE_NORMAL || playerState == PLAYER_STATE_ERROR || playerState == PLAYER_STATE_AUTO_COMPLETE || PlayerManager.getSecondPlayer() != null)
             return;
-        ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
+        ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))
                 .findViewById(Window.ID_ANDROID_CONTENT);
         View old = vp.findViewById(R.id.iplayer_tiny_id);
         if (old != null) {

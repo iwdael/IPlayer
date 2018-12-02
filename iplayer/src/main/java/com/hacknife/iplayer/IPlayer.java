@@ -358,7 +358,11 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
         } else if (i == R.id.iplayer_iv_back) {
             backPress();
         } else if (i == R.id.iplayer_iv_back_tiny) {
-            quitFullscreenOrFloatWindow();
+            if (PlayerManager.getSecondPlayer() != null && PlayerManager.getFirstPlayer() != null && PlayerManager.getFirstPlayer().getContainerMode() == CONTAINER_MODE_NORMAL) {
+                backPress();
+            } else {
+                quitFullscreenOrFloatWindow();
+            }
         } else if (i == R.id.iplayer_tv_clarity) {
             LayoutInflater inflater = (LayoutInflater) getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -717,7 +721,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
     }
 
     protected void setControlVisiblity(int ll_top, int ll_bottom, int iv_play, int pro_loading,
-                                    int iv_thumb, int pro_bottom, int ll_retry) {
+                                       int iv_thumb, int pro_bottom, int ll_retry) {
         this.ll_top.setVisibility(enableTitleBar ? ll_top : INVISIBLE);
         this.ll_bottom.setVisibility(enableBottomBar ? ll_bottom : INVISIBLE);
         this.iv_play.setVisibility(iv_play);

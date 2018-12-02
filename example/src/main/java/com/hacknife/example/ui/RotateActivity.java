@@ -14,6 +14,7 @@ import com.hacknife.example.ui.view.IRotateView;
 import com.hacknife.example.ui.viewmodel.RotateViewModel;
 import com.hacknife.briefness.BindLayout;
 import com.hacknife.example.ui.injector.components.DaggerRotateActivityComponent;
+import com.hacknife.iplayer.Player;
 
 /**
  * author  : hacknife
@@ -51,5 +52,9 @@ public class RotateActivity extends BaseActivity<IRotateViewModel, RotateActivit
 
             }
         });
+    }    @Override
+    public void onBackPressed() {
+        if (Player.backPress()) return;
+        super.onBackPressed();
     }
 }

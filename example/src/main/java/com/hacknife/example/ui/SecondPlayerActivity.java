@@ -12,6 +12,7 @@ import com.hacknife.example.ui.viewmodel.i.ISecondPlayerViewModel;
 import com.hacknife.example.ui.view.ISecondPlayerView;
 import com.hacknife.briefness.BindLayout;
 import com.hacknife.example.ui.injector.components.DaggerSecondPlayerActivityComponent;
+import com.hacknife.iplayer.Player;
 
 /**
  * author  : hacknife
@@ -41,5 +42,11 @@ public class SecondPlayerActivity extends BaseActivity<ISecondPlayerViewModel, S
 
     public void onFullClick() {
         briefnessor.player.startFullscreenPlayer();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (Player.backPress()) return;
+        super.onBackPressed();
     }
 }
