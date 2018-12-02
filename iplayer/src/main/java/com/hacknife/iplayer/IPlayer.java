@@ -113,7 +113,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
     }
 
     @Override
-    public void init(Context context, AttributeSet attrs) {
+    protected void init(Context context, AttributeSet attrs) {
         super.init(context, attrs);
         if (attrs != null) {
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.IPlayer);
@@ -226,7 +226,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
         setSystemTimeAndBattery();
     }
 
-    public void changePlaySize(int size) {
+    protected void changePlaySize(int size) {
         ViewGroup.LayoutParams lp = iv_play.getLayoutParams();
         lp.height = size;
         lp.width = size;
@@ -236,44 +236,44 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
     }
 
     @Override
-    public int attachLayoutRes() {
+    protected int attachLayoutRes() {
         return R.layout.iplayer_layout_standard;
     }
 
     @Override
-    public void onStateNormal() {
+    protected void onStateNormal() {
         super.onStateNormal();
         changeUiToNormal();
     }
 
     @Override
-    public void onStatePreparing() {
+    protected void onStatePreparing() {
         super.onStatePreparing();
         changeUiToPreparing();
     }
 
 
     @Override
-    public void onStatePlaying() {
+    protected void onStatePlaying() {
         super.onStatePlaying();
         changeUiToPlayingClear();
     }
 
     @Override
-    public void onStatePause() {
+    protected void onStatePause() {
         super.onStatePause();
         changeUiToPauseShow();
         cancelControlViewTimer();
     }
 
     @Override
-    public void onStateError() {
+    protected void onStateError() {
         super.onStateError();
         changeUiToError();
     }
 
     @Override
-    public void onStatePlayComplete() {
+    protected void onStatePlayComplete() {
         super.onStatePlayComplete();
         changeUiToComplete();
         cancelControlViewTimer();
@@ -282,14 +282,14 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
 
 
     @Override
-    public void changeUrl(int urlMapIndex, long seekToInAdvance) {
+    protected void changeUrl(int urlMapIndex, long seekToInAdvance) {
         super.changeUrl(urlMapIndex, seekToInAdvance);
         pro_loading.setVisibility(VISIBLE);
         iv_play.setVisibility(INVISIBLE);
     }
 
     @Override
-    public void changeUrl(DataSource dataSource, long seekToInAdvance) {
+    protected void changeUrl(DataSource dataSource, long seekToInAdvance) {
         super.changeUrl(dataSource, seekToInAdvance);
         tv_title.setText(dataSource.title());
         pro_loading.setVisibility(VISIBLE);
@@ -428,7 +428,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
     }
 
     @Override
-    public void showWifiDialog() {
+    protected void showWifiDialog() {
         super.showWifiDialog();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage(getResources().getString(R.string.tips_not_wifi));
@@ -469,7 +469,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
         startControlViewTimer();
     }
 
-    public void onClickUiToggle() {
+    protected void onClickUiToggle() {
         if (iv_play.getVisibility() != View.VISIBLE) {
             setSystemTimeAndBattery();
             tv_clarity.setText(dataSource.getCurrentKey().toString());
@@ -495,7 +495,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
         }
     }
 
-    public void setSystemTimeAndBattery() {
+    protected void setSystemTimeAndBattery() {
         SimpleDateFormat dateFormater = new SimpleDateFormat("HH:mm");
         Date date = new Date();
         tv_system_time.setText(dateFormater.format(date));
@@ -510,7 +510,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
         }
     }
 
-    public void setBattery() {
+    protected void setBattery() {
         int percent = lastGetBatteryPercent;
         if (percent < 15) {
             iv_battery.setBackgroundResource(R.drawable.iplayer_battery_level_10);
@@ -527,7 +527,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
         }
     }
 
-    public void onClickUiToggleToClear() {
+    protected void onClickUiToggleToClear() {
         if (playerState == PLAYER_STATE_PREPARING) {
             if (iv_play.getVisibility() == View.VISIBLE) {
                 changeUiToPreparing();
@@ -564,13 +564,13 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
     }
 
     @Override
-    public void resetProgressAndTime() {
+    protected void resetProgressAndTime() {
         super.resetProgressAndTime();
         pro_bottom.setProgress(0);
         pro_bottom.setSecondaryProgress(0);
     }
 
-    public void changeUiToNormal() {
+    protected void changeUiToNormal() {
         switch (containerMode) {
             case CONTAINER_MODE_NORMAL:
             case CONTAINER_MODE_LIST:
@@ -588,7 +588,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
         }
     }
 
-    public void changeUiToPreparing() {
+    protected void changeUiToPreparing() {
         switch (containerMode) {
             case CONTAINER_MODE_NORMAL:
             case CONTAINER_MODE_LIST:
@@ -607,7 +607,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
 
     }
 
-    public void changeUiToPlayingShow() {
+    protected void changeUiToPlayingShow() {
         switch (containerMode) {
             case CONTAINER_MODE_NORMAL:
             case CONTAINER_MODE_LIST:
@@ -626,7 +626,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
 
     }
 
-    public void changeUiToPlayingClear() {
+    protected void changeUiToPlayingClear() {
         switch (containerMode) {
             case CONTAINER_MODE_NORMAL:
             case CONTAINER_MODE_LIST:
@@ -643,7 +643,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
 
     }
 
-    public void changeUiToPauseShow() {
+    protected void changeUiToPauseShow() {
         switch (containerMode) {
             case CONTAINER_MODE_NORMAL:
             case CONTAINER_MODE_LIST:
@@ -661,7 +661,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
         }
     }
 
-    public void changeUiToPauseClear() {
+    protected void changeUiToPauseClear() {
         switch (containerMode) {
             case CONTAINER_MODE_NORMAL:
             case CONTAINER_MODE_LIST:
@@ -678,7 +678,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
 
     }
 
-    public void changeUiToComplete() {
+    protected void changeUiToComplete() {
         switch (containerMode) {
             case CONTAINER_MODE_NORMAL:
             case CONTAINER_MODE_LIST:
@@ -697,7 +697,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
 
     }
 
-    public void changeUiToError() {
+    protected void changeUiToError() {
         switch (containerMode) {
             case CONTAINER_MODE_NORMAL:
             case CONTAINER_MODE_LIST:
@@ -716,7 +716,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
 
     }
 
-    public void setControlVisiblity(int ll_top, int ll_bottom, int iv_play, int pro_loading,
+    protected void setControlVisiblity(int ll_top, int ll_bottom, int iv_play, int pro_loading,
                                     int iv_thumb, int pro_bottom, int ll_retry) {
         this.ll_top.setVisibility(enableTitleBar ? ll_top : INVISIBLE);
         this.ll_bottom.setVisibility(enableBottomBar ? ll_bottom : INVISIBLE);
@@ -727,7 +727,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
         this.ll_retry.setVisibility(ll_retry);
     }
 
-    public void updateStartImage() {
+    protected void updateStartImage() {
         if (playerState == PLAYER_STATE_PLAYING) {
             iv_play.setVisibility(VISIBLE);
             iv_play.setImageResource(R.drawable.iplayer_click_pause_selector);
@@ -746,7 +746,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
     }
 
     @Override
-    public void showProgressDialog(float deltaX, String seekTime, long seekTimePosition, String totalTime, long totalTimeDuration) {
+    protected void showProgressDialog(float deltaX, String seekTime, long seekTimePosition, String totalTime, long totalTimeDuration) {
         super.showProgressDialog(deltaX, seekTime, seekTimePosition, totalTime, totalTimeDuration);
         if (progressDialog == null) {
             View localView = LayoutInflater.from(getContext()).inflate(R.layout.iplayer_dialog_progress, null);
@@ -772,7 +772,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
     }
 
     @Override
-    public void dismissProgressDialog() {
+    protected void dismissProgressDialog() {
         super.dismissProgressDialog();
         if (progressDialog != null) {
             progressDialog.dismiss();
@@ -780,7 +780,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
     }
 
     @Override
-    public void showVolumeDialog(float deltaY, int volumePercent) {
+    protected void showVolumeDialog(float deltaY, int volumePercent) {
         super.showVolumeDialog(deltaY, volumePercent);
         if (volumeDialog == null) {
             View localView = LayoutInflater.from(getContext()).inflate(R.layout.iplayer_dialog_volume, null);
@@ -808,7 +808,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
     }
 
     @Override
-    public void dismissVolumeDialog() {
+    protected void dismissVolumeDialog() {
         super.dismissVolumeDialog();
         if (volumeDialog != null) {
             volumeDialog.dismiss();
@@ -816,7 +816,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
     }
 
     @Override
-    public void showBrightnessDialog(int brightnessPercent) {
+    protected void showBrightnessDialog(int brightnessPercent) {
         super.showBrightnessDialog(brightnessPercent);
         if (brightnessDialog == null) {
             View localView = LayoutInflater.from(getContext()).inflate(R.layout.iplayer_dialog_brightness, null);
@@ -838,7 +838,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
     }
 
     @Override
-    public void dismissBrightnessDialog() {
+    protected void dismissBrightnessDialog() {
         super.dismissBrightnessDialog();
         if (brightnessDialog != null) {
             brightnessDialog.dismiss();
@@ -891,7 +891,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
         }
     }
 
-    public void dissmissControlView() {
+    protected void dissmissControlView() {
         if (playerState != PLAYER_STATE_NORMAL
                 && playerState != PLAYER_STATE_ERROR
                 && playerState != PLAYER_STATE_AUTO_COMPLETE) {
@@ -922,7 +922,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
 
     }
 
-    public class controlViewTimerTask extends TimerTask {
+    protected class controlViewTimerTask extends TimerTask {
         @Override
         public void run() {
             dissmissControlView();

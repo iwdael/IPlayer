@@ -28,8 +28,9 @@
         <activity android:name=".ui.ListViewActivity" />
         <activity android:name=".ui.ListViewMultiHolderActivity" />
         <activity android:name=".ui.RecyclerFragmentActivity" />
-        <activity android:name=".ui.ListViewFragmentActivity" />
-        <activity android:name=".ui.ListVieFragmentActivity"></activity>
+        <activity android:name=".ui.ListVieFragmentActivity" />
+        <activity android:name=".ui.ChangeEngineActivity" />
+        <activity android:name=".ui.RotateActivity"></activity>
     </application>
 
 </manifest>

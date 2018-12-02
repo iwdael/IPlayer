@@ -256,8 +256,6 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     }
 
 
-
-
     public static void setTextureRotation(int rotation) {
         if (MediaManager.textureView != null) {
             MediaManager.textureView.setRotation(rotation);
@@ -322,6 +320,12 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
 
     public void setScreenRotation(int screenRotation) {
         this.screenRotation = screenRotation;
+        if (playerState != PLAYER_STATE_NORMAL) {
+            if (MediaManager.textureView != null) {
+                MediaManager.textureView.setRotation(screenRotation);
+                MediaManager.textureView.requestLayout();
+            }
+        }
     }
 
     public void setWidthRatio(int widthRatio) {

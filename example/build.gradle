@@ -28,6 +28,7 @@ dependencies {
     implementation project(':iplayer')
     //optional
     implementation 'com.hacknife.ijkplayer:ijkplayer-java:0.8.8'
+    implementation 'com.google.android.exoplayer:exoplayer:2.9.1'
     implementation 'com.hacknife.ijkplayer:ijkplayer-armv7a:0.8.8'
     implementation 'com.hacknife.ijkplayer:ijkplayer-x86:0.8.8'
     implementation 'com.hacknife.ijkplayer:ijkplayer-x86_64:0.8.8'

@@ -61,7 +61,7 @@ public abstract class BasePlayer extends Player {
         super(context, attrs);
     }
 
-    public void init(Context context, AttributeSet attrs) {
+    protected void init(Context context, AttributeSet attrs) {
         View.inflate(context, attachLayoutRes(), this);
         orientationNormal = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         orientationFullScreen = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
@@ -118,7 +118,7 @@ public abstract class BasePlayer extends Player {
         onStateNormal();
         //ListView中，滚动回退
         if (!isCurrentPlayer() && dataSource.equals(MediaManager.getDataSource())) {
-            if (PlayerManager.getCurrentPlayer() != null && PlayerManager.getCurrentPlayer().containerMode == CONTAINER_MODE_TINY && enableTinyWindow && containerMode == CONTAINER_MODE_LIST ) {
+            if (PlayerManager.getCurrentPlayer() != null && PlayerManager.getCurrentPlayer().containerMode == CONTAINER_MODE_TINY && enableTinyWindow && containerMode == CONTAINER_MODE_LIST) {
                 PlayerManager.setFirstPlayer(this);
                 PlayerManager.getFirstPlayer().playOnSelfPlayer();
             }
@@ -313,11 +313,11 @@ public abstract class BasePlayer extends Player {
         PlayerManager.setFirstPlayer(this);
     }
 
-    public void setState(PlayerState state) {
+    protected void setState(PlayerState state) {
         setState(state, 0, 0);
     }
 
-    public void setState(PlayerState state, int urlMapIndex, int seekToProgress) {
+    protected void setState(PlayerState state, int urlMapIndex, int seekToProgress) {
         switch (state) {
             case PLAYER_STATE_NORMAL:
                 onStateNormal();
@@ -343,7 +343,7 @@ public abstract class BasePlayer extends Player {
         }
     }
 
-    public void changeUrl(int urlMapIndex, long seekToProgress) {
+    protected void changeUrl(int urlMapIndex, long seekToProgress) {
         playerState = PLAYER_STATE_PREPARING_CHANGING_URL;
         this.seekToProgress = seekToProgress;
         dataSource.setIndex(urlMapIndex);
@@ -351,7 +351,7 @@ public abstract class BasePlayer extends Player {
         MediaManager.get().prepare();
     }
 
-    public void changeUrl(DataSource dataSource, long seekToProgress) {
+    protected void changeUrl(DataSource dataSource, long seekToProgress) {
         playerState = PLAYER_STATE_PREPARING_CHANGING_URL;
         this.seekToProgress = seekToProgress;
         this.dataSource = dataSource;
@@ -362,7 +362,7 @@ public abstract class BasePlayer extends Player {
         MediaManager.get().prepare();
     }
 
-    public void changeUrl(String url, String title, String cover, long seekToProgress) {
+    protected void changeUrl(String url, String title, String cover, long seekToProgress) {
         changeUrl(new DataSource(url, title, cover), seekToProgress);
     }
 
@@ -516,20 +516,6 @@ public abstract class BasePlayer extends Player {
             MediaManager.savedSurfaceTexture.release();
         MediaManager.textureView = null;
         MediaManager.savedSurfaceTexture = null;
-    }
-
-    protected void release() {
-        if (dataSource.getCurrentUrl().equals(MediaManager.getCurrentUrl()) &&
-                (System.currentTimeMillis() - CLICK_QUIT_FULLSCREEN_TIME) > FULL_SCREEN_NORMAL_DELAY) {
-            //在非全屏的情况下只能backPress()
-            if (PlayerManager.getSecondPlayer() != null &&
-                    PlayerManager.getSecondPlayer().containerMode == CONTAINER_MODE_FULLSCREEN) {//点击全屏
-            } else if (PlayerManager.getSecondPlayer() == null && PlayerManager.getFirstPlayer() != null &&
-                    PlayerManager.getFirstPlayer().containerMode == CONTAINER_MODE_FULLSCREEN) {//直接全屏
-            } else {
-                releaseAllPlayer();
-            }
-        }
     }
 
     protected void initTextureView() {
@@ -703,7 +689,7 @@ public abstract class BasePlayer extends Player {
         }
     }
 
-    protected void startFullscreenPlayer() {
+    public void startFullscreenPlayer() {
         hideSupportActionBar(getContext());
         ViewGroup vp = (PlayerUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
                 .findViewById(Window.ID_ANDROID_CONTENT);
@@ -778,11 +764,11 @@ public abstract class BasePlayer extends Player {
         }
     }
 
-    public boolean isCurrentPlayer() {
+    protected boolean isCurrentPlayer() {
         return isCurrentVideo() && dataSource.containsTheUrl(MediaManager.getCurrentUrl());//数据源一致
     }
 
-    public boolean isCurrentVideo() {
+    protected boolean isCurrentVideo() {
         return PlayerManager.getCurrentPlayer() != null && PlayerManager.getCurrentPlayer() == this;
     }
 
@@ -795,31 +781,6 @@ public abstract class BasePlayer extends Player {
         addTextureView();
     }
 
-    //重力感应的时候调用的函数，
-    protected void autoFullscreen(float x) {
-        if (isCurrentPlayer()
-                && (playerState == PLAYER_STATE_PLAYING || playerState == PLAYER_STATE_PAUSE)
-                && containerMode != CONTAINER_MODE_FULLSCREEN
-                && containerMode != CONTAINER_MODE_TINY) {
-            if (x > 0) {
-                PlayerUtils.setRequestedOrientation(getContext(), ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            } else {
-                PlayerUtils.setRequestedOrientation(getContext(), ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
-            }
-            onEvent(Event.ON_ENTER_FULLSCREEN);
-            startFullscreenPlayer();
-        }
-    }
-
-    public void autoQuitFullscreen() {
-        if ((System.currentTimeMillis() - lastAutoFullscreenTime) > 2000
-                && isCurrentPlayer()
-                && playerState == PLAYER_STATE_PLAYING
-                && containerMode == CONTAINER_MODE_FULLSCREEN) {
-            lastAutoFullscreenTime = System.currentTimeMillis();
-            backPress();
-        }
-    }
 
     public void onEvent(int type) {
         if (event != null && isCurrentPlayer() && !dataSource.urlsMap().isEmpty()) {
@@ -873,31 +834,31 @@ public abstract class BasePlayer extends Player {
         positionInList = position;
     }
 
-    public void showWifiDialog() {
+    protected void showWifiDialog() {
     }
 
-    public void showProgressDialog(float deltaX, String seekTime, long seekTimePosition, String totalTime, long totalTimeDuration) {
+    protected void showProgressDialog(float deltaX, String seekTime, long seekTimePosition, String totalTime, long totalTimeDuration) {
     }
 
-    public void dismissProgressDialog() {
-
-    }
-
-    public void showVolumeDialog(float deltaY, int volumePercent) {
+    protected void dismissProgressDialog() {
 
     }
 
-    public void dismissVolumeDialog() {
+    protected void showVolumeDialog(float deltaY, int volumePercent) {
 
     }
 
-    public void showBrightnessDialog(int brightnessPercent) {
+    protected void dismissVolumeDialog() {
 
     }
 
-    public void dismissBrightnessDialog() {
+    protected void showBrightnessDialog(int brightnessPercent) {
 
     }
 
-    public abstract int attachLayoutRes();
+    protected void dismissBrightnessDialog() {
+
+    }
+
+    protected abstract int attachLayoutRes();
 }

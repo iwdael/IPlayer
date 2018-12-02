@@ -90,6 +90,11 @@ public class IjkEngine extends PlayerEngine implements IMediaPlayer.OnPreparedLi
     }
 
     @Override
+    public void setSpeed(float speed) {
+        ijkMediaPlayer.setSpeed(speed);
+    }
+
+    @Override
     public void onPrepared(IMediaPlayer iMediaPlayer) {
         ijkMediaPlayer.start();
         if (dataSource.getCurrentUrl().toString().toLowerCase().contains("mp3")) {

@@ -2,6 +2,9 @@ package com.hacknife.iplayer.engine;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.PlaybackParams;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.Surface;
 
 import com.hacknife.iplayer.MediaManager;
@@ -102,6 +105,14 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
     @Override
     public void setVolume(float leftVolume, float rightVolume) {
         mediaPlayer.setVolume(leftVolume, rightVolume);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void setSpeed(float speed) {
+        PlaybackParams pp = mediaPlayer.getPlaybackParams();
+        pp.setSpeed(speed);
+        mediaPlayer.setPlaybackParams(pp);
     }
 
     @Override
