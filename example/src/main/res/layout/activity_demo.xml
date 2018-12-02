@@ -67,7 +67,7 @@
                 android:layout_height="40dp"
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginVertical="10dp"
-                android:text="RecyclerView+Fragment"
+                android:text="RecyclerView+ViewPager+Fragment"
                 app:click="onRecyclerViewFragmentClick" />
             <Button
                 android:id="@+id/btn_list_fragment"
@@ -75,7 +75,7 @@
                 android:layout_height="40dp"
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginVertical="10dp"
-                android:text="ListView+Fragment"
+                android:text="ListView+ViewPager+Fragment"
                 app:click="onListViewFragmentClick" />
             <Button
                 android:id="@+id/btn_tiny"
