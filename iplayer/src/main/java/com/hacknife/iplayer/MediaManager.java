@@ -111,7 +111,7 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
-        if (PlayerManager.getCurrentVideo() == null) return;
+        if (PlayerManager.getCurrentPlayer() == null) return;
         if (savedSurfaceTexture == null) {
             savedSurfaceTexture = surfaceTexture;
             prepare();

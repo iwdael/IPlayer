@@ -23,7 +23,7 @@ public class OnAudioFocusChangeListener implements AudioManager.OnAudioFocusChan
                 break;
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                 try {
-                    Player player = PlayerManager.getCurrentVideo();
+                    Player player = PlayerManager.getCurrentPlayer();
                     if (player != null && player.playerState == PLAYER_STATE_PLAYING) {
                         player.iv_play.performClick();
                     }

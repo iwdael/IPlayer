@@ -112,8 +112,8 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
             MediaManager.get().pMainThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (PlayerManager.getCurrentVideo() != null) {
-                        PlayerManager.getCurrentVideo().onPrepared();
+                    if (PlayerManager.getCurrentPlayer() != null) {
+                        PlayerManager.getCurrentPlayer().onPrepared();
                     }
                 }
             });
@@ -125,8 +125,8 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
         MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (PlayerManager.getCurrentVideo() != null) {
-                    PlayerManager.getCurrentVideo().onPlayCompletion();
+                if (PlayerManager.getCurrentPlayer() != null) {
+                    PlayerManager.getCurrentPlayer().onPlayCompletion();
                 }
             }
         });
@@ -137,8 +137,8 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
         MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (PlayerManager.getCurrentVideo() != null) {
-                    PlayerManager.getCurrentVideo().setBufferProgress(percent);
+                if (PlayerManager.getCurrentPlayer() != null) {
+                    PlayerManager.getCurrentPlayer().setBufferProgress(percent);
                 }
             }
         });
@@ -149,8 +149,8 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
         MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (PlayerManager.getCurrentVideo() != null) {
-                    PlayerManager.getCurrentVideo().onSeekComplete();
+                if (PlayerManager.getCurrentPlayer() != null) {
+                    PlayerManager.getCurrentPlayer().onSeekComplete();
                 }
             }
         });
@@ -161,8 +161,8 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
         MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (PlayerManager.getCurrentVideo() != null) {
-                    PlayerManager.getCurrentVideo().onError(what, extra);
+                if (PlayerManager.getCurrentPlayer() != null) {
+                    PlayerManager.getCurrentPlayer().onError(what, extra);
                 }
             }
         });
@@ -174,13 +174,13 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
         MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (PlayerManager.getCurrentVideo() != null) {
+                if (PlayerManager.getCurrentPlayer() != null) {
                     if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                        if (PlayerManager.getCurrentVideo().getPlayerState() == PLAYER_STATE_PREPARING || PlayerManager.getCurrentVideo().getPlayerState() == PLAYER_STATE_PREPARING_CHANGING_URL) {
-                            PlayerManager.getCurrentVideo().onPrepared();
+                        if (PlayerManager.getCurrentPlayer().getPlayerState() == PLAYER_STATE_PREPARING || PlayerManager.getCurrentPlayer().getPlayerState() == PLAYER_STATE_PREPARING_CHANGING_URL) {
+                            PlayerManager.getCurrentPlayer().onPrepared();
                         }
                     } else {
-                        PlayerManager.getCurrentVideo().onInfo(what, extra);
+                        PlayerManager.getCurrentPlayer().onInfo(what, extra);
                     }
                 }
             }
@@ -195,8 +195,8 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
         MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (PlayerManager.getCurrentVideo() != null) {
-                    PlayerManager.getCurrentVideo().onVideoSizeChanged();
+                if (PlayerManager.getCurrentPlayer() != null) {
+                    PlayerManager.getCurrentPlayer().onVideoSizeChanged();
                 }
             }
         });

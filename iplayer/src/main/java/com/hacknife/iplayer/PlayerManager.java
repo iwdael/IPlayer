@@ -21,27 +21,27 @@ public class PlayerManager {
         return sPlayerManager;
     }
 
-    static BasePlayer getFirstFloor() {
+    static BasePlayer getFirstPlayer() {
         return get().pFirstPlayer;
     }
 
-    static void setFirstFloor(BasePlayer video) {
+    static void setFirstPlayer(BasePlayer video) {
         get().pFirstPlayer = video;
     }
 
-    static BasePlayer getSecondFloor() {
+    static BasePlayer getSecondPlayer() {
         return get().pSecondPlayer;
     }
 
-    static void setSecondFloor(BasePlayer video) {
+    static void setSecondPlayer(BasePlayer video) {
         get().pSecondPlayer = video;
     }
 
-    public static BasePlayer getCurrentVideo() {
-        if (getSecondFloor() != null) {
-            return getSecondFloor();
+    public static BasePlayer getCurrentPlayer() {
+        if (getSecondPlayer() != null) {
+            return getSecondPlayer();
         }
-        return getFirstFloor();
+        return getFirstPlayer();
     }
 
     public static void releaseAllPlayer() {

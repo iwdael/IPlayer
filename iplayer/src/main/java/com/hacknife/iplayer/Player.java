@@ -223,18 +223,18 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     public static boolean backPress() {
         if ((System.currentTimeMillis() - CLICK_QUIT_FULLSCREEN_TIME) < FULL_SCREEN_NORMAL_DELAY)
             return false;
-        if (PlayerManager.getSecondFloor() != null) {
+        if (PlayerManager.getSecondPlayer() != null) {
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
-            BasePlayer player = PlayerManager.getSecondFloor();
+            BasePlayer player = PlayerManager.getSecondPlayer();
             player.onEvent(player.containerMode == CONTAINER_MODE_FULLSCREEN ? Event.ON_QUIT_FULLSCREEN : Event.ON_QUIT_TINYSCREEN);
-            if (PlayerManager.getFirstFloor().getContainerMode() == CONTAINER_MODE_NORMAL || (PlayerManager.getFirstFloor().getContainerMode() == CONTAINER_MODE_LIST && PlayerManager.getFirstFloor().dataSource.equals(PlayerManager.getCurrentVideo().dataSource))) {
-                PlayerManager.getFirstFloor().playOnSelfPlayer();
+            if (PlayerManager.getFirstPlayer().getContainerMode() == CONTAINER_MODE_NORMAL || (PlayerManager.getFirstPlayer().getContainerMode() == CONTAINER_MODE_LIST && PlayerManager.getFirstPlayer().dataSource.equals(PlayerManager.getCurrentPlayer().dataSource))) {
+                PlayerManager.getFirstPlayer().playOnSelfPlayer();
             } else {
                 quitFullscreenOrFloatWindow();
             }
             return true;
-        } else if (PlayerManager.getFirstFloor() != null &&
-                (PlayerManager.getFirstFloor().containerMode == CONTAINER_MODE_FULLSCREEN || PlayerManager.getFirstFloor().containerMode == CONTAINER_MODE_TINY)) {
+        } else if (PlayerManager.getFirstPlayer() != null &&
+                (PlayerManager.getFirstPlayer().containerMode == CONTAINER_MODE_FULLSCREEN || PlayerManager.getFirstPlayer().containerMode == CONTAINER_MODE_TINY)) {
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
             quitFullscreenOrFloatWindow();
             return true;
@@ -244,9 +244,9 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
 
     protected static void quitFullscreenOrFloatWindow() {
         //退出全屏
-        PlayerManager.getFirstFloor().quitFullScreenPlayer();
-        PlayerManager.getFirstFloor().quitTinyPlayer();
-        PlayerManager.setFirstFloor(null);
+        PlayerManager.getFirstPlayer().quitFullScreenPlayer();
+        PlayerManager.getFirstPlayer().quitTinyPlayer();
+        PlayerManager.setFirstPlayer(null);
         MediaManager.get().releasePlayerEngine();
         PlayerManager.releaseAllPlayer();
     }
@@ -255,37 +255,7 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         PreferenceHelper.clearSavedProgress(context, url);
     }
 
-    public static void onScrollAutoTiny(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//        int lastVisibleItem = firstVisibleItem + visibleItemCount;
-//        int currentPlayPosition = MediaManager.get().positionInList;
-//        if (currentPlayPosition >= 0) {
-//            if ((currentPlayPosition < firstVisibleItem || currentPlayPosition > (lastVisibleItem - 1))) {
-//                if (PlayerManager.getCurrentVideo() != null &&
-//                        PlayerManager.getCurrentVideo().containerMode != CONTAINER_MODE_TINY &&
-//                        PlayerManager.getCurrentVideo().containerMode != CONTAINER_MODE_FULLSCREEN) {
-//                    if (PlayerManager.getCurrentVideo().playerState == PLAYER_STATE_PAUSE) {
-//                        Player.releaseAllPlayer();
-//                    } else {
-//                        PlayerManager.getCurrentVideo().startTinyPlayer();
-//                    }
-//                }
-//            } else if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
-//                Player.backPress();
-//            }
-//        }
-    }
 
-    public static void onScrollReleaseAllVideos(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//        int lastVisibleItem = firstVisibleItem + visibleItemCount;
-//        int currentPlayPosition = MediaManager.get().positionInList;
-//        if (currentPlayPosition >= 0) {
-//            if ((currentPlayPosition < firstVisibleItem || currentPlayPosition > (lastVisibleItem - 1))) {
-//                if (PlayerManager.getCurrentVideo().containerMode != CONTAINER_MODE_FULLSCREEN) {
-//                    Player.releaseAllPlayer();//为什么最后一个视频横屏会调用这个，其他地方不会
-//                }
-//            }
-//        }
-    }
 
 
     public static void setTextureRotation(int rotation) {
@@ -299,8 +269,8 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     }
 
     public static void resume() {
-        if (PlayerManager.getCurrentVideo() != null) {
-            BasePlayer player = PlayerManager.getCurrentVideo();
+        if (PlayerManager.getCurrentPlayer() != null) {
+            BasePlayer player = PlayerManager.getCurrentPlayer();
             if (player.playerState == PLAYER_STATE_PAUSE) {
                 if (ON_PLAY_PAUSE_TMP_STATE == PLAYER_STATE_PAUSE) {
                     player.onStatePause();
@@ -317,8 +287,8 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     protected static PlayerState ON_PLAY_PAUSE_TMP_STATE = PlayerState.PLAYER_STATE_NORMAL;
 
     public static void pause() {
-        if (PlayerManager.getCurrentVideo() != null) {
-            BasePlayer video = PlayerManager.getCurrentVideo();
+        if (PlayerManager.getCurrentPlayer() != null) {
+            BasePlayer video = PlayerManager.getCurrentPlayer();
             if (video.playerState == PLAYER_STATE_AUTO_COMPLETE || video.playerState == PLAYER_STATE_NORMAL || video.playerState == PLAYER_STATE_ERROR) {
             } else {
                 ON_PLAY_PAUSE_TMP_STATE = video.playerState;

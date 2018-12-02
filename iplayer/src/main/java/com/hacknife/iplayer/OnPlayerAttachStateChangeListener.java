@@ -34,8 +34,8 @@ public class OnPlayerAttachStateChangeListener implements RecyclerView.OnChildAt
     @Override
     public void onChildViewAttachedToWindow(View view) {
         BasePlayer player = PlayerUtils.findPlayer(view);
-        if (player != null && player.getDataSource().equals(MediaManager.getDataSource()) && player.enableTinyWindow && PlayerManager.getSecondFloor() != null) {
-            PlayerManager.getFirstFloor().playOnSelfPlayer();
+        if (player != null && player.getDataSource().equals(MediaManager.getDataSource()) && player.enableTinyWindow && PlayerManager.getSecondPlayer() != null) {
+            PlayerManager.getFirstPlayer().playOnSelfPlayer();
         }
     }
 
@@ -43,7 +43,7 @@ public class OnPlayerAttachStateChangeListener implements RecyclerView.OnChildAt
     public void onChildViewDetachedFromWindow(View view) {
         BasePlayer video = PlayerUtils.findPlayer(view);
         if (video != null && video.getDataSource().equals(MediaManager.getDataSource())) {
-            BasePlayer player = PlayerManager.getCurrentVideo();
+            BasePlayer player = PlayerManager.getCurrentPlayer();
             if (player != null && player.enableTinyWindow && player.getPlayerState() == PlayerState.PLAYER_STATE_PLAYING) {
                 player.startTinyPlayer();
             } else if (player != null) {
@@ -65,15 +65,15 @@ public class OnPlayerAttachStateChangeListener implements RecyclerView.OnChildAt
         int lastVisibleItem = firstVisibleItem + visibleItemCount;
         if (currentPlayPosition == -1) return;
         if ((currentPlayPosition < firstVisibleItem || currentPlayPosition > (lastVisibleItem - 1))) {
-            if (PlayerManager.getCurrentVideo() != null && PlayerManager.getSecondFloor() == null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_LIST) {
-                if (PlayerManager.getCurrentVideo().enableTinyWindow && PlayerManager.getCurrentVideo().getPlayerState() == PLAYER_STATE_PLAYING) {
-                    PlayerManager.getCurrentVideo().startTinyPlayer();
+            if (PlayerManager.getCurrentPlayer() != null && PlayerManager.getSecondPlayer() == null && PlayerManager.getCurrentPlayer().containerMode == CONTAINER_MODE_LIST) {
+                if (PlayerManager.getCurrentPlayer().enableTinyWindow && PlayerManager.getCurrentPlayer().getPlayerState() == PLAYER_STATE_PLAYING) {
+                    PlayerManager.getCurrentPlayer().startTinyPlayer();
                 } else {
                     Player.releaseAllPlayer();
                 }
             }
-        } else if (PlayerManager.getFirstFloor() != null && PlayerManager.getFirstFloor().enableTinyWindow && PlayerManager.getSecondFloor() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY) {
-            PlayerManager.getFirstFloor().playOnSelfPlayer();
+        } else if (PlayerManager.getFirstPlayer() != null && PlayerManager.getFirstPlayer().enableTinyWindow && PlayerManager.getSecondPlayer() != null && PlayerManager.getCurrentPlayer().containerMode == CONTAINER_MODE_TINY) {
+            PlayerManager.getFirstPlayer().playOnSelfPlayer();
         }
         this.firstVisibleItem = firstVisibleItem;
         this.lastVisibleItem = firstVisibleItem + visibleItemCount;

@@ -118,9 +118,9 @@ public abstract class BasePlayer extends Player {
         onStateNormal();
         //ListView中，滚动回退
         if (!isCurrentPlayer() && dataSource.equals(MediaManager.getDataSource())) {
-            if (PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo().containerMode == CONTAINER_MODE_TINY && enableTinyWindow && containerMode == CONTAINER_MODE_LIST ) {
-                PlayerManager.setFirstFloor(this);
-                PlayerManager.getFirstFloor().playOnSelfPlayer();
+            if (PlayerManager.getCurrentPlayer() != null && PlayerManager.getCurrentPlayer().containerMode == CONTAINER_MODE_TINY && enableTinyWindow && containerMode == CONTAINER_MODE_LIST ) {
+                PlayerManager.setFirstPlayer(this);
+                PlayerManager.getFirstPlayer().playOnSelfPlayer();
             }
         }
     }
@@ -310,7 +310,7 @@ public abstract class BasePlayer extends Player {
         MediaManager.setDataSource(dataSource);//设置数据源
         MediaManager.get().positionInList = positionInList;//todo
         onStatePreparing();//准备播放
-        PlayerManager.setFirstFloor(this);
+        PlayerManager.setFirstPlayer(this);
     }
 
     public void setState(PlayerState state) {
@@ -355,8 +355,8 @@ public abstract class BasePlayer extends Player {
         playerState = PLAYER_STATE_PREPARING_CHANGING_URL;
         this.seekToProgress = seekToProgress;
         this.dataSource = dataSource;
-        if (PlayerManager.getSecondFloor() != null && PlayerManager.getFirstFloor() != null) {
-            PlayerManager.getFirstFloor().dataSource = dataSource;
+        if (PlayerManager.getSecondPlayer() != null && PlayerManager.getFirstPlayer() != null) {
+            PlayerManager.getFirstPlayer().dataSource = dataSource;
         }
         MediaManager.setDataSource(dataSource);
         MediaManager.get().prepare();
@@ -522,10 +522,10 @@ public abstract class BasePlayer extends Player {
         if (dataSource.getCurrentUrl().equals(MediaManager.getCurrentUrl()) &&
                 (System.currentTimeMillis() - CLICK_QUIT_FULLSCREEN_TIME) > FULL_SCREEN_NORMAL_DELAY) {
             //在非全屏的情况下只能backPress()
-            if (PlayerManager.getSecondFloor() != null &&
-                    PlayerManager.getSecondFloor().containerMode == CONTAINER_MODE_FULLSCREEN) {//点击全屏
-            } else if (PlayerManager.getSecondFloor() == null && PlayerManager.getFirstFloor() != null &&
-                    PlayerManager.getFirstFloor().containerMode == CONTAINER_MODE_FULLSCREEN) {//直接全屏
+            if (PlayerManager.getSecondPlayer() != null &&
+                    PlayerManager.getSecondPlayer().containerMode == CONTAINER_MODE_FULLSCREEN) {//点击全屏
+            } else if (PlayerManager.getSecondPlayer() == null && PlayerManager.getFirstPlayer() != null &&
+                    PlayerManager.getFirstPlayer().containerMode == CONTAINER_MODE_FULLSCREEN) {//直接全屏
             } else {
                 releaseAllPlayer();
             }
@@ -577,7 +577,7 @@ public abstract class BasePlayer extends Player {
             vp.removeView(player);
             if (player.fl_surface != null)
                 player.fl_surface.removeView(MediaManager.textureView);
-            PlayerManager.setSecondFloor(null);
+            PlayerManager.setSecondPlayer(null);
         }
     }
 
@@ -588,7 +588,7 @@ public abstract class BasePlayer extends Player {
             vp.removeView(player);
             if (player.fl_surface != null)
                 player.fl_surface.removeView(MediaManager.textureView);
-            PlayerManager.setSecondFloor(null);
+            PlayerManager.setSecondPlayer(null);
         }
     }
 
@@ -728,7 +728,7 @@ public abstract class BasePlayer extends Player {
             iplayer.setDataSource(dataSource, CONTAINER_MODE_FULLSCREEN);
             iplayer.setState(playerState);
             iplayer.addTextureView();
-            PlayerManager.setSecondFloor(iplayer);
+            PlayerManager.setSecondPlayer(iplayer);
             PlayerUtils.setRequestedOrientation(getContext(), orientationFullScreen);
             onStateNormal();
             iplayer.sb_bottom.setSecondaryProgress(sb_bottom.getSecondaryProgress());
@@ -769,7 +769,7 @@ public abstract class BasePlayer extends Player {
             player.setDataSource(dataSource, CONTAINER_MODE_TINY);
             player.setState(playerState);
             player.addTextureView();
-            PlayerManager.setSecondFloor(player);
+            PlayerManager.setSecondPlayer(player);
             onStateNormal();
         } catch (InstantiationException e) {
             e.printStackTrace();
@@ -783,11 +783,11 @@ public abstract class BasePlayer extends Player {
     }
 
     public boolean isCurrentVideo() {
-        return PlayerManager.getCurrentVideo() != null && PlayerManager.getCurrentVideo() == this;
+        return PlayerManager.getCurrentPlayer() != null && PlayerManager.getCurrentPlayer() == this;
     }
 
     public void playOnSelfPlayer() {
-        playerState = PlayerManager.getSecondFloor().playerState;
+        playerState = PlayerManager.getSecondPlayer().playerState;
         quitFullScreenPlayer();
         quitTinyPlayer();
         screenType = screenTypeNormal;
