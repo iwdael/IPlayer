@@ -61,7 +61,10 @@ public class DemoActivity extends BaseActivity<IDemoViewModel, DemoActivityBrief
         startActivity(new Intent(this, ListViewMultiHolderActivity.class));
 
     }
+    public void onListViewFragmentClick() {
+        startActivity(new Intent(this, ListVieFragmentActivity.class));
 
+    }
     public void onRecyclerViewFragmentClick() {
         startActivity(new Intent(this, RecyclerFragmentActivity.class));
     }
@@ -72,5 +75,6 @@ public class DemoActivity extends BaseActivity<IDemoViewModel, DemoActivityBrief
     public void onFullPlayClick() {
         Player.openFullPlayer(this, IPlayer.class, Constant.url[0], Constant.title[0], Constant.img[0]);
     }
+
 
 }

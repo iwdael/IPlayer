@@ -9,4 +9,8 @@
         <item name="iplayer_primary_color">#00aeff</item>
     </style>
 
+    <style name="tabLayout">
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>
