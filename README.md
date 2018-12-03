@@ -1,9 +1,9 @@
 # IPlayer
 [![](https://img.shields.io/badge/platform-android-orange.svg)](https://github.com/hacknife) [![](https://img.shields.io/badge/language-java-yellow.svg)](https://github.com/hacknife) [![](https://img.shields.io/badge/jcenter-1.2.2--beta4-brightgreen.svg)](http://jcenter.bintray.com/com/hacknife/iplayer) [![](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/hacknife) [![](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/hacknife) [![](https://img.shields.io/badge/api-19+-green.svg)](https://github.com/hacknife)<br/><br/>
 爱播支持列表播放、全屏播放、重力自动旋转、清晰度切换、播放引擎切换、自定义主题颜色等。
-![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203194535.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203194658.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203194919.gif)
-![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203195154.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203195313.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203195513.gif)
-![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203195848.gif)
+![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203210711.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203210804.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203210908.gif)
+![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203211011.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203211119.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203211240.gif)
+![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203211322.gif)
 ## 特点
 * 全屏重力感应自动旋转
 * 清晰度切换(高清/超清/蓝光)
