@@ -3,7 +3,7 @@
 爱播支持列表播放、全屏播放、重力自动旋转、清晰度切换、播放引擎切换、自定义主题颜色等。
 ![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203210711.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203210804.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203210908.gif)
 ![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203211011.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203211119.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203211240.gif)
-![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203211322.gif)
+![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203211322.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203212834.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203212914.gif)
 ## 特点
 * 全屏重力感应自动旋转
 * 清晰度切换(高清/超清/蓝光)

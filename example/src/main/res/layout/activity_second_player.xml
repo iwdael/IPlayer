@@ -27,7 +27,7 @@
         android:layout_height="40dp"
         android:layout_marginHorizontal="40dp"
         android:layout_marginVertical="10dp"
-        android:text="Change Player Engine"
+        android:text="Change Tiny Player"
         app:click="onTinyClick" />
 
     <Button
@@ -36,6 +36,6 @@
         android:layout_height="40dp"
         android:layout_marginHorizontal="40dp"
         android:layout_marginVertical="10dp"
-        android:text="Change Player Engine"
+        android:text="Change FullScreen Player"
         app:click="onFullClick" />
 </LinearLayout>
