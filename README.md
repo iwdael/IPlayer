@@ -71,3 +71,40 @@ public class CoverLoader implements ImageLoader {
     Player.setImageLoader(new CoverLoader());
     Application.registerActivityLifecycleCallbacks(new PlayerLifecycleCallbacks());
 ```
+### Step4.添加布局
+```
+    <com.hacknife.iplayer.IPlayer
+        android:id="@+id/player"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"  />
+```
+### Step5.设置数据源
+```
+        DataSource source = new DataSource.Builder()
+                .url("标清", Constant.url[0])
+                .url("高清", Constant.url[1])
+                .url("超清", Constant.url[2])
+                .url("蓝光", Constant.url[3])
+                .title(Constant.title[0])
+                .cover(Constant.img[0])
+                .build();
+        player.setDataSource(source, ContainerMode.CONTAINER_MODE_NORMAL);
+```
+```
+        player.setDataSource(String url, String title, String cover, ContainerMode containerMode, int position)
+```
+### Step6.返回
+如果启用了全屏播放或者小窗口播放，需要实现以下方法
+```
+    public void onBackPressed() {
+        if (Player.backPress()) return;
+        super.onBackPressed();
+    }
+```
+### Step7.AndroidManifest
+```
+    <activity
+            android:name=".DemoActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"/>
+```
