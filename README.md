@@ -64,10 +64,10 @@ public class CoverLoader implements ImageLoader {
     }
 }
 ```
-### Step3
+### Step3.播放器生命周期管理
 设置图片加载器和添加爱播生命周期管理器，播放引擎可选，如果不设置默认使用系统自带的MediaPlayer
 ```
     Player.setPlayerEngine(new IjkEngine());
     Player.setImageLoader(new CoverLoader());
-    registerActivityLifecycleCallbacks(new PlayerLifecycleCallbacks());
+    Application.registerActivityLifecycleCallbacks(new PlayerLifecycleCallbacks());
 ```

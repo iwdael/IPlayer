@@ -14,6 +14,7 @@ import com.hacknife.example.ui.viewmodel.i.IDemoViewModel;
 import com.hacknife.example.ui.view.IDemoView;
 import com.hacknife.briefness.BindLayout;
 import com.hacknife.example.ui.injector.components.DaggerDemoActivityComponent;
+import com.hacknife.iplayer.DataSource;
 import com.hacknife.iplayer.IPlayer;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.engine.MediaEngine;
@@ -38,7 +39,15 @@ public class DemoActivity extends BaseActivity<IDemoViewModel, DemoActivityBrief
     @Override
     protected void initView() {
         briefnessor.toolBar_title.setText(R.string.app_name);
-        briefnessor.player.setDataSource(Constant.url[0], Constant.title[0], Constant.img[0], ContainerMode.CONTAINER_MODE_NORMAL);
+        DataSource source = new DataSource.Builder()
+                .url("标清", Constant.url[0])
+                .url("高清", Constant.url[1])
+                .url("超清", Constant.url[2])
+                .url("蓝光", Constant.url[3])
+                .title(Constant.title[0])
+                .cover(Constant.img[0])
+                .build();
+        briefnessor.player.setDataSource(source, ContainerMode.CONTAINER_MODE_NORMAL);
     }
 
     public void onRecyclerViewClick() {

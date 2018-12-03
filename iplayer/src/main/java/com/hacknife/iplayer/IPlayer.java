@@ -9,7 +9,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -66,7 +69,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
     protected TextView tv_system_time;
     protected TextView tv_replay;
     protected TextView tv_clarity;
-    protected PopupWindow tv_clarityPopWindow;
+    protected PopupWindow clarityPopWindow;
     protected TextView tv_retry;
     protected LinearLayout ll_retry;
 
@@ -364,8 +367,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
                 quitFullscreenOrFloatWindow();
             }
         } else if (i == R.id.iplayer_tv_clarity) {
-            LayoutInflater inflater = (LayoutInflater) getContext()
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.iplayer_layout_clarity, null);
 
             OnClickListener mQualityListener = new OnClickListener() {
@@ -375,13 +377,15 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
                     tv_clarity.setText(dataSource.getCurrentKey());
                     for (int j = 0; j < layout.getChildCount(); j++) {//设置点击之后的颜色
                         if (j == dataSource.index()) {
-                            ((TextView) layout.getChildAt(j)).setTextColor(getResources().getColor(R.color.iplayer_setting_text_color_selected));
+                            TypedValue color = new TypedValue();
+                            getContext().getTheme().resolveAttribute(R.attr.iplayer_primary_color, color, true);
+                            ((TextView) layout.getChildAt(j)).setTextColor(color.data);
                         } else {
                             ((TextView) layout.getChildAt(j)).setTextColor(getResources().getColor(R.color.iplayer_setting_text_color));
                         }
                     }
-                    if (tv_clarityPopWindow != null) {
-                        tv_clarityPopWindow.dismiss();
+                    if (clarityPopWindow != null) {
+                        clarityPopWindow.dismiss();
                     }
                 }
             };
@@ -394,17 +398,19 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
                 layout.addView(tv_clarityItem, j);
                 tv_clarityItem.setOnClickListener(mQualityListener);
                 if (j == dataSource.index()) {
-                    tv_clarityItem.setTextColor(getResources().getColor(R.color.iplayer_setting_text_color_selected));
+                    TypedValue color = new TypedValue();
+                    getContext().getTheme().resolveAttribute(R.attr.iplayer_primary_color, color, true);
+                    tv_clarityItem.setTextColor(color.data);
                 }
             }
 
-            tv_clarityPopWindow = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
-            tv_clarityPopWindow.setContentView(layout);
-            tv_clarityPopWindow.showAsDropDown(tv_clarity);
+            clarityPopWindow = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+            clarityPopWindow.setContentView(layout);
+            clarityPopWindow.showAsDropDown(tv_clarity);
             layout.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-            int offsetX = tv_clarity.getMeasuredWidth() / 3;
-            int offsetY = tv_clarity.getMeasuredHeight() / 3;
-            tv_clarityPopWindow.update(tv_clarity, -offsetX, -offsetY, Math.round(layout.getMeasuredWidth() * 2), layout.getMeasuredHeight());
+            int offsetX = tv_clarity.getMeasuredWidth() / 2 + tv_clarity.getPaddingLeft() / 2 + tv_clarity.getPaddingRight() / 2;
+            int offsetY = tv_clarity.getMeasuredHeight() + layout.getMeasuredHeight();
+            clarityPopWindow.update(tv_clarity, -offsetX, -offsetY, Math.round(layout.getMeasuredWidth() * 2), layout.getMeasuredHeight());
         } else if (i == R.id.iplayer_tv_retry) {
             if (dataSource.urlsMap().isEmpty() || dataSource.getCurrentUrl() == null) {
                 Toast.makeText(getContext(), getResources().getString(R.string.no_url), Toast.LENGTH_SHORT).show();
@@ -890,8 +896,8 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
     public void releasePlayer() {
         super.releasePlayer();
         cancelControlViewTimer();
-        if (tv_clarityPopWindow != null) {
-            tv_clarityPopWindow.dismiss();
+        if (clarityPopWindow != null) {
+            clarityPopWindow.dismiss();
         }
     }
 
@@ -905,8 +911,8 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
                     ll_bottom.setVisibility(View.INVISIBLE);
                     ll_top.setVisibility(View.INVISIBLE);
                     iv_play.setVisibility(View.INVISIBLE);
-                    if (tv_clarityPopWindow != null) {
-                        tv_clarityPopWindow.dismiss();
+                    if (clarityPopWindow != null) {
+                        clarityPopWindow.dismiss();
                     }
                     if (containerMode != CONTAINER_MODE_TINY) {
                         pro_bottom.setVisibility(enableBottomProgressBar ? View.VISIBLE : INVISIBLE);

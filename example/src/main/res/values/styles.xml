@@ -6,7 +6,7 @@
         <item name="colorPrimary">#00aeff</item>
         <item name="colorPrimaryDark">#00aeff</item>
         <item name="colorAccent">#00aeff</item>
-        <item name="iplayer_primary_color">#00aeff</item>
+        <item name="iplayer_primary_color">@color/blue</item>
     </style>
 
     <style name="tabLayout">
