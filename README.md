@@ -1,5 +1,5 @@
 # IPlayer
-[![](https://img.shields.io/badge/platform-android-orange.svg)](https://github.com/hacknife) [![](https://img.shields.io/badge/language-java-yellow.svg)](https://github.com/hacknife) [![](https://img.shields.io/badge/jcenter-1.2.2--beta4-brightgreen.svg)](http://jcenter.bintray.com/com/hacknife/iplayer) [![](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/hacknife) [![](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/hacknife) [![](https://img.shields.io/badge/api-19+-green.svg)](https://github.com/hacknife)<br/><br/>
+[![](https://img.shields.io/badge/platform-android-orange.svg)](https://github.com/hacknife) [![](https://img.shields.io/badge/language-java-yellow.svg)](https://github.com/hacknife) [![](https://img.shields.io/badge/jcenter-1.2.4-brightgreen.svg)](http://jcenter.bintray.com/com/hacknife/iplayer) [![](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/hacknife) [![](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/hacknife) [![](https://img.shields.io/badge/api-19+-green.svg)](https://github.com/hacknife)<br/><br/>
 爱播支持列表播放、全屏播放、重力自动旋转、清晰度切换、播放引擎切换、自定义主题颜色等。<br/><br/>
 ![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203210711.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203210804.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203210908.gif)
 ![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203211011.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203211119.gif)![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/G_1203211240.gif)
@@ -35,7 +35,7 @@
 需要使用的module中添加引用
 ```
 dependencies {
-    implementation 'com.hacknife:iplayer:1.2.2-bate3'
+    implementation 'com.hacknife:iplayer:1.2.4'
     //可选
     implementation 'com.hacknife.ijkplayer:ijkplayer-java:0.8.8'
     implementation 'com.hacknife.ijkplayer:ijkplayer-exo:0.8.8'
@@ -108,3 +108,9 @@ public class CoverLoader implements ImageLoader {
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"/>
 ```
+## 更多使用方式请参考demo
+<br><br><br>
+## 感谢浏览
+如果你有任何疑问，请加入QQ群，我将竭诚为你解答。欢迎Star和Fork本仓库，当然也欢迎你关注我。
+<br>
+![Image Text](https://github.com/hacknife/CarouselBanner/blob/master/qq_group.png)
