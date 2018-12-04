@@ -25,7 +25,8 @@ dependencies {
     annotationProcessor 'com.hacknife.briefness:briefness-compiler:1.9.1'
     implementation 'com.google.dagger:dagger:2.14.1'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.14.1'
-    implementation project(':iplayer')
+//    implementation project(':iplayer')
+    implementation 'com.hacknife:iplayer:1.2.4'
     //optional
     implementation 'com.hacknife.ijkplayer:ijkplayer-java:0.8.8'
     implementation 'com.google.android.exoplayer:exoplayer:2.9.1'
