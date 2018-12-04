@@ -109,7 +109,7 @@ public class CoverLoader implements ImageLoader {
             android:screenOrientation="portrait"/>
 ```
 ## 更多使用方式请参考demo
-### 下载二维码体验一下吧
+### 扫码体验一下吧
 ![](https://github.com/hacknife/IPlayer/blob/master/ScreenCapture/qrcode.png)
 <br><br><br>
 ## 感谢浏览
