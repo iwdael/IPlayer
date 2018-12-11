@@ -17,6 +17,9 @@ allprojects {
     repositories {
         jcenter()
         google()
+        maven{
+            url 'https://dl.bintray.com/hacknife/maven'
+        }
     }
     tasks.withType(Javadoc) {
         options.addStringOption('Xdoclint:none', '-quiet')
