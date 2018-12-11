@@ -46,6 +46,8 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
 
-    implementation 'com.hacknife.vitamio:vitamio-java:1.0.0'
-    implementation 'com.hacknife.vitamio:vitamio-armv7a:1.0.0'
+    implementation 'com.hacknife.vitamio:vitamio-java:5.2.3'
+    implementation 'com.hacknife.vitamio:vitamio-armv7a:5.2.3'
+    implementation 'com.hacknife.vitamio:vitamio-x86:5.2.3'
+    implementation 'com.hacknife.vitamio:vitamio-arm64:5.2.3'
 }
