@@ -7,7 +7,7 @@
 ## 特点
 * 全屏重力感应自动旋转
 * 清晰度切换(高清/超清/蓝光)
-* 自定义播放引擎(ijkPlayer/ExoPlayer/MediaPlayer)
+* 自定义播放引擎(ijkPlayer/ExoPlayer/MediaPlayer/Vitamio)
 * 视频列表播放(ListView/RecyclerView)
 * 自定义主题颜色
 * 可拖动窗口播放
