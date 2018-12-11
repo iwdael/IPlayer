@@ -42,8 +42,15 @@ dependencies {
     implementation 'com.hacknife.ijkplayer:ijkplayer-armv7a:0.8.8'
     implementation 'com.hacknife.ijkplayer:ijkplayer-armv5:0.8.8'
     implementation 'com.hacknife.ijkplayer:ijkplayer-arm64:0.8.8'
-    implementation 'com.hacknife.ijkplayer:ijkplayer-86:0.8.8'
-    implementation 'com.hacknife.ijkplayer:ijkplayer-86_64:0.8.8'
+    implementation 'com.hacknife.ijkplayer:ijkplayer-x86:0.8.8'
+    implementation 'com.hacknife.ijkplayer:ijkplayer-x86_64:0.8.8'
+
+    implementation 'com.google.android.exoplayer:exoplayer:2.9.1'
+
+    implementation 'com.hacknife.vitamio:vitamio-java:5.2.3'
+    implementation 'com.hacknife.vitamio:vitamio-armv7a:5.2.3'
+    implementation 'com.hacknife.vitamio:vitamio-x86:5.2.3'
+    implementation 'com.hacknife.vitamio:vitamio-arm64:5.2.3'
 }
 ```
 ## 使用说明
