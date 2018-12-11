@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.hacknife.example.R;
 import com.hacknife.example.engine.ExoEngine;
 import com.hacknife.example.engine.IjkEngine;
+import com.hacknife.example.engine.VitamioEngine;
 import com.hacknife.example.ui.base.BaseActivity;
 import com.hacknife.example.ui.injector.modules.ChangeEngineModule;
 
@@ -50,6 +51,11 @@ public class ChangeEngineActivity extends BaseActivity<IChangeEngineViewModel, C
 
     public void onMediaClick() {
         Player.setPlayerEngine(new MediaEngine());
+        Toast.makeText(this, "修改成功！", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onVitamioClick() {
+        Player.setPlayerEngine(new VitamioEngine(getApplicationContext()));
         Toast.makeText(this, "修改成功！", Toast.LENGTH_SHORT).show();
     }
 
