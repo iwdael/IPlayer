@@ -16,11 +16,11 @@ import io.vov.vitamio.MediaPlayer;
  * Created by Hacknife on 2018/12/11.
  */
 
-public class Vitamio extends PlayerEngine implements MediaPlayer.OnPreparedListener, MediaPlayer.OnVideoSizeChangedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnTimedTextListener {
+public class VitamioEngine extends PlayerEngine implements MediaPlayer.OnPreparedListener, MediaPlayer.OnVideoSizeChangedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnTimedTextListener {
     MediaPlayer mediaPlayer;
     Context context;
 
-    public Vitamio(Context context) {
+    public VitamioEngine(Context context) {
         this.context = context;
     }
 
@@ -67,7 +67,7 @@ public class Vitamio extends PlayerEngine implements MediaPlayer.OnPreparedListe
     @Override
     public void release() {
         if (mediaPlayer != null)
-            mediaPlayer.release();
+            mediaPlayer.reset();
     }
 
     @Override
@@ -98,16 +98,14 @@ public class Vitamio extends PlayerEngine implements MediaPlayer.OnPreparedListe
     @Override
     public void onPrepared(MediaPlayer mp) {
         mediaPlayer.start();
-        if (dataSource.getCurrentUrl().toString().toLowerCase().contains("mp3")) {
-            MediaManager.get().pMainThreadHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (PlayerManager.getCurrentPlayer() != null) {
-                        PlayerManager.getCurrentPlayer().onPrepared();
-                    }
+        MediaManager.get().pMainThreadHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (PlayerManager.getCurrentPlayer() != null) {
+                    PlayerManager.getCurrentPlayer().onPrepared();
                 }
-            });
-        }
+            }
+        });
     }
 
     @Override
