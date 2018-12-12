@@ -2,6 +2,7 @@ package com.hacknife.example.engine;
 
 import android.content.Context;
 import android.media.AudioManager;
+
 import android.view.Surface;
 
 import com.hacknife.iplayer.MediaManager;
@@ -12,8 +13,9 @@ import java.io.IOException;
 
 import io.vov.vitamio.MediaPlayer;
 
+
 /**
- * Created by Hacknife on 2018/12/11.
+ * Created by Nathen on 2017/11/18.
  */
 
 public class VitamioEngine extends PlayerEngine implements MediaPlayer.OnPreparedListener, MediaPlayer.OnVideoSizeChangedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnTimedTextListener {
@@ -32,14 +34,15 @@ public class VitamioEngine extends PlayerEngine implements MediaPlayer.OnPrepare
     @Override
     public void prepare() {
         mediaPlayer = new MediaPlayer(context);
-        mediaPlayer.setOnPreparedListener(this);
-        mediaPlayer.setOnVideoSizeChangedListener(this);
-        mediaPlayer.setOnCompletionListener(this);
-        mediaPlayer.setOnErrorListener(this);
-        mediaPlayer.setOnInfoListener(this);
-        mediaPlayer.setOnBufferingUpdateListener(this);
-        mediaPlayer.setOnSeekCompleteListener(this);
-        mediaPlayer.setOnTimedTextListener(this);
+        mediaPlayer.setOnPreparedListener(VitamioEngine.this);
+        mediaPlayer.setOnVideoSizeChangedListener(VitamioEngine.this);
+        mediaPlayer.setOnCompletionListener(VitamioEngine.this);
+        mediaPlayer.setOnErrorListener(VitamioEngine.this);
+        mediaPlayer.setOnInfoListener(VitamioEngine.this);
+        mediaPlayer.setOnBufferingUpdateListener(VitamioEngine.this);
+        mediaPlayer.setOnSeekCompleteListener(VitamioEngine.this);
+        mediaPlayer.setOnTimedTextListener(VitamioEngine.this);
+
         try {
             mediaPlayer.setDataSource(dataSource.getCurrentUrl().toString());
             mediaPlayer.setScreenOnWhilePlaying(true);
@@ -56,7 +59,9 @@ public class VitamioEngine extends PlayerEngine implements MediaPlayer.OnPrepare
 
     @Override
     public boolean isPlaying() {
-        return mediaPlayer.isPlaying();
+        if (mediaPlayer != null)
+            return mediaPlayer.isPlaying();
+        else return false;
     }
 
     @Override
@@ -72,17 +77,22 @@ public class VitamioEngine extends PlayerEngine implements MediaPlayer.OnPrepare
 
     @Override
     public long getCurrentPosition() {
-        return mediaPlayer.getCurrentPosition();
+        if (mediaPlayer != null)
+            return mediaPlayer.getCurrentPosition();
+        else return 0;
     }
 
     @Override
     public long getDuration() {
-        return mediaPlayer.getDuration();
+        if (mediaPlayer != null)
+            return mediaPlayer.getDuration();
+        else return 0;
     }
 
     @Override
     public void setSurface(Surface surface) {
-        mediaPlayer.setSurface(surface);
+        if (mediaPlayer != null)
+            mediaPlayer.setSurface(surface);
     }
 
     @Override
@@ -92,11 +102,12 @@ public class VitamioEngine extends PlayerEngine implements MediaPlayer.OnPrepare
 
     @Override
     public void setSpeed(float speed) {
-        mediaPlayer.setPlaybackSpeed(speed);
+        if (mediaPlayer != null)
+            mediaPlayer.setPlaybackSpeed(speed);
     }
 
     @Override
-    public void onPrepared(MediaPlayer mp) {
+    public void onPrepared(MediaPlayer iMediaPlayer) {
         mediaPlayer.start();
         MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
@@ -109,9 +120,9 @@ public class VitamioEngine extends PlayerEngine implements MediaPlayer.OnPrepare
     }
 
     @Override
-    public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
-        MediaManager.get().currentVideoWidth = mp.getVideoWidth();
-        MediaManager.get().currentVideoHeight = mp.getVideoHeight();
+    public void onVideoSizeChanged(MediaPlayer iMediaPlayer, int i, int i1) {
+        MediaManager.get().currentVideoWidth = iMediaPlayer.getVideoWidth();
+        MediaManager.get().currentVideoHeight = iMediaPlayer.getVideoHeight();
         MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -123,7 +134,7 @@ public class VitamioEngine extends PlayerEngine implements MediaPlayer.OnPrepare
     }
 
     @Override
-    public void onCompletion(MediaPlayer mp) {
+    public void onCompletion(MediaPlayer iMediaPlayer) {
         MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -135,7 +146,7 @@ public class VitamioEngine extends PlayerEngine implements MediaPlayer.OnPrepare
     }
 
     @Override
-    public boolean onError(MediaPlayer mp, int what, int extra) {
+    public boolean onError(MediaPlayer iMediaPlayer, final int what, final int extra) {
         MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -148,16 +159,12 @@ public class VitamioEngine extends PlayerEngine implements MediaPlayer.OnPrepare
     }
 
     @Override
-    public boolean onInfo(MediaPlayer mp, int what, int extra) {
+    public boolean onInfo(MediaPlayer iMediaPlayer, final int what, final int extra) {
         MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (PlayerManager.getCurrentPlayer() != null) {
-                    if (what == android.media.MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                        PlayerManager.getCurrentPlayer().onPrepared();
-                    } else {
-                        PlayerManager.getCurrentPlayer().onInfo(what, extra);
-                    }
+                    PlayerManager.getCurrentPlayer().onInfo(what, extra);
                 }
             }
         });
@@ -165,7 +172,7 @@ public class VitamioEngine extends PlayerEngine implements MediaPlayer.OnPrepare
     }
 
     @Override
-    public void onBufferingUpdate(MediaPlayer mp, int percent) {
+    public void onBufferingUpdate(MediaPlayer iMediaPlayer, final int percent) {
         MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -177,7 +184,7 @@ public class VitamioEngine extends PlayerEngine implements MediaPlayer.OnPrepare
     }
 
     @Override
-    public void onSeekComplete(MediaPlayer mp) {
+    public void onSeekComplete(MediaPlayer iMediaPlayer) {
         MediaManager.get().pMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -187,6 +194,7 @@ public class VitamioEngine extends PlayerEngine implements MediaPlayer.OnPrepare
             }
         });
     }
+
 
     @Override
     public void onTimedText(String text) {
