@@ -26,7 +26,11 @@ public class DataSource {
     }
 
     public DataSource(Object url, String title, Object cover) {
-        urlsMap.put(URL_KEY_DEFAULT, url);
+        if (url instanceof String) {
+            urlsMap.put(URL_KEY_DEFAULT, MediaManager.getPlayCache().convertCacheFromUrl((String) url));
+        } else {
+            urlsMap.put(URL_KEY_DEFAULT, url);
+        }
         this.title = title;
         index = 0;
         this.cover = cover;
@@ -121,11 +125,16 @@ public class DataSource {
         }
 
         public Builder url(String clarity, Object url) {
-            dataSource.urlsMap.put(clarity, url);
+            if (url instanceof String) {
+                dataSource.urlsMap.put(URL_KEY_DEFAULT, MediaManager.getPlayCache().convertCacheFromUrl((String) url));
+            } else {
+                dataSource.urlsMap.put(clarity, url);
+            }
             return this;
         }
 
         public Builder header(String key, String val) {
+
             dataSource.headerMap.put(key, val);
             return this;
         }
