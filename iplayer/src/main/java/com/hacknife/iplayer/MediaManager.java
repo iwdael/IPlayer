@@ -11,6 +11,7 @@ import android.view.TextureView;
 import com.hacknife.iplayer.engine.MediaEngine;
 import com.hacknife.iplayer.engine.PlayerEngine;
 import com.hacknife.iplayer.interfaces.ImageLoader;
+import com.hacknife.iplayer.interfaces.PlayerCache;
 import com.hacknife.iplayer.widget.PlayerTextureView;
 
 
@@ -33,6 +34,7 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
     public MediaHandler pMediaHandler;
     public Handler pMainThreadHandler;
     public ImageLoader loader;
+    protected PlayerCache videoCache;
 
     public MediaManager() {
         thread = new HandlerThread(TAG);
@@ -41,6 +43,8 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
         pMainThreadHandler = new Handler();
         if (engine == null)
             engine = new MediaEngine();
+        if (videoCache == null)
+            videoCache = new VideoCache();
     }
 
     public static MediaManager get() {
@@ -74,6 +78,7 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
     public static Object getCurrentUrl() {
         return get().engine.dataSource == null ? null : get().engine.dataSource.getCurrentUrl();
     }
+
     public static long getCurrentPosition() {
         return get().engine.getCurrentPosition();
     }
@@ -94,6 +99,13 @@ public class MediaManager implements TextureView.SurfaceTextureListener {
         get().engine.start();
     }
 
+    public static void setPlayerCache(PlayerCache cache) {
+        get().videoCache = cache;
+    }
+
+    public static PlayerCache getPlayCache() {
+        return get().videoCache;
+    }
 
     public void releasePlayerEngine() {
         pMediaHandler.removeCallbacksAndMessages(null);

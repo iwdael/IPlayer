@@ -266,6 +266,10 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
         MediaManager.setImageLoader(loader);
     }
 
+    public static void setPlayerCache(PlayerCache cache){
+        MediaManager.setPlayerCache(cache);
+    }
+
     public static void resume() {
         if (PlayerManager.getCurrentPlayer() != null) {
             BasePlayer player = PlayerManager.getCurrentPlayer();

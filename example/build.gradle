@@ -28,8 +28,8 @@ dependencies {
     annotationProcessor 'com.hacknife.briefness:briefness-compiler:1.9.1'
     implementation 'com.google.dagger:dagger:2.14.1'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.14.1'
-//    implementation project(':iplayer')
-    implementation 'com.hacknife:iplayer:1.2.4'
+    implementation project(':iplayer')
+//    implementation 'com.hacknife:iplayer:1.2.4'
     //optional
     implementation 'com.hacknife.ijkplayer:ijkplayer-java:0.8.8'
     implementation 'com.google.android.exoplayer:exoplayer:2.9.1'
@@ -53,4 +53,6 @@ dependencies {
     implementation 'com.hacknife.vitamio:vitamio-armv7a:5.2.3'
     implementation 'com.hacknife.vitamio:vitamio-x86:5.2.3'
     implementation 'com.hacknife.vitamio:vitamio-arm64:5.2.3'
+
+    implementation 'com.danikula:videocache:2.7.1'
 }
