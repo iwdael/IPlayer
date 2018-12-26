@@ -5,6 +5,7 @@ import android.app.Application;
 import android.os.Bundle;
 
 import com.hacknife.example.engine.CoverLoader;
+import com.hacknife.example.engine.IPlayerChache;
 import com.hacknife.example.engine.IjkEngine;
 import com.hacknife.iplayer.Player;
 import com.hacknife.iplayer.PlayerLifecycleCallbacks;
@@ -24,6 +25,7 @@ public class ExampleApplication extends Application {
         super.onCreate();
         Player.setPlayerEngine(new IjkEngine());
         Player.setImageLoader(new CoverLoader());
+        Player.setPlayerCache(new IPlayerChache(getApplicationContext()));
         RefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> new ClassicsHeader(context));
         RefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> new ClassicsFooter(context));
         registerActivityLifecycleCallbacks(new PlayerLifecycleCallbacks());
