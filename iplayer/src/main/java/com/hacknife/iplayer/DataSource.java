@@ -20,13 +20,14 @@ public class DataSource {
     private HashMap<String, String> headerMap = new HashMap<>();
     private boolean loop = false;
     private Object cover;
+    private boolean enableCache;
 
     public DataSource() {
         uuid = UUID.randomUUID().toString();
     }
 
     public DataSource(Object url, String title, Object cover) {
-        if (url instanceof String) {
+        if (url instanceof String && enableCache) {
             urlsMap.put(URL_KEY_DEFAULT, MediaManager.getPlayCache().convertCacheFromUrl((String) url));
         } else {
             urlsMap.put(URL_KEY_DEFAULT, url);
@@ -116,16 +117,21 @@ public class DataSource {
 
     }
 
+    public void setEnableCache(boolean enableCache) {
+        this.enableCache = enableCache;
+    }
+
     public static class Builder {
         DataSource dataSource;
 
         public Builder() {
             dataSource = new DataSource();
             dataSource.index = 0;
+            dataSource.enableCache = false;
         }
 
         public Builder url(String clarity, Object url) {
-            if (url instanceof String) {
+            if (url instanceof String && dataSource.enableCache) {
                 dataSource.urlsMap.put(URL_KEY_DEFAULT, MediaManager.getPlayCache().convertCacheFromUrl((String) url));
             } else {
                 dataSource.urlsMap.put(clarity, url);
@@ -136,6 +142,11 @@ public class DataSource {
         public Builder header(String key, String val) {
 
             dataSource.headerMap.put(key, val);
+            return this;
+        }
+
+        public Builder enableCache(boolean cache) {
+            dataSource.enableCache = cache;
             return this;
         }
 

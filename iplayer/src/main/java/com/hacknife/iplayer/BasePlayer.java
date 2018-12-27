@@ -114,6 +114,7 @@ public abstract class BasePlayer extends Player {
         }
         this.dataSource = dataSource;
         this.containerMode = containerMode;
+        this.dataSource.setEnableCache(enableCache);
         MediaManager.getImageLoader().onLoadCover(iv_thumb, dataSource.getCover());
         onStateNormal();
         //ListView中，滚动回退
