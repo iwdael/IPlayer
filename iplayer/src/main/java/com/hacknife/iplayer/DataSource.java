@@ -117,8 +117,19 @@ public class DataSource {
 
     }
 
-    public void setEnableCache(boolean enableCache) {
-        this.enableCache = enableCache;
+    public void setEnableCache(boolean cache) {
+        if (cache && (!this.enableCache)) {
+            Map<String, Object> map = new HashMap<>();
+            for (Map.Entry<String, Object> entry : urlsMap.entrySet()) {
+                if (entry.getValue() instanceof String) {
+                    map.put(entry.getKey(), MediaManager.get().videoCache.convertCacheFromUrl((String) entry.getValue()));
+                } else {
+                    map.put(entry.getKey(), entry.getValue());
+                }
+            }
+            urlsMap = map;
+        }
+        this.enableCache = cache;
     }
 
     public static class Builder {

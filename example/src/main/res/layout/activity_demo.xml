@@ -13,6 +13,7 @@
         android:id="@+id/player"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        app:enableCache="true"
         app:screenType="fillCrop"
         app:screenTypeFull="fillParent" />
 
