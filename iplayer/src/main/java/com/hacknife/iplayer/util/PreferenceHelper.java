@@ -14,9 +14,6 @@ public class PreferenceHelper {
 
     public static void saveProgress(Context context, Object url, long progress, boolean save) {
         if (!save) return;
-        if (progress < 5000) {
-            progress = 0;
-        }
         SharedPreferences spn = context.getSharedPreferences(PRE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = spn.edit();
         editor.putLong(url.toString(), progress).apply();

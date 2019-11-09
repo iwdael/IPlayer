@@ -105,7 +105,7 @@ public abstract class BasePlayer extends Player {
                 e.printStackTrace();
             }
             if (position != 0) {
-                PreferenceHelper.saveProgress(getContext(), MediaManager.getCurrentUrl(), position, saveProgress);
+                PreferenceHelper.saveProgress(getContext(), MediaManager.getCurrentUrl(), position, enableSaveProgress);
             }
 
             MediaManager.get().releasePlayerEngine();
@@ -211,9 +211,9 @@ public abstract class BasePlayer extends Player {
                     float absDeltaY = Math.abs(deltaY);
                     if (containerMode == CONTAINER_MODE_FULLSCREEN) {
                         if (!changePosition && !changeVolume && !changeBrightness) {
-                            if (absDeltaX > THRESHOLD || absDeltaY > THRESHOLD) {
+                            if (absDeltaX > dragSpeedDiffer || absDeltaY > dragSpeedDiffer) {
                                 cancelProgressTimer();
-                                if (absDeltaX >= THRESHOLD) {
+                                if (absDeltaX >= dragSpeedDiffer) {
                                     // 全屏模式下的PLAYER_STATE_ERROR状态下,不响应进度拖动事件.
                                     // 否则会因为mediaplayer的状态非法导致App Crash
                                     if (playerState != PLAYER_STATE_ERROR) {
@@ -244,7 +244,11 @@ public abstract class BasePlayer extends Player {
                     }
                     if (changePosition) {
                         long totalTimeDuration = getDuration();
-                        seekTimePosition = (int) (gestureDownPosition + deltaX * totalTimeDuration / screenWidth);
+                        if (dragSpeedType == 1) {
+                            seekTimePosition = (int) (gestureDownPosition + deltaX * dragSpeed);
+                        } else {
+                            seekTimePosition = (int) (gestureDownPosition + deltaX * totalTimeDuration / screenWidth);
+                        }
                         if (seekTimePosition > totalTimeDuration)
                             seekTimePosition = totalTimeDuration;
                         String seekTime = PlayerUtils.stringForTime(seekTimePosition);
@@ -488,13 +492,13 @@ public abstract class BasePlayer extends Player {
         }
         MediaManager.get().positionInList = -1;
         MediaManager.get().releasePlayerEngine();
-        PreferenceHelper.saveProgress(getContext(), dataSource.getCurrentUrl(), 0, saveProgress);
+        PreferenceHelper.saveProgress(getContext(), dataSource.getCurrentUrl(), 0, enableSaveProgress);
     }
 
     public void releasePlayer() {
         if (playerState == PLAYER_STATE_PLAYING || playerState == PLAYER_STATE_PAUSE) {
             long position = getCurrentPositionWhenPlaying();
-            PreferenceHelper.saveProgress(getContext(), dataSource.getCurrentUrl(), position, saveProgress);
+            PreferenceHelper.saveProgress(getContext(), dataSource.getCurrentUrl(), position, enableSaveProgress);
         }
         if (onStateChangeListener != null) {
             onStateChangeListener.onStateRelease();
@@ -708,8 +712,15 @@ public abstract class BasePlayer extends Player {
             iplayer.setOrientationNormal(orientationNormal);
             iplayer.screenTypeFull = screenTypeFull;
             iplayer.screenTypeNormal = screenTypeNormal;
+            iplayer.enableSaveProgress = enableSaveProgress;
+            iplayer.dragSpeed = dragSpeed;
+            iplayer.dragSpeedDiffer = dragSpeedDiffer;
+            iplayer.dragSpeedType = dragSpeedType;
             iplayer.setScreenType(screenTypeFull);
             iplayer.setId(R.id.iplayer_fullscreen_id);
+//            Log.d(TAG, "iplayer.dragSpeedType: " + iplayer.dragSpeedType);
+//            Log.d(TAG, "iplayer.dragSpeedDiffer: " + iplayer.dragSpeedDiffer);
+//            Log.d(TAG, "iplayer.dragSpeed: " + iplayer.dragSpeed);
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             vp.addView(iplayer, lp);

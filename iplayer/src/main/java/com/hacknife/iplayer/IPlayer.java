@@ -132,8 +132,12 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
             screenTypeTiny = PlayerUtils.integer2ScreenType(ta.getInt(R.styleable.IPlayer_screenTypeTiny, 1));
             orientationFullScreen = ta.getInt(R.styleable.IPlayer_orientationFullScreen, -1) == -1 ? ActivityInfo.SCREEN_ORIENTATION_SENSOR : (ta.getInt(R.styleable.IPlayer_orientationFullScreen, -1) == 1 ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             enableTinyWindow = ta.getBoolean(R.styleable.IPlayer_enableTinyWindow, false);
+            enableSaveProgress = ta.getBoolean(R.styleable.IPlayer_enableSaveProgress, false);
             tinyWindowWidth = ta.getDimensionPixelSize(R.styleable.IPlayer_tinyWindowWidth, 0);
             tinyWindowHeight = ta.getDimensionPixelSize(R.styleable.IPlayer_tinyWindowHeight, 0);
+            dragSpeed = ta.getFloat(R.styleable.IPlayer_dragSpeed, 1);
+            dragSpeedDiffer = ta.getFloat(R.styleable.IPlayer_dragSpeedDiffer, 60);
+            dragSpeedType = ta.getInt(R.styleable.IPlayer_dragSpeedType, 1);
             screenType = screenTypeNormal;
             ta.recycle();
         } else {
@@ -149,8 +153,12 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
             screenTypeTiny = ScreenType.SCREEN_TYPE_ADAPTER;
             orientationFullScreen = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
             enableTinyWindow = false;
+            enableSaveProgress = false;
             tinyWindowHeight = 0;
             tinyWindowHeight = 0;
+            dragSpeed =1;
+            dragSpeedDiffer =60;
+            dragSpeedType =1;
         }
         ll_battery_time = findViewById(R.id.iplayer_ll_battery_time);
         setting = findViewById(R.id.iplayer_iv_setting);

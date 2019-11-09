@@ -48,7 +48,7 @@ import static com.hacknife.iplayer.util.ToolbarHelper.hideSupportActionBar;
 public abstract class Player extends FrameLayout implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, View.OnTouchListener {
 
     public static final String TAG = "IPlayer";
-    public static final int THRESHOLD = 80;
+
     public static final int FULL_SCREEN_NORMAL_DELAY = 300;
     protected static long CLICK_QUIT_FULLSCREEN_TIME = 0;
     protected static long lastAutoFullscreenTime = 0;
@@ -94,7 +94,6 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     protected int widthRatio = 0;
     protected int heightRatio = 0;
     protected long seekToProgress = 0;
-    protected boolean saveProgress;
     protected int orientationFullScreen;
     protected int orientationNormal;
     //自定义属性
@@ -106,8 +105,12 @@ public abstract class Player extends FrameLayout implements View.OnClickListener
     protected boolean enableShowWifiDialog;
     protected boolean enableCache;
     protected boolean enableTinyWindow;
+    protected boolean enableSaveProgress;
     protected int tinyWindowWidth;
     protected int tinyWindowHeight;
+    protected float dragSpeed;
+    protected float dragSpeedDiffer;
+    protected int dragSpeedType;
     protected ScreenType screenTypeFull;
     protected ScreenType screenTypeNormal;
     protected ScreenType screenTypeTiny;

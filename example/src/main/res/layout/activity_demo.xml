@@ -13,6 +13,9 @@
         android:id="@+id/player"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        app:dragSpeed="1"
+        app:dragSpeedDiffer="30"
+        app:dragSpeedType="time"
         app:enableCache="true"
         app:screenType="fillCrop"
         app:screenTypeFull="fillParent" />

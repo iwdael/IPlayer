@@ -29,8 +29,8 @@ publish {
     userOrg = 'hacknife'
     groupId = 'com.hacknife'
     artifactId = 'iplayer'
-    publishVersion = '1.2.5'
+    publishVersion = '1.2.6'
     desc = ''
     website = 'https://github.com/hacknife/iplayer'
 }
-//gradlew clean build bintrayUpload -PbintrayUser=hacknife -PbintrayKey=BINTRAY_KEY -PdryRun=false
+//gradlew clean build bintrayUpload -PbintrayUser=hacknife -PbintrayKey= -PdryRun=false
