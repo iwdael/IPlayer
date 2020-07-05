@@ -21,7 +21,7 @@ public class PlayerManager {
         return sPlayerManager;
     }
 
-    static BasePlayer getFirstPlayer() {
+    public static BasePlayer getFirstPlayer() {
         return get().pFirstPlayer;
     }
 

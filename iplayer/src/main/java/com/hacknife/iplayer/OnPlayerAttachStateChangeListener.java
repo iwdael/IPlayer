@@ -1,22 +1,16 @@
 package com.hacknife.iplayer;
 
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.hacknife.iplayer.state.PlayerState;
 import com.hacknife.iplayer.util.PlayerUtils;
 
-import java.util.List;
-
-import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_FULLSCREEN;
 import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_LIST;
 import static com.hacknife.iplayer.state.ContainerMode.CONTAINER_MODE_TINY;
-import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PAUSE;
 import static com.hacknife.iplayer.state.PlayerState.PLAYER_STATE_PLAYING;
 
 /**

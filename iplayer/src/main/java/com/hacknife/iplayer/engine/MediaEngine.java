@@ -4,8 +4,10 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.PlaybackParams;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+
 import android.view.Surface;
+
+import androidx.annotation.RequiresApi;
 
 import com.hacknife.iplayer.MediaManager;
 import com.hacknife.iplayer.PlayerManager;

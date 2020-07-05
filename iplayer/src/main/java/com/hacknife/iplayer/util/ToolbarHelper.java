@@ -2,8 +2,9 @@ package com.hacknife.iplayer.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.app.ActionBar;
 import android.view.WindowManager;
+
+import androidx.appcompat.app.ActionBar;
 
 /**
  * author  : hacknife
