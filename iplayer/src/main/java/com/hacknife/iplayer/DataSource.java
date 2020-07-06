@@ -27,8 +27,8 @@ public class DataSource {
     }
 
     public DataSource(Object url, String title, Object cover) {
-        if (url instanceof String && enableCache) {
-            urlsMap.put(URL_KEY_DEFAULT, MediaManager.getPlayCache().convertCacheFromUrl((String) url));
+        if (enableCache) {
+            urlsMap.put(URL_KEY_DEFAULT, MediaManager.getPlayCache().convertCacheFromUrl(url));
         } else {
             urlsMap.put(URL_KEY_DEFAULT, url);
         }
@@ -142,8 +142,8 @@ public class DataSource {
         }
 
         public Builder url(String clarity, Object url) {
-            if (url instanceof String && dataSource.enableCache) {
-                dataSource.urlsMap.put(URL_KEY_DEFAULT, MediaManager.getPlayCache().convertCacheFromUrl((String) url));
+            if (dataSource.enableCache) {
+                dataSource.urlsMap.put(clarity, MediaManager.getPlayCache().convertCacheFromUrl(url));
             } else {
                 dataSource.urlsMap.put(clarity, url);
             }

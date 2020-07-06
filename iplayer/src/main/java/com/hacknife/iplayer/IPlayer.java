@@ -154,11 +154,11 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
             orientationFullScreen = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
             enableTinyWindow = false;
             enableSaveProgress = false;
+            tinyWindowWidth = 0;
             tinyWindowHeight = 0;
-            tinyWindowHeight = 0;
-            dragSpeed =1;
-            dragSpeedDiffer =60;
-            dragSpeedType =1;
+            dragSpeed = 1;
+            dragSpeedDiffer = 60;
+            dragSpeedType = 1;
         }
         ll_battery_time = findViewById(R.id.iplayer_ll_battery_time);
         setting = findViewById(R.id.iplayer_iv_setting);
@@ -490,7 +490,7 @@ public class IPlayer extends BasePlayer implements SettingView.OnSettingListener
     protected void onClickUiToggle() {
         if (iv_play.getVisibility() != View.VISIBLE) {
             setSystemTimeAndBattery();
-            tv_clarity.setText(dataSource.getCurrentKey().toString());
+            tv_clarity.setText(dataSource.getCurrentKey());
         }
         if (playerState == PLAYER_STATE_PREPARING) {
             changeUiToPreparing();

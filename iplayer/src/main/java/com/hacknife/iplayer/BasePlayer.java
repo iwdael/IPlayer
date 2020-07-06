@@ -815,25 +815,25 @@ public abstract class BasePlayer extends Player {
         this.event = event;
     }
 
-    public String getCurrentUrl() {
-        return String.valueOf(dataSource.getCurrentUrl());
+    public Object getCurrentUrl() {
+        return dataSource.getCurrentUrl();
     }
 
-    public void setDataSource(String url, String title, String cover, int position) {
+    public void setDataSource(Object url, String title, String cover, int position) {
         setDataSource(url, title, cover, CONTAINER_MODE_NORMAL);
         positionInList = position;
     }
 
-    public void setDataSource(String url, String title, String cover, ContainerMode containerMode, int position) {
+    public void setDataSource(Object url, String title, String cover, ContainerMode containerMode, int position) {
         setDataSource(url, title, cover, containerMode);
         positionInList = position;
     }
 
-    public void setDataSource(String url, String title, String cover) {
+    public void setDataSource(Object url, String title, String cover) {
         setDataSource(new DataSource(url, title, cover), CONTAINER_MODE_NORMAL);
     }
 
-    public void setDataSource(String url, String title, String cover, ContainerMode containerMode) {
+    public void setDataSource(Object url, String title, String cover, ContainerMode containerMode) {
         setDataSource(new DataSource(url, title, cover), containerMode);
     }
 

@@ -49,7 +49,7 @@ public class MediaEngine extends PlayerEngine implements MediaPlayer.OnPreparedL
             mediaPlayer.setOnVideoSizeChangedListener(MediaEngine.this);
             Class<MediaPlayer> clazz = MediaPlayer.class;
             Method method = clazz.getDeclaredMethod("setDataSource", String.class, Map.class);
-            method.invoke(mediaPlayer, dataSource.getCurrentUrl(), dataSource.heanderMap());
+            method.invoke(mediaPlayer, dataSource.getCurrentUrl().toString(), dataSource.heanderMap());
             mediaPlayer.prepareAsync();
         } catch (Exception e) {
             e.printStackTrace();
